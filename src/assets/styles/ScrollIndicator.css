@@ -1,0 +1,40 @@
+.scroll-indicator {
+  position: fixed;
+  z-index: 85;
+  top: 0;
+  right: clamp(6px, 0.45vw, 10px);
+  width: 3px;
+  height: 100vh;
+  height: 100svh;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.scroll-indicator.is-visible {
+  opacity: 1;
+}
+
+.scroll-indicator-thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 28px;
+  border-radius: 999px;
+  background: #fff;
+  opacity: 0.72;
+  mix-blend-mode: difference;
+  will-change: transform;
+  transition: transform 0.12s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-indicator {
+    transition: none;
+  }
+
+  .scroll-indicator-thumb {
+    transition: none;
+  }
+}

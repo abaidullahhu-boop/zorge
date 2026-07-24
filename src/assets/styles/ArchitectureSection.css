@@ -1,0 +1,428 @@
+.architecture-section {
+  position: relative;
+  z-index: 4;
+  margin-top: -18vh;
+  color: #000;
+  background: transparent;
+}
+
+.architecture-slide {
+  position: relative;
+  padding:
+    clamp(118px, 12vw, 210px)
+    clamp(20px, 1.55vw, 30px)
+    clamp(72px, 8vw, 140px);
+  background: #fff;
+  will-change: transform;
+}
+
+.architecture-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.architecture-intro-row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  margin-bottom: clamp(10px, 2vw, 10px);
+}
+
+.architecture-intro {
+  grid-column: 7 / 13;
+  margin: 0;
+  font: 600 clamp(10px, 3vw, 30px) / 1 'Gilroy', sans-serif;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(34px);
+  transition:
+    opacity .85s ease .12s,
+    transform .95s cubic-bezier(.2, .75, .15, 1) .12s;
+}
+
+/* Matches reference text-offset--2 (2/12 of full grid ≈ 1/3 of this 6-col block) */
+.architecture-intro-offset {
+  float: left;
+  width: 33.333%;
+  height: 10px;
+}
+
+.architecture-hero {
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  aspect-ratio: 1.52 / 1;
+  background: #0b0b0b;
+}
+
+.architecture-parallax-image {
+  --architecture-parallax: 0%;
+
+  display: block;
+  width: 100%;
+  height: 122%;
+  margin-top: -11%;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+  transform: translate3d(0, var(--architecture-parallax), 0);
+  will-change: transform;
+}
+
+.architecture-hero-image {
+  object-position: center 44%;
+}
+
+.architecture-subhead-row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  margin-top: clamp(11px, 2vw, 22px);
+}
+
+.architecture-subhead {
+  grid-column: 1 / 7;
+  margin: 0;
+  font: 600 clamp(24px, 2.35vw, 46px)/1.02 'Gilroy', sans-serif;
+  letter-spacing: -.045em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity .8s ease .28s,
+    transform .9s cubic-bezier(.2, .75, .15, 1) .28s;
+}
+
+.architecture-gallery-row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: end;
+  gap: clamp(16px, 1.8vw, 28px);
+  margin-top: clamp(48px, 5.5vw, 96px);
+}
+
+.architecture-gallery-left {
+  grid-column: 4 / 7;
+  overflow: hidden;
+  aspect-ratio: .83 / 1;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity .75s ease .38s,
+    transform .85s cubic-bezier(.2, .75, .15, 1) .38s;
+}
+
+.architecture-gallery-right {
+  grid-column: 7 / 13;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity .75s ease .48s,
+    transform .85s cubic-bezier(.2, .75, .15, 1) .48s;
+}
+
+
+.architecture-gallery-caption {
+  grid-column: 9 / 13;
+  font: 600 clamp(24px, 2.35vw, 46px)/1.02 'Gilroy', sans-serif;
+  letter-spacing: -.045em;
+  text-transform: uppercase;
+  text-align: right;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity .75s ease .58s,
+    transform .85s cubic-bezier(.2, .75, .15, 1) .58s;
+}
+
+.architecture-bottom-gallery-row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(16px, 1.8vw, 28px);
+  margin-top: clamp(11px, 5vw, 11px);
+}
+
+.architecture-bottom-gallery-col--left {
+  grid-column: 1 / 7;
+}
+
+.architecture-bottom-gallery-image--first {
+  height: 100%;
+}
+
+.architecture-bottom-gallery-col--right {
+  grid-column: 7 / 13;
+  display: flex;
+}
+
+.architecture-bottom-gallery-image--second {
+  flex: 1;
+  display: flex;
+}
+
+.architecture-bottom-parallax-frame {
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+}
+
+.architecture-bottom-gallery-image--second .architecture-bottom-parallax-frame {
+  height: 100%;
+}
+
+.architecture-bottom-parallax-frame .architecture-parallax-image {
+  display: block;
+  width: 120%;
+  height: auto;
+  max-width: none;
+  margin-top: 0;
+  margin-right: -16.66667%;
+  object-fit: cover;
+}
+
+.architecture-bottom-gallery-desktop {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity .75s ease .72s,
+    transform .85s cubic-bezier(.2, .75, .15, 1) .72s;
+}
+
+.architecture-bottom-gallery-col--right.architecture-bottom-gallery-desktop {
+  transition-delay: .82s;
+}
+
+.architecture-bottom-gallery-mobile {
+  display: none;
+  width: 100%;
+}
+
+.architecture-bottom-gallery-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: clamp(20px, 2vw, 40px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.architecture-bottom-gallery-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.architecture-bottom-gallery-scroll-item {
+  flex: 0 0 calc(100vw - clamp(20px, 1.55vw, 30px) * 4);
+  width: calc(100vw - clamp(20px, 1.55vw, 30px) * 4);
+  scroll-snap-align: center;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity .75s ease .72s,
+    transform .85s cubic-bezier(.2, .75, .15, 1) .72s;
+}
+
+.architecture-bottom-gallery-scroll-item + .architecture-bottom-gallery-scroll-item {
+  transition-delay: .82s;
+}
+
+.architecture-copy-row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  margin-top: clamp(56px, 6vw, 108px);
+}
+
+.architecture-copy {
+  grid-column: 1 / 7;
+  margin: 0;
+  font: 600 clamp(12px, 1vw, 12px)/1.45 'Gilroy', sans-serif;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity .75s ease .62s,
+    transform .85s cubic-bezier(.2, .75, .15, 1) .62s;
+}
+
+.architecture-decor-row {
+  margin-top: clamp(48px, 5vw, 88px);
+}
+
+.architecture-decor {
+  position: relative;
+  width: 100%;
+  margin-inline: auto;
+  isolation: isolate;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity .75s ease .68s,
+    transform .85s cubic-bezier(.2, .75, .15, 1) .68s;
+}
+
+.architecture-decor-layer {
+  display: block;
+  width: 100%;
+  user-select: none;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.architecture-decor-layer--base {
+  position: relative;
+  z-index: 0;
+}
+
+.architecture-decor-layer--base img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.architecture-decor-layer--cover {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+.architecture-decor-layer--cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.architecture-section.is-visible .architecture-intro,
+.architecture-section.is-visible .architecture-subhead,
+.architecture-section.is-visible .architecture-gallery-left,
+.architecture-section.is-visible .architecture-gallery-right,
+.architecture-section.is-visible .architecture-gallery-caption,
+.architecture-section.is-visible .architecture-copy,
+.architecture-section.is-visible .architecture-decor,
+.architecture-section.is-visible .architecture-bottom-gallery-desktop,
+.architecture-section.is-visible .architecture-bottom-gallery-scroll-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 760px) {
+  .architecture-slide {
+    padding-top: 104px;
+  }
+
+  .architecture-intro-row,
+  .architecture-subhead-row,
+  .architecture-gallery-row,
+  .architecture-copy-row,
+  .architecture-decor-row {
+    display: block;
+  }
+
+  .architecture-bottom-gallery-row {
+    display: block;
+  }
+
+  .architecture-bottom-gallery-desktop {
+    display: none;
+  }
+
+  .architecture-bottom-gallery-mobile {
+    display: block;
+    padding-inline: clamp(20px, 1.55vw, 30px);
+  }
+
+  .architecture-bottom-parallax-frame {
+    aspect-ratio: 320 / 293;
+  }
+
+  .architecture-bottom-parallax-frame .architecture-parallax-image {
+    width: 100%;
+    height: 122%;
+    margin-top: -11%;
+    margin-right: 0;
+  }
+
+  .architecture-intro {
+    font-size: clamp(25px, 7.5vw, 36px);
+    line-height: 1.08;
+  }
+
+  .architecture-intro-offset {
+    display: none;
+  }
+
+  .architecture-hero {
+    width: 100%;
+    margin-inline: 0;
+    aspect-ratio: 1.12 / 1;
+  }
+
+  .architecture-subhead {
+    margin-top: 38px;
+    font-size: clamp(25px, 7.5vw, 36px);
+    line-height: 1.02;
+  }
+
+  .architecture-gallery-left,
+  .architecture-gallery-right {
+    aspect-ratio: .84 / 1;
+    margin-top: 18px;
+  }
+
+  .architecture-gallery-caption {
+    margin-top: 34px;
+    text-align: left;
+    font-size: clamp(25px, 7.5vw, 36px);
+    line-height: 1.02;
+  }
+
+  .architecture-copy {
+    margin-top: 42px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .architecture-parallax-image {
+    height: 100%;
+    margin-top: 0;
+    transform: none;
+  }
+
+  .architecture-intro,
+  .architecture-subhead,
+  .architecture-gallery-left,
+  .architecture-gallery-right,
+  .architecture-gallery-caption,
+  .architecture-copy,
+  .architecture-decor,
+  .architecture-bottom-gallery-desktop,
+  .architecture-bottom-gallery-scroll-item {
+    transition: none;
+  }
+
+  .architecture-bottom-parallax-frame .architecture-parallax-image {
+    width: 100%;
+    height: 100%;
+    margin-top: 0;
+    margin-right: 0;
+  }
+
+  .architecture-decor-layer {
+    transform: none !important;
+  }
+}

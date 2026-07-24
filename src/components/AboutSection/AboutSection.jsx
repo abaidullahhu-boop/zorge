@@ -1,0 +1,110 @@
+import { useEffect, useState } from 'react'
+import '../../assets/styles/AboutSection.css'
+
+const VIMEO_VIDEO =
+  'https://player.vimeo.com/video/1185877284?autoplay=1&title=0&byline=0&portrait=0'
+
+function AboutSection() {
+  const [videoOpen, setVideoOpen] = useState(false)
+
+  useEffect(() => {
+    if (!videoOpen) return undefined
+
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setVideoOpen(false)
+    }
+
+    document.body.classList.add('modal-open')
+    window.addEventListener('keydown', closeOnEscape)
+
+    return () => {
+      document.body.classList.remove('modal-open')
+      window.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [videoOpen])
+
+  return (
+    <>
+      <section
+        className="about-section"
+        id="about"
+        aria-labelledby="about-title"
+      >
+        <div className="about-background" aria-hidden="true">
+          <video autoPlay muted loop playsInline preload="metadata">
+            <source src="/assets/images/zorge-main-video.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <div className="about-shade" aria-hidden="true" />
+
+        <div className="about-content">
+          <h2 id="about-title">
+            Life on Your
+            <br />
+            Own Terms
+          </h2>
+
+          <div className="about-cards">
+            <button
+              className="about-card about-card--dark"
+              type="button"
+              onClick={() => setVideoOpen(true)}
+              aria-label="Watch video about the project"
+            >
+              <span className="about-card-kicker">About the Project</span>
+              <svg
+                className="about-play"
+                viewBox="0 0 12 24"
+                aria-hidden="true"
+              >
+                <path pathLength="100" d="M1 1.5 11 12 1 22.5Z" />
+              </svg>
+            </button>
+
+            <a className="about-card about-card--light" href="#offers">
+              <span className="about-card-kicker">
+                Installment
+                <br />
+                and Mortgage
+              </span>
+              <strong>Special Offers</strong>
+              <span className="about-watch">Watch</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {videoOpen && (
+        <div
+          className="video-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-label="About the project video"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) setVideoOpen(false)
+          }}
+        >
+          <button
+            className="video-modal-close"
+            type="button"
+            onClick={() => setVideoOpen(false)}
+            aria-label="Close video"
+          >
+            <span />
+            <span />
+          </button>
+          <div className="video-modal-frame">
+            <iframe
+              src={VIMEO_VIDEO}
+              title="About the Zorge project"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
+
+export default AboutSection

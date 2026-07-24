@@ -1,0 +1,370 @@
+.advantages-section {
+  --item-count: 5;
+  /*
+   * Handoff must cover: 100vw horizontal spacer + 100svh so the last card
+   * stays pinned for the full fitness slide-in (margin pulls fitness up by
+   * the same amount). Without the extra 100svh, advantages unpins mid-slide
+   * and AboutSection shows through the transparent fitness layer.
+   */
+  --fitness-handoff: calc(100vw + 100svh);
+  /* Match lobby pin distance so this slide covers it — no black gap. */
+  --lobby-handoff: 50svh;
+
+  position: relative;
+  z-index: 8;
+  margin-top: calc(var(--lobby-handoff) * -1);
+  height: calc(100svh * var(--item-count) + var(--fitness-handoff));
+  color: #fff;
+  background: transparent;
+}
+
+.advantages-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  /* Opaque fallback if slide transforms leave a gap — never show About through. */
+  background: #000;
+}
+
+.advantages-slide {
+  position: relative;
+  display: flex;
+  flex-direction: row-reverse;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  will-change: transform;
+}
+
+.advantages-image {
+  position: relative;
+  z-index: 0;
+  flex: 0 0 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.advantages-image-item {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  will-change: transform, clip-path;
+}
+
+.advantages-image-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+  pointer-events: none;
+}
+
+.advantages-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  width: 50%;
+  height: 100%;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity .85s ease .1s,
+    transform .95s cubic-bezier(.2, .75, .15, 1) .1s;
+}
+
+.advantages-section.is-visible .advantages-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.advantages-counter {
+  position: absolute;
+  top: calc(
+    clamp(8px, 0.7vw, 14px) + clamp(56px, 8.15vw, 112px) + clamp(10px, 1vw, 16px)
+  );
+  left: clamp(20px, 1.55vw, 30px);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font: 600 clamp(12px, 1.05vw, 12px) / 1 'Gilroy', sans-serif;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.advantages-counter-current {
+  color: #fff;
+}
+
+.advantages-counter-line {
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: rgb(255 255 255 / 35%);
+}
+
+.advantages-counter-total {
+  color: rgb(255 255 255 / 35%);
+}
+
+.advantages-head {
+  --advantages-title-size: clamp(16px, 3.75vw, 32px);
+
+  position: absolute;
+  top: 50%;
+  left: clamp(20px, 1.55vw, 30px);
+  width: calc(100vw / 12 * 4);
+  max-width: calc(50% - clamp(40px, 3.1vw, 60px));
+  font-size: var(--advantages-title-size);
+  height: 4em;
+  overflow: hidden;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.advantages-heading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  margin: 0;
+  font: 600 1em / 1.05 'Gilroy', sans-serif;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: uppercase;
+  color: #fff;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  /* Waiting below — enters bottom → top */
+  transform: translate3d(0, 115%, 0);
+  transition:
+    opacity .4s ease,
+    transform .55s cubic-bezier(.2, .75, .15, 1),
+    visibility 0s linear .55s;
+}
+
+/* Waiting above when scrolling backward — enters top → bottom */
+.advantages-content[data-text-direction='backward']
+  .advantages-heading:not(.is-active):not(.is-exit) {
+  transform: translate3d(0, -115%, 0);
+}
+
+.advantages-heading.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
+  pointer-events: auto;
+  transition:
+    opacity .45s ease,
+    transform .55s cubic-bezier(.2, .75, .15, 1),
+    visibility 0s linear 0s;
+}
+
+/* Leaving upward (forward scroll) */
+.advantages-heading.is-exit {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, -115%, 0);
+  transition:
+    opacity .4s ease,
+    transform .55s cubic-bezier(.2, .75, .15, 1),
+    visibility 0s linear .55s;
+}
+
+/* Leaving downward (backward scroll) */
+.advantages-content[data-text-direction='backward'] .advantages-heading.is-exit {
+  transform: translate3d(0, 115%, 0);
+}
+
+.advantages-heading-line {
+  display: block;
+}
+
+.advantages-text {
+  position: absolute;
+  right: clamp(20px, 1.55vw, 30px);
+  bottom: clamp(20px, 1.55vw, 30px);
+  left: auto;
+  width: calc(100vw / 12 * 4);
+  max-width: calc(100% - clamp(40px, 3.1vw, 60px));
+  overflow: hidden;
+  min-height: 6.5em;
+}
+
+.advantages-text-item {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: auto;
+  width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate3d(0, 40px, 0);
+  transition:
+    opacity .35s ease,
+    transform .5s cubic-bezier(.2, .75, .15, 1),
+    visibility 0s linear .5s;
+}
+
+.advantages-content[data-text-direction='backward']
+  .advantages-text-item:not(.is-active):not(.is-exit) {
+  transform: translate3d(0, -40px, 0);
+}
+
+.advantages-text-item.is-active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
+  pointer-events: auto;
+  transition:
+    opacity .4s ease,
+    transform .5s cubic-bezier(.2, .75, .15, 1),
+    visibility 0s linear 0s;
+}
+
+.advantages-text-item.is-exit {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, -40px, 0);
+  transition:
+    opacity .35s ease,
+    transform .5s cubic-bezier(.2, .75, .15, 1),
+    visibility 0s linear .5s;
+}
+
+.advantages-content[data-text-direction='backward'] .advantages-text-item.is-exit {
+  transform: translate3d(0, 40px, 0);
+}
+
+.advantages-text-offset {
+  float: left;
+  width: calc(100vw / 10 * 2);
+  height: 10px;
+}
+
+.advantages-text-item p {
+  margin: 0;
+  font: 600 clamp(12px, 1.05vw, 12px) / 1.25 'Gilroy', sans-serif;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.advantages-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.advantages-mobile {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .advantages-section {
+    height: auto;
+    margin-top: -12vh;
+  }
+
+  .advantages-sticky {
+    display: none;
+  }
+
+  .advantages-mobile {
+    display: block;
+    background: #000;
+  }
+
+  .advantages-mobile-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .advantages-mobile-image {
+    width: 100%;
+    height: 72vw;
+    min-height: 260px;
+    overflow: hidden;
+  }
+
+  .advantages-mobile-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .advantages-mobile-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding: 24px 20px 40px;
+  }
+
+  .advantages-mobile .advantages-counter {
+    position: relative;
+    top: auto;
+    left: auto;
+  }
+
+  .advantages-mobile .advantages-heading {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: auto;
+    max-width: none;
+    height: auto;
+    font-size: clamp(32px, 10vw, 44px);
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: none;
+  }
+
+  .advantages-mobile-copy {
+    margin: 0;
+    font: 600 clamp(13px, 3.5vw, 15px) / 1.25 'Gilroy', sans-serif;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .advantages-content {
+    transition: none;
+  }
+
+  .advantages-image-item,
+  .advantages-heading,
+  .advantages-text-item {
+    transition: none;
+  }
+
+  .advantages-heading.is-active,
+  .advantages-text-item.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .advantages-heading.is-exit,
+  .advantages-text-item.is-exit {
+    opacity: 0;
+    visibility: hidden;
+    transform: none;
+  }
+}

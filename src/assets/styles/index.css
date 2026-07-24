@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
+@import "tailwindcss";
+
+@font-face {
+  font-display: swap;
+  font-family: 'Gilroy';
+  font-style: normal;
+  font-weight: 600;
+  src:
+    url('/assets/fonts/Gilroy-SemiBold.woff2') format('woff2'),
+    url('/assets/fonts/Gilroy-SemiBold.woff') format('woff');
+}
+
+@theme {
+  --font-sans: 'Gilroy', sans-serif;
+  --font-display: 'Cormorant Garamond', serif;
+  --color-ink: #191b19;
+  --color-paper: #f2f0e9;
+  --color-cream: #e5e0d4;
+  --color-sage: #667064;
+  --color-gold: #a28d67;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  html::-webkit-scrollbar {
+    display: none;
+  }
+
+  :root {
+    font-family: var(--font-sans);
+    color: var(--color-ink);
+    background: var(--color-paper);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    --ink: var(--color-ink);
+    --paper: var(--color-paper);
+  }
+
+  body {
+    min-width: 320px;
+    background: var(--color-paper);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  body::-webkit-scrollbar {
+    display: none;
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

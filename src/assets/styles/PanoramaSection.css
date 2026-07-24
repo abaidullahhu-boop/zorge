@@ -1,0 +1,174 @@
+.panorama-section {
+  position: relative;
+  z-index: 3;
+  margin-top: -18vh;
+  height: 100svh;
+  color: #fff;
+  background: transparent;
+}
+
+.panorama-sticky {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: #071329;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.panorama-sticky > picture {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.panorama-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+  pointer-events: none;
+}
+
+.panorama-shade {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgb(4 10 25 / 42%) 0%, transparent 30%),
+    linear-gradient(90deg, rgb(4 12 27 / 15%), transparent 54%);
+  pointer-events: none;
+}
+
+.panorama-content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-content: start;
+  height: 100%;
+  padding: clamp(118px, 12.5vh, 150px) clamp(20px, 1.55vw, 30px) 0;
+}
+
+.panorama-rule {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 1px;
+  margin: 0 0 clamp(10px, 1vw, 18px);
+  background: rgb(255 255 255 / 16%);
+  border: 0;
+  opacity: 0;
+  transform: scaleX(.65);
+  transform-origin: left;
+  transition:
+    opacity .8s ease .08s,
+    transform 1.1s cubic-bezier(.2, .75, .15, 1) .08s;
+}
+
+.panorama-kicker {
+  grid-column: 1 / 3;
+  margin: 0;
+  font: 600 clamp(10px, .7vw, 13px)/1.08 'Gilroy', sans-serif;
+  letter-spacing: .025em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity .7s ease .25s,
+    transform .8s cubic-bezier(.2, .75, .15, 1) .25s;
+}
+
+.panorama-copy {
+  grid-column: 7 / 13;
+  margin: 0;
+  max-width: 19em;
+  font: 600 clamp(24px, 2.35vw, 46px)/1.01 'Gilroy', sans-serif;
+  letter-spacing: -.045em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(34px);
+  transition:
+    opacity .85s ease .38s,
+    transform .95s cubic-bezier(.2, .75, .15, 1) .38s;
+}
+
+.panorama-section.is-visible .panorama-rule {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.panorama-section.is-visible .panorama-kicker,
+.panorama-section.is-visible .panorama-copy {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 760px) {
+  .panorama-section {
+    margin-top: -12vh;
+    height: auto;
+    min-height: max(100svh, 219.44444vw);
+  }
+
+  .panorama-sticky {
+    height: auto;
+    min-height: max(100svh, 219.44444vw);
+  }
+
+  .panorama-image {
+    object-position: center 42%;
+  }
+
+  .panorama-shade {
+    background:
+      linear-gradient(180deg, rgb(4 10 25 / 48%) 0%, transparent 28%),
+      linear-gradient(180deg, transparent 55%, rgb(4 10 25 / 35%) 100%);
+  }
+
+  .panorama-content {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    box-sizing: border-box;
+    padding: clamp(88px, 24vw, 110px) 20px 28px;
+  }
+
+  .panorama-rule {
+    width: 100%;
+    margin-bottom: 14px;
+  }
+
+  .panorama-kicker {
+    max-width: 11em;
+    font-size: 11px;
+    line-height: 1.15;
+    letter-spacing: .03em;
+  }
+
+  .panorama-copy {
+    max-width: none;
+    width: 100%;
+    margin-top: clamp(28px, 8vw, 40px);
+    margin-left: 0;
+    font-size: clamp(22px, 6.4vw, 28px);
+    line-height: 1.08;
+    letter-spacing: -.02em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panorama-rule,
+  .panorama-kicker,
+  .panorama-copy {
+    transition: none;
+  }
+}

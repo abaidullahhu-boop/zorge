@@ -1,0 +1,513 @@
+.penthouses-section {
+  --penthouses-pad: clamp(20px, 1.55vw, 30px);
+  /* Match Services --penthouses-handoff so services stays pinned underneath. */
+  --penthouses-handoff: 100svh;
+  /* Pin hero for a full viewport while body slides over and covers it. */
+  --penthouses-hero-cover: 100svh;
+
+  position: relative;
+  z-index: 14;
+  margin-top: calc(var(--penthouses-handoff) * -1);
+  color: #fff;
+  background: transparent;
+}
+
+.penthouses-hero-track {
+  position: relative;
+  z-index: 0;
+  height: calc(100svh + var(--penthouses-hero-cover));
+}
+
+.penthouses-hero-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.penthouses-hero-slide {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  will-change: transform;
+}
+
+.penthouses-hero-image {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: calc(100% + 10svh);
+  overflow: hidden;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.penthouses-hero-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+  pointer-events: none;
+}
+
+.penthouses-hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: clamp(28px, 4vh, 48px);
+  height: 100%;
+  padding:
+    0
+    var(--penthouses-pad)
+    clamp(20px, 2vw, 32px);
+  will-change: transform;
+}
+
+.penthouses-hero-title {
+  margin: 0;
+  font: 600 clamp(28px, 6vw, 48px) / 1 'Gilroy', sans-serif;
+  letter-spacing: 0;
+  text-align: right;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(34px);
+  transition:
+    opacity .85s ease .12s,
+    transform .95s cubic-bezier(.2, .75, .15, 1) .12s;
+}
+
+.penthouses-hero-title-line {
+  display: block;
+}
+
+.penthouses-hero-copy-row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.penthouses-hero-copy {
+  grid-column: 1 / 6;
+  margin: 0;
+  max-width: 42em;
+  padding-right: clamp(12px, 3vw, 48px);
+  font: 600 clamp(12px, 1.05vw, 12px) / 1.25 'Gilroy', sans-serif;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity .8s ease .28s,
+    transform .9s cubic-bezier(.2, .75, .15, 1) .28s;
+}
+
+.penthouses-body {
+  position: relative;
+  z-index: 2;
+  margin-top: calc(var(--penthouses-hero-cover) * -1);
+ 
+  background: #000;
+}
+
+.penthouses-feature {
+  position: relative;
+  width: calc(100% / 12 * 9);
+  margin-left: calc(100% / 12 * 3);
+}
+
+.penthouses-feature-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #111;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity .85s ease .2s,
+    transform .95s cubic-bezier(.2, .75, .15, 1) .2s;
+}
+
+.penthouses-lead-row {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  /* Pull up by one line so only the first line sits on the photo */
+  margin-top: calc(clamp(18px, 2.35vw, 36px) * -1.15);
+}
+
+.penthouses-lead {
+  grid-column: 1 / 12;
+  margin: 0;
+  font: 600 clamp(18px, 2.35vw, 36px) / 1.15 'Gilroy', sans-serif;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity .85s ease .32s,
+    transform .95s cubic-bezier(.2, .75, .15, 1) .32s;
+}
+
+.penthouses-lead-offset {
+  float: left;
+  width: 25%;
+  height: 1em;
+}
+
+.penthouses-cards {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: start;
+  column-gap: 0;
+  margin-top: clamp(40px, 6vw, 96px);
+  padding-inline: var(--penthouses-pad);
+}
+
+.penthouses-card {
+  position: relative;
+  overflow: hidden;
+  background: #111;
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.penthouses-card--ceilings {
+  grid-column: 1 / 5;
+  aspect-ratio: 630 / 952;
+  transition:
+    opacity .85s ease .4s,
+    transform .95s cubic-bezier(.2, .75, .15, 1) .4s;
+}
+
+.penthouses-card--windows {
+  grid-column: 7 / 13;
+  margin-top: clamp(40px, 6vw, 96px);
+  aspect-ratio: 690 / 900;
+  transition:
+    opacity .85s ease .48s,
+    transform .95s cubic-bezier(.2, .75, .15, 1) .48s;
+}
+
+.penthouses-card-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  padding: clamp(16px, 1.8vw, 28px);
+  color: #fff;
+  pointer-events: none;
+}
+
+.penthouses-card-value {
+  margin: 0 0 .4em;
+  font: 600 clamp(28px, 4.5vw, 48px) / 1 'Gilroy', sans-serif;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.penthouses-card-label {
+  margin: 0;
+  font: 600 clamp(11px, 1vw, 13px) / 1.2 'Gilroy', sans-serif;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.penthouses-parallax {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.penthouses-parallax-image {
+  --penthouses-parallax: 0%;
+
+  display: block;
+  width: 100%;
+  height: 122%;
+  margin-top: -11%;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+  transform: translate3d(0, var(--penthouses-parallax), 0);
+  will-change: transform;
+}
+
+.penthouses-terrace {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: start;
+  margin-top: clamp(48px, 7vw, 120px);
+}
+
+.penthouses-terrace-title {
+  margin: 0;
+  font: 600 clamp(28px, 2.9vw, 48px) / 1 'Gilroy', sans-serif;
+  letter-spacing: 0;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.penthouses-terrace-title--mobile {
+  display: none;
+}
+
+.penthouses-terrace-image {
+  grid-column: 1 / 10;
+  aspect-ratio: 1512 / 1008;
+  overflow: hidden;
+  background: #111;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity .85s ease .52s,
+    transform .95s cubic-bezier(.2, .75, .15, 1) .52s;
+}
+
+.penthouses-terrace-side {
+  grid-column: 10 / 13;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3vw, 40px);
+  padding-inline: var(--penthouses-pad);
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity .85s ease .58s,
+    transform .95s cubic-bezier(.2, .75, .15, 1) .58s;
+}
+
+.penthouses-terrace-copy {
+  margin: 0;
+  font: 600 clamp(12px, 1.05vw, 12px) / 1.25 'Gilroy', sans-serif;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.penthouses-terrace-offset {
+  display: none;
+}
+
+.penthouses-section.is-visible .penthouses-hero-title,
+.penthouses-section.is-visible .penthouses-hero-copy,
+.penthouses-section.is-visible .penthouses-feature-image,
+.penthouses-section.is-visible .penthouses-lead,
+.penthouses-section.is-visible .penthouses-card,
+.penthouses-section.is-visible .penthouses-terrace-image,
+.penthouses-section.is-visible .penthouses-terrace-side {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 980px) {
+  .penthouses-hero-copy {
+    grid-column: 1 / 8;
+  }
+
+  .penthouses-lead {
+    grid-column: 1 / 13;
+    font-size: clamp(16px, 2.8vw, 28px);
+  }
+
+  .penthouses-lead-offset {
+    width: 16%;
+  }
+
+  .penthouses-card--ceilings {
+    grid-column: 1 / 6;
+  }
+
+  .penthouses-card--windows {
+    grid-column: 7 / 13;
+  }
+
+  .penthouses-terrace-image {
+    grid-column: 1 / 9;
+  }
+
+  .penthouses-terrace-side {
+    grid-column: 9 / 13;
+  }
+
+  .penthouses-terrace-title {
+    font-size: clamp(22px, 4vw, 32px);
+  }
+}
+
+@media (max-width: 1024px) {
+  /* Opaque fill so sticky About never peeks through section seams. */
+  .penthouses-section {
+    background: #000;
+  }
+}
+
+@media (max-width: 760px) {
+  .penthouses-section {
+    --penthouses-handoff: 0px;
+    --penthouses-hero-cover: 0px;
+    margin-top: 0;
+  }
+
+  .penthouses-hero-track {
+    height: 100svh;
+  }
+
+  .penthouses-hero-image {
+    height: 72%;
+  }
+
+  .penthouses-hero-image img {
+    height: calc(100% + 8svh);
+    object-position: center top;
+  }
+
+  .penthouses-hero-content {
+    position: absolute;
+    z-index: 2;
+    inset: auto 0 0;
+    gap: 16px;
+    justify-content: flex-end;
+    height: auto;
+    padding:
+      clamp(48px, 14vw, 72px)
+      20px
+      20px;
+    background: linear-gradient(
+      180deg,
+      rgb(0 0 0 / 0%) 0%,
+      rgb(0 0 0 / 78%) 45%,
+      rgb(0 0 0 / 94%) 100%
+    );
+  }
+
+  .penthouses-hero-title {
+    order: 1;
+    margin-top: 0;
+    font-size: clamp(32px, 11vw, 48px);
+  }
+
+  .penthouses-hero-copy-row {
+    order: 0;
+    display: block;
+  }
+
+  .penthouses-hero-copy {
+    max-width: none;
+    padding-right: 0;
+    font-size: clamp(13px, 3.6vw, 15px);
+  }
+
+  .penthouses-body {
+    margin-top: 0;
+    padding:
+      clamp(32px, 8vw, 48px)
+      0
+      clamp(48px, 12vw, 80px);
+  }
+
+  .penthouses-feature {
+    width: calc(100% - 20px);
+    margin-left: 20px;
+  }
+
+  .penthouses-feature-image {
+    aspect-ratio: 360 / 260;
+  }
+
+  .penthouses-lead-row {
+    display: block;
+    margin-top: calc(clamp(16px, 5vw, 22px) * -1.15);
+    padding: 0 20px clamp(16px, 4vw, 24px);
+  }
+
+  .penthouses-lead {
+    font-size: clamp(16px, 5vw, 22px);
+  }
+
+  .penthouses-lead-offset {
+    display: none;
+  }
+
+  .penthouses-cards {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    padding-inline: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .penthouses-cards::-webkit-scrollbar {
+    display: none;
+  }
+
+  .penthouses-card {
+    flex: 0 0 72vw;
+    max-width: 300px;
+    margin-top: 0;
+    aspect-ratio: 320 / 433;
+    scroll-snap-align: start;
+  }
+
+  .penthouses-card--ceilings,
+  .penthouses-card--windows {
+    grid-column: auto;
+  }
+
+  .penthouses-terrace {
+    display: block;
+    margin-top: 40px;
+  }
+
+  .penthouses-terrace-title--mobile {
+    display: block;
+    margin-bottom: 16px;
+    padding-inline: 20px;
+    font-size: clamp(28px, 10vw, 40px);
+  }
+
+  .penthouses-terrace-title--desktop {
+    display: none;
+  }
+
+  .penthouses-terrace-image {
+    width: 100%;
+    aspect-ratio: 360 / 274;
+  }
+
+  .penthouses-terrace-side {
+    padding: 20px 20px 0;
+  }
+
+  .penthouses-terrace-copy {
+    font-size: clamp(13px, 3.6vw, 15px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .penthouses-hero-title,
+  .penthouses-hero-copy,
+  .penthouses-feature-image,
+  .penthouses-lead,
+  .penthouses-card,
+  .penthouses-terrace-image,
+  .penthouses-terrace-side {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .penthouses-parallax-image {
+    transform: none !important;
+  }
+}

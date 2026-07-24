@@ -1,0 +1,227 @@
+.loading-screen {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: #fff;
+  background: #000;
+  opacity: 1;
+  transition:
+    clip-path 1s cubic-bezier(.76, 0, .24, 1),
+    z-index 0s linear 0s;
+  clip-path: inset(0);
+}
+
+.loading-screen--hidden {
+  z-index: 0;
+  pointer-events: none;
+  transition:
+    clip-path 1s cubic-bezier(.76, 0, .24, 1),
+    z-index 0s linear 1s;
+  clip-path: inset(0 65.8% 0 0);
+}
+
+/* Non-hero: fade out fully — no right→left clip reveal. */
+.loading-screen--hidden.loading-screen--dismiss {
+  opacity: 0;
+  clip-path: inset(0);
+  visibility: hidden;
+  transition:
+    opacity 0.45s ease,
+    visibility 0s linear 0.45s,
+    z-index 0s linear 0.45s;
+}
+
+.loading-frame {
+  transition: opacity .25s ease;
+}
+
+.loading-screen--hidden .loading-frame {
+  opacity: 0;
+}
+
+.loading-frame {
+  position: relative;
+  width: clamp(170px, 15vw, 240px);
+  aspect-ratio: .67;
+  border: 1px solid #4b4b4b;
+}
+
+.loading-frame::before {
+  position: absolute;
+  inset: -1px;
+  content: '';
+  border: 1px solid transparent;
+  animation: trace-frame 2.8s linear both;
+}
+
+.loading-logo {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: max-content;
+  font: 600 clamp(20px, 2vw, 31px)/1 'Gilroy', sans-serif;
+  letter-spacing: .40em;
+  transform: translateX(-50%);
+}
+
+.loading-logo small {
+  font: inherit;
+  font-size: .68em;
+  letter-spacing: -.04em;
+}
+
+.loading-tagline {
+  position: absolute;
+  bottom: 13px;
+  left: 50%;
+  width: max-content;
+  text-align: center;
+  font: 600 clamp(12px, .72vw, 10px)/1.25 'Gilroy', sans-serif;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+}
+
+.loading-cookie {
+  position: fixed;
+  z-index: 101;
+  bottom: 8px;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: min(360px, calc(100% - 40px));
+  min-height: 50px;
+  padding: 8px 40px;
+  border: 1px solid #292929;
+  background: #000;
+  transform: translateX(-50%);
+}
+
+.loading-cookie__message {
+  flex: 1;
+  text-align: left;
+}
+
+.loading-cookie__word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.loading-cookie__word > span {
+  position: relative;
+  display: block;
+  transition: transform .65s cubic-bezier(.76, 0, .24, 1);
+}
+
+.loading-cookie__word > span::after {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  content: attr(data-text);
+}
+
+.loading-cookie__word:hover > span {
+  transform: translateY(-100%);
+}
+
+.loading-cookie__message,
+.loading-cookie button {
+  font: 600 12px/1 'Gilroy', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.loading-cookie button {
+  position: relative;
+  overflow: hidden;
+  padding: 5px 0;
+  color: #bd8b73;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+
+.loading-cookie button::before,
+.loading-cookie button::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1.5px;
+  background: #765a4d;
+  content: '';
+  transition: transform .9s ease;
+}
+
+.loading-cookie button::before {
+  transform: translateX(-105%);
+}
+
+.loading-cookie button::after {
+  transform: translateX(0);
+}
+
+.loading-cookie button:hover::before,
+.loading-cookie button:focus-visible::before {
+  transform: translateX(0);
+}
+
+.loading-cookie button:hover::after,
+.loading-cookie button:focus-visible::after {
+  transform: translateX(105%);
+}
+
+@keyframes trace-frame {
+  0% {
+    border-color: transparent;
+    border-top-color: #fff;
+  }
+
+  33% {
+    border-color: transparent;
+    border-top-color: #fff;
+    border-right-color: #fff;
+  }
+
+  66% {
+    border-color: transparent;
+    border-top-color: #fff;
+    border-right-color: #fff;
+    border-bottom-color: #fff;
+  }
+
+  100% {
+    border-color: #fff;
+  }
+}
+
+@media (max-width: 600px) {
+  .loading-screen--hidden {
+    clip-path: inset(0 0 58% 0);
+  }
+
+  .loading-screen--hidden.loading-screen--dismiss {
+    clip-path: inset(0);
+  }
+
+  .loading-frame {
+    width: 170px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-screen,
+  .loading-screen--hidden {
+    transition-duration: .01ms;
+  }
+
+  .loading-cookie__word > span {
+    transition-duration: .01ms;
+  }
+}

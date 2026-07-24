@@ -1,0 +1,509 @@
+.map-section {
+  --map-top: clamp(36px, 4vw, 72px);
+
+  position: relative;
+  z-index: 2;
+  height: max(
+    calc(100svh + var(--map-top)),
+    calc(var(--map-top) + 100vw * 653 / 980)
+  );
+  min-height: calc(520px + var(--map-top));
+  overflow: hidden;
+  color: #fff;
+  background: #000;
+  isolation: isolate;
+  /* Keep paint stable while panorama climbs over — avoids scroll jitter. */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.map-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.map-viewport {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.map-scroll-sizer {
+  display: none;
+}
+
+.map-plan {
+  position: absolute;
+  top: var(--map-top);
+  left: 50%;
+  width: max(100%, calc(100svh * 980 / 653));
+  height: auto;
+  aspect-ratio: 980 / 653;
+  transform: translateX(-50%);
+}
+
+.map-plan-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 980 / 653;
+  object-fit: fill;
+  user-select: none;
+  pointer-events: none;
+}
+
+.map-point,
+.map-metro,
+.map-house,
+.map-spot {
+  position: absolute;
+  top: var(--map-y);
+  left: var(--map-x);
+}
+
+.map-spot {
+  z-index: 3;
+  width: 0;
+  height: 0;
+}
+
+.map-spot:hover,
+.map-spot:focus-within,
+.map-spot.is-active {
+  z-index: 7;
+}
+
+.map-point {
+  z-index: 3;
+  display: grid;
+  width: clamp(26px, 2.35vw, 40px);
+  aspect-ratio: 1;
+  padding: 0;
+  color: #151515;
+  background: #fff;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  font: 600 clamp(10px, .72vw, 13px)/1 'Gilroy', sans-serif;
+  place-items: center;
+  transform: translate(-50%, -50%);
+  transition:
+    color .35s ease,
+    background-color .35s ease,
+    border-color .35s ease,
+    transform .35s ease;
+}
+
+.map-spot:hover .map-point,
+.map-spot:focus-within .map-point,
+.map-spot.is-active .map-point {
+  color: #fff;
+  background: #a0725b;
+  border-color: #a0725b;
+  outline: none;
+  transform: translate(-50%, -50%) scale(1.12);
+}
+
+.map-metro {
+  z-index: 2;
+  display: grid;
+  width: clamp(18px, 1.65vw, 28px);
+  aspect-ratio: 1;
+  color: #fff;
+  border: 1px solid rgb(255 255 255 / 80%);
+  border-radius: 50%;
+  font: 600 clamp(7px, .52vw, 9px)/1 Arial, sans-serif;
+  place-items: center;
+  transform: translate(-50%, -50%);
+}
+
+.map-place {
+  position: absolute;
+  z-index: 2;
+  font: 600 clamp(9px, .7vw, 12px)/1 'Gilroy', sans-serif;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.map-place::after {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  margin-left: 8px;
+  vertical-align: middle;
+  content: '';
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.map-place--historical {
+  top: 46.1%;
+  left: 88.27%;
+  transform: translate(-50%, -50%);
+}
+
+.map-place--landscape {
+  top: 94.8%;
+  left: 26.73%;
+  transform: translate(-50%, -50%);
+}
+
+.map-house {
+  --map-x: 59.49%;
+  --map-y: 57.27%;
+
+  z-index: 3;
+  display: grid;
+  width: clamp(46px, 5vw, 74px);
+  aspect-ratio: 1;
+  color: #fff;
+  background: #a0725b;
+  border-radius: 50%;
+  font: 600 clamp(14px, 1.25vw, 21px)/.82 'Gilroy', sans-serif;
+  place-items: center;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.map-house span {
+  max-width: 2em;
+}
+
+.map-tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 6;
+  width: clamp(148px, 14.5vw, 220px);
+  overflow: hidden;
+  color: #fff;
+  background: #000;
+  border: 1px solid rgb(255 255 255 / 55%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(14px, 8px) scale(.96);
+  transform-origin: top left;
+  transition:
+    opacity .45s ease,
+    transform .45s cubic-bezier(.22, 1, .36, 1),
+    visibility .45s;
+}
+
+.map-spot:hover .map-tooltip,
+.map-spot:focus-within .map-tooltip,
+.map-spot.is-active .map-tooltip {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(18px, 14px) scale(1);
+}
+
+.map-tooltip img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1.28;
+  object-fit: cover;
+}
+
+.map-tooltip > div {
+  display: grid;
+  align-content: center;
+  min-height: clamp(64px, 6.5vw, 88px);
+  padding: 18px 16px 18px 14px;
+  background: #000;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.map-tooltip p {
+  margin: 0;
+  font: 600 clamp(10px, .72vw, 13px)/1.15 'Gilroy', sans-serif;
+  letter-spacing: .04em;
+}
+
+.map-tooltip small {
+  display: block;
+  margin-top: 5px;
+  color: rgb(255 255 255 / 55%);
+  font: 600 9px/1.1 'Gilroy', sans-serif;
+  letter-spacing: .03em;
+}
+
+.map-tooltip-close {
+  display: none;
+}
+
+.map-swipe-cue {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .map-section {
+    min-height: calc(620px + var(--map-top));
+  }
+
+  .map-viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain;
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .map-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .map-scroll-sizer {
+    display: block;
+    width: max(920px, 155vw, calc(100svh * 980 / 653));
+    height: 1px;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .map-plan {
+    left: 0;
+    width: max(920px, 155vw, calc(100svh * 980 / 653));
+    transform: none;
+  }
+
+  .map-point {
+    width: 31px;
+  }
+
+  .map-metro {
+    width: 22px;
+  }
+
+  .map-house {
+    width: 58px;
+  }
+
+  .map-tooltip {
+    position: fixed;
+    z-index: 10;
+    top: auto;
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    display: grid;
+    grid-template-columns: 42% 1fr;
+    width: auto;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(12px);
+    transition:
+      opacity .4s ease,
+      transform .4s ease,
+      visibility .4s;
+  }
+
+  .map-spot:hover .map-tooltip,
+  .map-spot:focus-within .map-tooltip {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(12px);
+  }
+
+  .map-spot.is-active .map-tooltip,
+  .map-spot.is-active:hover .map-tooltip,
+  .map-spot.is-active:focus-within .map-tooltip {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .map-tooltip img {
+    height: 100%;
+    aspect-ratio: 1.15;
+  }
+
+  .map-tooltip > div {
+    display: grid;
+    align-content: end;
+    padding: 15px;
+    text-align: left;
+  }
+
+  .map-tooltip-close {
+    display: grid;
+    position: absolute;
+    z-index: 1;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    aspect-ratio: 1;
+    padding: 0 0 2px;
+    color: #fff;
+    background: rgb(0 0 0 / 45%);
+    border: 1px solid rgb(255 255 255 / 65%);
+    border-radius: 50%;
+    font: 300 19px/1 Arial, sans-serif;
+    place-items: center;
+  }
+
+  .map-swipe-cue {
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    display: grid;
+    width: 72px;
+    aspect-ratio: 1;
+    color: #fff;
+    background: rgb(120 120 120 / 42%);
+    border-radius: 50%;
+    place-items: center;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: opacity .35s ease, visibility .35s ease;
+  }
+
+  .map-swipe-cue__track {
+    position: relative;
+    width: 42px;
+    height: 14px;
+  }
+
+  .map-swipe-cue__line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-top: 1.2px dashed currentColor;
+    transform: translate(-50%, -50%);
+    animation: map-swipe-line 1.6s linear infinite;
+  }
+
+  .map-swipe-cue__arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    width: 10px;
+    height: 14px;
+    overflow: visible;
+    animation: map-swipe-arrow-right 1.6s linear infinite;
+  }
+
+  .map-swipe-cue__arrow--left {
+    animation-name: map-swipe-arrow-left;
+  }
+
+  .map-swipe-cue.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .map-swipe-cue.is-hidden .map-swipe-cue__line,
+  .map-swipe-cue.is-hidden .map-swipe-cue__arrow {
+    animation: none;
+  }
+}
+
+@keyframes map-swipe-line {
+  0%,
+  100% {
+    width: 0;
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  50% {
+    width: 24px;
+    opacity: 1;
+  }
+
+  85% {
+    opacity: 1;
+  }
+}
+
+@keyframes map-swipe-arrow-left {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateX(0);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) translateX(-16px);
+    opacity: 1;
+  }
+
+  85% {
+    opacity: 1;
+  }
+}
+
+@keyframes map-swipe-arrow-right {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateX(0);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) translateX(16px);
+    opacity: 1;
+  }
+
+  85% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-point,
+  .map-tooltip {
+    animation: none;
+    transition: none;
+  }
+
+  .map-swipe-cue__line,
+  .map-swipe-cue__arrow {
+    animation: none;
+  }
+
+  .map-swipe-cue__line {
+    width: 24px;
+    opacity: 1;
+  }
+
+  .map-swipe-cue__arrow--left {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateX(-16px);
+  }
+
+  .map-swipe-cue__arrow--right {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateX(16px);
+  }
+}

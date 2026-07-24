@@ -1,0 +1,333 @@
+.location-section {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  padding-bottom: clamp(58px, 6vw, 96px);
+  overflow: hidden;
+  color: #101010;
+  background: #fff;
+}
+
+.location-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.location-hero {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.location-image-wrap {
+  grid-column: 4 / -1;
+  aspect-ratio: 1.830 / 1;
+  overflow: hidden;
+  background: #0b0b0b;
+  clip-path: inset(0 0 100% 0);
+  transform: scale(1.04);
+  transition:
+    clip-path 1.25s cubic-bezier(.2, .75, .15, 1),
+    transform 1.8s cubic-bezier(.2, .75, .15, 1);
+}
+
+.location-section.is-visible .location-image-wrap {
+  clip-path: inset(0);
+  transform: scale(1);
+}
+
+.location-image {
+  --location-parallax: 0.5;
+
+  display: block;
+  width: 100%;
+  height: 128%;
+  margin-top: -14%;
+  object-fit: cover;
+  will-change: transform;
+  transform: translate3d(
+    0,
+    calc((var(--location-parallax) - 0.5) * -16%),
+    0
+  );
+}
+
+.location-kicker {
+  grid-column: 4 / -1;
+  margin: clamp(17px, 1.45vw, 28px) 0 0;
+  font: 600 clamp(11px, .72vw, 14px)/1.1 'Gilroy', sans-serif;
+  letter-spacing: .025em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity .7s ease .55s,
+    transform .7s ease .55s;
+}
+
+.location-intro {
+  grid-column: 4 / -1;
+  margin: clamp(28px, 3vw, 58px) clamp(20px, 1.55vw, 30px) 0 0;
+  font: 600 clamp(24px, 2.35vw, 46px)/1.02 'Gilroy', sans-serif;
+  letter-spacing: -.045em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(34px);
+  transition:
+    opacity .85s ease .7s,
+    transform .85s cubic-bezier(.2, .75, .2, 1) .7s;
+}
+
+.location-section.is-visible .location-kicker,
+.location-section.is-visible .location-intro {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.location-intro-offset {
+  display: inline-block;
+  width: 33.333%;
+}
+
+.location-cards {
+  display: flex;
+  gap: clamp(6px, .55vw, 10px);
+  margin-top: clamp(12px, 1vw, 20px);
+  padding: 0 clamp(12px, 1.1vw, 20px);
+  overflow-x: hidden;
+  overscroll-behavior-inline: contain;
+  touch-action: pan-y;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.location-cards::-webkit-scrollbar {
+  display: none;
+}
+
+.location-card {
+  position: relative;
+  flex: 0 0 calc(50vw - clamp(15px, 1.4vw, 26px));
+  aspect-ratio: 1.42 / 1;
+  overflow: hidden;
+  background: #101010;
+}
+
+.location-card::after {
+  position: absolute;
+  inset: 50% 0 0;
+  content: '';
+  background: linear-gradient(to bottom, transparent, rgb(0 0 0 / 45%));
+  pointer-events: none;
+}
+
+.location-card img {
+  --card-parallax: .5;
+
+  position: absolute;
+  inset: -18% 0;
+  width: 100%;
+  height: 136%;
+  object-fit: cover;
+  will-change: transform;
+  transform: translate3d(
+    0,
+    calc((var(--card-parallax) - .5) * -22%),
+    0
+  );
+}
+
+.location-card-nav {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  width: clamp(82px, 8vw, 150px);
+  aspect-ratio: 1;
+  padding: 0;
+  color: #fff;
+  background: rgb(0 0 0 / 8%);
+  border: 1px solid rgb(255 255 255 / 90%);
+  place-items: center;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition:
+    opacity .25s ease,
+    background-color .25s ease;
+  cursor: pointer;
+}
+
+.location-card:hover .location-card-nav,
+.location-card-nav:focus-visible {
+  opacity: 1;
+}
+
+.location-card-nav:hover {
+  background: rgb(0 0 0 / 18%);
+}
+
+.location-card-nav-icon {
+  position: relative;
+  display: inline-grid;
+}
+
+.location-card-nav-arrow {
+  display: block;
+  width: clamp(28px, 3vw, 41px);
+  height: auto;
+  overflow: visible;
+}
+
+.location-card-nav-arrow path {
+  stroke-dasharray: 100 100;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.1s linear;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .location-card-nav:hover .location-card-nav-arrow path,
+  .location-card-nav:focus-visible .location-card-nav-arrow path {
+    stroke-dashoffset: -200;
+  }
+}
+
+.location-card h3 {
+  position: absolute;
+  z-index: 1;
+  right: clamp(16px, 1.5vw, 28px);
+  bottom: clamp(14px, 1.3vw, 24px);
+  left: clamp(16px, 1.5vw, 28px);
+  margin: 0;
+  color: #fff;
+  font: 500 clamp(18px, 1.7vw, 32px)/1 'Gilroy', sans-serif;
+  letter-spacing: -.02em;
+  text-transform: uppercase;
+}
+
+.location-footer {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  align-items: end;
+  margin-top: clamp(100px, 11vw, 210px);
+  padding: 0 clamp(20px, 1.55vw, 30px) clamp(18px, 1.2vw, 24px);
+  border-bottom: 1px solid rgb(0 0 0 / 18%);
+}
+
+.location-footer p {
+  margin: 0;
+  font: 600 clamp(50px, 6.4vw, 124px)/.8 'Gilroy', sans-serif;
+  letter-spacing: -.055em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+/* Mobile + tablet — swipe/drag cards horizontally; desktop unchanged */
+@media (max-width: 1024px) {
+  .location-cards {
+    overflow-x: auto;
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .location-card-nav {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .location-section {
+    padding-top: 0;
+  }
+
+  .location-hero {
+    display: block;
+  }
+
+  .location-image-wrap {
+    aspect-ratio: 1 / 1;
+  }
+
+  .location-image {
+    object-position: 58% center;
+  }
+
+  .location-kicker {
+    margin: 18px 20px 0;
+    font-size: 11px;
+  }
+
+  .location-kicker span {
+    display: inline-block;
+    max-width: 90px;
+  }
+
+  .location-intro {
+    margin: 54px 20px 0;
+    font-size: clamp(27px, 8.7vw, 42px);
+    line-height: 1.03;
+  }
+
+  .location-intro-offset {
+    width: 0;
+  }
+
+  .location-cards {
+    gap: 7px;
+    margin-top: 12px;
+    padding: 0 10px;
+  }
+
+  .location-card {
+    flex-basis: 84vw;
+    aspect-ratio: .9 / 1;
+  }
+
+  .location-card h3 {
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    font-size: 22px;
+  }
+
+  .location-footer {
+    display: block;
+    margin-top: 110px;
+    padding-bottom: 14px;
+  }
+
+  .location-footer p {
+    font-size: clamp(50px, 17vw, 78px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .location-image-wrap,
+  .location-kicker,
+  .location-intro,
+  .location-card-nav-arrow path {
+    transition: none;
+  }
+
+  .location-image-wrap {
+    transform: none;
+  }
+
+  .location-image {
+    height: 100%;
+    margin-top: 0;
+    transform: none;
+    will-change: auto;
+  }
+
+  .location-card img {
+    inset: 0;
+    height: 100%;
+    transform: none;
+    will-change: auto;
+  }
+}

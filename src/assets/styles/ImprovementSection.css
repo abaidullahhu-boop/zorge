@@ -1,0 +1,272 @@
+.improvement-section {
+  --improvement-pad: clamp(20px, 1.55vw, 30px);
+  /* Match Infrastructure --improvement-handoff so Restaurant stays pinned. */
+  --improvement-handoff: 100svh;
+
+  position: relative;
+  /* Above Apartments so this slide covers it on the way out. */
+  z-index: 12;
+  /* Pull over Restaurant so this section slides up on top of it. */
+  margin-top: calc(var(--improvement-handoff) * -1);
+  color: #000;
+  background: transparent;
+}
+
+.improvement-slide {
+  position: relative;
+  padding:
+    clamp(135px, 7vw, 120px)
+    var(--improvement-pad)
+    clamp(40px, 4vw, 80px);
+  background: #fff;
+  will-change: transform;
+}
+
+.improvement-intro-row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  margin-bottom: clamp(48px, 6.5vw, 120px);
+}
+
+.improvement-intro {
+  grid-column: 1 / 6;
+  margin: 0;
+  font: 600 clamp(12px, 1.05vw, 12px) / 1.25 'Gilroy', sans-serif;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity .85s ease .1s,
+    transform .95s cubic-bezier(.2, .75, .15, 1) .1s;
+}
+
+.improvement-title-row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  margin-bottom: clamp(8px, 1vw, 16px);
+}
+
+.improvement-title {
+  grid-column: 8 / 13;
+  margin: 0;
+  font: 600 clamp(49px, 2.9vw, 306px) / 1 'Gilroy', sans-serif;
+  letter-spacing: 0;
+  text-align: right;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity .85s ease .18s,
+    transform .95s cubic-bezier(.2, .75, .15, 1) .18s;
+}
+
+.improvement-title-line {
+  display: block;
+}
+
+.improvement-media-row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: start;
+  column-gap: clamp(8px, 1.2vw, 10px);
+}
+
+.improvement-image {
+  overflow: hidden;
+  background: #e8e8e8;
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+.improvement-image--1 {
+  grid-column: 4 / 7;
+  aspect-ratio: 490 / 588;
+  transition:
+    opacity .8s ease .28s,
+    transform .9s cubic-bezier(.2, .75, .15, 1) .28s;
+}
+
+.improvement-image--2 {
+  grid-column: 7 / 13;
+  aspect-ratio: 966 / 1008;
+  transition:
+    opacity .8s ease .36s,
+    transform .9s cubic-bezier(.2, .75, .15, 1) .36s;
+}
+
+.improvement-parallax {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.improvement-parallax-image {
+  --improvement-parallax: 0%;
+
+  display: block;
+  width: 100%;
+  height: 122%;
+  margin-top: -11%;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+  transform: translate3d(0, var(--improvement-parallax), 0);
+  will-change: transform;
+}
+
+.improvement-copy-row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  margin-top: clamp(16px, 1.5vw, 24px);
+}
+
+.improvement-copy {
+  grid-column: 4 / 13;
+  margin: 0;
+  font: 600 clamp(18px, 2.35vw, 36px) / 1.15 'Gilroy', sans-serif;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity .85s ease .44s,
+    transform .95s cubic-bezier(.2, .75, .15, 1) .44s;
+}
+
+/* Matches reference text-offset--3 (~3/12 of the 9-col block ≈ 33%) */
+.improvement-copy-offset {
+  float: left;
+  width: 33.333%;
+  height: 1em;
+}
+
+.improvement-bottom {
+  margin-top: clamp(48px, 8vw, 140px);
+  overflow: hidden;
+  aspect-ratio: 1932 / 1274;
+  background: #e8e8e8;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity .9s ease .52s,
+    transform 1s cubic-bezier(.2, .75, .15, 1) .52s;
+}
+
+.improvement-parallax--wide {
+  height: 100%;
+}
+
+.improvement-section.is-visible .improvement-intro,
+.improvement-section.is-visible .improvement-title,
+.improvement-section.is-visible .improvement-image,
+.improvement-section.is-visible .improvement-copy,
+.improvement-section.is-visible .improvement-bottom {
+  opacity: 1;
+  transform: none;
+}
+
+@media (max-width: 980px) {
+  .improvement-intro {
+    grid-column: 1 / 8;
+  }
+
+  .improvement-title {
+    grid-column: 6 / 13;
+    font-size: clamp(28px, 6vw, 48px);
+  }
+
+  .improvement-image--1 {
+    grid-column: 3 / 7;
+  }
+
+  .improvement-image--2 {
+    grid-column: 7 / 13;
+  }
+
+  .improvement-copy {
+    grid-column: 3 / 13;
+    font-size: clamp(16px, 2.8vw, 28px);
+  }
+}
+
+@media (max-width: 760px) {
+  .improvement-section {
+    --improvement-handoff: 0px;
+    margin-top: 0;
+    background: #fff;
+  }
+
+  .improvement-slide {
+    padding:
+      clamp(40px, 10vw, 64px)
+      20px
+      clamp(32px, 8vw, 56px);
+  }
+
+  .improvement-intro-row {
+    display: block;
+    margin-bottom: clamp(32px, 8vw, 48px);
+  }
+
+  .improvement-intro {
+    font-size: clamp(13px, 3.6vw, 15px);
+  }
+
+  .improvement-title-row {
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .improvement-title {
+    text-align: left;
+    font-size: clamp(28px, 10vw, 40px);
+  }
+
+  .improvement-media-row {
+    display: block;
+  }
+
+  .improvement-image--1 {
+    display: none;
+  }
+
+  .improvement-image--2 {
+    width: 100%;
+    aspect-ratio: 320 / 433;
+  }
+
+  .improvement-copy-row {
+    display: block;
+    margin-top: 16px;
+  }
+
+  .improvement-copy {
+    font-size: clamp(16px, 5vw, 22px);
+  }
+
+  .improvement-copy-offset {
+    display: none;
+  }
+
+  .improvement-bottom {
+    margin-top: clamp(32px, 10vw, 56px);
+    aspect-ratio: 360 / 320;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .improvement-intro,
+  .improvement-title,
+  .improvement-image,
+  .improvement-copy,
+  .improvement-bottom {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .improvement-parallax-image {
+    transform: none !important;
+  }
+}

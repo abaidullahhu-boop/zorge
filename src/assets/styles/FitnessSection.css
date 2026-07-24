@@ -1,0 +1,523 @@
+.fitness-section {
+  --fitness-pad: clamp(20px, 1.55vw, 30px);
+  --fitness-col: calc(100vw / 12);
+  /* Leading transparent spacer width (content slides in over last advantages card). */
+  --fitness-spacer: 100vw;
+  /*
+   * Must match advantages --fitness-handoff: spacer + 100svh so advantages
+   * stays pinned while the full spacer scrolls away.
+   */
+  --fitness-handoff: calc(var(--fitness-spacer) + 100svh);
+  /* Extra pin so Infrastructure hero stays stuck while Restaurant covers it. */
+  --infra-pin: 100svh;
+  /* Matches reference sticky-slider length: ~79 grid cols of content. */
+  --fitness-scroll-fallback: calc(
+    var(--fitness-col) * 79 - 16px - 100vw + 100vh + var(--infra-pin)
+  );
+
+  position: relative;
+  z-index: 9;
+  margin-top: calc(var(--fitness-handoff) * -1);
+  height: var(--fitness-scroll, var(--fitness-scroll-fallback));
+  color: #000;
+  background: transparent;
+  pointer-events: none;
+}
+
+.fitness-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: transparent;
+  will-change: transform;
+}
+
+.fitness-track {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  height: 100%;
+  width: max-content;
+  will-change: transform;
+  pointer-events: none;
+}
+
+.fitness-spacer {
+  flex: 0 0 var(--fitness-spacer);
+  width: var(--fitness-spacer);
+  height: 100%;
+  background: transparent;
+  pointer-events: none;
+}
+
+.fitness-spacer--end {
+  background: #fff;
+}
+
+/* Infrastructure hero — one full viewport frame (no horizontal pan on the image). */
+.fitness-infra-hero {
+  position: relative;
+  flex: 0 0 100vw;
+  width: 100vw;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  pointer-events: none;
+}
+
+.fitness-infra-hero-image {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.fitness-infra-hero-image img {
+  display: block;
+  width: 100%;
+  height: 114%;
+  margin-top: -7%;
+  object-fit: cover;
+  object-position: center;
+  transform-origin: 50% 50%;
+  user-select: none;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.fitness-infra-title {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 clamp(20px, 1.55vw, 30px);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.fitness-infra-title::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 25%;
+  background: linear-gradient(0deg, transparent, rgb(0 0 0 / 70%));
+  pointer-events: none;
+}
+
+.fitness-infra-title::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    142deg,
+    transparent 63.5%,
+    rgb(0 0 0 / 50%) 85.56%
+  );
+  pointer-events: none;
+}
+
+.fitness-infra-title-text {
+  margin: 0;
+  font: 600 clamp(28px, 6vw, 72px) / 1 'Gilroy', sans-serif;
+  letter-spacing: 0;
+  text-align: right;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+.fitness-gap {
+  flex-shrink: 0;
+  height: 100%;
+  background: #fff;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .85s ease .08s;
+}
+
+.fitness-section.is-visible .fitness-gap {
+  opacity: 1;
+}
+
+.fitness-gap--1 {
+  flex-basis: var(--fitness-col);
+  width: var(--fitness-col);
+}
+
+.fitness-gap--2 {
+  flex-basis: calc(var(--fitness-col) * 2);
+  width: calc(var(--fitness-col) * 2);
+}
+
+.fitness-panel {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding:
+    calc(var(--fitness-pad) + 2.91667vw)
+    0
+    var(--fitness-pad);
+  background: #fff;
+  pointer-events: all;
+  opacity: 0;
+  transform: translateX(28px);
+  transition:
+    opacity .85s ease .08s,
+    transform .95s cubic-bezier(.2, .75, .15, 1) .08s;
+}
+
+.fitness-section.is-visible .fitness-panel {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fitness-panel--title {
+  flex-basis: calc(var(--fitness-col) * 2);
+  width: calc(var(--fitness-col) * 2);
+  padding-top: calc(var(--fitness-pad) * 2 + 5.83333vw + 20px);
+  padding-left: var(--fitness-pad);
+  padding-right: 0;
+}
+
+.fitness-panel--image-3 {
+  flex-basis: calc(var(--fitness-col) * 3);
+  width: calc(var(--fitness-col) * 3);
+}
+
+.fitness-panel--image-6 {
+  flex-basis: calc(var(--fitness-col) * 6);
+  width: calc(var(--fitness-col) * 6);
+}
+
+.fitness-panel--image-8 {
+  flex-basis: calc(var(--fitness-col) * 8);
+  width: calc(var(--fitness-col) * 8);
+}
+
+.fitness-panel--text-3 {
+  flex-basis: calc(var(--fitness-col) * 3);
+  width: calc(var(--fitness-col) * 3);
+  padding-left: var(--fitness-pad);
+  padding-right: var(--fitness-pad);
+}
+
+.fitness-panel--align-end {
+  justify-content: flex-end;
+}
+
+.fitness-panel--middle {
+  justify-content: flex-end;
+  padding-top: calc(var(--fitness-pad) * 2 + 5.83333vw + 60px);
+  padding-left: 0;
+}
+
+.fitness-panel--stack {
+  justify-content: flex-start;
+  gap: clamp(12px, 1vw, 20px);
+}
+
+.fitness-panel--group-8 {
+  flex-basis: calc(var(--fitness-col) * 8);
+  width: calc(var(--fitness-col) * 8);
+  flex-direction: row;
+  align-items: stretch;
+  padding-left: 0;
+  padding-right: 0;
+  gap: 0;
+}
+
+.fitness-group-text {
+  flex: 0 0 calc(var(--fitness-col) * 3);
+  width: calc(var(--fitness-col) * 3);
+  display: flex;
+  align-items: flex-end;
+  padding-left: var(--fitness-pad);
+  padding-right: clamp(16px, 1.5vw, 30px);
+  padding-bottom: 0;
+}
+
+.fitness-group-image {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  min-width: 0;
+  padding-left: calc(var(--fitness-col) / 12);
+}
+
+.fitness-title {
+  margin: 0;
+  font: 600 clamp(16px, 1.875vw, 32px) / 1 'Gilroy', sans-serif;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.fitness-title-line {
+  display: block;
+}
+
+.fitness-copy {
+  margin: 0;
+  font: 600 clamp(12px, 1.05vw, 12px) / 1.25 'Gilroy', sans-serif;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.fitness-copy--large {
+  font-size: clamp(16px, 1.875vw, 32px);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.fitness-copy--after-image {
+  margin-top: .66em;
+  padding-right: var(--fitness-pad);
+}
+
+.fitness-parallax {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.fitness-parallax img {
+  display: block;
+  width: 120%;
+  height: 100%;
+  margin-right: -16.66667%;
+  object-fit: cover;
+  transform-origin: 50% 50%;
+  user-select: none;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.fitness-panel--image-6 .fitness-parallax,
+.fitness-panel--image-8 .fitness-parallax {
+  height: 100%;
+}
+
+.fitness-panel--image-6 .fitness-parallax img,
+.fitness-panel--image-8 .fitness-parallax img {
+  height: 100%;
+}
+
+.fitness-mobile-only {
+  display: none;
+}
+
+.fitness-desktop-only {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+}
+
+.fitness-panel--image-3 > .fitness-desktop-only,
+.fitness-panel--stack > .fitness-desktop-only {
+  flex: 1;
+}
+
+@media (max-width: 760px) {
+  .fitness-section {
+    height: auto;
+    margin-top: -12vh;
+    pointer-events: all;
+  }
+
+  .fitness-sticky {
+    position: relative;
+    height: auto;
+    overflow: visible;
+    background: #fff;
+  }
+
+  .fitness-track {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    padding: 72px 0 40px;
+    transform: none !important;
+    pointer-events: all;
+  }
+
+  .fitness-desktop-only {
+    display: none !important;
+  }
+
+  .fitness-mobile-only {
+    display: flex;
+  }
+
+  .fitness-mobile-pair.fitness-mobile-only {
+    display: flex;
+  }
+
+  .fitness-panel,
+  .fitness-panel--title,
+  .fitness-panel--image-3,
+  .fitness-panel--image-6,
+  .fitness-panel--image-8,
+  .fitness-panel--text-3,
+  .fitness-panel--group-8 {
+    flex: none;
+    width: 100%;
+    height: auto;
+    padding: 0 20px 24px;
+    transform: none;
+  }
+
+  .fitness-section.is-visible .fitness-panel {
+    transform: none;
+  }
+
+  .fitness-panel--title {
+    padding-top: 0;
+    margin-bottom: 8px;
+  }
+
+  .fitness-title {
+    font-size: clamp(28px, 9vw, 40px);
+  }
+
+  .fitness-panel--image-6,
+  .fitness-panel--image-8 {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .fitness-parallax {
+    flex: none;
+    aspect-ratio: 320 / 342;
+    height: auto;
+  }
+
+  .fitness-parallax img {
+    width: 100%;
+    height: 100%;
+    margin-right: 0;
+  }
+
+  .fitness-panel--text-3,
+  .fitness-panel--middle,
+  .fitness-panel--align-end {
+    justify-content: flex-start;
+    height: auto;
+    max-height: none;
+    padding: 0 20px 32px;
+  }
+
+  .fitness-copy,
+  .fitness-copy--large {
+    font-size: clamp(13px, 3.5vw, 15px);
+    line-height: 1.25;
+    letter-spacing: .03em;
+  }
+
+  .fitness-panel--stack {
+    width: 75%;
+    margin-left: auto;
+    padding-right: 20px;
+    padding-left: 0;
+  }
+
+  .fitness-copy--after-image {
+    margin-top: 16px;
+    padding-right: 0;
+  }
+
+  .fitness-mobile-pair {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    padding: 0 0 24px 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .fitness-mobile-pair::-webkit-scrollbar {
+    display: none;
+  }
+
+  .fitness-mobile-pair-item {
+    flex: 0 0 62vw;
+    scroll-snap-align: start;
+  }
+
+  .fitness-mobile-pair-item .fitness-parallax {
+    aspect-ratio: 250 / 342;
+  }
+
+  .fitness-panel--group-8 {
+    flex-direction: column-reverse;
+    gap: 16px;
+    padding: 0 20px 32px;
+  }
+
+  .fitness-group-text,
+  .fitness-group-image {
+    flex: none;
+    width: 100%;
+    padding: 0;
+  }
+
+  .fitness-group-text {
+    width: 75%;
+    margin-left: auto;
+  }
+
+  .fitness-panel--mobile-only,
+  .fitness-panel.fitness-mobile-only {
+    width: 75%;
+    margin-left: auto;
+    padding-right: 20px;
+  }
+}
+
+@media (min-width: 761px) and (min-aspect-ratio: 8 / 3) {
+  .fitness-panel--image-6 {
+    flex-basis: 25vw;
+    width: 25vw;
+  }
+
+  .fitness-panel--image-8 {
+    flex-basis: 33.3333vw;
+    width: 33.3333vw;
+  }
+
+  .fitness-panel--image-3 {
+    flex-basis: 16.6666vw;
+    width: 16.6666vw;
+  }
+
+  .fitness-panel--group-8 {
+    flex-basis: auto;
+    width: auto;
+  }
+
+  .fitness-group-image {
+    flex: 0 0 25vw;
+    width: 25vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fitness-panel,
+  .fitness-gap {
+    transition: none;
+  }
+
+  .fitness-parallax img {
+    transform: none !important;
+  }
+}

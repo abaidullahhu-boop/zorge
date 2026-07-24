@@ -1,0 +1,363 @@
+.time-section {
+  position: relative;
+  z-index: 6;
+  margin-top: -18vh;
+  height: 100svh;
+  color: #fff;
+  background: transparent;
+}
+
+.time-sticky {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.time-slide {
+  position: relative;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  will-change: transform;
+}
+
+.time-image {
+  position: relative;
+  z-index: 0;
+  flex: 0 0 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.time-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    0deg,
+    rgb(0 0 0 / 0%) 69.33%,
+    rgb(0 0 0 / 60%) 100%
+  );
+  pointer-events: none;
+}
+
+.time-image-item {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(100% 0 0 0);
+}
+
+.time-image-item:first-child {
+  clip-path: inset(0 0 0 0);
+}
+
+.time-image-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  user-select: none;
+  pointer-events: none;
+}
+
+.time-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  width: 50%;
+  height: 100%;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity .85s ease .1s,
+    transform .95s cubic-bezier(.2, .75, .15, 1) .1s;
+}
+
+.time-section.is-visible .time-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.time-clock {
+  --hour-degree: -150;
+  --minute-degree: 0;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  aspect-ratio: 1;
+  width: auto;
+  height: 100%;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.time-clock-hour,
+.time-clock-minute {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  border-left: 1px solid #fff;
+  transform-origin: 50% 100%;
+  transition: transform 2s cubic-bezier(.7, 0, .3, 1);
+}
+
+.time-clock-hour {
+  height: 25.6%;
+  transform: translateX(-50%) rotate(calc(var(--hour-degree) * 1deg));
+}
+
+.time-clock-minute {
+  height: 50%;
+  transform: translateX(-50%) rotate(calc(var(--minute-degree) * 1deg));
+}
+
+.time-digits {
+  position: absolute;
+  top: 50%;
+  left: calc(100vw / 12 * 3);
+  transform: translateY(-50%);
+  overflow: hidden;
+}
+
+.time-digit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.time-digit.is-active {
+  position: relative;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.time-digit-text {
+  margin: 0;
+  font: 600 clamp(12px, 6vw, 30px) / 1.05 'Gilroy', sans-serif;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.time-controls {
+  position: absolute;
+  top: 50%;
+  right: clamp(20px, 1.55vw, 30px);
+  display: flex;
+  gap: 20px;
+  transform: translateY(-50%);
+}
+
+.time-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  border: 0;
+  color: #fff;
+  background: transparent;
+  cursor: pointer;
+}
+
+.time-nav.is-disabled {
+  opacity: .28;
+  cursor: default;
+  pointer-events: none;
+}
+
+.time-nav-icon {
+  position: relative;
+  display: inline-grid;
+}
+
+.time-arrow-icon {
+  display: block;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.2;
+}
+
+.time-arrow-icon__line,
+.time-arrow-icon__head {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+}
+
+.time-nav:not(.is-disabled):hover .time-arrow-icon__line,
+.time-nav:not(.is-disabled):focus-visible .time-arrow-icon__line {
+  animation: time-arrow-line 0.75s linear forwards;
+}
+
+.time-nav:not(.is-disabled):hover .time-arrow-icon__head,
+.time-nav:not(.is-disabled):focus-visible .time-arrow-icon__head {
+  animation: time-arrow-head 1.15s linear forwards;
+}
+
+/* Dot/short dash → full line (direction comes from path) */
+@keyframes time-arrow-line {
+  0% {
+    stroke-dasharray: 2 100;
+  }
+
+  100% {
+    stroke-dasharray: 100 0;
+  }
+}
+
+/* After line finishes, head grows from tip/center */
+@keyframes time-arrow-head {
+  0%,
+  62% {
+    stroke-dasharray: 0.01 100;
+  }
+
+  100% {
+    stroke-dasharray: 100 0;
+  }
+}
+
+.time-text {
+  position: absolute;
+  bottom: clamp(20px, 1.55vw, 30px);
+  left: 0;
+  width: 33.3333vw;
+  padding-left: clamp(20px, 1.55vw, 30px);
+  overflow: hidden;
+}
+
+.time-text-item {
+  position: absolute;
+  bottom: 0;
+  left: clamp(20px, 1.55vw, 30px);
+  width: calc(33.3333vw - clamp(20px, 1.55vw, 30px));
+  opacity: 0;
+  pointer-events: none;
+}
+
+.time-text-item.is-active {
+  position: relative;
+  left: 0;
+  width: 100%;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.time-text-offset {
+  float: left;
+  width: calc(100vw / 12 * 2 - clamp(2px, 1.55vw, 2px));
+  height: 10px;
+  margin-left: calc(clamp(8px, 1.55vw, 8px) * -1);
+}
+
+.time-text-item p {
+  margin: 0;
+  font: 600 clamp(12px, 1.05vw, 12px) / 1.25 'Gilroy', sans-serif;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
+.time-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 760px) {
+  .time-slide {
+    flex-direction: column;
+  }
+
+  .time-image {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 56vw;
+    min-height: 240px;
+  }
+
+  .time-content {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .time-clock {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    transform: translateY(-50%);
+  }
+
+  .time-digits {
+    top: clamp(20px, 4vw, 30px);
+    left: clamp(20px, 4vw, 30px);
+    transform: none;
+  }
+
+  .time-digit-text {
+    font-size: clamp(36px, 12vw, 56px);
+  }
+
+  .time-controls {
+    top: clamp(28px, 5vw, 40px);
+    right: clamp(20px, 4vw, 30px);
+    transform: none;
+  }
+
+  .time-text {
+    width: calc(100% - 20px);
+    max-width: none;
+    bottom: 20px;
+    padding-left: 20px;
+  }
+
+  .time-text-item {
+    width: calc(100% - 20px);
+  }
+
+  .time-text-item.is-active {
+    width: 100%;
+  }
+
+  .time-text-offset {
+    display: none;
+  }
+
+  .time-text-item p {
+    max-width: none;
+    font-size: clamp(13px, 3.5vw, 15px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .time-content {
+    transition: none;
+  }
+
+  .time-clock-hour,
+  .time-clock-minute,
+  .time-arrow-icon__line,
+  .time-arrow-icon__head {
+    transition: none;
+    animation: none;
+  }
+}
