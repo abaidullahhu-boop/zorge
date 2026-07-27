@@ -152,6 +152,11 @@
 }
 
 .gallery-section.is-touch .gallery-link {
+  inset: auto;
+  right: clamp(20px, 1.55vw, 30px);
+  bottom: clamp(20px, 1.55vw, 30px);
+  width: 100px;
+  height: 100px;
   cursor: pointer;
 }
 
@@ -236,6 +241,11 @@
   }
 
   .gallery-link {
+    inset: auto;
+    right: 20px;
+    bottom: 20px;
+    width: 88px;
+    height: 88px;
     cursor: pointer;
   }
 
@@ -326,6 +336,11 @@
   }
 
   .gallery-link {
+    inset: auto;
+    right: clamp(20px, 1.55vw, 30px);
+    bottom: clamp(20px, 1.55vw, 30px);
+    width: 100px;
+    height: 100px;
     cursor: pointer;
   }
 

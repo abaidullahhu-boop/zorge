@@ -87,8 +87,12 @@ function MenuOverlay({ open, onClose }) {
       aria-label="Menu"
       aria-hidden={!open}
       id="menu"
+      onClick={onClose}
     >
-      <div className="menu-overlay__panel">
+      <div
+        className="menu-overlay__panel"
+        onClick={(event) => event.stopPropagation()}
+      >
         <div className="menu-overlay__side">
           <img
             className="menu-overlay__decor"
@@ -158,6 +162,25 @@ function MenuOverlay({ open, onClose }) {
 
         <div className="menu-overlay__content">
           <header className="menu-overlay__header">
+            <button
+              className="menu-overlay__mobile-logo"
+              type="button"
+              aria-label="Close"
+              onClick={onClose}
+            >
+              <span className="menu-overlay__mobile-logo-mark" aria-hidden="true">
+                <span>ZORGE</span>
+                <small className="menu-overlay__logo-no">
+                  <span className="menu-overlay__logo-n">N</span>
+                  <span className="menu-overlay__logo-ordinal">
+                    <span className="menu-overlay__logo-ring">º</span>
+                    <span className="menu-overlay__logo-dot" />
+                  </span>
+                  <span>9</span>
+                </small>
+              </span>
+            </button>
+
             <div className="menu-overlay__header-actions">
               <a
                 className="menu-overlay__apartment"
@@ -226,6 +249,8 @@ function MenuOverlay({ open, onClose }) {
               })}
             </ul>
           </nav>
+
+          <div className="menu-overlay__divider" aria-hidden="true" />
         </div>
       </div>
     </div>

@@ -327,12 +327,14 @@ function App() {
       const locationStart = getDocumentOffsetTop(locationSection)
       const ranges = []
 
-      if (aboutStart > heroStart) {
+      // Hero ↔ about center snap is desktop-only; free-scroll on mobile.
+      if (aboutStart > heroStart && window.innerWidth > 760) {
         ranges.push({ start: heroStart, end: aboutStart, id: 'about-snap' })
       }
 
       // Location: only snap to section top (about ↔ location), not within content.
-      if (locationStart > aboutStart) {
+      // Desktop-only; free-scroll on mobile.
+      if (locationStart > aboutStart && window.innerWidth > 760) {
         ranges.push({
           start: aboutStart,
           end: locationStart,
