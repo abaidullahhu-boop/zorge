@@ -94,6 +94,7 @@
     0 100%
   );
   opacity: 0;
+  transition: opacity .55s ease;
 }
 
 .about-wordmark-rail.is-on-location .about-wordmark-layer--dark,
@@ -180,6 +181,38 @@
   border-radius: 50%;
   background: currentColor;
   transform: translateX(-50%);
+}
+
+.about-scroll-arrow {
+  position: absolute;
+  top: clamp(20px, 2.5vw, 40px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+}
+
+.about-scroll-arrow-icons {
+  position: relative;
+  display: block;
+  width: 14px;
+  height: 31px;
+}
+
+.about-arrow-icon {
+  display: block;
+  color: #fff;
+  fill: none;
+}
+
+.about-arrow-icon path {
+  stroke-dasharray: 100 100;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.1s linear;
+}
+
+.about-scroll-arrow:hover .about-arrow-icon path {
+  stroke-dashoffset: -200;
 }
 
 .about-content {
@@ -448,6 +481,7 @@ body.gallery-modal-open .about-wordmark-rail {
 
 @media (prefers-reduced-motion: reduce) {
   .about-wordmark-rail,
+  .about-wordmark-layer--dark,
   .about-card,
   .about-play,
   .about-play path,

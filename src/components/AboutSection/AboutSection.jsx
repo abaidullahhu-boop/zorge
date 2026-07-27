@@ -1,6 +1,26 @@
 import { useEffect, useState } from 'react'
 import '../../assets/styles/AboutSection.css'
 
+function LongArrowUp() {
+  return (
+    <svg
+      className="about-arrow-icon"
+      width="14"
+      height="31"
+      aria-hidden="true"
+      viewBox="0 0 14 31"
+      fill="none"
+    >
+      <path
+        pathLength="100"
+        d="M13 7.102 8 1H7M1 7.102 6 1h1m0 0v30"
+        stroke="currentColor"
+        strokeWidth="1.2"
+      />
+    </svg>
+  )
+}
+
 const VIMEO_VIDEO =
   'https://player.vimeo.com/video/1185877284?autoplay=1&title=0&byline=0&portrait=0'
 
@@ -38,6 +58,12 @@ function AboutSection() {
         <div className="about-shade" aria-hidden="true" />
 
         <div className="about-content">
+          <div className="about-scroll-arrow" aria-hidden="true">
+            <span className="about-scroll-arrow-icons">
+              <LongArrowUp />
+            </span>
+          </div>
+
           <h2 id="about-title">
             Life on Your
             <br />

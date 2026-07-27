@@ -1,5 +1,6 @@
 .site-footer {
   --footer-pad: clamp(12px, 1.55vw, 20px);
+  --footer-gap: clamp(72px, 8vw, 110px);
   --footer-line: rgb(255 255 255 / 20%);
   --footer-logo: #a0725b;
   --footer-text: #fff;

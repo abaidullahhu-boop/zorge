@@ -66,7 +66,6 @@ function Footer() {
         <div className="site-footer-credit">
           <a
             className="site-footer-credit-link"
-            href="https://videinfra.com/"
             target="_blank"
             rel="noopener noreferrer"
             title="Award-winning real estate website design agency"
