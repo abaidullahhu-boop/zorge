@@ -52,22 +52,18 @@ function AboutSection() {
       >
         <div className="about-background" aria-hidden="true">
           <video autoPlay muted loop playsInline preload="metadata">
-            <source src="/assets/images/zorge-main-video.mp4" type="video/mp4" />
+            <source src="/assets/images/dayim-main-video.mp4" type="video/mp4" />
           </video>
         </div>
         <div className="about-shade" aria-hidden="true" />
 
         <div className="about-content">
-          <div className="about-scroll-arrow" aria-hidden="true">
-            <span className="about-scroll-arrow-icons">
-              <LongArrowUp />
-            </span>
-          </div>
+          
 
           <h2 id="about-title">
-            Life on Your
+            Building Tomorrow.
             <br />
-            Own Terms
+            Setting New Standards.
           </h2>
 
           <div className="about-cards">
@@ -75,9 +71,9 @@ function AboutSection() {
               className="about-card about-card--dark"
               type="button"
               onClick={() => setVideoOpen(true)}
-              aria-label="Watch video about the project"
+              aria-label="Watch video about Dayim Developers"
             >
-              <span className="about-card-kicker">About the Project</span>
+              <span className="about-card-kicker">About Us</span>
               <svg
                 className="about-play"
                 viewBox="0 0 12 24"
@@ -87,14 +83,14 @@ function AboutSection() {
               </svg>
             </button>
 
-            <a className="about-card about-card--light" href="#offers">
+            <a className="about-card about-card--light" href="#architecture">
               <span className="about-card-kicker">
-                Installment
+                Our Vision
                 <br />
-                and Mortgage
+                &amp; Mission
               </span>
-              <strong>Special Offers</strong>
-              <span className="about-watch">Watch</span>
+              <strong>Our Story</strong>
+              <span className="about-watch">Explore</span>
             </a>
           </div>
         </div>
@@ -105,7 +101,7 @@ function AboutSection() {
           className="video-modal"
           role="dialog"
           aria-modal="true"
-          aria-label="About the project video"
+          aria-label="About Dayim Developers video"
           onMouseDown={(event) => {
             if (event.target === event.currentTarget) setVideoOpen(false)
           }}
@@ -122,7 +118,7 @@ function AboutSection() {
           <div className="video-modal-frame">
             <iframe
               src={VIMEO_VIDEO}
-              title="About the Zorge project"
+              title="About Dayim Developers"
               allow="autoplay; fullscreen; picture-in-picture"
               allowFullScreen
             />

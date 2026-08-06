@@ -44,6 +44,7 @@
 
 .loading-frame {
   position: relative;
+  container-type: inline-size;
   width: clamp(170px, 15vw, 240px);
   aspect-ratio: .67;
   border: 1px solid #4b4b4b;
@@ -59,18 +60,14 @@
 
 .loading-logo {
   position: absolute;
-  top: 10px;
-  left: 50%;
-  width: max-content;
-  font: 600 clamp(20px, 2vw, 31px)/1 'Gilroy', sans-serif;
-  letter-spacing: .40em;
-  transform: translateX(-50%);
-}
-
-.loading-logo small {
-  font: inherit;
-  font-size: .68em;
-  letter-spacing: -.04em;
+  top: 12px;
+  left: 8px;
+  right: 8px;
+  width: auto;
+  text-align: center;
+  font: 600 clamp(14px, 8cqi, 20px)/1.15 'Gilroy', sans-serif;
+  letter-spacing: .1em;
+  text-transform: uppercase;
 }
 
 .loading-tagline {

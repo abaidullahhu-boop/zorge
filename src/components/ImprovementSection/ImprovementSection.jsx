@@ -143,17 +143,16 @@ function ImprovementSection() {
       <div className="improvement-slide" ref={slideRef}>
         <div className="improvement-intro-row">
           <p className="improvement-intro">
-            Rustling tree crowns, flower beds and a sculptural fountain that
-            refreshes on hot days, scattering sun-drenched spray. A cozy place
-            to relax, surrounded by premium greenery brought from the best
-            German nurseries.
+            Choosing Dayim Developers means choosing a partner committed to your
+            future. We empower the next generation through innovation,
+            leadership, and opportunity.
           </p>
         </div>
 
         <div className="improvement-title-row">
           <h2 id="improvement-title" className="improvement-title">
-            <span className="improvement-title-line">PRIVATE</span>
-            <span className="improvement-title-line">2-ACRE PARK</span>
+            <span className="improvement-title-line">SECURE</span>
+            <span className="improvement-title-line">INVESTMENT</span>
           </h2>
         </div>
 
@@ -180,9 +179,9 @@ function ImprovementSection() {
         <div className="improvement-copy-row">
           <p className="improvement-copy">
             <span className="improvement-copy-offset" aria-hidden="true" />
-            Fresh air and birdsong will lead you to your own park. Here, lush
-            maple trees rustle in the wind and birch branches sway gently. The
-            nature of free time is embodied in the freedom of your plans.
+            We create developments that offer strong long-term value, making every
+            investment a step toward a more secure future. At Dayim Developers, we
+            create communities where people can live, grow, and thrive.
           </p>
         </div>
 

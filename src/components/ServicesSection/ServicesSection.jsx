@@ -8,27 +8,27 @@ import '../../assets/styles/ServicesSection.css'
 const SERVICES = [
   {
     id: 'elevator',
-    title: 'digital elevator',
+    title: 'Growth Through People',
     image: services1,
     width: 720,
     height: 900,
-    text: 'The intelligent system can independently determine when the resident is returning home and call the lift to the correct floor.',
+    text: 'We believe in empowering young talent, fostering leadership, and creating opportunities for future generations.',
   },
   {
     id: 'control',
-    title: 'Home control center',
+    title: 'Trust',
     image: services2,
     width: 720,
     height: 900,
-    text: 'Video cameras in the complex send data to a single control room, while the Alpha Open software platform collects and processes data on the operation of engineering communications.',
+    text: 'Every relationship is built on credibility, accountability, and long-term commitment.',
   },
   {
     id: 'bellman',
-    title: 'Bellman service',
+    title: 'Trusted Leadership',
     image: services3,
     width: 720,
     height: 900,
-    text: 'Take the first step into your new home with ease and confidence. We will provide professional support in arranging official registration, accompanying you at every stage.',
+    text: 'Founded on a journey of dedication, vision, and integrity, our leadership brings years of industry experience and a passion for excellence.',
   },
 ]
 

@@ -1,4 +1,4 @@
-# Zorge №9
+#  Dayim Developers
 
 Premium residence marketing site — React + Vite.
 
@@ -59,7 +59,7 @@ Upload the contents of `dist/` after `npm run build`. Example Nginx:
 server {
   listen 80;
   server_name example.com;
-  root /var/www/zorge;
+  root /var/www/zrge;
   index index.html;
 
   location /assets/ {

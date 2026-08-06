@@ -250,9 +250,9 @@ function FitnessSection() {
 
           <div className="fitness-panel fitness-panel--title">
             <h2 id="fitness-title" className="fitness-title">
-              <span className="fitness-title-line">FITNESS CLUB</span>
-              <span className="fitness-title-line">WITH A 25m</span>
-              <span className="fitness-title-line">SWIMMING POOL</span>
+              <span className="fitness-title-line">WHY CHOOSE</span>
+              <span className="fitness-title-line">DAYIM</span>
+              <span className="fitness-title-line">DEVELOPERS?</span>
             </h2>
           </div>
 
@@ -272,12 +272,9 @@ function FitnessSection() {
 
           <div className="fitness-panel fitness-panel--text-3 fitness-panel--align-end">
             <p className="fitness-copy">
-              Sport and luxury combine in the design of the spacious 25-meter
-              swimming pool with 3 lanes. Crystal clear water, soft comfortable
-              sun loungers, light that dissolves the contours. An active workout
-              in sporty chic style, relaxed relaxation with a detox cocktail, or
-              meditation to the gentle sound of waves — what appeals to you
-              today?
+              Choosing Dayim Developers means choosing a partner committed to
+              your future. We are committed to delivering projects with premium
+              quality and timely execution.
             </p>
           </div>
 
@@ -304,9 +301,8 @@ function FitnessSection() {
               <ParallaxImage src={fitness3} width={360} height={420} />
             </div>
             <p className="fitness-copy fitness-copy--after-image">
-              The soothing scent of wood and the crackling of hot stones in the
-              sauna restore your strength and create a resort atmosphere any day
-              you wish.
+              Maintaining complete transparency and integrity in every
+              transaction is at the core of how we work with every client.
             </p>
           </div>
 
@@ -317,10 +313,8 @@ function FitnessSection() {
 
           <div className="fitness-panel fitness-panel--text-3 fitness-panel--middle">
             <p className="fitness-copy fitness-copy--large">
-              Smart trainers with artificial intelligence will help you maintain
-              your beauty, strength, and flexibility. Crossovers with horizontal
-              bars, power frames, butterfly machines — here, fitness becomes
-              premium.
+              We create secure and rewarding investment opportunities, building
+              sustainable communities that enhance modern lifestyles.
             </p>
           </div>
 
@@ -341,12 +335,9 @@ function FitnessSection() {
           <div className="fitness-panel fitness-panel--group-8">
             <div className="fitness-group-text">
               <p className="fitness-copy">
-                Feel ironclad confidence and knock out all doubts about your own
-                abilities. What does it take? Just head down to the boxing gym.
-                Precisely balanced leather punching bags, hanging Thai boxing
-                bags, modern equipment for developing coordination and agility —
-                become not just the best, but the most powerful version of
-                yourself.
+                From your first inquiry to project handover and beyond, we
+                prioritize your satisfaction with responsive, personalized
+                service—a truly customer-centric approach.
               </p>
             </div>
             <div className="fitness-group-image">
@@ -374,10 +365,9 @@ function FitnessSection() {
 
           <div className="fitness-panel fitness-panel--text-3 fitness-panel--align-end">
             <p className="fitness-copy fitness-copy--large">
-              The yoga studio offers a smooth transition to relaxation, bringing
-              your mind and body into harmony. Soft lighting, the relaxing voice
-              of the instructor, and the calm rhythm of the movements will help
-              you find your balance.
+              Our projects feature contemporary architecture, smart planning, and
+              lifestyle-focused amenities designed for today&apos;s families and
+              investors.
             </p>
           </div>
 

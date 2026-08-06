@@ -133,7 +133,7 @@ function App() {
           footerRect.top <= wordmarkTop &&
           footerRect.bottom > wordmarkTop,
       )
-      // Hide ZORGE only while apartments alone is under the wordmark —
+      // Hide DAYIM only while apartments alone is under the wordmark —
       // Improvement / Services / Penthouses cover this pin and keep the logo visible.
       const isOnApartments = Boolean(
         apartmentsRect &&
@@ -156,14 +156,14 @@ function App() {
       )
       // Fitness sticky is transparent at first (leading spacer). Only treat it
       // as a light slide once the white panels reach under the wordmark —
-      // otherwise ZORGE flips black while still on the dark advantages card.
+      // otherwise DAYIM flips black while still on the dark advantages card.
       const fitnessSectionActive = Boolean(
         fitnessRect &&
           fitnessRect.top <= wordmarkTop &&
           fitnessRect.bottom > wordmarkTop &&
           !isOnInfrastructure,
       )
-      // Infra hero rides inside the Fitness track — once it covers ZORGE,
+      // Infra hero rides inside the Fitness track — once it covers DAYIM,
       // switch to the dark (white wordmark) treatment.
       let isOnFitnessInfra = false
       if (fitnessSectionActive && fitnessInfra) {
@@ -192,7 +192,7 @@ function App() {
       } else {
         wordmarkRail.style.removeProperty('--fitness-clip')
       }
-      // Fitness (light) sits above advantages (dark) when white is under ZORGE.
+      // Fitness (light) sits above advantages (dark) when white is under DAYIM.
       // Infra hero (Fitness track / mobile hero) stays dark; the split panel is light.
       const isOnDarkSlide = Boolean(
         (isOnGallery ||
@@ -258,11 +258,11 @@ function App() {
         if (!(el instanceof Element)) return
         el.scrollIntoView({ behavior: 'auto', block: 'start' })
       }
-      window.addEventListener('zorge:scroll-top', handleScrollTop)
-      window.addEventListener('zorge:scroll-to', handleScrollTo)
+      window.addEventListener('dayim:scroll-top', handleScrollTop)
+      window.addEventListener('dayim:scroll-to', handleScrollTo)
       return () => {
-        window.removeEventListener('zorge:scroll-top', handleScrollTop)
-        window.removeEventListener('zorge:scroll-to', handleScrollTo)
+        window.removeEventListener('dayim:scroll-top', handleScrollTop)
+        window.removeEventListener('dayim:scroll-to', handleScrollTo)
       }
     }
 
@@ -271,7 +271,7 @@ function App() {
       smoothWheel: true,
       wheelMultiplier: 0.65,
     })
-    window.__zorgeLenis = lenis
+    window.__dayimLenis = lenis
 
     lenis.on('scroll', ScrollTrigger.update)
 
@@ -519,8 +519,8 @@ function App() {
       })
     }
 
-    window.addEventListener('zorge:scroll-top', handleScrollTop)
-    window.addEventListener('zorge:scroll-to', handleScrollTo)
+    window.addEventListener('dayim:scroll-top', handleScrollTop)
+    window.addEventListener('dayim:scroll-to', handleScrollTo)
 
     const lenisTicker = (time) => {
       lenis.raf(time * 1000)
@@ -533,47 +533,31 @@ function App() {
 
     return () => {
       window.clearTimeout(snapTimeout)
-      window.removeEventListener('zorge:scroll-top', handleScrollTop)
-      window.removeEventListener('zorge:scroll-to', handleScrollTo)
+      window.removeEventListener('dayim:scroll-top', handleScrollTop)
+      window.removeEventListener('dayim:scroll-to', handleScrollTo)
       lenis.off('scroll', ScrollTrigger.update)
       lenis.off('virtual-scroll', snapSections)
       ScrollTrigger.removeEventListener('refresh', handleScrollTriggerRefresh)
       gsap.ticker.remove(lenisTicker)
       ScrollTrigger.scrollerProxy(document.documentElement, {})
       lenis.destroy()
-      if (window.__zorgeLenis === lenis) delete window.__zorgeLenis
+      if (window.__dayimLenis === lenis) delete window.__dayimLenis
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
     }
   }, [])
 
   return (
-    <main className="zorge-page" id="top">
+    <main className="dayim-page" id="top">
       <ScrollIndicator />
       <LoadingScreen onHidden={handleIntroHidden} />
       <HeroSection introReady={introReady} />
       <div className="about-wordmark-rail" aria-hidden="true">
         <div className="about-wordmark">
           <p className="about-wordmark-layer">
-            <span>ZORGE</span>
-            <small className="about-wordmark-no">
-              <span className="about-wordmark-n">N</span>
-              <span className="about-wordmark-mark">
-                <span className="about-wordmark-mark-ring">º</span>
-                <span className="about-wordmark-mark-dot" />
-              </span>
-              <span>9</span>
-            </small>
+            <span>DAYIM DEVELOPERS</span>
           </p>
           <p className="about-wordmark-layer about-wordmark-layer--dark">
-            <span>ZORGE</span>
-            <small className="about-wordmark-no">
-              <span className="about-wordmark-n">N</span>
-              <span className="about-wordmark-mark">
-                <span className="about-wordmark-mark-ring">º</span>
-                <span className="about-wordmark-mark-dot" />
-              </span>
-              <span>9</span>
-            </small>
+            <span>DAYIM DEVELOPERS</span>
           </p>
         </div>
       </div>

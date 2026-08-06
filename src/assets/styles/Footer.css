@@ -84,16 +84,18 @@
   text-decoration: none;
 }
 
+.site-footer-logo-text {
+  margin: 0;
+  font: 600 clamp(18px, 2.4vw, 28px) / 1 'Gilroy', sans-serif;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .footer-icon {
   display: block;
   color: currentColor;
   fill: none;
-}
-
-.footer-icon--logo {
-  width: 100%;
-  height: auto;
-  max-height: clamp(19px, 1.8vw, 19px);
 }
 
 .site-footer-credit {

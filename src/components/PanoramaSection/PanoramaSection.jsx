@@ -1,11 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from '../../lib/gsap'
+import panoramaImageDesktop from '../../assets/images/panorama/panorama-desktop.webp'
+import panoramaImageMobile from '../../assets/images/panorama/panorama-mobile.webp'
 import '../../assets/styles/PanoramaSection.css'
-
-const panoramaImageDesktop =
-  'https://zorge9.estate/media/cache/homepage_panorama_bg_xxxl/uploads/39/page_7_1_11_1_1777564172.webp'
-const panoramaImageMobile =
-  'https://zorge9.estate/media/cache/homepage_panorama_bg_xs/uploads/39/page_7_1_11_1_1_1777564634.webp'
 
 function PanoramaSection() {
   const [isVisible, setIsVisible] = useState(false)
@@ -97,15 +94,17 @@ function PanoramaSection() {
           <hr className="panorama-rule" />
 
           <h2 id="panorama-title" className="panorama-kicker">
-            It&apos;s a world that
+            Building Tomorrow.
             <br />
-            adapts to you
+            Setting New Standards.
           </h2>
 
           <p className="panorama-copy">
-            It is not just a trio of luxurious buildings and the premium service
-            of a grand hotel. It is a home where reality plays by your rules and
-            follows your desires.
+            At Dayim Developers, our vision is to redefine the future of real
+            estate by setting new benchmarks in innovation, quality, and trust.
+            We aspire to create iconic developments that inspire confidence,
+            enrich communities, and deliver lasting value for generations to
+            come.
           </p>
         </div>
       </div>
