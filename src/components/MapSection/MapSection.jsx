@@ -44,7 +44,7 @@ const places = [
 const metroStops = [
   { label: 'Polezhaevskaya and Khoroshevskaya — 7 min walk', x: 65, y: 70.29 },
   { label: 'Khoroshevo — 10 min walk', x: 57.86, y: 71.52 },
-  { label: 'Zorge — 7 min walk', x: 55.41, y: 50.23 },
+  { label: 'Dayim — 7 min walk', x: 55.41, y: 50.23 },
   { label: 'Oktiabrskoe Pole — 21 min walk', x: 49.8, y: 46.25 },
   { label: 'Panfilovskaya — 24 min walk', x: 53.67, y: 38.59 },
 ]
@@ -166,8 +166,8 @@ function MapSection() {
           <span className="map-place map-place--historical">Historical park</span>
           <span className="map-place map-place--landscape">Landscape park</span>
 
-          <span className="map-house" aria-label="Zorge number nine">
-            <span>Nº9</span>
+          <span className="map-house" aria-label="Dayim Developers">
+            <span>DD</span>
           </span>
         </div>
       </div>

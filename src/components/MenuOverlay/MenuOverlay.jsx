@@ -5,6 +5,7 @@ import '../../assets/styles/MenuOverlay.css'
 const ICONS = '/assets/images/icons.svg'
 
 const MENU_LINKS = [
+  { label: 'About Us', href: '#about' },
   { label: 'Location', href: '#location' },
   { label: 'Design', href: '#architecture' },
   { label: 'Infrastructure', href: '#infrastructure' },
@@ -43,7 +44,7 @@ function scrollToTarget(selector) {
   if (!target) return
 
   window.dispatchEvent(
-    new CustomEvent('zorge:scroll-to', {
+    new CustomEvent('dayim:scroll-to', {
       detail: { el: target },
     }),
   )
@@ -108,15 +109,7 @@ function MenuOverlay({ open, onClose }) {
             onClick={onClose}
           >
             <span className="menu-overlay__logo-mark" aria-hidden="true">
-              <span>ZORGE</span>
-              <small className="menu-overlay__logo-no">
-                <span className="menu-overlay__logo-n">N</span>
-                <span className="menu-overlay__logo-ordinal">
-                  <span className="menu-overlay__logo-ring">º</span>
-                  <span className="menu-overlay__logo-dot" />
-                </span>
-                <span>9</span>
-              </small>
+              <span>DAYIM DEVELOPERS</span>
             </span>
           </button>
 
@@ -169,15 +162,7 @@ function MenuOverlay({ open, onClose }) {
               onClick={onClose}
             >
               <span className="menu-overlay__mobile-logo-mark" aria-hidden="true">
-                <span>ZORGE</span>
-                <small className="menu-overlay__logo-no">
-                  <span className="menu-overlay__logo-n">N</span>
-                  <span className="menu-overlay__logo-ordinal">
-                    <span className="menu-overlay__logo-ring">º</span>
-                    <span className="menu-overlay__logo-dot" />
-                  </span>
-                  <span>9</span>
-                </small>
+                <span>DAYIM DEVELOPERS</span>
               </span>
             </button>
 

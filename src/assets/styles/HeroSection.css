@@ -4,7 +4,7 @@
   height: 200svh;
 }
 
-.zorge-hero {
+.dayim-hero {
   position: sticky;
   top: 0;
   z-index: 0;
@@ -17,7 +17,7 @@
   will-change: transform;
 }
 
-.zorge-hero::after {
+.dayim-hero::after {
   position: absolute;
   z-index: 2;
   inset: 0;
@@ -42,7 +42,7 @@
 }
 
 .building__layer--primary {
-  --building-image: url('/assets/images/zorge-building.png');
+  --building-image: url('/assets/images/dayim-building.png');
   z-index: 0;
 }
 
@@ -52,7 +52,7 @@
   opacity: 0;
 }
 
-.zorge-hero.is-intro-ready .building__layer--alt {
+.dayim-hero.is-intro-ready .building__layer--alt {
   animation: building-swap 18s 2.5s ease-in-out infinite;
 }
 
@@ -73,7 +73,7 @@
   transform: translateX(var(--model-start-x));
 }
 
-.zorge-hero.is-intro-ready .hero-model {
+.dayim-hero.is-intro-ready .hero-model {
   animation: model-in 2s cubic-bezier(.45, 0, .2, 1) both;
 }
 
@@ -81,8 +81,9 @@
   position: relative;
   z-index: 5;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: flex-start;
+  gap: clamp(14px, 1.6vw, 28px);
   padding: 1.4vw 1.55vw;
 }
 
@@ -105,7 +106,7 @@
   transform: translateY(110%);
 }
 
-.zorge-hero.is-intro-ready .hero-title-line > span {
+.dayim-hero.is-intro-ready .hero-title-line > span {
   /* Wait for loading clip (~1s) so the slide-up is visible, not finished behind the overlay */
   animation: hero-text-in 1s 1.05s cubic-bezier(.2, .75, .2, 1) both;
 }
@@ -221,10 +222,9 @@
 }
 
 .scroll-cue {
-  position: absolute;
+  position: relative;
   z-index: 3;
-  top: 20.5%;
-  left: 1.55vw;
+  flex-shrink: 0;
   width: 16px;
   height: 40px;
   padding: 0;
@@ -350,20 +350,23 @@
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  gap: 0;
   box-sizing: border-box;
   width: 100%;
   margin: 0;
-  padding-right: clamp(15px, 2vw, 30px);
-  padding-left: clamp(15px, 2vw, 30px);
+  padding-right: clamp(12px, 1.4vw, 22px);
+  padding-left: clamp(12px, 1.4vw, 22px);
   color: #a0725b;
-  font: 600 max(90px, 17vw)/.82 'Gilroy', sans-serif;
+  /* Large enough that left/right words nearly touch in the middle */
+  font: 600 calc((100vw - 40px) / 9) / .9 'Gilroy', sans-serif;
+  letter-spacing: 0.01em;
   white-space: nowrap;
   text-transform: uppercase;
   opacity: 0;
   transform: translateY(110%);
 }
 
-.zorge-hero.is-intro-ready .intro__logo {
+.dayim-hero.is-intro-ready .intro__logo {
   animation: wordmark-in 1.2s 1.85s cubic-bezier(.2, .75, .2, 1) both;
 }
 
@@ -465,7 +468,7 @@
 
 /* Mobile + tablet only — desktop layout above stays unchanged */
 @media (max-width: 1024px) {
-  .zorge-hero::after {
+  .dayim-hero::after {
     box-shadow: inset 0 -70px 55px -20px rgb(0 0 0 / 70%);
   }
 
@@ -518,11 +521,6 @@
     object-position: bottom center;
   }
 
-  .scroll-cue {
-    top: min(24%, 168px);
-    left: 20px;
-  }
-
   .intro__logo {
     z-index: 5;
     bottom: 0;
@@ -530,9 +528,10 @@
     box-sizing: border-box;
     width: 100%;
     max-width: 100%;
-    padding: 0 22px 18px;
-    font-size: clamp(34px, 10.5vw, 78px);
-    line-height: .82;
+    padding: 0 14px 18px;
+    font-size: calc((100vw - 28px) / 8);
+    line-height: .9;
+    letter-spacing: 0.03em;
     color: #a0725b;
   }
 }
@@ -554,8 +553,8 @@
   }
 
   .intro__logo {
-    padding: 0 20px 16px;
-    font-size: clamp(32px, 10.2vw, 58px);
+    padding: 0 12px 16px;
+    font-size: calc((100vw - 24px) / 8);
   }
 }
 
@@ -569,7 +568,7 @@
     transition-duration: .01ms !important;
   }
 
-  .zorge-hero.is-intro-ready .building__layer--alt {
+  .dayim-hero.is-intro-ready .building__layer--alt {
     animation: none;
     opacity: 0;
   }

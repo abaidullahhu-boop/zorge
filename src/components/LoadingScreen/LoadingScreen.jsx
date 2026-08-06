@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import '../../assets/styles/LoadingScreen.css'
 
-const SCROLL_KEY = 'zorge-scroll-y'
+const SCROLL_KEY = 'dayim-scroll-y'
 
 function readScrollHint() {
   try {
@@ -13,7 +13,7 @@ function readScrollHint() {
   } catch {
     /* private mode / blocked storage */
   }
-  return window.__zorgeLenis?.scroll ?? window.scrollY ?? window.pageYOffset ?? 0
+  return window.__dayimLenis?.scroll ?? window.scrollY ?? window.pageYOffset ?? 0
 }
 
 function isAtHeroSection(scrollY = readScrollHint()) {
@@ -24,7 +24,7 @@ function isAtHeroSection(scrollY = readScrollHint()) {
 
 function persistScroll() {
   try {
-    const y = window.__zorgeLenis?.scroll ?? window.scrollY ?? 0
+    const y = window.__dayimLenis?.scroll ?? window.scrollY ?? 0
     sessionStorage.setItem(SCROLL_KEY, String(Math.round(y)))
   } catch {
     /* ignore */
@@ -41,7 +41,7 @@ function LoadingScreen({ onHidden }) {
   useEffect(() => {
     const syncHeroState = () => {
       if (exitMode) return
-      const y = window.__zorgeLenis?.scroll ?? window.scrollY ?? 0
+      const y = window.__dayimLenis?.scroll ?? window.scrollY ?? 0
       // Prefer the larger of saved vs live so mid-page restore wins over a stale 0.
       let saved = 0
       try {
@@ -118,14 +118,16 @@ function LoadingScreen({ onHidden }) {
         className={`loading-screen ${hiddenClass}`.trim()}
         aria-hidden={!visible}
       >
-        <div className="loading-frame" role="status" aria-label="Loading Zorge">
+        <div className="loading-frame" role="status" aria-label="Loading Dayim Developers">
           <span className="loading-logo">
-            ZORGE <small>Nº9</small>
+            DAYIM
+            <br />
+            DEVELOPERS
           </span>
           <span className="loading-tagline">
-            The luxury
+            Building Tomorrow.
             <br />
-            of experience
+            Setting New Standards.
           </span>
         </div>
       </div>

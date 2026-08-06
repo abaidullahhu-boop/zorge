@@ -89,7 +89,7 @@ function HeroSection({ introReady = false }) {
       <div className="hero-scroll-frame" ref={frameRef}>
         <section
           ref={heroRef}
-          className={`zorge-hero${introReady ? ' is-intro-ready' : ''}`}
+          className={`dayim-hero${introReady ? ' is-intro-ready' : ''}`}
           aria-labelledby="hero-title"
         >
         <div className="building" aria-hidden="true">
@@ -106,49 +106,38 @@ function HeroSection({ introReady = false }) {
         <header className="hero-header">
           <h1 id="hero-title">
             <span className="hero-title-line">
-              <span>Premium residence —</span>
+              <span>Building Trust.</span>
             </span>
             <span className="hero-title-line">
-              <span>the embodiment of your</span>
+              <span>Creating Lifestyles.</span>
             </span>
             <span className="hero-title-line">
-              <span>status</span>
+              <span>Shaping the Future.</span>
             </span>
           </h1>
+
+          <button
+            className="scroll-cue"
+            type="button"
+            aria-label="Scroll to explore"
+            onClick={() => {
+              document.querySelector('#about')?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+              })
+            }}
+          >
+            <span className="scroll-cue__line" aria-hidden="true" />
+            <span className="scroll-cue__head" aria-hidden="true">
+              <span className="scroll-cue__arm scroll-cue__arm--left" />
+              <span className="scroll-cue__arm scroll-cue__arm--right" />
+            </span>
+          </button>
         </header>
 
-        <button
-          className="scroll-cue"
-          type="button"
-          aria-label="Scroll to explore"
-          onClick={() => {
-            document.querySelector('#about')?.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start',
-            })
-          }}
-        >
-          <span className="scroll-cue__line" aria-hidden="true" />
-          <span className="scroll-cue__head" aria-hidden="true">
-            <span className="scroll-cue__arm scroll-cue__arm--left" />
-            <span className="scroll-cue__arm scroll-cue__arm--right" />
-          </span>
-        </button>
-
-        <p className="intro__logo" aria-label="Zorge number nine">
-          <span aria-hidden="true">Z</span>
-          <span aria-hidden="true">O</span>
-          <span aria-hidden="true">R</span>
-          <span aria-hidden="true">G</span>
-          <span aria-hidden="true">E</span>
-          <span className="intro__logo-no" aria-hidden="true">
-            <span className="intro__logo-n">N</span>
-            <span className="intro__logo-mark">
-              <span className="intro__logo-mark-ring">º</span>
-              <span className="intro__logo-mark-dot" />
-            </span>
-            <span>9</span>
-          </span>
+        <p className="intro__logo" aria-label="Dayim Developers">
+          <span aria-hidden="true">DAYIM</span>
+          <span aria-hidden="true">DEVELOPERS</span>
         </p>
       </section>
       </div>
@@ -161,7 +150,7 @@ function HeroSection({ introReady = false }) {
             const target = document.querySelector('#apartments')
             if (!target) return
             window.dispatchEvent(
-              new CustomEvent('zorge:scroll-to', { detail: { el: target } }),
+              new CustomEvent('dayim:scroll-to', { detail: { el: target } }),
             )
           }}
         >

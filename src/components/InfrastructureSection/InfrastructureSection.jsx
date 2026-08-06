@@ -9,27 +9,27 @@ import '../../assets/styles/InfrastructureSection.css'
 const ITEMS = [
   {
     id: 'restaurant',
-    titleLines: ['Restaurant', 'and bar'],
+    titleLines: ['Premium Construction', 'Quality'],
     image: infrastructure1,
     width: 924,
     height: 728,
-    text: 'The captivatingly beautiful restaurant will win you over with its signature dishes and carefully curated wine collection. Here, time stands still so you can fully immerse yourself in your senses.',
+    text: 'We build with precision, using high-quality materials and modern engineering standards to ensure lasting value.',
   },
   {
     id: 'beauty',
-    titleLines: ['Beauty salon'],
+    titleLines: ['Complete', 'Transparency'],
     image: infrastructure2,
     width: 924,
     height: 728,
-    text: 'Bright beauty trends and new classics, Hollywood curls and creative coloring, “blogger” manicures and professional facial care — the masters at Beauty salon can do it all and even more.',
+    text: 'Every investment is backed by honest communication, clear processes, and ethical business practices.',
   },
   {
     id: 'spa',
-    titleLines: ['spa & grooming'],
+    titleLines: ['On-Time', 'Delivery'],
     image: infrastructure3,
     width: 924,
     height: 728,
-    text: "Want to treat your furry friend to a creative haircut or spa? Pet care is easier with professional grooming. Save time and energy — everything you need for your friend's comfort is within walking distance.",
+    text: 'We understand the value of time and remain committed to delivering projects as promised.',
   },
 ]
 

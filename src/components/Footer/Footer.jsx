@@ -1,7 +1,5 @@
 import '../../assets/styles/Footer.css'
 
-const ICONS = '/assets/images/icons.svg'
-
 function LongArrowUp() {
   return (
     <svg
@@ -25,7 +23,7 @@ function LongArrowUp() {
 function Footer() {
   const scrollToTop = (event) => {
     event.preventDefault()
-    window.dispatchEvent(new CustomEvent('zorge:scroll-top'))
+    window.dispatchEvent(new CustomEvent('dayim:scroll-top'))
   }
 
   return (
@@ -44,23 +42,17 @@ function Footer() {
       </div>
 
       <div className="site-footer-row">
-        <p className="site-footer-copy">© 2026 Zorge №9</p>
+        <p className="site-footer-copy">© 2026 Dayim Developers</p>
 
         <a
           className="site-footer-logo"
           href="#top"
-          aria-label="Scroll to top of the page"
+          aria-label="Dayim Developers — scroll to top"
           onClick={scrollToTop}
         >
-          <svg
-            className="footer-icon footer-icon--logo"
-            width="673"
-            height="87"
-            aria-hidden="true"
-            viewBox="0 0 673 87"
-          >
-            <use href={`${ICONS}#logo`} />
-          </svg>
+          <span className="site-footer-logo-text" aria-hidden="true">
+            Dayim Developers
+          </span>
         </a>
 
         <div className="site-footer-credit">

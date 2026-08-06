@@ -10,12 +10,9 @@ import collection6 from '../../assets/images/collection6.png'
 import collection8 from '../../assets/images/collection8.png'
 import gallery1 from '../../assets/images/gallery1.png'
 import gallery2 from '../../assets/images/gallery2.png'
+import galleryImageLeft from '../../assets/images/architecture/image-2.webp'
+import galleryImageRight from '../../assets/images/architecture/image-3.webp'
 import '../../assets/styles/ArchitectureSection.css'
-
-const galleryImageLeft =
-  'https://zorge9.estate/assets/images/media/landing/6.style/image-2@md.webp'
-const galleryImageRight =
-  'https://zorge9.estate/assets/images/media/landing/6.style/image-3@md.webp'
 
 const decorLayers = [
   { src: collection1, vmin: 2, isBase: true, zIndex: 1 },
@@ -190,9 +187,9 @@ function ArchitectureSection() {
         <div className="architecture-intro-row">
           <p className="architecture-intro">
             <span className="architecture-intro-offset" aria-hidden="true" />
-            Three buildings in&nbsp;the&nbsp;style of&nbsp;elegant New York
-            skyscrapers reflect the&nbsp;perfect combination of&nbsp;sophistication
-            and a&nbsp;modern approach to&nbsp;life.
+            What began as a journey in real estate consultancy evolved into a
+            trusted marketing company and has now grown into a dynamic real
+            estate development firm.
           </p>
         </div>
 
@@ -207,11 +204,11 @@ function ArchitectureSection() {
 
         <div className="architecture-subhead-row">
           <p className="architecture-subhead">
-            Panoramic windows
+            Innovation, quality,
             <br />
-            and architectural
+            and trust in every
             <br />
-            lighting
+            development
           </p>
         </div>
 
@@ -237,7 +234,7 @@ function ArchitectureSection() {
           <p className="architecture-gallery-caption">
             Premium
             <br />
-            materials
+            construction
           </p>
         </div>
 
@@ -251,10 +248,10 @@ function ArchitectureSection() {
 
         <div className="architecture-copy-row">
           <p className="architecture-copy">
-            Luxury is embodied in every detail of the finishing materials. It is
-            imprinted in the delicate pattern of the porcelain stoneware, fused
-            into the gold of the frames, and interspersed in the crystal
-            waterfall of the chandeliers.
+            Led by our CEO, Waleed Ahmad, Dayim Developers is driven by the
+            belief that real estate is more than constructing buildings—it&apos;s
+            about creating communities, improving lifestyles, and delivering
+            long-term value.
           </p>
         </div>
 

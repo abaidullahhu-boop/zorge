@@ -178,16 +178,13 @@ function ApartmentsSection() {
         </div>
         <div className="apartments-mobile-hero-content">
           <h2 id="apartments-title-mobile" className="apartments-hero-title">
-            <span>SPLENDID</span>
-            <span>APARTMENTS</span>
+            <span>MODERN</span>
+            <span>DEVELOPMENTS</span>
           </h2>
           <p className="apartments-hero-copy">
-            Refined finishes, neoclassical furniture, and beauty imprinted in
-            every detail—the atmosphere of these apartments makes you want to
-            immerse yourself in them again and again. These apartments offer
-            breathtaking views of the capital&apos;s magnificent buildings,
-            which transform into a watercolor landscape on the wall of your
-            living room.
+            Empowering the next generation through innovation, leadership, and
+            opportunity. We don&apos;t just build properties—we build confidence,
+            opportunities, and a better future for generations to come.
           </p>
         </div>
       </div>
@@ -196,7 +193,7 @@ function ApartmentsSection() {
         <div className="apartments-slide">
           <div className="apartments-content">
             <h2 id="apartments-title" className="apartments-sr-only">
-              Splendid Apartments
+              Modern Developments
             </h2>
 
             <div
@@ -291,8 +288,8 @@ function ApartmentsSection() {
             />
             <div className="apartments-image-title">
               <p className="apartments-hero-title">
-                <span>SPLENDID</span>
-                <span>APARTMENTS</span>
+                <span>MODERN</span>
+                <span>DEVELOPMENTS</span>
               </p>
             </div>
           </div>

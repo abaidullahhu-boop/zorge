@@ -201,18 +201,17 @@ function PenthousesSection() {
 
             <div className="penthouses-hero-content" ref={heroContentRef}>
               <h2 id="penthouses-title" className="penthouses-hero-title">
-                <span className="penthouses-hero-title-line">PENTHOUSES</span>
+                <span className="penthouses-hero-title-line">BUILDING TRUST.</span>
                 <span className="penthouses-hero-title-line">
-                  WITH GLASS ROOFS
+                  CREATING LIFESTYLES.
                 </span>
               </h2>
 
               <div className="penthouses-hero-copy-row">
                 <p className="penthouses-hero-copy">
-                  Climb to the top, gaze at the sky that has become much closer,
-                  and take your place among the stars. Penthouse owners have
-                  access to all dimensions: the height of the horizon, the width
-                  of the panorama, and the length of the admiring gaze.
+                  Dayim Developers — Building Trust. Creating Lifestyles. Shaping
+                  the Future. At Dayim Developers, we create communities where
+                  people can live, grow, and thrive.
                 </p>
               </div>
             </div>
@@ -234,10 +233,9 @@ function PenthousesSection() {
           <div className="penthouses-lead-row">
             <p className="penthouses-lead">
               <span className="penthouses-lead-offset" aria-hidden="true" />
-              SUNBEAMS LIGHT UP THE TRANSPARENT WINDOWS ABOVE YOUR HEAD AND
-              REFLECT THE COLORS OF THE SUNSET. With high ceilings and elegant
-              decor, penthouses give you the feeling of flying over the luxurious
-              landscape of your own life.
+              WE CREATE DEVELOPMENTS THAT OFFER STRONG LONG-TERM VALUE. Every
+              development reflects our commitment to trust, excellence, and
+              sustainable growth for generations to come.
             </p>
           </div>
         </div>
@@ -294,10 +292,9 @@ function PenthousesSection() {
             </p>
             <p className="penthouses-terrace-copy">
               <span className="penthouses-terrace-offset" aria-hidden="true" />
-              This is not just a place to relax, it&apos;s an extension of your
-              home where you can realise your bold ideas for creating a garden,
-              a space for evening gatherings or a place to enjoy peace and quiet
-              under the stars.
+              Building More Than Properties — at Dayim Developers, we create
+              communities where people can live, grow, and thrive. Shaping the
+              Future starts with every home we deliver.
             </p>
           </div>
         </div>

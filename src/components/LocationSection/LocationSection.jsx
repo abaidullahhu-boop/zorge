@@ -220,18 +220,19 @@ function LocationSection() {
           <img
             className="location-image"
             src={locationHero}
-            alt="A resident arriving at Zorge No. 9 in a luxury car"
+            alt="A resident arriving at a Dayim Developers property"
           />
         </div>
 
         <p className="location-kicker">
-          <span>Privilege of Location</span>
+          <span>Building More Than Properties</span>
         </p>
 
         <p className="location-intro">
           <span className="location-intro-offset" aria-hidden="true" />
-          City skyscrapers and iconic landmarks are at your feet. The capital
-          unfolds before you like a grand bouquet of endless opportunities.
+          Dayim Developers was founded with a vision to transform Pakistan&apos;s
+          real estate industry through innovation, transparency, and
+          uncompromising quality.
         </p>
       </div>
 

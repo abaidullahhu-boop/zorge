@@ -132,16 +132,18 @@ function LobbySection() {
           <div className="lobby-content" ref={contentRef}>
             <div className="lobby-title-wrap">
               <h2 id="lobby-title" className="lobby-title">
-                <span className="lobby-title-line">The Luxury</span>
-                <span className="lobby-title-line">of Experience</span>
+                <span className="lobby-title-line">Our Vision</span>
+                <span className="lobby-title-line">Our Mission</span>
               </h2>
             </div>
 
             <div className="lobby-copy-row">
               <p className="lobby-copy">
-                The sophisticated design of the lobby is inspired by the
-                interiors of famous grand hotels: two-meter mirrors, dark glossy
-                stone walls, crystal waterfall chandeliers.
+                Our mission is to develop high-quality residential and commercial
+                communities that exceed expectations in design, construction, and
+                customer experience. Our purpose extends beyond constructing
+                buildings—we create modern lifestyles, sustainable communities,
+                and investment opportunities that shape a better future.
               </p>
             </div>
           </div>
