@@ -10,38 +10,38 @@ import '../../assets/styles/TimeSection.css'
 const SCHEDULE = [
   {
     id: 'time-1',
-    time: '07:00',
+    time: 'APR 24',
     hourDegree: -150,
     image: time1,
-    text: 'Today, with multiple successful projects underway, we continue to build spaces that combine modern design, premium construction, and customer-focused planning.',
+    text: 'Construction of Dayim Signature Apartments officially commenced in April 2024.',
   },
   {
     id: 'time-2',
-    time: '08:00',
+    time: '8 MOS',
     hourDegree: -120,
     image: time2,
-    text: 'Every development reflects our commitment to trust, excellence, and sustainable growth. At Dayim Developers, we don\'t just build properties—we build confidence, opportunities, and a better future for generations to come.',
+    text: 'Through disciplined planning, efficient execution, and continuous supervision, we completed the main structural framework within just 8 months.',
   },
   {
     id: 'time-3',
-    time: '11:00',
+    time: 'MAR 26',
     hourDegree: -30,
     image: time3,
-    text: 'Driven by excellence, integrity, and forward-thinking leadership, we are committed to transforming Pakistan\'s real estate landscape through world-class developments, smart infrastructure, and uncompromising construction standards.',
+    text: 'Following the successful development of our project, we proudly handed over possession of our commercial shops in March 2026.',
   },
   {
     id: 'time-4',
-    time: '14:00',
+    time: 'A+',
     hourDegree: 60,
     image: time4,
-    text: 'As we continue to grow, our vision remains clear: to become a trusted name in real estate development, recognized for creating exceptional spaces where people can live, invest, and thrive.',
+    text: 'A+ construction standards are fundamental to our philosophy—durability, structural strength, material quality, finishing standards, and long-term performance.',
   },
   {
     id: 'time-5',
-    time: '21:00',
+    time: 'LIFE',
     hourDegree: 270,
     image: time5,
-    text: 'Through every project, we strive to create lasting value for our customers, investors, employees, and the communities we serve.',
+    text: 'We build with the understanding that a building\'s true value is experienced over many years. Strength. Quality. Safety. Durability. Reliability.',
   },
 ]
 
@@ -276,7 +276,7 @@ function TimeSection() {
       <div className="time-sticky">
         <div className="time-slide" ref={slideRef}>
           <h2 id="time-title" className="time-sr-only">
-            Daily schedule
+            Construction journey
           </h2>
 
           <div className="time-image" ref={imageLayerRef}>

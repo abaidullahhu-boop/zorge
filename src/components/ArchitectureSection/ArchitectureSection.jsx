@@ -181,7 +181,7 @@ function ArchitectureSection() {
     >
       <div className="architecture-slide" ref={slideRef}>
         <h2 id="architecture-title" className="architecture-sr-only">
-          Architecture
+          Our Story
         </h2>
 
         <div className="architecture-intro-row">
@@ -204,11 +204,11 @@ function ArchitectureSection() {
 
         <div className="architecture-subhead-row">
           <p className="architecture-subhead">
-            Innovation, quality,
+            Creating communities,
             <br />
-            and trust in every
+            improving lifestyles,
             <br />
-            development
+            and lasting value
           </p>
         </div>
 
@@ -251,7 +251,10 @@ function ArchitectureSection() {
             Led by our CEO, Waleed Ahmad, Dayim Developers is driven by the
             belief that real estate is more than constructing buildings—it&apos;s
             about creating communities, improving lifestyles, and delivering
-            long-term value.
+            long-term value. Every development reflects our commitment to trust,
+            excellence, and sustainable growth. At Dayim Developers, we don&apos;t
+            just build properties—we build confidence, opportunities, and a
+            better future for generations to come.
           </p>
         </div>
 

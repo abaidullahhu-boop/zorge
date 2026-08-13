@@ -174,7 +174,7 @@ function ServicesSection() {
       <div className="services-sticky">
         <div className="services-slide" ref={slideRef}>
           <h2 id="services-title" className="services-sr-only">
-            Technologies and Services
+            Our Values
           </h2>
 
           <div className="services-image">
@@ -197,9 +197,9 @@ function ServicesSection() {
 
           <div className="services-right">
             <p className="services-section-title" aria-hidden="true">
-              TECHNOLOGIES
+              OUR
               <br />
-              AND SERVICES
+              VALUES
             </p>
 
             <div className="services-content">
@@ -228,9 +228,9 @@ function ServicesSection() {
 
       <div className="services-mobile">
         <p className="services-section-title">
-          TECHNOLOGIES
+          OUR
           <br />
-          AND SERVICES
+          VALUES
         </p>
         {SERVICES.map((item, index) => (
           <article key={item.id} className="services-mobile-card">

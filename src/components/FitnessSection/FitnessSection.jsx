@@ -273,8 +273,9 @@ function FitnessSection() {
           <div className="fitness-panel fitness-panel--text-3 fitness-panel--align-end">
             <p className="fitness-copy">
               Choosing Dayim Developers means choosing a partner committed to
-              your future. We are committed to delivering projects with premium
-              quality and timely execution.
+              your future. Founded on dedication, vision, and integrity, our
+              leadership brings years of industry experience and a passion for
+              excellence.
             </p>
           </div>
 
@@ -301,8 +302,9 @@ function FitnessSection() {
               <ParallaxImage src={fitness3} width={360} height={420} />
             </div>
             <p className="fitness-copy fitness-copy--after-image">
-              Maintaining complete transparency and integrity in every
-              transaction is at the core of how we work with every client.
+              Every investment is backed by honest communication, clear
+              processes, and ethical business practices—complete transparency
+              in every transaction.
             </p>
           </div>
 
@@ -313,8 +315,8 @@ function FitnessSection() {
 
           <div className="fitness-panel fitness-panel--text-3 fitness-panel--middle">
             <p className="fitness-copy fitness-copy--large">
-              We create secure and rewarding investment opportunities, building
-              sustainable communities that enhance modern lifestyles.
+              We create secure and rewarding investment opportunities, and
+              build sustainable communities that enhance modern lifestyles.
             </p>
           </div>
 
@@ -337,7 +339,7 @@ function FitnessSection() {
               <p className="fitness-copy">
                 From your first inquiry to project handover and beyond, we
                 prioritize your satisfaction with responsive, personalized
-                service—a truly customer-centric approach.
+                service.
               </p>
             </div>
             <div className="fitness-group-image">
@@ -365,9 +367,9 @@ function FitnessSection() {
 
           <div className="fitness-panel fitness-panel--text-3 fitness-panel--align-end">
             <p className="fitness-copy fitness-copy--large">
-              Our projects feature contemporary architecture, smart planning, and
-              lifestyle-focused amenities designed for today&apos;s families and
-              investors.
+              Dayim Signature Apartments brings together contemporary
+              architecture, smart planning, and lifestyle-focused amenities
+              designed for today&apos;s families and investors.
             </p>
           </div>
 
@@ -397,7 +399,7 @@ function FitnessSection() {
           ref={infraTitleRef}
           aria-hidden="true"
         >
-          <p className="fitness-infra-title-text">INFRASTRUCTURE</p>
+          <p className="fitness-infra-title-text">OUR STANDARDS</p>
         </div>
       </div>
     </section>

@@ -155,8 +155,8 @@ function HeroSection({ introReady = false }) {
           }}
         >
           <span className="apartment-button-label">
-            <span>Choose an apartment</span>
-            <span aria-hidden="true">Choose an apartment</span>
+            <span>Signature Apartments</span>
+            <span aria-hidden="true">Signature Apartments</span>
           </span>
         </button>
         <button

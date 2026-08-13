@@ -183,7 +183,7 @@ function PenthousesSection() {
     <section
       ref={sectionRef}
       className={`penthouses-section ${isVisible ? 'is-visible' : ''}`}
-      id="penthouses"
+      id="construction"
       aria-labelledby="penthouses-title"
     >
       <div className="penthouses-hero-track">
@@ -201,17 +201,17 @@ function PenthousesSection() {
 
             <div className="penthouses-hero-content" ref={heroContentRef}>
               <h2 id="penthouses-title" className="penthouses-hero-title">
-                <span className="penthouses-hero-title-line">BUILDING TRUST.</span>
+                <span className="penthouses-hero-title-line">BUILT WITH SPEED.</span>
                 <span className="penthouses-hero-title-line">
-                  CREATING LIFESTYLES.
+                  DELIVERED WITH CONFIDENCE.
                 </span>
               </h2>
 
               <div className="penthouses-hero-copy-row">
                 <p className="penthouses-hero-copy">
-                  Dayim Developers — Building Trust. Creating Lifestyles. Shaping
-                  the Future. At Dayim Developers, we create communities where
-                  people can live, grow, and thrive.
+                  At Dayim Developers, construction is more than putting a
+                  structure in place. It is a commitment to quality, safety,
+                  durability, and the trust our clients place in us.
                 </p>
               </div>
             </div>
@@ -233,9 +233,9 @@ function PenthousesSection() {
           <div className="penthouses-lead-row">
             <p className="penthouses-lead">
               <span className="penthouses-lead-offset" aria-hidden="true" />
-              WE CREATE DEVELOPMENTS THAT OFFER STRONG LONG-TERM VALUE. Every
-              development reflects our commitment to trust, excellence, and
-              sustainable growth for generations to come.
+              8 MONTHS. ONE COMPLETE STRUCTURE. Our structural completion within
+              eight months stands as a significant achievement in Al-Kabir Town
+              Phase 2.
             </p>
           </div>
         </div>
@@ -249,8 +249,8 @@ function PenthousesSection() {
               intensity={10}
             />
             <div className="penthouses-card-content">
-              <p className="penthouses-card-value">4.2 m</p>
-              <p className="penthouses-card-label">ceilings height</p>
+              <p className="penthouses-card-value">8 MO</p>
+              <p className="penthouses-card-label">Main structure completed</p>
             </div>
           </div>
 
@@ -262,17 +262,17 @@ function PenthousesSection() {
               intensity={10}
             />
             <div className="penthouses-card-content">
-              <p className="penthouses-card-value">3.6 m</p>
-              <p className="penthouses-card-label">window height</p>
+              <p className="penthouses-card-value">MAR 26</p>
+              <p className="penthouses-card-label">Commercial possession</p>
             </div>
           </div>
         </div>
 
         <div className="penthouses-terrace">
           <p className="penthouses-terrace-title penthouses-terrace-title--mobile">
-            private
+            Built
             <br />
-            Terraces
+            for Life
           </p>
 
           <div className="penthouses-terrace-image">
@@ -286,15 +286,15 @@ function PenthousesSection() {
 
           <div className="penthouses-terrace-side">
             <p className="penthouses-terrace-title penthouses-terrace-title--desktop">
-              private
+              Built
               <br />
-              Terraces
+              for Life
             </p>
             <p className="penthouses-terrace-copy">
               <span className="penthouses-terrace-offset" aria-hidden="true" />
-              Building More Than Properties — at Dayim Developers, we create
-              communities where people can live, grow, and thrive. Shaping the
-              Future starts with every home we deliver.
+              We build with responsibility, with quality, and with our
+              clients&apos; future in mind. Dayim Developers — Building Tomorrow.
+              Setting New Standards.
             </p>
           </div>
         </div>

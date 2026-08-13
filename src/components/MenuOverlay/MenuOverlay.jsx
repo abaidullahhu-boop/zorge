@@ -6,14 +6,13 @@ const ICONS = '/assets/images/icons.svg'
 
 const MENU_LINKS = [
   { label: 'About Us', href: '#about' },
-  { label: 'Location', href: '#location' },
-  { label: 'Design', href: '#architecture' },
-  { label: 'Infrastructure', href: '#infrastructure' },
-  { label: 'Amenities', href: '#improvement' },
-  { label: 'Apartments', href: '#apartments' },
-  { label: 'Services', href: '#services' },
-  { label: 'Parking', href: '#parking' },
-  { label: 'Penthouses', href: '#penthouses' },
+  { label: 'Our Story', href: '#architecture' },
+  { label: 'Vision', href: '#panorama' },
+  { label: 'Values', href: '#advantages' },
+  { label: 'Why Choose Us', href: '#fitness' },
+  { label: 'Signature Apartments', href: '#apartments' },
+  { label: 'Investment', href: '#improvement' },
+  { label: 'Construction', href: '#construction' },
 ]
 
 function getActiveHref() {
@@ -173,8 +172,8 @@ function MenuOverlay({ open, onClose }) {
                 onClick={(event) => handleNav(event, '#apartments')}
               >
                 <span className="menu-overlay__apartment-label">
-                  <span>Choose an Apartment</span>
-                  <span aria-hidden="true">Choose an Apartment</span>
+                  <span>Signature Apartments</span>
+                  <span aria-hidden="true">Signature Apartments</span>
                 </span>
               </a>
 
