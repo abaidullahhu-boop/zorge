@@ -143,16 +143,17 @@ function ImprovementSection() {
       <div className="improvement-slide" ref={slideRef}>
         <div className="improvement-intro-row">
           <p className="improvement-intro">
-            Choosing Dayim Developers means choosing a partner committed to your
-            future. We empower the next generation through innovation,
-            leadership, and opportunity.
+            Property is more than an asset—it is a long-term decision. Dayim
+            Signature Apartments provides an opportunity for investors to enter
+            the high-rise residential market through a professionally planned
+            development.
           </p>
         </div>
 
         <div className="improvement-title-row">
           <h2 id="improvement-title" className="improvement-title">
-            <span className="improvement-title-line">SECURE</span>
             <span className="improvement-title-line">INVESTMENT</span>
+            <span className="improvement-title-line">OPPORTUNITY</span>
           </h2>
         </div>
 
@@ -179,9 +180,10 @@ function ImprovementSection() {
         <div className="improvement-copy-row">
           <p className="improvement-copy">
             <span className="improvement-copy-offset" aria-hidden="true" />
-            We create developments that offer strong long-term value, making every
-            investment a step toward a more secure future. At Dayim Developers, we
-            create communities where people can live, grow, and thrive.
+            Whether your goal is future appreciation, rental potential, or a
+            permanent residence, the project offers a compelling combination of
+            lifestyle and investment value. Every investment is a step toward a
+            more secure future.
           </p>
         </div>
 

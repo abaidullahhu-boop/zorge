@@ -219,7 +219,7 @@ function AdvantagesSection() {
       <div className="advantages-sticky">
         <div className="advantages-slide" ref={slideRef}>
           <h2 id="advantages-title" className="advantages-sr-only">
-            Advantages
+            Our Core Values
           </h2>
 
           <div className="advantages-image" ref={imageLayerRef}>

@@ -10,39 +10,38 @@ import '../../assets/styles/ApartmentsSection.css'
 
 const APARTMENTS = [
   {
-    id: 'studios',
-    label: 'studios',
-    area: '26-30',
+    id: 'elevators',
+    label: 'Elevators',
+    area: 'ALL',
+    unit: 'floors',
     plan: apartmentsStudio,
   },
   {
-    id: '1BR',
-    label: '1BR',
-    area: '36-65',
+    id: 'secure',
+    label: 'Secure Entrance',
+    area: '24/7',
+    unit: 'access',
     plan: apartments1br,
   },
   {
-    id: '2BR',
-    label: '2BR',
-    area: '56-67',
+    id: 'cctv',
+    label: 'CCTV',
+    area: 'FULL',
+    unit: 'cover',
     plan: apartments2br,
   },
   {
-    id: '3br',
-    label: '3br',
-    area: '64-80',
+    id: 'power',
+    label: 'Backup Power',
+    area: '100%',
+    unit: 'backup',
     plan: apartments3br,
   },
   {
-    id: 'terraces',
-    label: 'with terraces',
-    area: '67-81',
-    plan: apartments3br,
-  },
-  {
-    id: 'penthouse',
-    label: 'penthouse',
-    area: '60-150',
+    id: 'maintenance',
+    label: 'Free Maintenance',
+    area: '1 YR',
+    unit: 'free',
     plan: apartmentsPenthouse,
   },
 ]
@@ -178,13 +177,13 @@ function ApartmentsSection() {
         </div>
         <div className="apartments-mobile-hero-content">
           <h2 id="apartments-title-mobile" className="apartments-hero-title">
-            <span>MODERN</span>
-            <span>DEVELOPMENTS</span>
+            <span>SIGNATURE</span>
+            <span>APARTMENTS</span>
           </h2>
           <p className="apartments-hero-copy">
-            Empowering the next generation through innovation, leadership, and
-            opportunity. We don&apos;t just build properties—we build confidence,
-            opportunities, and a better future for generations to come.
+            A Signature Address. A Smarter Way to Live. Thoughtfully designed
+            high-rise living for those who value modern design, quality
+            construction, convenience, and long-term investment potential.
           </p>
         </div>
       </div>
@@ -193,13 +192,13 @@ function ApartmentsSection() {
         <div className="apartments-slide">
           <div className="apartments-content">
             <h2 id="apartments-title" className="apartments-sr-only">
-              Modern Developments
+              Dayim Signature Apartments
             </h2>
 
             <div
               className="apartments-types"
               role="tablist"
-              aria-label="Apartment types"
+              aria-label="Lifestyle amenities"
             >
               {APARTMENTS.map((item, index) => (
                 <button
@@ -233,9 +232,7 @@ function ApartmentsSection() {
                   aria-hidden={index !== activeIndex}
                 >
                   <span className="apartments-area-value">{item.area}</span>
-                  <span className="apartments-area-unit">
-                    м<sup>2</sup>
-                  </span>
+                  <span className="apartments-area-unit">{item.unit}</span>
                 </p>
               ))}
             </div>
@@ -258,7 +255,7 @@ function ApartmentsSection() {
                 >
                   <img
                     src={item.plan}
-                    alt={`${item.label} floor plan`}
+                    alt={`${item.label}`}
                     width={540}
                     height={420}
                     draggable="false"
@@ -270,10 +267,10 @@ function ApartmentsSection() {
 
             <p className="apartments-conditions">
               <span className="apartments-conditions-label">
-                Purchase conditions:
+                Flexible payment options:
               </span>
               <br />
-              mortgage, 0% installment plan, trade-in
+              installments tailored to your investment
             </p>
           </div>
 
@@ -288,8 +285,8 @@ function ApartmentsSection() {
             />
             <div className="apartments-image-title">
               <p className="apartments-hero-title">
-                <span>MODERN</span>
-                <span>DEVELOPMENTS</span>
+                <span>SIGNATURE</span>
+                <span>APARTMENTS</span>
               </p>
             </div>
           </div>

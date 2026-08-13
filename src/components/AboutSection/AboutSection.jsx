@@ -85,11 +85,9 @@ function AboutSection() {
 
             <a className="about-card about-card--light" href="#architecture">
               <span className="about-card-kicker">
-                Our Vision
-                <br />
-                &amp; Mission
+                Our Story
               </span>
-              <strong>Our Story</strong>
+              <strong>Who We Are</strong>
               <span className="about-watch">Explore</span>
             </a>
           </div>

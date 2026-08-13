@@ -359,7 +359,7 @@ function InfrastructureSection() {
           </div>
           <div className="infrastructure-hero-content">
             <h2 id="infrastructure-title" className="infrastructure-hero-title">
-              INFRASTRUCTURE
+              OUR STANDARDS
             </h2>
           </div>
         </div>
@@ -394,7 +394,7 @@ function InfrastructureSection() {
                 data-text-direction={textDirection}
               >
                 <div className="infrastructure-head">
-                  <p className="infrastructure-label">INFRASTRUCTURE</p>
+                  <p className="infrastructure-label">OUR STANDARDS</p>
                   <div className="infrastructure-titles">
                     {ITEMS.map((item, index) => (
                       <p
@@ -523,7 +523,7 @@ function InfrastructureSection() {
                 <span className="infrastructure-counter-line" />
                 <span className="infrastructure-counter-total">{ITEM_COUNT}</span>
               </div>
-              <p className="infrastructure-label">INFRASTRUCTURE</p>
+              <p className="infrastructure-label">OUR STANDARDS</p>
               <p className="infrastructure-heading is-active">
                 {item.titleLines.map((line) => (
                   <span key={line} className="infrastructure-heading-line">

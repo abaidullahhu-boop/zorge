@@ -1,5 +1,7 @@
 .map-section {
   --map-top: clamp(36px, 4vw, 72px);
+  --map-accent: #c4a574;
+  --map-brand: #a0725b;
 
   position: relative;
   z-index: 2;
@@ -10,9 +12,8 @@
   min-height: calc(520px + var(--map-top));
   overflow: hidden;
   color: #fff;
-  background: #000;
+  background: #050505;
   isolation: isolate;
-  /* Keep paint stable while panorama climbs over — avoids scroll jitter. */
   transform: translateZ(0);
   backface-visibility: hidden;
 }
@@ -60,16 +61,11 @@
   pointer-events: none;
 }
 
-.map-point,
-.map-metro,
-.map-house,
-.map-spot {
+.map-spot,
+.map-landmark {
   position: absolute;
   top: var(--map-y);
   left: var(--map-x);
-}
-
-.map-spot {
   z-index: 3;
   width: 0;
   height: 0;
@@ -77,120 +73,197 @@
 
 .map-spot:hover,
 .map-spot:focus-within,
-.map-spot.is-active {
+.map-spot.is-active,
+.map-spot.is-focused {
   z-index: 7;
 }
 
-.map-point {
+/* —— Brand circle markers (Dayim projects) —— */
+.map-brand {
+  position: absolute;
+  top: 0;
+  left: 0;
   z-index: 3;
   display: grid;
-  width: clamp(26px, 2.35vw, 40px);
+  gap: 2px;
+  width: clamp(52px, 5.2vw, 72px);
   aspect-ratio: 1;
   padding: 0;
-  color: #151515;
+  color: #111;
   background: #fff;
-  border: 1px solid #fff;
+  border: 2px solid #fff;
   border-radius: 50%;
-  font: 600 clamp(10px, .72vw, 13px)/1 'Gilroy', sans-serif;
+  font: 700 clamp(8px, .65vw, 11px)/1.05 'Gilroy', sans-serif;
+  letter-spacing: .04em;
+  text-transform: uppercase;
   place-items: center;
+  place-content: center;
+  cursor: pointer;
   transform: translate(-50%, -50%);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 45%);
   transition:
     color .35s ease,
     background-color .35s ease,
     border-color .35s ease,
-    transform .35s ease;
+    transform .35s ease,
+    box-shadow .35s ease;
 }
 
-.map-spot:hover .map-point,
-.map-spot:focus-within .map-point,
-.map-spot.is-active .map-point {
-  color: #fff;
-  background: #a0725b;
-  border-color: #a0725b;
-  outline: none;
-  transform: translate(-50%, -50%) scale(1.12);
-}
-
-.map-metro {
-  z-index: 2;
+.map-brand-icon {
   display: grid;
-  width: clamp(18px, 1.65vw, 28px);
-  aspect-ratio: 1;
-  color: #fff;
-  border: 1px solid rgb(255 255 255 / 80%);
-  border-radius: 50%;
-  font: 600 clamp(7px, .52vw, 9px)/1 Arial, sans-serif;
+  width: 42%;
   place-items: center;
-  transform: translate(-50%, -50%);
 }
 
-.map-place {
-  position: absolute;
-  z-index: 2;
-  font: 600 clamp(9px, .7vw, 12px)/1 'Gilroy', sans-serif;
-  letter-spacing: .02em;
-  text-transform: uppercase;
+.map-brand-icon svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.map-brand-text {
+  max-width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.map-place::after {
-  display: inline-block;
-  width: 4px;
-  height: 4px;
-  margin-left: 8px;
-  vertical-align: middle;
-  content: '';
-  background: currentColor;
-  border-radius: 50%;
+.map-brand--photo {
+  overflow: hidden;
+  width: clamp(58px, 6vw, 80px);
+  background: #111;
 }
 
-.map-place--historical {
-  top: 46.1%;
-  left: 88.27%;
-  transform: translate(-50%, -50%);
+.map-brand-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 52% 42%;
+  pointer-events: none;
 }
 
-.map-place--landscape {
-  top: 94.8%;
-  left: 26.73%;
-  transform: translate(-50%, -50%);
-}
-
-.map-house {
-  --map-x: 59.49%;
-  --map-y: 57.27%;
-
-  z-index: 3;
-  display: grid;
-  width: clamp(46px, 5vw, 74px);
-  aspect-ratio: 1;
+.map-spot:hover .map-brand,
+.map-spot:focus-within .map-brand,
+.map-spot.is-active .map-brand,
+.map-spot.is-focused .map-brand {
   color: #fff;
-  background: #a0725b;
-  border-radius: 50%;
-  font: 600 clamp(14px, 1.25vw, 21px)/.82 'Gilroy', sans-serif;
+  background: var(--map-brand);
+  border-color: var(--map-brand);
+  outline: none;
+  transform: translate(-50%, -50%) scale(1.08);
+  box-shadow: 0 10px 28px rgb(160 114 91 / 35%);
+}
+
+.map-spot:hover .map-brand--photo,
+.map-spot:focus-within .map-brand--photo,
+.map-spot.is-active .map-brand--photo,
+.map-spot.is-focused .map-brand--photo {
+  background: #111;
+  border-color: var(--map-brand);
+  box-shadow: 0 10px 28px rgb(160 114 91 / 45%);
+}
+
+/* —— Red map pin —— */
+.map-pin {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  display: grid;
+  width: clamp(34px, 3.4vw, 44px);
+  padding: 0;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
   place-items: center;
-  text-align: center;
+  transform: translate(-50%, -100%);
+  transition: transform .35s ease;
+}
+
+.map-pin-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 4px 8px rgb(0 0 0 / 45%));
+}
+
+.map-spot:hover .map-pin,
+.map-spot:focus-within .map-pin,
+.map-spot.is-active .map-pin,
+.map-spot.is-focused .map-pin {
+  outline: none;
+  transform: translate(-50%, -100%) scale(1.12) translateY(-4px);
+}
+
+/* —— Landmark POIs —— */
+.map-landmark {
+  z-index: 2;
+}
+
+.map-landmark-btn {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  gap: 6px;
+  padding: 0;
+  color: #fff;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  place-items: center;
   transform: translate(-50%, -50%);
+  transition: transform .3s ease;
 }
 
-.map-house span {
-  max-width: 2em;
+.map-landmark-btn:hover,
+.map-landmark-btn:focus-visible {
+  outline: none;
+  transform: translate(-50%, -50%) scale(1.06);
 }
 
+.map-landmark-icon {
+  display: grid;
+  width: clamp(28px, 2.6vw, 36px);
+  aspect-ratio: 1;
+  color: #111;
+  background: #fff;
+  border-radius: 50%;
+  place-items: center;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 40%);
+}
+
+.map-landmark-icon svg {
+  width: 55%;
+  height: auto;
+}
+
+.map-landmark-label {
+  max-width: 9.5em;
+  color: rgb(255 255 255 / 88%);
+  font: 600 clamp(8px, .62vw, 11px)/1.2 'Gilroy', sans-serif;
+  letter-spacing: .02em;
+  text-align: center;
+  text-shadow: 0 1px 6px rgb(0 0 0 / 80%);
+  white-space: normal;
+}
+
+/* —— Tooltip —— */
 .map-tooltip {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 6;
-  width: clamp(148px, 14.5vw, 220px);
+  width: clamp(168px, 16vw, 240px);
   overflow: hidden;
   color: #fff;
-  background: #000;
-  border: 1px solid rgb(255 255 255 / 55%);
+  background: #0a0a0a;
+  border: 1px solid rgb(255 255 255 / 45%);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transform: translate(14px, 8px) scale(.96);
+  transform: translate(18px, 10px) scale(.96);
   transform-origin: top left;
   transition:
     opacity .45s ease,
@@ -204,7 +277,17 @@
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transform: translate(18px, 14px) scale(1);
+  transform: translate(22px, 16px) scale(1);
+}
+
+.map-spot--pin .map-tooltip {
+  transform: translate(20px, -8px) scale(.96);
+}
+
+.map-spot--pin:hover .map-tooltip,
+.map-spot--pin:focus-within .map-tooltip,
+.map-spot--pin.is-active .map-tooltip {
+  transform: translate(24px, -4px) scale(1);
 }
 
 .map-tooltip img {
@@ -214,32 +297,134 @@
   object-fit: cover;
 }
 
-.map-tooltip > div {
+.map-tooltip-body {
   display: grid;
+  gap: 6px;
   align-content: center;
-  min-height: clamp(64px, 6.5vw, 88px);
-  padding: 18px 16px 18px 14px;
-  background: #000;
-  text-align: right;
-  text-transform: uppercase;
+  min-height: clamp(72px, 7vw, 100px);
+  padding: 16px 14px 14px;
+  background: #0a0a0a;
+  text-align: left;
 }
 
 .map-tooltip p {
   margin: 0;
-  font: 600 clamp(10px, .72vw, 13px)/1.15 'Gilroy', sans-serif;
-  letter-spacing: .04em;
+  font: 600 clamp(11px, .78vw, 14px)/1.2 'Gilroy', sans-serif;
+  letter-spacing: .03em;
+  text-transform: uppercase;
 }
 
 .map-tooltip small {
   display: block;
-  margin-top: 5px;
   color: rgb(255 255 255 / 55%);
-  font: 600 9px/1.1 'Gilroy', sans-serif;
-  letter-spacing: .03em;
+  font: 500 clamp(9px, .62vw, 11px)/1.3 'Gilroy', sans-serif;
+  letter-spacing: .02em;
+}
+
+.map-tooltip-maps {
+  margin-top: 6px;
+  padding: 8px 10px;
+  color: #111;
+  background: #fff;
+  border: 0;
+  font: 600 clamp(9px, .65vw, 11px)/1 'Gilroy', sans-serif;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color .25s ease, color .25s ease;
+}
+
+.map-tooltip-maps:hover,
+.map-tooltip-maps:focus-visible {
+  color: #fff;
+  background: var(--map-brand);
+  outline: none;
 }
 
 .map-tooltip-close {
   display: none;
+}
+
+/* —— Side nav arrows —— */
+.map-nav {
+  position: absolute;
+  z-index: 8;
+  top: 50%;
+  display: grid;
+  width: clamp(40px, 4vw, 52px);
+  aspect-ratio: 1;
+  padding: 0 0 3px;
+  color: rgb(255 255 255 / 85%);
+  background: rgb(40 40 40 / 72%);
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 50%;
+  font: 300 clamp(26px, 2.4vw, 34px)/1 Georgia, serif;
+  place-items: center;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background-color .25s ease, color .25s ease, transform .25s ease;
+}
+
+.map-nav:hover,
+.map-nav:focus-visible {
+  color: #fff;
+  background: rgb(70 70 70 / 85%);
+  outline: none;
+  transform: translateY(-50%) scale(1.05);
+}
+
+.map-nav--prev {
+  left: clamp(10px, 2vw, 28px);
+}
+
+.map-nav--next {
+  right: clamp(10px, 2vw, 28px);
+}
+
+/* —— Bottom dock —— */
+.map-dock {
+  position: absolute;
+  z-index: 8;
+  bottom: clamp(16px, 3vw, 32px);
+  left: 50%;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: rgb(28 28 28 / 82%);
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  transform: translateX(-50%);
+}
+
+.map-dock-btn {
+  display: grid;
+  width: 36px;
+  aspect-ratio: 1;
+  padding: 0;
+  color: rgb(255 255 255 / 80%);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  place-items: center;
+  cursor: pointer;
+  transition: color .25s ease, background-color .25s ease;
+}
+
+.map-dock-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.map-dock-btn:hover,
+.map-dock-btn:focus-visible {
+  color: #fff;
+  background: rgb(255 255 255 / 12%);
+  outline: none;
+}
+
+.map-dock-btn--maps {
+  color: var(--map-accent);
 }
 
 .map-swipe-cue {
@@ -279,16 +464,32 @@
     transform: none;
   }
 
-  .map-point {
-    width: 31px;
-  }
-
-  .map-metro {
-    width: 22px;
-  }
-
-  .map-house {
+  .map-brand {
     width: 58px;
+  }
+
+  .map-brand--photo {
+    width: 66px;
+  }
+
+  .map-pin {
+    width: 38px;
+  }
+
+  .map-landmark-icon {
+    width: 32px;
+  }
+
+  .map-nav {
+    width: 42px;
+  }
+
+  .map-nav--prev {
+    left: 8px;
+  }
+
+  .map-nav--next {
+    right: 8px;
   }
 
   .map-tooltip {
@@ -296,10 +497,10 @@
     z-index: 10;
     top: auto;
     right: 12px;
-    bottom: 12px;
+    bottom: 72px;
     left: 12px;
     display: grid;
-    grid-template-columns: 42% 1fr;
+    grid-template-columns: 38% 1fr;
     width: auto;
     opacity: 0;
     visibility: hidden;
@@ -312,7 +513,9 @@
   }
 
   .map-spot:hover .map-tooltip,
-  .map-spot:focus-within .map-tooltip {
+  .map-spot:focus-within .map-tooltip,
+  .map-spot--pin:hover .map-tooltip,
+  .map-spot--pin:focus-within .map-tooltip {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -321,7 +524,8 @@
 
   .map-spot.is-active .map-tooltip,
   .map-spot.is-active:hover .map-tooltip,
-  .map-spot.is-active:focus-within .map-tooltip {
+  .map-spot.is-active:focus-within .map-tooltip,
+  .map-spot--pin.is-active .map-tooltip {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
@@ -330,14 +534,12 @@
 
   .map-tooltip img {
     height: 100%;
-    aspect-ratio: 1.15;
+    aspect-ratio: 1.1;
   }
 
-  .map-tooltip > div {
-    display: grid;
+  .map-tooltip-body {
     align-content: end;
-    padding: 15px;
-    text-align: left;
+    padding: 14px;
   }
 
   .map-tooltip-close {
@@ -481,8 +683,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .map-point,
-  .map-tooltip {
+  .map-brand,
+  .map-pin,
+  .map-tooltip,
+  .map-nav,
+  .map-landmark-btn {
     animation: none;
     transition: none;
   }
