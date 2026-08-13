@@ -143,6 +143,27 @@ function openMaps(url) {
   window.open(url, '_blank', 'noopener,noreferrer')
 }
 
+const MOBILE_MAP_MQ = '(max-width: 760px)'
+
+function isMobileMap() {
+  return window.matchMedia(MOBILE_MAP_MQ).matches
+}
+
+function scrollMapToProjects(viewport) {
+  if (!viewport || !isMobileMap()) return
+
+  const plan = viewport.querySelector('.map-plan')
+  if (!plan?.clientWidth) return
+
+  const avgX =
+    projects.reduce((sum, place) => sum + place.x, 0) / projects.length / 100
+  const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth)
+  viewport.scrollLeft = Math.max(
+    0,
+    Math.min(maxScroll, plan.clientWidth * avgX - viewport.clientWidth / 2),
+  )
+}
+
 function MapSection() {
   const [activeId, setActiveId] = useState(null)
   const [showSwipeCue, setShowSwipeCue] = useState(true)
@@ -151,16 +172,12 @@ function MapSection() {
 
   useEffect(() => {
     const viewport = viewportRef.current
-    if (!viewport || window.innerWidth > 760) return undefined
-
-    const centerMap = () => {
-      const plan = viewport.querySelector('.map-plan')
-      if (!plan) return
-      viewport.scrollLeft = plan.clientWidth * 0.52 - viewport.clientWidth / 2
-    }
+    if (!viewport) return undefined
 
     let startScrollLeft = 0
     let cueHidden = false
+    let userScrolled = false
+    let centering = false
 
     const hideCue = () => {
       if (cueHidden) return
@@ -168,24 +185,68 @@ function MapSection() {
       setShowSwipeCue(false)
     }
 
+    const centerMap = () => {
+      if (userScrolled) return
+      centering = true
+      scrollMapToProjects(viewport)
+      startScrollLeft = viewport.scrollLeft
+      centering = false
+    }
+
     const onScroll = () => {
-      if (Math.abs(viewport.scrollLeft - startScrollLeft) > 12) hideCue()
+      if (centering) return
+      if (Math.abs(viewport.scrollLeft - startScrollLeft) > 12) {
+        userScrolled = true
+        hideCue()
+      }
     }
 
     const onPointerDown = () => {
       startScrollLeft = viewport.scrollLeft
     }
 
+    const onResize = () => {
+      if (!userScrolled) centerMap()
+    }
+
     centerMap()
-    startScrollLeft = viewport.scrollLeft
+    requestAnimationFrame(() => {
+      requestAnimationFrame(centerMap)
+    })
+
+    const img = viewport.querySelector('.map-plan-image')
+    const onImageLoad = () => {
+      requestAnimationFrame(centerMap)
+    }
+    if (img && !img.complete) {
+      img.addEventListener('load', onImageLoad)
+    }
+
+    const resizeObserver = new ResizeObserver(onResize)
+    resizeObserver.observe(viewport)
+    const plan = viewport.querySelector('.map-plan')
+    if (plan) resizeObserver.observe(plan)
+
+    const section = viewport.closest('.map-section')
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) centerMap()
+      },
+      { threshold: 0.15 },
+    )
+    if (section) io.observe(section)
+
     viewport.addEventListener('scroll', onScroll, { passive: true })
     viewport.addEventListener('pointerdown', onPointerDown, { passive: true })
-    window.addEventListener('resize', centerMap)
+    window.addEventListener('resize', onResize)
 
     return () => {
+      img?.removeEventListener('load', onImageLoad)
+      resizeObserver.disconnect()
+      io.disconnect()
       viewport.removeEventListener('scroll', onScroll)
       viewport.removeEventListener('pointerdown', onPointerDown)
-      window.removeEventListener('resize', centerMap)
+      window.removeEventListener('resize', onResize)
     }
   }, [])
 
@@ -209,13 +270,6 @@ function MapSection() {
   const openProject = (place) => {
     setActiveId(null)
     openMaps(place.mapsUrl)
-  }
-
-  const cycleFocus = (direction) => {
-    const next =
-      (focusIndex + direction + projects.length) % projects.length
-    setFocusIndex(next)
-    setActiveId(projects[next].id)
   }
 
   const activeProject = projects.find((p) => p.id === activeId)
@@ -330,23 +384,6 @@ function MapSection() {
         </div>
       </div>
 
-      <button
-        type="button"
-        className="map-nav map-nav--prev"
-        aria-label="Previous Dayim project"
-        onClick={() => cycleFocus(-1)}
-      >
-        ‹
-      </button>
-      <button
-        type="button"
-        className="map-nav map-nav--next"
-        aria-label="Next Dayim project"
-        onClick={() => cycleFocus(1)}
-      >
-        ›
-      </button>
-
       <div className="map-dock" role="toolbar" aria-label="Map actions">
         <button
           type="button"
@@ -355,6 +392,7 @@ function MapSection() {
           onClick={() => {
             setFocusIndex(0)
             setActiveId(projects[0].id)
+            scrollMapToProjects(viewportRef.current)
           }}
         >
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
