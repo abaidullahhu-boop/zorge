@@ -1,10 +1,16 @@
 .panorama-section {
   position: relative;
   z-index: 3;
-  margin-top: -18vh;
+  margin-top: 0;
   height: 150svh;
   color: #fff;
   background: transparent;
+}
+
+@media (min-width: 981px) {
+  .panorama-section {
+    margin-top: -12vh;
+  }
 }
 
 .panorama-sticky {

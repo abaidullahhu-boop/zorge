@@ -99,12 +99,14 @@
 
 .about-wordmark-rail.is-on-location .about-wordmark-layer--dark,
 .about-wordmark-rail.is-past-location-image .about-wordmark-layer--dark,
-.about-wordmark-rail.is-on-architecture .about-wordmark-layer--dark {
+.about-wordmark-rail.is-on-architecture .about-wordmark-layer--dark,
+.about-wordmark-rail.is-on-projects .about-wordmark-layer--dark {
   opacity: 1;
 }
 
 .about-wordmark-rail.is-past-location-image .about-wordmark-layer--dark,
-.about-wordmark-rail.is-on-architecture .about-wordmark-layer--dark {
+.about-wordmark-rail.is-on-architecture .about-wordmark-layer--dark,
+.about-wordmark-rail.is-on-projects .about-wordmark-layer--dark {
   clip-path: inset(0);
 }
 

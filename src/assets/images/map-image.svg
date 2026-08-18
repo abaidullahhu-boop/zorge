@@ -1,92 +1,85 @@
-<svg width="980" height="653" viewBox="0 0 980 653" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Map of Dayim projects near Raiwind Road and Ring Road, Lahore">
-  <rect width="980" height="653" fill="#050505"/>
+<svg width="980" height="653" viewBox="0 0 980 653" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dark stylized map of Dayim projects near Raiwind Road and Ring Road, Lahore">
+  <rect width="980" height="653" fill="#1d1d1d"/>
 
-  <!-- Soft atmospheric glow -->
-  <ellipse cx="490" cy="340" rx="420" ry="280" fill="#121212"/>
-  <ellipse cx="520" cy="300" rx="180" ry="140" fill="#181818"/>
+  <!-- thin locality boundaries -->
+  <g stroke-linecap="round" fill="none">
+    <g stroke="#a79f91" stroke-width="1.1" opacity="0.9">
+      <path d="M176 -10 L118 100 L118 198 L130 310 L206 326"/>
+      <path d="M0 500 L72 410 L118 312"/>
+      <path d="M0 388 L110 520 L144 620 L218 684"/>
+      <path d="M232 110 L468 126"/>
+      <path d="M470 0 L470 248"/>
+      <path d="M810 -10 L742 126"/>
+      <path d="M742 126 L832 220 L906 182 L978 214"/>
+      <path d="M978 214 L1020 242"/>
+      <path d="M742 126 L676 306 L620 466"/>
+      <path d="M620 466 L738 508 L804 454"/>
+      <path d="M804 454 L862 476 L978 378"/>
+      <path d="M978 378 L978 334"/>
+      <path d="M512 324 L584 324"/>
+      <path d="M482 334 L430 404"/>
+      <path d="M478 430 L568 518 L512 648"/>
+    </g>
 
-  <!-- Minor grid / secondary roads -->
-  <g stroke="#2a2a2a" stroke-width="1" fill="none">
-    <path d="M40 90 H940"/>
-    <path d="M40 160 H940"/>
-    <path d="M40 230 H940"/>
-    <path d="M40 300 H940"/>
-    <path d="M40 370 H940"/>
-    <path d="M40 440 H940"/>
-    <path d="M40 510 H940"/>
-    <path d="M40 580 H940"/>
-    <path d="M80 40 V620"/>
-    <path d="M160 40 V620"/>
-    <path d="M240 40 V620"/>
-    <path d="M320 40 V620"/>
-    <path d="M400 40 V620"/>
-    <path d="M480 40 V620"/>
-    <path d="M560 40 V620"/>
-    <path d="M640 40 V620"/>
-    <path d="M720 40 V620"/>
-    <path d="M800 40 V620"/>
-    <path d="M880 40 V620"/>
+    <g stroke="#8f8f8f" stroke-width="0.8" opacity="0.65" stroke-dasharray="2 4">
+      <path d="M198 118 L468 126"/>
+      <path d="M560 164 L724 208"/>
+      <path d="M560 322 L604 324"/>
+      <path d="M244 542 L364 440"/>
+      <path d="M700 318 L646 468"/>
+      <path d="M520 318 L510 372 L520 414"/>
+    </g>
   </g>
 
-  <!-- Curved secondary roads -->
-  <g stroke="#3a3a3a" stroke-width="1.2" fill="none" stroke-linecap="round">
-    <path d="M60 520 C180 480, 280 420, 360 340 C420 280, 460 200, 520 120"/>
-    <path d="M200 620 C280 540, 340 460, 420 400 C500 330, 600 280, 720 250"/>
-    <path d="M100 200 C220 220, 340 260, 420 320 C500 390, 580 480, 700 560"/>
-    <path d="M780 80 C740 180, 700 280, 720 380 C740 480, 800 540, 900 580"/>
-    <path d="M40 380 C160 360, 260 340, 340 300 C420 250, 500 180, 620 140"/>
-  </g>
-
-  <!-- RING ROAD (major dual carriageway, gold tint) -->
+  <!-- main roads -->
   <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M-20 280 C120 240, 260 200, 400 220 C540 240, 680 300, 820 360 C900 400, 960 440, 1020 480" stroke="#1a1610" stroke-width="18"/>
-    <path d="M-20 280 C120 240, 260 200, 400 220 C540 240, 680 300, 820 360 C900 400, 960 440, 1020 480" stroke="#c4a574" stroke-width="2.2" opacity="0.85"/>
-    <path d="M-20 292 C120 252, 260 212, 400 232 C540 252, 680 312, 820 372 C900 412, 960 452, 1020 492" stroke="#c4a574" stroke-width="1.4" opacity="0.55"/>
+    <path d="M108 308 C152 328 206 336 260 330 C324 322 386 304 448 298 C502 292 556 296 612 296 C666 296 724 302 780 312" stroke="#d7c495" stroke-width="1.35"/>
+    <path d="M780 312 C806 316 832 330 864 332 C896 334 930 310 954 278 C984 242 1020 226 1060 228" stroke="#d7c495" stroke-width="1.35"/>
+    <path d="M470 -10 L470 244 L486 318 L540 428 L512 590" stroke="#d7c495" stroke-width="1.35"/>
   </g>
 
-  <!-- RAIWIND ROAD -->
-  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M180 -20 C260 80, 320 180, 380 280 C440 380, 500 480, 560 580 C590 640, 620 700, 650 760" stroke="#1a1610" stroke-width="16"/>
-    <path d="M180 -20 C260 80, 320 180, 380 280 C440 380, 500 480, 560 580 C590 640, 620 700, 650 760" stroke="#d8c49a" stroke-width="2" opacity="0.9"/>
-    <path d="M192 -16 C270 82, 330 182, 390 282 C450 382, 510 482, 570 582" stroke="#d8c49a" stroke-width="1.2" opacity="0.45"/>
+  <!-- small connector roads near adda plot -->
+  <g stroke="#6f6f6f" stroke-width="0.9" opacity="0.8" fill="none" stroke-linecap="round">
+    <path d="M470 294 L520 292"/>
+    <path d="M486 318 L558 318"/>
+    <path d="M514 318 L594 322"/>
+    <path d="M482 346 L526 346"/>
+    <path d="M498 378 L548 378"/>
   </g>
 
-  <!-- DEFENSE ROAD -->
-  <g fill="none" stroke-linecap="round">
-    <path d="M700 -10 C680 90, 640 200, 600 300 C560 400, 500 500, 420 600 C380 650, 340 700, 300 740" stroke="#222" stroke-width="10"/>
-    <path d="M700 -10 C680 90, 640 200, 600 300 C560 400, 500 500, 420 600" stroke="#9a9a9a" stroke-width="1.5" opacity="0.7"/>
+  <!-- adda plot junction -->
+  <circle cx="470" cy="296" r="13" fill="#0f0f0f" stroke="#f4e0ab" stroke-width="1"/>
+
+  <!-- labels -->
+  <g fill="#ffffff" font-family="Gilroy, system-ui, sans-serif">
+    <text x="338" y="34" font-size="10" font-weight="600" letter-spacing="0.1em">LDA AVENUE</text>
+    <text x="563" y="97" font-size="14" font-weight="700" letter-spacing="0.08em">VALENCIA</text>
+    <text x="710" y="209" font-size="12" font-weight="600" letter-spacing="0.08em">DHA RAHBAR</text>
+    <text x="644" y="380" font-size="16" font-weight="700" letter-spacing="0.04em">LAKE CITY</text>
+    <text x="304" y="602" font-size="13" font-weight="700" letter-spacing="0.07em">BAHRIA</text>
+    <text x="292" y="622" font-size="13" font-weight="700" letter-spacing="0.07em">ORCHARD</text>
+
+    <text x="106" y="204" font-size="11" font-weight="500" letter-spacing="0.05em">MARAKA</text>
+    <text x="220" y="180" font-size="11" font-weight="500" letter-spacing="0.05em">CANAL GARDENS</text>
+    <text x="16" y="384" font-size="11" font-weight="500" letter-spacing="0.05em">SUNDAR</text>
+    <text x="126" y="627" font-size="11" font-weight="500" letter-spacing="0.05em">MULL</text>
+    <text x="294" y="492" font-size="11" font-weight="500" letter-spacing="0.05em">JATI UMRA</text>
+    <text x="518" y="336" font-size="11" font-weight="500" letter-spacing="0.05em">ADDA PLOT</text>
+
+    <text x="414" y="222" font-size="10" font-weight="500" letter-spacing="0.02em">SAFARI ZOO</text>
+    <text x="536" y="162" font-size="10" font-weight="500">The University</text>
+    <text x="536" y="174" font-size="10" font-weight="500">of Lahore</text>
+    <text x="404" y="522" font-size="10" font-weight="500">Superior</text>
+    <text x="404" y="534" font-size="10" font-weight="500">University</text>
   </g>
 
-  <!-- Local connector near projects -->
-  <path d="M420 260 C480 280, 540 300, 600 290 C660 280, 720 250, 780 220" stroke="#555" stroke-width="2" fill="none" opacity="0.7"/>
-  <path d="M450 340 C510 360, 570 370, 640 350" stroke="#444" stroke-width="1.5" fill="none"/>
-
-  <!-- Junction highlight -->
-  <circle cx="430" cy="300" r="28" fill="none" stroke="#c4a574" stroke-width="1" opacity="0.25"/>
-  <circle cx="430" cy="300" r="8" fill="#c4a574" opacity="0.15"/>
-
-  <!-- Area labels -->
-  <g fill="#e8e8e8" font-family="Gilroy, system-ui, sans-serif" letter-spacing="0.08em">
-    <text x="120" y="120" font-size="13" font-weight="600" opacity="0.75">LDA AVENUE</text>
-    <text x="70" y="250" font-size="12" font-weight="600" opacity="0.55">CANAL GARDENS</text>
-    <text x="200" y="480" font-size="14" font-weight="700" opacity="0.85">VALENCIA</text>
-    <text x="720" y="130" font-size="14" font-weight="700" opacity="0.85">LAKE CITY</text>
-    <text x="780" y="420" font-size="13" font-weight="600" opacity="0.7">BAHRIA ORCHARD</text>
-    <text x="820" y="560" font-size="12" font-weight="600" opacity="0.55">ADDA PLOT</text>
-    <text x="560" y="520" font-size="11" font-weight="600" opacity="0.45">AL-KABIR TOWN</text>
-  </g>
-
-  <!-- Road labels -->
-  <g fill="#c4a574" font-family="Gilroy, system-ui, sans-serif" font-size="11" font-weight="600" letter-spacing="0.14em">
-    <text x="250" y="210" transform="rotate(-18 250 210)" opacity="0.9">RING ROAD</text>
-    <text x="300" y="160" transform="rotate(52 300 160)" opacity="0.95">RAIWIND ROAD</text>
-    <text x="620" y="180" transform="rotate(68 620 180)" opacity="0.65">DEFENSE ROAD</text>
-  </g>
-
-  <!-- Subtle landmark dots (visual only; interactive markers are HTML) -->
-  <g fill="#666">
-    <circle cx="150" cy="180" r="2.5"/>
-    <circle cx="860" cy="200" r="2.5"/>
-    <circle cx="300" cy="560" r="2.5"/>
+  <!-- road labels -->
+  <g fill="#ffffff" font-family="Gilroy, system-ui, sans-serif" font-size="10" font-weight="500" letter-spacing="0.08em">
+    <text x="284" y="150">DEFENSE ROAD</text>
+    <text x="286" y="304" transform="rotate(-12 286 304)">RING ROAD</text>
+    <text x="632" y="304">RING ROAD</text>
+    <text x="484" y="74" transform="rotate(90 484 74)">RAIWIND ROAD</text>
+    <text x="600" y="246" transform="rotate(70 600 246)">PINE AVENUE</text>
+    <text x="522" y="585" transform="rotate(68 522 585)">RAIWIND ROAD</text>
   </g>
 </svg>

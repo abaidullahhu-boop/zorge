@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import aboutVideo from '../../assets/images/about.mp4'
 import '../../assets/styles/AboutSection.css'
 
 function LongArrowUp() {
@@ -52,7 +53,7 @@ function AboutSection() {
       >
         <div className="about-background" aria-hidden="true">
           <video autoPlay muted loop playsInline preload="metadata">
-            <source src="/assets/images/dayim-main-video.mp4" type="video/mp4" />
+            <source src={aboutVideo} type="video/mp4" />
           </video>
         </div>
         <div className="about-shade" aria-hidden="true" />
@@ -61,9 +62,11 @@ function AboutSection() {
           
 
           <h2 id="about-title">
-            Building Tomorrow.
+            Building Trust.
             <br />
-            Setting New Standards.
+            Creating Lifestyles.
+            <br />
+            Shaping the Future.
           </h2>
 
           <div className="about-cards">

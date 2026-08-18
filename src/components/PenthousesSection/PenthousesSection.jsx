@@ -293,8 +293,8 @@ function PenthousesSection() {
             <p className="penthouses-terrace-copy">
               <span className="penthouses-terrace-offset" aria-hidden="true" />
               We build with responsibility, with quality, and with our
-              clients&apos; future in mind. Dayim Developers — Building Tomorrow.
-              Setting New Standards.
+              clients&apos; future in mind. Dayim Developers — Building Trust.
+              Creating Lifestyles. Shaping the Future.
             </p>
           </div>
         </div>

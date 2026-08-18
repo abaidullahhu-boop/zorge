@@ -5,6 +5,7 @@
 
   position: relative;
   z-index: 2;
+  margin-top: calc(var(--map-top) * -1);
   height: max(
     calc(100svh + var(--map-top)),
     calc(var(--map-top) + 100vw * 653 / 980)
@@ -12,7 +13,7 @@
   min-height: calc(520px + var(--map-top));
   overflow: hidden;
   color: #fff;
-  background: #050505;
+  background: transparent;
   isolation: isolate;
   transform: translateZ(0);
   backface-visibility: hidden;
