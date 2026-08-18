@@ -134,6 +134,13 @@
   border: 0;
   font: 600 clamp(12px, .74vw, 13px)/1 'Gilroy', sans-serif;
   text-transform: uppercase;
+  transition: opacity .35s ease, visibility .35s ease;
+}
+
+.hero-actions.is-on-projects .apartment-button {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .apartment-button-label {

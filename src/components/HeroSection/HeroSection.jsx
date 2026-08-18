@@ -12,9 +12,11 @@ function HeroSection({ introReady = false }) {
 
   useEffect(() => {
     const heroActions = document.querySelector('.hero-actions')
+    const apartmentButton = document.querySelector('.apartment-button')
     const locationSection = document.querySelector('.location-section')
     const locationImage = document.querySelector('.location-image-wrap')
     const architectureSection = document.querySelector('.architecture-section')
+    const projectsSection = document.querySelector('.projects-section')
 
     if (!heroActions) return undefined
 
@@ -22,8 +24,19 @@ function HeroSection({ introReady = false }) {
       const navRect = heroActions.getBoundingClientRect()
       const navY = navRect.top + navRect.height / 2
       let isOnLight = false
+      let isOnProjects = false
 
-      if (architectureSection) {
+      if (projectsSection) {
+        const projectsRect = projectsSection.getBoundingClientRect()
+        isOnProjects =
+          projectsRect.top <= navY && projectsRect.bottom > navY
+
+        if (isOnProjects) {
+          isOnLight = true
+        }
+      }
+
+      if (!isOnLight && architectureSection) {
         const architectureRect = architectureSection.getBoundingClientRect()
         const isOnArchitecture =
           architectureRect.top <= navY && architectureRect.bottom > navY
@@ -45,6 +58,13 @@ function HeroSection({ introReady = false }) {
       }
 
       heroActions.classList.toggle('is-on-light', isOnLight)
+      heroActions.classList.toggle('is-on-projects', isOnProjects)
+
+      if (apartmentButton) {
+        apartmentButton.setAttribute('aria-hidden', isOnProjects ? 'true' : 'false')
+        apartmentButton.toggleAttribute('inert', isOnProjects)
+        apartmentButton.tabIndex = isOnProjects ? -1 : 0
+      }
     }
 
     updateNavColor()
