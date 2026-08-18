@@ -1,7 +1,11 @@
 .panorama-section {
+  /* Cover GSAP lift (min(20vh, 180px) + scrub lag) so About cannot show
+     through between white Projects and navy Panorama. */
+  --panorama-lift: max(-22vh, -200px);
+
   position: relative;
   z-index: 3;
-  margin-top: -18vh;
+  margin-top: calc(var(--panorama-lift) - 8px);
   height: 150svh;
   color: #fff;
   background: transparent;
@@ -114,7 +118,6 @@
 
 @media (max-width: 760px) {
   .panorama-section {
-    margin-top: -12vh;
     height: auto;
     min-height: max(100svh, 219.44444vw);
   }

@@ -6,8 +6,26 @@ import '../../assets/styles/PanoramaSection.css'
 
 function PanoramaSection() {
   const [isVisible, setIsVisible] = useState(false)
+  const [projectsDetailOpen, setProjectsDetailOpen] = useState(false)
   const sectionRef = useRef(null)
   const slideRef = useRef(null)
+
+  useEffect(() => {
+    const syncProjectsDetail = () => {
+      setProjectsDetailOpen(
+        document.documentElement.classList.contains('is-projects-detail'),
+      )
+    }
+
+    syncProjectsDetail()
+    const observer = new MutationObserver(syncProjectsDetail)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    })
+
+    return () => observer.disconnect()
+  }, [])
 
   useEffect(() => {
     const section = sectionRef.current
@@ -33,6 +51,11 @@ function PanoramaSection() {
     if (!section || !slide) return undefined
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.set(slide, { y: 0, clearProps: 'transform' })
+      return undefined
+    }
+
+    if (projectsDetailOpen) {
       gsap.set(slide, { y: 0, clearProps: 'transform' })
       return undefined
     }
@@ -64,7 +87,7 @@ function PanoramaSection() {
     }, section)
 
     return () => ctx.revert()
-  }, [])
+  }, [projectsDetailOpen])
 
   return (
     <section
@@ -94,9 +117,11 @@ function PanoramaSection() {
           <hr className="panorama-rule" />
 
           <h2 id="panorama-title" className="panorama-kicker">
-            Building Tomorrow.
+            Building Trust.
             <br />
-            Setting New Standards.
+            Creating Lifestyles.
+            <br />
+            Shaping the Future.
           </h2>
 
           <p className="panorama-copy">

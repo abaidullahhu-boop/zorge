@@ -1,45 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import mapImage from '../../assets/images/map-image.svg'
-import dsaImage from '../../assets/images/dayim-signature.png'
-import livingImage from '../../assets/images/dayim-living.png'
-import zindagiImage from '../../assets/images/dayim-zindagi.png'
+import { projects } from '../../data/projects'
 import '../../assets/styles/MapSection.css'
-
-const projects = [
-  {
-    id: 'dsa',
-    title: 'Dayim Signature Apartments',
-    short: 'DSA',
-    subtitle: 'Broadway Commercial · Opposite Lake City',
-    image: dsaImage,
-    mapsUrl: 'https://share.google/1Z56ADgZS5XvUwBgB',
-    x: 58.5,
-    y: 38.5,
-    kind: 'photo',
-  },
-  {
-    id: 'living',
-    title: 'Dayim Living',
-    short: 'Living',
-    subtitle: 'Plot 22, Block C · Al-Kabir Town Phase 2',
-    image: livingImage,
-    mapsUrl: 'https://share.google/uQuucywNcsJaxM1TJ',
-    x: 54.2,
-    y: 48.5,
-    kind: 'photo',
-  },
-  {
-    id: 'zindagi',
-    title: 'Dayim Zindagi',
-    short: 'Zindagi',
-    subtitle: 'Business Bay · Main Raiwind Road',
-    image: zindagiImage,
-    mapsUrl: 'https://share.google/ntyEvG8FmQl5EgXMT',
-    x: 49.8,
-    y: 55.2,
-    kind: 'photo',
-  },
-]
 
 const landmarks = [
   {

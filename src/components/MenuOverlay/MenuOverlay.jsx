@@ -6,6 +6,7 @@ const ICONS = '/assets/images/icons.svg'
 
 const MENU_LINKS = [
   { label: 'About Us', href: '#about' },
+  { label: 'Our Projects', href: '#projects' },
   { label: 'Our Story', href: '#architecture' },
   { label: 'Vision', href: '#panorama' },
   { label: 'Values', href: '#advantages' },

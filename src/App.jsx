@@ -6,6 +6,7 @@ import HeroSection from './components/HeroSection/HeroSection'
 import LoadingScreen from './components/LoadingScreen/LoadingScreen'
 import LocationSection from './components/LocationSection/LocationSection'
 import MapSection from './components/MapSection/MapSection'
+import ProjectsSection from './components/ProjectsSection/ProjectsSection'
 import PanoramaSection from './components/PanoramaSection/PanoramaSection'
 import ArchitectureSection from './components/ArchitectureSection/ArchitectureSection'
 import GallerySection from './components/GallerySection/GallerySection'
@@ -31,6 +32,7 @@ function App() {
     const locationSection = document.querySelector('.location-section')
     const locationImage = document.querySelector('.location-image-wrap')
     const mapSection = document.querySelector('.map-section')
+    const projectsSection = document.querySelector('.projects-section')
     const panoramaSection = document.querySelector('.panorama-section')
     const architectureSection = document.querySelector('.architecture-section')
     const gallerySection = document.querySelector('.gallery-section')
@@ -70,6 +72,7 @@ function App() {
       const locationRect = locationSection.getBoundingClientRect()
       const imageRect = locationImage.getBoundingClientRect()
       const mapRect = mapSection.getBoundingClientRect()
+      const projectsRect = projectsSection?.getBoundingClientRect()
       const panoramaRect = panoramaSection?.getBoundingClientRect()
       const architectureRect = architectureSection?.getBoundingClientRect()
       const galleryRect = gallerySection?.getBoundingClientRect()
@@ -89,6 +92,11 @@ function App() {
         locationRect.bottom > wordmarkTop
       const isOnMap =
         mapRect.top <= wordmarkTop && mapRect.bottom > wordmarkTop
+      const isOnProjects = Boolean(
+        projectsRect &&
+          projectsRect.top <= wordmarkTop &&
+          projectsRect.bottom > wordmarkTop,
+      )
       const isOnPanorama =
         panoramaRect &&
         panoramaRect.top <= wordmarkTop &&
@@ -213,10 +221,17 @@ function App() {
           !isOnServices &&
           !isOnPenthouses,
       )
+      const isOnProjectsLight = Boolean(
+        isOnProjects &&
+          !isOnDarkSlide &&
+          !isOnFitness &&
+          !isOnServices &&
+          !isOnPenthouses,
+      )
 
       wordmarkRail.classList.toggle(
         'is-visible',
-        aboutRect.top <= 1 && !isOnApartments,
+        aboutRect.top <= 1 && !isOnApartments && !isOnProjects,
       )
       wordmarkRail.classList.toggle('is-on-location', isOnLocation)
       wordmarkRail.classList.toggle('is-on-map', isOnMap)
@@ -230,6 +245,7 @@ function App() {
         ),
       )
       wordmarkRail.classList.toggle('is-on-architecture', isOnArchitectureLight)
+      wordmarkRail.classList.toggle('is-on-projects', isOnProjectsLight)
       wordmarkRail.classList.toggle('is-on-fitness', isOnFitness)
       wordmarkRail.classList.toggle('is-on-gallery', isOnDarkSlide)
       wordmarkRail.classList.toggle(
@@ -565,6 +581,7 @@ function App() {
         <AboutSection />
         <LocationSection />
         <MapSection />
+        <ProjectsSection />
         <PanoramaSection />
         <ArchitectureSection />
         <GallerySection />

@@ -125,9 +125,11 @@ function LoadingScreen({ onHidden }) {
             DEVELOPERS
           </span>
           <span className="loading-tagline">
-            Building Tomorrow.
+            Building Trust.
             <br />
-            Setting New Standards.
+            Creating Lifestyles.
+            <br />
+            Shaping the Future.
           </span>
         </div>
       </div>
