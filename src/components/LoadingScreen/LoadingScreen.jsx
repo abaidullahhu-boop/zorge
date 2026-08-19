@@ -34,7 +34,9 @@ function persistScroll() {
 function LoadingScreen({ onHidden }) {
   const [atHero, setAtHero] = useState(() => isAtHeroSection())
   const [visible, setVisible] = useState(true)
-  const [cookieVisible, setCookieVisible] = useState(true)
+  const [cookieVisible, setCookieVisible] = useState(
+    () => localStorage.getItem('dayim-cookies-accepted') !== 'true'
+  )
   const [exitMode, setExitMode] = useState(null)
   const didNotifyHidden = useRef(false)
 
@@ -105,6 +107,7 @@ function LoadingScreen({ onHidden }) {
           <button
             type="button"
             onClick={() => {
+              localStorage.setItem('dayim-cookies-accepted', 'true')
               setCookieVisible(false)
               setVisible(false)
             }}

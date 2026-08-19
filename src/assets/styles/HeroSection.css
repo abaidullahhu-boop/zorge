@@ -565,9 +565,9 @@
     width: 100%;
     max-width: 100%;
     padding: 0 14px 18px;
-    font-size: calc((100vw - 28px) / 8);
+    font-size: calc((100vw - 28px) / 8.5);
     line-height: .9;
-    letter-spacing: 0.03em;
+    letter-spacing: 0;
     color: #a0725b;
   }
 }
@@ -590,7 +590,7 @@
 
   .intro__logo {
     padding: 0 12px 16px;
-    font-size: calc((100vw - 24px) / 8);
+    font-size: calc((100vw - 24px) / 8.5);
   }
 }
 

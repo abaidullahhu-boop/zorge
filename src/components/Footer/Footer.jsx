@@ -27,7 +27,7 @@ function Footer() {
   }
 
   return (
-    <footer className="site-footer">
+    <footer className="site-footer" id="contact">
       <div className="site-footer-top">
         <a
           className="site-footer-scroll"

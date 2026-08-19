@@ -125,9 +125,10 @@
 
   .lobby-content {
     flex-direction: column;
-    justify-content: flex-end;
-    gap: 32.5vh;
+    justify-content: space-between;
+    gap: 16px;
     padding-inline: 20px;
+    padding-top: clamp(20px, 4svh, 40px);
     padding-bottom: 20px;
   }
 

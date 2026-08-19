@@ -276,7 +276,7 @@
 @media (max-width: 760px) {
   .advantages-section {
     height: auto;
-    margin-top: -12vh;
+    margin-top: 0;
   }
 
   .advantages-sticky {
