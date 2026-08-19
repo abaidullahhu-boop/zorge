@@ -273,21 +273,33 @@
 }
 
 @media (max-width: 979px) {
+  .gallery-modal__layout {
+    padding: clamp(12px, 3vw, 20px);
+  }
+
   .gallery-modal__title--mobile {
     display: block;
     pointer-events: none;
-    margin-left: 16px;
+    margin-left: 14px;
     margin-right: 0;
+    font-size: clamp(26px, 8vw, 36px);
   }
 
   .gallery-modal__head {
     align-items: center;
     justify-content: flex-start;
+    margin-bottom: 16px;
   }
 
   .gallery-modal__close {
     order: 0;
     margin-right: 0;
+    width: 52px;
+    height: 52px;
+  }
+
+  .gallery-modal__list {
+    gap: clamp(10px, 2.5vw, 20px);
   }
 
   .gallery-modal__content {

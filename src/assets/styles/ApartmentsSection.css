@@ -368,7 +368,7 @@
 
   .apartments-hero-copy {
     margin: 0;
-    font: 600 clamp(13px, 3.6vw, 15px) / 1.3 'Gilroy', sans-serif;
+    font: 600 clamp(13px, 3.6vw, 15px) / 1.45 'Gilroy', sans-serif;
     letter-spacing: .03em;
     text-transform: uppercase;
   }
@@ -412,6 +412,7 @@
 
   .apartments-type {
     flex: 0 0 auto;
+    min-height: 44px;
     white-space: nowrap;
     font-size: 11px;
   }

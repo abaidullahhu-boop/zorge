@@ -386,7 +386,7 @@
     padding:
       clamp(48px, 14vw, 72px)
       20px
-      20px;
+      max(20px, env(safe-area-inset-bottom));
     background: linear-gradient(
       180deg,
       rgb(0 0 0 / 0%) 0%,

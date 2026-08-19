@@ -142,7 +142,7 @@
     flex-direction: column;
     align-items: stretch;
     box-sizing: border-box;
-    padding: clamp(88px, 24vw, 110px) 20px 28px;
+    padding: clamp(88px, 24vw, 110px) 20px max(28px, env(safe-area-inset-bottom));
   }
 
   .panorama-rule {
@@ -151,18 +151,18 @@
   }
 
   .panorama-kicker {
-    max-width: 11em;
-    font-size: 11px;
-    line-height: 1.15;
+    max-width: 14em;
+    font-size: 13px;
+    line-height: 1.2;
     letter-spacing: .03em;
   }
 
   .panorama-copy {
     max-width: none;
     width: 100%;
-    margin-top: clamp(28px, 8vw, 40px);
+    margin-top: clamp(24px, 7vw, 36px);
     margin-left: 0;
-    font-size: clamp(22px, 6.4vw, 28px);
+    font-size: clamp(24px, 6.8vw, 32px);
     line-height: 1.08;
     letter-spacing: -.02em;
   }
