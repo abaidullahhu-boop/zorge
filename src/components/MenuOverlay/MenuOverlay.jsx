@@ -11,6 +11,7 @@ const MENU_LINKS = [
   { label: 'Values', href: '#advantages' },
   { label: 'Why Choose Us', href: '#fitness' },
   { label: 'Our Projects', href: '#projects', mobileOnly: true },
+  { label: 'Contact Us', href: '#contact' },
 ]
 
 function getActiveHref() {

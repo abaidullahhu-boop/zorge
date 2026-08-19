@@ -1026,11 +1026,7 @@
   }
 
   .projects-logo-wrap {
-    justify-content: flex-start;
-  }
-
-  .projects-logo {
-    max-width: clamp(90px, 22vw, 140px);
+    display: none;
   }
 
   .projects-grid {
