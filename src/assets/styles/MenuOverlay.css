@@ -388,6 +388,10 @@
   .menu-overlay__list {
     gap: 6px;
   }
+
+  .menu-overlay__item--mobile-only {
+    display: none;
+  }
 }
 
 @media (max-width: 899px) {
