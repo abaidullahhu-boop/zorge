@@ -1,18 +1,22 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import heroModel from '../../assets/images/decor.webp'
+import aboutVideo from '../../assets/images/about.mp4'
 import MenuOverlay from '../MenuOverlay/MenuOverlay'
+import ProjectsOverlay from '../ProjectsOverlay/ProjectsOverlay'
 import { gsap } from '../../lib/gsap'
 import '../../assets/styles/HeroSection.css'
 
 function HeroSection({ introReady = false }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [projectsOpen, setProjectsOpen] = useState(false)
+  const closeProjects = useCallback(() => setProjectsOpen(false), [])
   const frameRef = useRef(null)
   const heroRef = useRef(null)
   const closeMenu = useCallback(() => setMenuOpen(false), [])
 
   useEffect(() => {
     const heroActions = document.querySelector('.hero-actions')
-    const apartmentButton = document.querySelector('.apartment-button')
+    const heroProjects = document.querySelector('.hero-projects')
     const locationSection = document.querySelector('.location-section')
     const locationImage = document.querySelector('.location-image-wrap')
     const architectureSection = document.querySelector('.architecture-section')
@@ -60,10 +64,9 @@ function HeroSection({ introReady = false }) {
       heroActions.classList.toggle('is-on-light', isOnLight)
       heroActions.classList.toggle('is-on-projects', isOnProjects)
 
-      if (apartmentButton) {
-        apartmentButton.setAttribute('aria-hidden', isOnProjects ? 'true' : 'false')
-        apartmentButton.toggleAttribute('inert', isOnProjects)
-        apartmentButton.tabIndex = isOnProjects ? -1 : 0
+      if (heroProjects) {
+        heroProjects.setAttribute('aria-hidden', isOnProjects ? 'true' : 'false')
+        heroProjects.toggleAttribute('inert', isOnProjects)
       }
     }
 
@@ -112,6 +115,11 @@ function HeroSection({ introReady = false }) {
           className={`dayim-hero${introReady ? ' is-intro-ready' : ''}`}
           aria-labelledby="hero-title"
         >
+        <div className="hero-video-bg" aria-hidden="true">
+          <video autoPlay muted loop playsInline preload="metadata">
+            <source src={aboutVideo} type="video/mp4" />
+          </video>
+        </div>
         <div className="building" aria-hidden="true">
           <div className="building__layer building__layer--primary" />
           <div className="building__layer building__layer--alt" />
@@ -163,22 +171,18 @@ function HeroSection({ introReady = false }) {
       </div>
 
       <div className="hero-actions">
-        <button
-          className="apartment-button"
-          type="button"
-          onClick={() => {
-            const target = document.querySelector('#apartments')
-            if (!target) return
-            window.dispatchEvent(
-              new CustomEvent('dayim:scroll-to', { detail: { el: target } }),
-            )
-          }}
-        >
-          <span className="apartment-button-label">
-            <span>Dayim Signature Apartments</span>
-            <span aria-hidden="true">Dayim Signature Apartments</span>
-          </span>
-        </button>
+        <div className="hero-projects" aria-label="Our projects">
+          <button
+            className="hero-project-btn"
+            type="button"
+            onClick={() => setProjectsOpen(true)}
+          >
+            <span className="hero-project-btn__label">
+              <span>Our Projects</span>
+              <span aria-hidden="true">Our Projects</span>
+            </span>
+          </button>
+        </div>
         <button
           className={`menu-button ${menuOpen ? 'is-open' : ''}`}
           type="button"
@@ -192,6 +196,7 @@ function HeroSection({ introReady = false }) {
         </button>
       </div>
       <MenuOverlay open={menuOpen} onClose={closeMenu} />
+      <ProjectsOverlay open={projectsOpen} onClose={closeProjects} />
     </>
   )
 }

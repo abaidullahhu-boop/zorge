@@ -71,7 +71,12 @@ function PenthousesSection() {
       // where sticky About peeked through (Services is not pinned ≤760).
       // Desktop keeps the lift; Services handoff covers the gap there.
       ScrollTrigger.matchMedia({
-        '(max-width: 1024px)': () => {
+        '(max-width: 760px)': () => {
+          gsap.set(heroSlide, { y: 0, clearProps: 'transform' })
+          if (heroImage) gsap.set(heroImage, { y: 0, clearProps: 'transform' })
+          if (heroContent) gsap.set(heroContent, { y: 0, clearProps: 'transform' })
+        },
+        '(min-width: 761px) and (max-width: 1024px)': () => {
           gsap.set(heroSlide, { y: 0, clearProps: 'transform' })
         },
         '(min-width: 1025px)': () => {
@@ -100,41 +105,49 @@ function PenthousesSection() {
       })
 
       if (heroImage) {
-        gsap.fromTo(
-          heroImage,
-          { y: '0svh', force3D: true },
-          {
-            y: '-10svh',
-            ease: 'none',
-            force3D: true,
-            scrollTrigger: {
-              trigger: section,
-              start: 'top top',
-              end: 'bottom top',
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
+        ScrollTrigger.matchMedia({
+          '(min-width: 761px)': () => {
+            gsap.fromTo(
+              heroImage,
+              { y: '0svh', force3D: true },
+              {
+                y: '-10svh',
+                ease: 'none',
+                force3D: true,
+                scrollTrigger: {
+                  trigger: section,
+                  start: 'top top',
+                  end: 'bottom top',
+                  scrub: true,
+                  invalidateOnRefresh: true,
+                },
+              },
+            )
           },
-        )
+        })
       }
 
       if (heroContent) {
-        gsap.fromTo(
-          heroContent,
-          { y: '10svh', force3D: true },
-          {
-            y: '-10svh',
-            ease: 'none',
-            force3D: true,
-            scrollTrigger: {
-              trigger: section,
-              start: 'top top',
-              end: 'bottom top',
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
+        ScrollTrigger.matchMedia({
+          '(min-width: 761px)': () => {
+            gsap.fromTo(
+              heroContent,
+              { y: '10svh', force3D: true },
+              {
+                y: '-10svh',
+                ease: 'none',
+                force3D: true,
+                scrollTrigger: {
+                  trigger: section,
+                  start: 'top top',
+                  end: 'bottom top',
+                  scrub: true,
+                  invalidateOnRefresh: true,
+                },
+              },
+            )
           },
-        )
+        })
       }
     }, section)
 

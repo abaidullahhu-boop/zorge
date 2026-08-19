@@ -361,10 +361,14 @@
 
   .penthouses-hero-track {
     height: 100svh;
+    /* Raise above .penthouses-body (z-index: 2) so the hero text
+       is never covered by the body scrolling up beneath it. */
+    z-index: 3;
   }
 
   .penthouses-hero-image {
     height: 72%;
+    will-change: auto;
   }
 
   .penthouses-hero-image img {
@@ -389,6 +393,7 @@
       rgb(0 0 0 / 78%) 45%,
       rgb(0 0 0 / 94%) 100%
     );
+    will-change: auto;
   }
 
   .penthouses-hero-title {

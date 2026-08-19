@@ -1,5 +1,5 @@
 .map-section {
-  --map-top: clamp(36px, 4vw, 72px);
+  --map-top: clamp(58px, 6vw, 96px);
   --map-accent: #c4a574;
   --map-brand: #a0725b;
 
@@ -13,7 +13,7 @@
   min-height: calc(520px + var(--map-top));
   overflow: hidden;
   color: #fff;
-  background: transparent;
+  background: #ffffff;
   isolation: isolate;
   transform: translateZ(0);
   backface-visibility: hidden;
@@ -346,51 +346,8 @@
   display: none;
 }
 
-/* —— Bottom dock —— */
-.map-dock {
-  position: absolute;
-  z-index: 8;
-  bottom: clamp(16px, 3vw, 32px);
-  left: 50%;
-  display: flex;
-  gap: 8px;
-  padding: 8px;
-  background: rgb(28 28 28 / 82%);
-  border: 1px solid rgb(255 255 255 / 12%);
-  border-radius: 999px;
-  backdrop-filter: blur(8px);
-  transform: translateX(-50%);
-}
 
-.map-dock-btn {
-  display: grid;
-  width: 36px;
-  aspect-ratio: 1;
-  padding: 0;
-  color: rgb(255 255 255 / 80%);
-  background: transparent;
-  border: 0;
-  border-radius: 50%;
-  place-items: center;
-  cursor: pointer;
-  transition: color .25s ease, background-color .25s ease;
-}
 
-.map-dock-btn svg {
-  width: 18px;
-  height: 18px;
-}
-
-.map-dock-btn:hover,
-.map-dock-btn:focus-visible {
-  color: #fff;
-  background: rgb(255 255 255 / 12%);
-  outline: none;
-}
-
-.map-dock-btn--maps {
-  color: var(--map-accent);
-}
 
 .map-swipe-cue {
   display: none;

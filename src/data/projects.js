@@ -268,8 +268,8 @@ export const projects = [
     subtitle: 'Broadway Commercial · Opposite Lake City',
     image: dsaImage,
     mapsUrl: 'https://share.google/1Z56ADgZS5XvUwBgB',
-    x: 58.5,
-    y: 38.5,
+    x: 43,
+    y: 69,
     kind: 'photo',
     about: {
       description:
@@ -349,8 +349,8 @@ export const projects = [
     subtitle: 'Plot 22, Block C · Al-Kabir Town Phase 2',
     image: livingImage,
     mapsUrl: 'https://share.google/uQuucywNcsJaxM1TJ',
-    x: 54.2,
-    y: 48.5,
+    x: 50,
+    y: 71,
     kind: 'photo',
     about: {
       description:
@@ -378,8 +378,8 @@ export const projects = [
     subtitle: 'Business Bay · Main Raiwind Road',
     image: zindagiImage,
     mapsUrl: 'https://share.google/ntyEvG8FmQl5EgXMT',
-    x: 49.8,
-    y: 55.2,
+    x: 44,
+    y: 59,
     kind: 'photo',
     about: {
       description:

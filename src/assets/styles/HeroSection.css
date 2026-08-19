@@ -26,6 +26,22 @@
   box-shadow: inset 0 -120px 90px -20px rgb(0 0 0 / 95%);
 }
 
+.hero-video-bg {
+  position: absolute;
+  z-index: -2;
+  inset: 0 0 0 34.2%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.hero-video-bg video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .building {
   position: absolute;
   z-index: -3;
@@ -127,42 +143,51 @@
   color: #000;
 }
 
-.apartment-button {
-  padding: 5px 0;
-  color: inherit;
-  background: transparent;
-  border: 0;
-  font: 600 clamp(12px, .74vw, 13px)/1 'Gilroy', sans-serif;
-  text-transform: uppercase;
+.hero-projects {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
   transition: opacity .35s ease, visibility .35s ease;
 }
 
-.hero-actions.is-on-projects .apartment-button {
+.hero-actions.is-on-projects .hero-projects {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
 
-.apartment-button-label {
+.hero-project-btn {
+  padding: 4px 0;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  font: 600 clamp(11px, .72vw, 13px)/1 'Gilroy', sans-serif;
+  text-transform: uppercase;
+  cursor: pointer;
+  letter-spacing: .04em;
+}
+
+.hero-project-btn__label {
   position: relative;
   display: block;
   height: 1em;
   overflow: hidden;
 }
 
-.apartment-button-label > span {
+.hero-project-btn__label > span {
   display: block;
   transition: transform .75s ease;
 }
 
-.apartment-button-label > span:last-child {
+.hero-project-btn__label > span:last-child {
   position: absolute;
   top: 100%;
   left: 0;
 }
 
-.apartment-button:hover .apartment-button-label > span,
-.apartment-button:focus-visible .apartment-button-label > span {
+.hero-project-btn:hover .hero-project-btn__label > span,
+.hero-project-btn:focus-visible .hero-project-btn__label > span {
   transform: translateY(-100%);
 }
 
@@ -480,6 +505,10 @@
   }
 
   .building {
+    display: none;
+  }
+
+  .hero-video-bg {
     inset: 0;
   }
 
@@ -506,7 +535,7 @@
     gap: 20px;
   }
 
-  .apartment-button {
+  .hero-projects {
     display: none;
   }
 

@@ -93,6 +93,10 @@ function DeveloperOverview({ onSelectProject }) {
         </div>
       </div>
 
+      <div className="projects-grid-header">
+        <h3 className="projects-grid-label">Our Projects</h3>
+      </div>
+
       <div className="projects-grid" role="list">
         {projects.map((project) => (
           <div key={project.id} role="listitem">
