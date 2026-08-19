@@ -244,8 +244,8 @@
     inset: auto;
     right: 20px;
     bottom: 20px;
-    width: 88px;
-    height: 88px;
+    width: 96px;
+    height: 96px;
     cursor: pointer;
   }
 
@@ -316,7 +316,7 @@
   }
 
   .gallery-title-text {
-    font-size: clamp(36px, 10vw, 48px);
+    font-size: clamp(38px, 11vw, 52px);
   }
 
   .gallery-cursor {

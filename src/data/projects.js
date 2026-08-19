@@ -270,6 +270,7 @@ export const projects = [
     mapsUrl: 'https://share.google/1Z56ADgZS5XvUwBgB',
     x: 43,
     y: 69,
+    mobile: { x: 42.5, y: 66.8 },
     kind: 'photo',
     about: {
       description:
@@ -351,6 +352,7 @@ export const projects = [
     mapsUrl: 'https://share.google/uQuucywNcsJaxM1TJ',
     x: 50,
     y: 71,
+    mobile: { x: 50, y: 71 },
     kind: 'photo',
     about: {
       description:
@@ -380,6 +382,7 @@ export const projects = [
     mapsUrl: 'https://share.google/ntyEvG8FmQl5EgXMT',
     x: 44,
     y: 59,
+    mobile: { x: 44.5, y: 59 },
     kind: 'photo',
     about: {
       description:

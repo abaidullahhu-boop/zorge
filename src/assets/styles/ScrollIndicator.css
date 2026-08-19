@@ -29,6 +29,12 @@
   transition: transform 0.12s linear;
 }
 
+@media (max-width: 760px) {
+  .scroll-indicator {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .scroll-indicator {
     transition: none;

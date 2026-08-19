@@ -210,6 +210,25 @@
   .loading-frame {
     width: 170px;
   }
+
+  .loading-cookie {
+    bottom: 12px;
+    width: calc(100% - 32px);
+    min-height: 56px;
+    padding: 12px 20px;
+    gap: 14px;
+  }
+
+  .loading-cookie__message,
+  .loading-cookie button {
+    font-size: 13px;
+  }
+
+  .loading-cookie button {
+    padding: 8px 0;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -138,6 +138,21 @@
   transform: translateY(-100%);
 }
 
+@media (max-width: 767px) {
+  .site-footer {
+    padding-bottom: max(var(--footer-pad), env(safe-area-inset-bottom));
+  }
+
+  .site-footer-top {
+    margin-bottom: 56px;
+  }
+
+  .site-footer-logo-text {
+    font-size: clamp(15px, 4.2vw, 20px);
+    letter-spacing: 0.12em;
+  }
+}
+
 @media (min-width: 768px) {
   .site-footer-row {
     grid-template-columns: minmax(120px, 1fr) minmax(0, 8fr) minmax(120px, 1fr);

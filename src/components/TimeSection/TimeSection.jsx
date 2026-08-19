@@ -262,6 +262,41 @@ function TimeSection() {
     goTo(activeIndexRef.current + 1)
   }, [goTo])
 
+  useEffect(() => {
+    const slide = slideRef.current
+    if (!slide || window.matchMedia('(min-width: 761px)').matches) {
+      return undefined
+    }
+
+    let startX = 0
+    let startY = 0
+
+    const onTouchStart = (event) => {
+      const touch = event.touches[0]
+      if (!touch) return
+      startX = touch.clientX
+      startY = touch.clientY
+    }
+
+    const onTouchEnd = (event) => {
+      const touch = event.changedTouches[0]
+      if (!touch) return
+      const dx = touch.clientX - startX
+      const dy = touch.clientY - startY
+      if (Math.abs(dx) < 56 || Math.abs(dx) < Math.abs(dy) * 1.25) return
+      if (dx < 0) goNext()
+      else goPrev()
+    }
+
+    slide.addEventListener('touchstart', onTouchStart, { passive: true })
+    slide.addEventListener('touchend', onTouchEnd, { passive: true })
+
+    return () => {
+      slide.removeEventListener('touchstart', onTouchStart)
+      slide.removeEventListener('touchend', onTouchEnd)
+    }
+  }, [goNext, goPrev])
+
   const active = SCHEDULE[activeIndex]
   const canPrev = activeIndex > 0
   const canNext = activeIndex < SCHEDULE.length - 1
@@ -382,6 +417,26 @@ function TimeSection() {
                   <span className="time-text-offset" aria-hidden="true" />
                   <p>{item.text}</p>
                 </div>
+              ))}
+            </div>
+
+            <div className="time-progress" role="tablist" aria-label="Schedule">
+              {SCHEDULE.map((item, index) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={[
+                    'time-progress-dot',
+                    index === activeIndex ? 'is-active' : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                  role="tab"
+                  aria-label={item.time}
+                  aria-selected={index === activeIndex}
+                  onClick={() => goTo(index)}
+                  disabled={isAnimating}
+                />
               ))}
             </div>
           </div>

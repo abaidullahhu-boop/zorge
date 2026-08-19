@@ -50,28 +50,48 @@ function openMaps(url) {
 
 const MOBILE_MAP_MQ = '(max-width: 760px)'
 
+// Red pin anchor baked into map.png — mobile markers cluster here.
+const MAP_CLUSTER = { x: 46.5, y: 63 }
+
 function isMobileMap() {
   return window.matchMedia(MOBILE_MAP_MQ).matches
 }
 
-function scrollMapToProjects(viewport) {
+function scrollMapToCluster(viewport) {
   if (!viewport || !isMobileMap()) return
 
   const plan = viewport.querySelector('.map-plan')
   if (!plan?.clientWidth) return
 
-  const avgX =
-    projects.reduce((sum, place) => sum + place.x, 0) / projects.length / 100
   const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth)
   viewport.scrollLeft = Math.max(
     0,
-    Math.min(maxScroll, plan.clientWidth * avgX - viewport.clientWidth / 2),
+    Math.min(maxScroll, plan.clientWidth * (MAP_CLUSTER.x / 100) - viewport.clientWidth / 2),
   )
+}
+
+function scrollMapToProjects(viewport) {
+  scrollMapToCluster(viewport)
+}
+
+function scrollMapToProject(viewport) {
+  scrollMapToCluster(viewport)
+}
+
+function getMapSpotStyle(place) {
+  const mobileX = place.mobile?.x ?? place.x + (place.mobile?.dx ?? 0)
+  const mobileY = place.mobile?.y ?? place.y + (place.mobile?.dy ?? 0)
+
+  return {
+    '--map-x': `${place.x}%`,
+    '--map-y': `${place.y}%`,
+    '--map-mobile-x': `${mobileX}%`,
+    '--map-mobile-y': `${mobileY}%`,
+  }
 }
 
 function MapSection() {
   const [activeId, setActiveId] = useState(null)
-  const [showSwipeCue, setShowSwipeCue] = useState(true)
   const [focusIndex, setFocusIndex] = useState(0)
   const viewportRef = useRef(null)
 
@@ -80,15 +100,8 @@ function MapSection() {
     if (!viewport) return undefined
 
     let startScrollLeft = 0
-    let cueHidden = false
     let userScrolled = false
     let centering = false
-
-    const hideCue = () => {
-      if (cueHidden) return
-      cueHidden = true
-      setShowSwipeCue(false)
-    }
 
     const centerMap = () => {
       if (userScrolled) return
@@ -102,7 +115,6 @@ function MapSection() {
       if (centering) return
       if (Math.abs(viewport.scrollLeft - startScrollLeft) > 12) {
         userScrolled = true
-        hideCue()
       }
     }
 
@@ -177,7 +189,15 @@ function MapSection() {
     openMaps(place.mapsUrl)
   }
 
-  const activeProject = projects.find((p) => p.id === activeId)
+  const handleMarkerClick = (place) => {
+    if (isMobileMap()) {
+      setActiveId((current) => (current === place.id ? null : place.id))
+      scrollMapToProject(viewportRef.current)
+      return
+    }
+
+    openProject(place)
+  }
 
   return (
     <section className="map-section" id="map" aria-labelledby="map-title">
@@ -208,7 +228,7 @@ function MapSection() {
               <div
                 className={`map-spot map-spot--${place.kind}${isActive ? ' is-active' : ''}${isFocused ? ' is-focused' : ''}`}
                 key={place.id}
-                style={{ '--map-x': `${place.x}%`, '--map-y': `${place.y}%` }}
+                style={getMapSpotStyle(place)}
               >
                 <button
                   className={
@@ -219,9 +239,9 @@ function MapSection() {
                         : 'map-brand'
                   }
                   type="button"
-                  aria-label={`Open ${place.title} in Google Maps`}
+                  aria-label={`${isMobileMap() ? 'Show' : 'Open'} ${place.title}${isMobileMap() ? '' : ' in Google Maps'}`}
                   aria-expanded={isActive}
-                  onClick={() => openProject(place)}
+                  onClick={() => handleMarkerClick(place)}
                 >
                   {place.kind === 'pin' ? (
                     <MapPinIcon />
@@ -270,44 +290,6 @@ function MapSection() {
         </div>
       </div>
 
-      
-
-      <span
-        className={`map-swipe-cue${showSwipeCue ? '' : ' is-hidden'}`}
-        aria-hidden="true"
-      >
-        <span className="map-swipe-cue__track">
-          <span className="map-swipe-cue__line" />
-          <svg
-            className="map-swipe-cue__arrow map-swipe-cue__arrow--left"
-            viewBox="0 0 10 14"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M9 1 1 7l8 6"
-              stroke="currentColor"
-              strokeWidth="1.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <svg
-            className="map-swipe-cue__arrow map-swipe-cue__arrow--right"
-            viewBox="0 0 10 14"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M1 1l8 6-8 6"
-              stroke="currentColor"
-              strokeWidth="1.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </span>
-      </span>
     </section>
   )
 }
