@@ -1,65 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import mapImage from '../../assets/images/map-image.svg'
+import mapImage from '../../assets/images/map.png'
 import { projects } from '../../data/projects'
 import '../../assets/styles/MapSection.css'
 
-const landmarks = [
-  {
-    id: 'uol',
-    title: 'The University of Lahore',
-    icon: 'grad',
-    mapsUrl:
-      'https://www.google.com/maps/search/?api=1&query=The+University+of+Lahore',
-    x: 18.5,
-    y: 26,
-  },
-  {
-    id: 'superior',
-    title: 'Superior University',
-    icon: 'grad',
-    mapsUrl:
-      'https://www.google.com/maps/search/?api=1&query=Superior+University+Lahore',
-    x: 86,
-    y: 28,
-  },
-  {
-    id: 'zoo',
-    title: 'Safari Zoo',
-    icon: 'paw',
-    mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Safari+Zoo+Lahore',
-    x: 28,
-    y: 82,
-  },
-]
-
-function GradCapIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M2 9.5 12 4l10 5.5-10 5.5L2 9.5Z"
-        fill="currentColor"
-      />
-      <path
-        d="M6 11.2v5.3c0 .4 2.7 2.5 6 2.5s6-2.1 6-2.5v-5.3"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-      <path d="M22 9.5v6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-function PawIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <ellipse cx="7.2" cy="8.2" rx="2.1" ry="2.6" />
-      <ellipse cx="12" cy="6.4" rx="2.1" ry="2.6" />
-      <ellipse cx="16.8" cy="8.2" rx="2.1" ry="2.6" />
-      <path d="M8.2 13.2c-1.8 0-3.4 1.5-3.4 3.6 0 2.2 1.9 3.7 4.4 3.7 1.1 0 1.8-.3 2.8-.3s1.7.3 2.8.3c2.5 0 4.4-1.5 4.4-3.7 0-2.1-1.6-3.6-3.4-3.6-1.2 0-2.1.5-3.1.5s-1.9-.5-3.1-.5Z" />
-    </svg>
-  )
-}
 
 function BuildingIcon() {
   return (
@@ -256,25 +199,6 @@ function MapSection() {
             draggable="false"
           />
 
-          {landmarks.map((place) => (
-            <div
-              className="map-landmark"
-              key={place.id}
-              style={{ '--map-x': `${place.x}%`, '--map-y': `${place.y}%` }}
-            >
-              <button
-                type="button"
-                className="map-landmark-btn"
-                aria-label={`Open ${place.title} in Google Maps`}
-                onClick={() => openMaps(place.mapsUrl)}
-              >
-                <span className="map-landmark-icon" aria-hidden="true">
-                  {place.icon === 'paw' ? <PawIcon /> : <GradCapIcon />}
-                </span>
-                <span className="map-landmark-label">{place.title}</span>
-              </button>
-            </div>
-          ))}
 
           {projects.map((place) => {
             const isActive = activeId === place.id
@@ -346,45 +270,7 @@ function MapSection() {
         </div>
       </div>
 
-      <div className="map-dock" role="toolbar" aria-label="Map actions">
-        <button
-          type="button"
-          className="map-dock-btn"
-          aria-label="Recenter on Dayim projects"
-          onClick={() => {
-            setFocusIndex(0)
-            setActiveId(projects[0].id)
-            scrollMapToProjects(viewportRef.current)
-          }}
-        >
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="1.6" />
-            <path
-              d="M12 3v3M12 18v3M3 12h3M18 12h3"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            />
-          </svg>
-        </button>
-        {activeProject && (
-          <button
-            type="button"
-            className="map-dock-btn map-dock-btn--maps"
-            aria-label={`Open ${activeProject.title} in Google Maps`}
-            onClick={() => openProject(activeProject)}
-          >
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"
-                stroke="currentColor"
-                strokeWidth="1.6"
-              />
-              <circle cx="12" cy="9" r="2.2" stroke="currentColor" strokeWidth="1.6" />
-            </svg>
-          </button>
-        )}
-      </div>
+      
 
       <span
         className={`map-swipe-cue${showSwipeCue ? '' : ' is-hidden'}`}

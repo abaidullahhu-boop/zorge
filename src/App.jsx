@@ -338,6 +338,9 @@ function App() {
     const getSnapRanges = () => {
       if (!heroFrame || !aboutFlow || !locationSection) return []
 
+      // Disable all center-snap behaviour on mobile — free scroll only.
+      if (window.innerWidth <= 760) return []
+
       const heroStart = getDocumentOffsetTop(heroFrame)
       const aboutStart = getDocumentOffsetTop(aboutFlow)
       const locationStart = getDocumentOffsetTop(locationSection)

@@ -259,37 +259,7 @@
   display: none;
 }
 
-.menu-overlay__apartment {
-  display: none;
-  color: inherit;
-  font: 600 clamp(12px, 0.74vw, 13px) / 1 'Gilroy', sans-serif;
-  letter-spacing: 0.03em;
-  text-decoration: none;
-  text-transform: uppercase;
-}
 
-.menu-overlay__apartment-label {
-  position: relative;
-  display: block;
-  height: 1em;
-  overflow: hidden;
-}
-
-.menu-overlay__apartment-label > span {
-  display: block;
-  transition: transform 0.75s ease;
-}
-
-.menu-overlay__apartment-label > span:last-child {
-  position: absolute;
-  top: 100%;
-  left: 0;
-}
-
-.menu-overlay__apartment:hover .menu-overlay__apartment-label > span,
-.menu-overlay__apartment:focus-visible .menu-overlay__apartment-label > span {
-  transform: translateY(-100%);
-}
 
 .menu-overlay__close {
   display: grid;

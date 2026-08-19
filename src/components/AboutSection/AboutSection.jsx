@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import aboutVideo from '../../assets/images/about.mp4'
 import '../../assets/styles/AboutSection.css'
 
 function LongArrowUp() {
@@ -52,9 +51,8 @@ function AboutSection() {
         aria-labelledby="about-title"
       >
         <div className="about-background" aria-hidden="true">
-          <video autoPlay muted loop playsInline preload="metadata">
-            <source src={aboutVideo} type="video/mp4" />
-          </video>
+          <div className="about-bg-layer about-bg-layer--primary" />
+          <div className="about-bg-layer about-bg-layer--alt" />
         </div>
         <div className="about-shade" aria-hidden="true" />
 

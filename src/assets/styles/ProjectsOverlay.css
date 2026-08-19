@@ -1,0 +1,265 @@
+.projects-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  background: #0a0a0a;
+  visibility: hidden;
+  pointer-events: none;
+  clip-path: inset(100% 0 0 0);
+  transition:
+    clip-path 1.15s cubic-bezier(0.65, 0, 0.35, 1),
+    visibility 0s linear 1.15s;
+}
+
+.projects-overlay.is-open {
+  visibility: visible;
+  pointer-events: auto;
+  clip-path: inset(0 0 0 0);
+  transition:
+    clip-path 1.15s cubic-bezier(0.65, 0, 0.35, 1),
+    visibility 0s;
+}
+
+.projects-overlay__panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 100svh;
+  overflow: auto;
+}
+
+/* ── Header ─────────────────────────────────── */
+.projects-overlay__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  padding: clamp(14px, 1.2vw, 22px) clamp(20px, 2vw, 36px);
+  border-bottom: 1px solid rgb(255 255 255 / 12%);
+}
+
+.projects-overlay__kicker {
+  margin: 0;
+  font: 600 clamp(11px, 0.75vw, 13px) / 1 'Gilroy', sans-serif;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #a0725b;
+}
+
+.projects-overlay__close {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  color: inherit;
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 30%);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.projects-overlay__close:hover,
+.projects-overlay__close:focus-visible {
+  background: rgb(255 255 255 / 8%);
+  border-color: rgb(255 255 255 / 65%);
+}
+
+/* ── Cards grid ──────────────────────────────── */
+.projects-overlay__grid {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: clamp(14px, 1.8vw, 24px);
+  flex: 1;
+  padding: clamp(24px, 3vw, 48px) clamp(20px, 2vw, 36px);
+  overflow: auto;
+}
+
+/* ── Card ────────────────────────────────────── */
+.projects-overlay__card {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  max-width: 340px;
+  min-width: 200px;
+  padding: 0;
+  color: #fff;
+  background: #161616;
+  border: 1px solid rgb(255 255 255 / 10%);
+  border-radius: 12px;
+  cursor: pointer;
+  overflow: hidden;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0s linear var(--delay, 0s),
+    transform 0s linear var(--delay, 0s);
+}
+
+.projects-overlay.is-open .projects-overlay__card {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    opacity 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94) calc(0.5s + var(--delay, 0s)),
+    transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94) calc(0.5s + var(--delay, 0s));
+}
+
+.projects-overlay__card:hover {
+  background: #1c1c1c;
+  border-color: rgb(160 114 91 / 40%);
+  box-shadow: 0 8px 40px rgb(0 0 0 / 50%);
+}
+
+/* ── Image ───────────────────────────────────── */
+.projects-overlay__card-img-wrap {
+  position: relative;
+  width: 100%;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
+}
+
+.projects-overlay__card-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transform: scale(1.05);
+  transition: transform 0.9s cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+
+.projects-overlay__card:hover .projects-overlay__card-img {
+  transform: scale(1);
+}
+
+/* ── Body ────────────────────────────────────── */
+.projects-overlay__card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  padding: clamp(14px, 1.4vw, 20px) clamp(14px, 1.4vw, 20px) clamp(16px, 1.6vw, 22px);
+}
+
+.projects-overlay__card-short {
+  font: 600 clamp(10px, 0.8vw, 13px) / 1 'Gilroy', sans-serif;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #a0725b;
+  margin-bottom: 4px;
+}
+
+.projects-overlay__card-title {
+  font: 700 clamp(18px, 1.8vw, 26px) / 1.1 'Gilroy', sans-serif;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.projects-overlay__card-subtitle {
+  font: 400 clamp(12px, 0.9vw, 14px) / 1.5 'Gilroy', sans-serif;
+  color: rgb(255 255 255 / 50%);
+  margin-top: 3px;
+}
+
+/* ── Highlights ──────────────────────────────── */
+.projects-overlay__card-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 10px 0 0;
+  padding: 10px 0 0;
+  list-style: none;
+  border-top: 1px solid rgb(255 255 255 / 8%);
+}
+
+.projects-overlay__card-highlights li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font: 400 clamp(11px, 0.75vw, 13px) / 1.45 'Gilroy', sans-serif;
+  color: rgb(255 255 255 / 45%);
+}
+
+.projects-overlay__card-highlights li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 3px;
+  height: 3px;
+  margin-top: 0.5em;
+  border-radius: 50%;
+  background: #a0725b;
+}
+
+/* ── CTA ─────────────────────────────────────── */
+.projects-overlay__card-cta {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: auto;
+  padding-top: clamp(12px, 1.2vw, 18px);
+  font: 600 clamp(11px, 0.75vw, 13px) / 1 'Gilroy', sans-serif;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 40%);
+  transition: color 0.3s ease;
+}
+
+.projects-overlay__card-cta svg {
+  width: 20px;
+  height: 12px;
+  flex-shrink: 0;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.projects-overlay__card:hover .projects-overlay__card-cta {
+  color: #fff;
+}
+
+.projects-overlay__card:hover .projects-overlay__card-cta svg {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ── Mobile ──────────────────────────────────── */
+@media (max-width: 700px) {
+  .projects-overlay__grid {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px 16px;
+    gap: 14px;
+  }
+
+  .projects-overlay__card {
+    flex-direction: row;
+    max-width: 100%;
+    border-radius: 10px;
+  }
+
+  .projects-overlay__card-img-wrap {
+    flex: 0 0 120px;
+    height: auto;
+    border-radius: 10px 0 0 10px;
+  }
+
+  .projects-overlay__card-body {
+    padding: 14px 14px 16px;
+  }
+}

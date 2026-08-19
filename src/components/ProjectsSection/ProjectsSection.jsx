@@ -182,6 +182,15 @@ function ProjectsSection() {
     setView('project')
   }, [scrollToSectionTop])
 
+  useEffect(() => {
+    const handleOpenProject = (event) => {
+      const { id } = event.detail ?? {}
+      if (id) openProject(id)
+    }
+    window.addEventListener('dayim:open-project', handleOpenProject)
+    return () => window.removeEventListener('dayim:open-project', handleOpenProject)
+  }, [openProject])
+
   const goBack = useCallback(() => {
     const reduceMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
