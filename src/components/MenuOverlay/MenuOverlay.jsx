@@ -10,6 +10,7 @@ const MENU_LINKS = [
   { label: 'Vision', href: '#panorama' },
   { label: 'Values', href: '#advantages' },
   { label: 'Why Choose Us', href: '#fitness' },
+  { label: 'Our Projects', href: '#projects', mobileOnly: true },
 ]
 
 function getActiveHref() {
@@ -186,12 +187,12 @@ function MenuOverlay({ open, onClose }) {
 
           <nav className="menu-overlay__nav" aria-label="Site sections">
             <ul className="menu-overlay__list">
-              {MENU_LINKS.map(({ label, href }) => {
+              {MENU_LINKS.map(({ label, href, mobileOnly }) => {
                 const isActive =
                   href === activeHref &&
                   MENU_LINKS.find((link) => link.href === activeHref)?.label === label
                 return (
-                  <li key={label} className="menu-overlay__item">
+                  <li key={label} className={`menu-overlay__item${mobileOnly ? ' menu-overlay__item--mobile-only' : ''}`}>
                     <a
                       className={`menu-overlay__link${isActive ? ' is-active' : ''}`}
                       href={href}
