@@ -98,9 +98,11 @@
   grid-row: 2;
   margin: 0;
   max-width: 19em;
-  font: 600 clamp(24px, 2.35vw, 46px)/1.01 'Gilroy', sans-serif;
+  margin-left: auto;
+  font: 600 clamp(20px, 2vw, 38px)/1.01 'Gilroy', sans-serif;
   letter-spacing: -.045em;
   text-transform: uppercase;
+  text-align: right;
   opacity: 0;
   transform: translateY(34px);
   transition:
@@ -173,9 +175,10 @@
     margin-top: auto;
     margin-bottom: 0;
     margin-left: 0;
-    font-size: clamp(16px, 4.6vw, 22px);
+    font-size: clamp(14px, 4vw, 19px);
     line-height: 1.12;
     letter-spacing: -.015em;
+    text-align: right;
   }
 }
 
