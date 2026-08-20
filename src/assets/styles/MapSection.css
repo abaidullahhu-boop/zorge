@@ -349,7 +349,10 @@
 
 @media (max-width: 760px) {
   .map-section {
-    min-height: calc(620px + var(--map-top));
+    --map-top: 0;
+    margin-top: 0;
+    height: max(100svh, calc(100vw * 653 / 980));
+    min-height: 520px;
   }
 
   .map-viewport {
@@ -377,7 +380,7 @@
   .map-plan {
     left: 0;
     width: max(940px, 168vw, calc(100svh * 980 / 653));
-    top: calc(var(--map-top) - clamp(52px, 17vh, 118px));
+    top: 0;
     transform: none;
   }
 

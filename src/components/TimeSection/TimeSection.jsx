@@ -105,10 +105,18 @@ function TimeSection() {
 
   useEffect(() => {
     const images = imageLayerRef.current?.querySelectorAll('.time-image-item')
+    const isMobile = window.matchMedia('(max-width: 760px)').matches
     images?.forEach((el, index) => {
-      gsap.set(el, {
-        clipPath: index === 0 ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)',
-      })
+      gsap.set(
+        el,
+        isMobile
+          ? {
+              opacity: index === 0 ? 1 : 0,
+            }
+          : {
+              clipPath: index === 0 ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)',
+            },
+      )
     })
   }, [])
 
@@ -117,7 +125,9 @@ function TimeSection() {
     const slide = slideRef.current
     if (!section || !slide) return undefined
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const isMobile = window.matchMedia('(max-width: 760px)').matches
+    if (reduceMotion || isMobile) {
       gsap.set(slide, { y: 0, clearProps: 'transform' })
       return undefined
     }
@@ -172,10 +182,21 @@ function TimeSection() {
     const nextDigit = digitRefs.current[nextIndex]
     const prevText = textRefs.current[prevIndex]
     const nextText = textRefs.current[nextIndex]
+    const isMobile = window.matchMedia('(max-width: 760px)').matches
+
+    if (isMobile) {
+      gsap.set([prevImage, prevDigit, prevText].filter(Boolean), { opacity: 1 })
+      gsap.set([nextImage, nextDigit, nextText].filter(Boolean), { opacity: 0 })
+    }
 
     if (reduceMotion) {
-      gsap.set(prevImage, { clipPath: 'inset(100% 0 0 0)' })
-      gsap.set(nextImage, { clipPath: 'inset(0 0 0 0)' })
+      if (isMobile) {
+        gsap.set(prevImage, { opacity: 0 })
+        gsap.set(nextImage, { opacity: 1 })
+      } else {
+        gsap.set(prevImage, { clipPath: 'inset(100% 0 0 0)' })
+        gsap.set(nextImage, { clipPath: 'inset(0 0 0 0)' })
+      }
       gsap.set([prevDigit, prevText].filter(Boolean), { opacity: 0, y: 0, yPercent: 0 })
       gsap.set([nextDigit, nextText].filter(Boolean), { opacity: 1, y: 0, yPercent: 0 })
       animatingRef.current = false
@@ -191,64 +212,110 @@ function TimeSection() {
     const tl = gsap.timeline({
       defaults: { ease: 'power2.inOut' },
       onComplete: () => {
+        gsap.set(
+          [prevDigit, nextDigit, prevText, nextText].filter(Boolean),
+          { clearProps: 'opacity,transform,y,yPercent' },
+        )
+        if (!isMobile) {
+          gsap.set([prevImage, nextImage].filter(Boolean), {
+            clearProps: 'opacity',
+          })
+        }
         animatingRef.current = false
         setIsAnimating(false)
       },
     })
 
     if (prevDigit && nextDigit) {
-      tl.to(
-        prevDigit,
-        {
-          yPercent: -30 * direction,
-          opacity: 0,
-          duration: 0.55,
-        },
-        0,
-      )
-      tl.fromTo(
-        nextDigit,
-        { yPercent: 40 * direction, opacity: 0 },
-        { yPercent: 0, opacity: 1, duration: 0.65 },
-        0.12,
-      )
+      if (isMobile) {
+        tl.to(prevDigit, { opacity: 0, duration: 0.35 }, 0)
+        tl.fromTo(
+          nextDigit,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.45 },
+          0.08,
+        )
+      } else {
+        tl.to(
+          prevDigit,
+          {
+            yPercent: -30 * direction,
+            opacity: 0,
+            duration: 0.55,
+          },
+          0,
+        )
+        tl.fromTo(
+          nextDigit,
+          { yPercent: 40 * direction, opacity: 0 },
+          { yPercent: 0, opacity: 1, duration: 0.65 },
+          0.12,
+        )
+      }
     }
 
     if (prevText && nextText) {
-      tl.to(
-        prevText,
-        {
-          y: -18 * direction,
-          opacity: 0,
-          duration: 0.45,
-        },
-        0,
-      )
-      tl.fromTo(
-        nextText,
-        { y: 28 * direction, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6 },
-        0.15,
-      )
+      if (isMobile) {
+        tl.to(prevText, { opacity: 0, duration: 0.35 }, 0)
+        tl.fromTo(
+          nextText,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.45 },
+          0.08,
+        )
+      } else {
+        tl.to(
+          prevText,
+          {
+            y: -18 * direction,
+            opacity: 0,
+            duration: 0.45,
+          },
+          0,
+        )
+        tl.fromTo(
+          nextText,
+          { y: 28 * direction, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6 },
+          0.15,
+        )
+      }
     }
 
     if (prevImage && nextImage) {
       gsap.set(nextImage, { zIndex: 2 })
       gsap.set(prevImage, { zIndex: 1 })
-      tl.to(
-        prevImage,
-        {
-          clipPath: hideClip,
-          duration: 1.1,
-        },
-        0,
-      )
-      tl.fromTo(
-        nextImage,
-        { clipPath: showFromClip },
-        { clipPath: 'inset(0 0 0 0)', duration: 1.1 },
-        0,
-      )
+      if (isMobile) {
+        tl.to(
+          prevImage,
+          {
+            opacity: 0,
+            duration: 0.45,
+          },
+          0,
+        )
+        tl.fromTo(
+          nextImage,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.45 },
+          0.05,
+        )
+      } else {
+        tl.to(
+          prevImage,
+          {
+            clipPath: hideClip,
+            duration: 1.1,
+          },
+          0,
+        )
+        tl.fromTo(
+          nextImage,
+          { clipPath: showFromClip },
+          { clipPath: 'inset(0 0 0 0)', duration: 1.1 },
+          0,
+        )
+      }
       tl.set(prevImage, { zIndex: 0 })
       tl.set(nextImage, { zIndex: 1 })
     }
@@ -333,6 +400,49 @@ function TimeSection() {
           </div>
 
           <div className="time-content">
+            <div className="time-text">
+              {SCHEDULE.map((item, index) => (
+                <div
+                  key={item.id}
+                  ref={(el) => {
+                    textRefs.current[index] = el
+                  }}
+                  className={[
+                    'time-text-item',
+                    index === activeIndex ? 'is-active' : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                  aria-hidden={index !== activeIndex}
+                >
+                  <span className="time-text-offset" aria-hidden="true" />
+                  <p>{item.text}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="time-progress" role="tablist" aria-label="Schedule">
+              {SCHEDULE.map((item, index) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={[
+                    'time-progress-dot',
+                    index === activeIndex ? 'is-active' : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                  role="tab"
+                  aria-label={item.time}
+                  aria-selected={index === activeIndex}
+                  onClick={() => goTo(index)}
+                  disabled={isAnimating}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="time-dial">
             <div
               className="time-clock"
               style={{ '--hour-degree': active.hourDegree }}
@@ -397,47 +507,6 @@ function TimeSection() {
                   <ArrowIcon direction="right" />
                 </span>
               </button>
-            </div>
-
-            <div className="time-text">
-              {SCHEDULE.map((item, index) => (
-                <div
-                  key={item.id}
-                  ref={(el) => {
-                    textRefs.current[index] = el
-                  }}
-                  className={[
-                    'time-text-item',
-                    index === activeIndex ? 'is-active' : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                  aria-hidden={index !== activeIndex}
-                >
-                  <span className="time-text-offset" aria-hidden="true" />
-                  <p>{item.text}</p>
-                </div>
-              ))}
-            </div>
-
-            <div className="time-progress" role="tablist" aria-label="Schedule">
-              {SCHEDULE.map((item, index) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  className={[
-                    'time-progress-dot',
-                    index === activeIndex ? 'is-active' : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                  role="tab"
-                  aria-label={item.time}
-                  aria-selected={index === activeIndex}
-                  onClick={() => goTo(index)}
-                  disabled={isAnimating}
-                />
-              ))}
             </div>
           </div>
         </div>

@@ -242,6 +242,7 @@
 @media (max-width: 760px) {
   .location-section {
     padding-top: 0;
+    padding-bottom: 0;
   }
 
   .location-hero {

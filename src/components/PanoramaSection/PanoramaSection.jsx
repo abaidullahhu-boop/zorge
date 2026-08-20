@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from '../../lib/gsap'
-import panoramaImageDesktop from '../../assets/images/panorama/panorama-desktop.webp'
-import panoramaImageMobile from '../../assets/images/panorama/panorama-mobile.webp'
+import visionImage from '../../assets/images/vision2.png'
 import '../../assets/styles/PanoramaSection.css'
 
 function PanoramaSection() {
@@ -100,11 +99,11 @@ function PanoramaSection() {
         <picture>
           <source
             media="(min-width: 761px)"
-            srcSet={panoramaImageDesktop}
+            srcSet={visionImage}
           />
           <img
             className="panorama-image"
-            src={panoramaImageMobile}
+            src={visionImage}
             alt=""
             width={360}
             height={790}
@@ -114,8 +113,6 @@ function PanoramaSection() {
         <div className="panorama-shade" aria-hidden="true" />
 
         <div className="panorama-content">
-          <hr className="panorama-rule" />
-
           <h2 id="panorama-title" className="panorama-kicker">
             Building Trust.
             <br />
@@ -123,6 +120,8 @@ function PanoramaSection() {
             <br />
             Shaping the Future.
           </h2>
+
+          <hr className="panorama-rule" />
 
           <p className="panorama-copy">
             At Dayim Developers, our vision is to redefine the future of real
