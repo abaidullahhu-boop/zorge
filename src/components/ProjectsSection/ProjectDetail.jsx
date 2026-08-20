@@ -1,5 +1,23 @@
 import { useEffect, useState } from 'react'
 
+const MOBILE_MQ = '(max-width: 760px)'
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia(MOBILE_MQ).matches,
+  )
+
+  useEffect(() => {
+    const mq = window.matchMedia(MOBILE_MQ)
+    const handleChange = () => setIsMobile(mq.matches)
+    handleChange()
+    mq.addEventListener('change', handleChange)
+    return () => mq.removeEventListener('change', handleChange)
+  }, [])
+
+  return isMobile
+}
+
 const TABS = [
   { id: 'about', label: 'About' },
   { id: 'plan', label: 'Plan' },
@@ -20,10 +38,15 @@ function isUsefulImageLabel(label) {
 }
 
 function ProjectDetail({ project, activeTab, onTabChange, onBack }) {
+  const isMobile = useIsMobile()
   const floors = project.plan.floors ?? null
   const [selectedFloorId, setSelectedFloorId] = useState(floors?.[0]?.id ?? null)
   const [selectedUnitId, setSelectedUnitId] = useState(project.units[0]?.id ?? null)
   const [lightbox, setLightbox] = useState(null)
+
+  useEffect(() => {
+    if (isMobile) setLightbox(null)
+  }, [isMobile])
 
   useEffect(() => {
     setSelectedFloorId(project.plan.floors?.[0]?.id ?? null)
@@ -71,7 +94,7 @@ function ProjectDetail({ project, activeTab, onTabChange, onBack }) {
   const closeLightbox = () => setLightbox(null)
 
   const openLightbox = (items, index = 0, title = '') => {
-    if (!items?.length) return
+    if (!items?.length || isMobile) return
     setLightbox({ items, index, title })
   }
 
@@ -162,9 +185,13 @@ function ProjectDetail({ project, activeTab, onTabChange, onBack }) {
                 hidden={activeTab !== 'plan'}
               >
                 <p className="projects-panel-lead">
-                  {floors
-                    ? 'Select a floor, then click a plan to view it full size.'
-                    : 'Click a plan to view it full size.'}
+                  {isMobile
+                    ? floors
+                      ? 'Select a floor to browse the plans.'
+                      : 'Browse the floor plans below.'
+                    : floors
+                      ? 'Select a floor, then click a plan to view it full size.'
+                      : 'Click a plan to view it full size.'}
                 </p>
                 {floors ? (
                   <div
@@ -192,23 +219,49 @@ function ProjectDetail({ project, activeTab, onTabChange, onBack }) {
                     aria-label={`${currentFloor?.label ?? project.title} floor plans`}
                   >
                     <div className="projects-plan-thumbs" role="list">
-                      {planImages.map((plan) => (
-                        <button
-                          key={`${currentFloor?.id ?? 'plan'}-thumb-${plan.alt}`}
-                          type="button"
-                          role="listitem"
-                          className="projects-plan-thumb"
-                          aria-label={`View ${plan.label ?? plan.alt} full size`}
-                          onClick={() => openLightbox(planImages, planImages.indexOf(plan), currentFloor?.label ?? project.title)}
-                        >
-                          <span className="projects-plan-thumb-media">
-                            <img src={plan.src} alt="" draggable="false" loading="lazy" />
-                          </span>
-                          {plan.label ? (
-                            <span className="projects-plan-thumb-label">{plan.label}</span>
-                          ) : null}
-                        </button>
-                      ))}
+                      {planImages.map((plan) => {
+                        const thumbContent = (
+                          <>
+                            <span className="projects-plan-thumb-media">
+                              <img src={plan.src} alt="" draggable="false" loading="lazy" />
+                            </span>
+                            {plan.label ? (
+                              <span className="projects-plan-thumb-label">{plan.label}</span>
+                            ) : null}
+                          </>
+                        )
+
+                        if (isMobile) {
+                          return (
+                            <div
+                              key={`${currentFloor?.id ?? 'plan'}-thumb-${plan.alt}`}
+                              role="listitem"
+                              className="projects-plan-thumb is-static"
+                            >
+                              {thumbContent}
+                            </div>
+                          )
+                        }
+
+                        return (
+                          <button
+                            key={`${currentFloor?.id ?? 'plan'}-thumb-${plan.alt}`}
+                            type="button"
+                            role="listitem"
+                            className="projects-plan-thumb"
+                            aria-label={`View ${plan.label ?? plan.alt} full size`}
+                            onClick={() =>
+                              openLightbox(
+                                planImages,
+                                planImages.indexOf(plan),
+                                currentFloor?.label ?? project.title,
+                              )
+                            }
+                          >
+                            {thumbContent}
+                          </button>
+                        )
+                      })}
                     </div>
                   </div>
                 ) : null}
@@ -222,7 +275,9 @@ function ProjectDetail({ project, activeTab, onTabChange, onBack }) {
                 hidden={activeTab !== 'units'}
               >
                 <p className="projects-panel-lead">
-                  Select a unit type, then click a photo to view it full size.
+                  {isMobile
+                    ? 'Select a unit type to browse the photos.'
+                    : 'Select a unit type, then click a photo to view it full size.'}
                 </p>
                 <div
                   className="projects-floor-nav is-units"
@@ -271,6 +326,34 @@ function ProjectDetail({ project, activeTab, onTabChange, onBack }) {
                           ? image.label
                           : null
 
+                        const thumbContent = (
+                          <>
+                            <span className="projects-plan-thumb-media is-photo">
+                              <img
+                                src={image.src}
+                                alt=""
+                                draggable="false"
+                                loading="lazy"
+                              />
+                            </span>
+                            {label ? (
+                              <span className="projects-plan-thumb-label">{label}</span>
+                            ) : null}
+                          </>
+                        )
+
+                        if (isMobile) {
+                          return (
+                            <div
+                              key={`${currentUnit?.id ?? 'unit'}-thumb-${image.alt}-${index}`}
+                              role="listitem"
+                              className="projects-plan-thumb is-static"
+                            >
+                              {thumbContent}
+                            </div>
+                          )
+                        }
+
                         return (
                           <button
                             key={`${currentUnit?.id ?? 'unit'}-thumb-${image.alt}-${index}`}
@@ -286,17 +369,7 @@ function ProjectDetail({ project, activeTab, onTabChange, onBack }) {
                               )
                             }
                           >
-                            <span className="projects-plan-thumb-media is-photo">
-                              <img
-                                src={image.src}
-                                alt=""
-                                draggable="false"
-                                loading="lazy"
-                              />
-                            </span>
-                            {label ? (
-                              <span className="projects-plan-thumb-label">{label}</span>
-                            ) : null}
+                            {thumbContent}
                           </button>
                         )
                       })}

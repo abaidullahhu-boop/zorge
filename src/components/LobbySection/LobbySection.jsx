@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from '../../lib/gsap'
-import lobbyBg from '../../assets/images/lobby-bg.webp'
+import lobbyBg from '../../assets/images/mission.png'
 import '../../assets/styles/LobbySection.css'
 
 function LobbySection() {

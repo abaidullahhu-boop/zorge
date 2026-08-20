@@ -85,6 +85,20 @@
   transform: translateY(0);
 }
 
+.time-dial {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.time-dial > .time-controls {
+  pointer-events: auto;
+}
+
 .time-clock {
   --hour-degree: -150;
   --minute-degree: 0;
@@ -127,6 +141,7 @@
   left: calc(100vw / 12 * 3);
   transform: translateY(-50%);
   overflow: hidden;
+  pointer-events: none;
 }
 
 .time-digit {
@@ -208,7 +223,6 @@
   animation: time-arrow-head 1.15s linear forwards;
 }
 
-/* Dot/short dash → full line (direction comes from path) */
 @keyframes time-arrow-line {
   0% {
     stroke-dasharray: 2 100;
@@ -219,7 +233,6 @@
   }
 }
 
-/* After line finishes, head grows from tip/center */
 @keyframes time-arrow-head {
   0%,
   62% {
@@ -294,84 +307,127 @@
   }
 
   .time-image {
-    flex: 0 0 auto;
+    flex: 0 0 50%;
     width: 100%;
-    height: 56vw;
-    min-height: 240px;
+    height: 50%;
+    min-height: 0;
+    background: #000;
+  }
+
+  .time-image::before {
+    background: linear-gradient(
+      180deg,
+      rgb(0 0 0 / 0%) 55%,
+      rgb(0 0 0 / 45%) 100%
+    );
+  }
+
+  .time-image-item {
+    clip-path: none;
+    opacity: 0;
+  }
+
+  .time-image-item:first-child {
+    opacity: 1;
   }
 
   .time-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
     width: 100%;
-    flex: 1;
+    flex: 0 0 50%;
+    height: 50%;
     min-height: 0;
+    padding:
+      0
+      clamp(20px, 5.5vw, 28px)
+      calc(clamp(20px, 5vw, 28px) + env(safe-area-inset-bottom, 0px));
     overflow: hidden;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
-  .time-content::after {
-    content: '';
-    position: absolute;
-    z-index: 1;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 48%;
-    background: linear-gradient(180deg, rgb(0 0 0 / 0%) 0%, #000 78%);
-    pointer-events: none;
-  }
-
-  .time-clock {
-    top: 48%;
+  .time-dial {
+    top: 50%;
+    right: auto;
     left: 50%;
-    width: min(68vw, 36svh);
-    height: auto;
-    opacity: .72;
+    width: min(100vw, 100svh);
+    height: min(100vw, 100svh);
     transform: translate(-50%, -50%);
   }
 
+  .time-clock {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-color: rgb(255 255 255 / 22%);
+    transform: none;
+  }
+
   .time-digits {
-    top: 18px;
-    left: 20px;
-    z-index: 3;
-    transform: none;
+    top: 50%;
+    left: 8%;
+    width: 42%;
+    min-height: clamp(40px, 11.5vw, 56px);
+    transform: translateY(-50%);
   }
 
-  .time-digit-text {
-    font-size: clamp(40px, 13vw, 56px);
-    letter-spacing: -.04em;
-  }
-
-  .time-controls {
-    top: 10px;
-    right: 8px;
-    z-index: 3;
-    gap: 0;
-    transform: none;
-  }
-
-  .time-nav {
-    min-width: 48px;
-    min-height: 48px;
-    padding: 12px 8px;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .time-text {
-    z-index: 3;
-    left: 20px;
-    width: calc(100% - 40px);
-    max-width: none;
-    bottom: calc(44px + env(safe-area-inset-bottom, 0px));
-    padding-left: 0;
-  }
-
-  .time-text-item {
+  .time-digit,
+  .time-digit.is-active {
+    position: absolute;
+    top: 0;
     left: 0;
     width: 100%;
   }
 
-  .time-text-item.is-active {
+  .time-digit-text {
+    font-size: clamp(40px, 11.5vw, 56px);
+    letter-spacing: -.03em;
+  }
+
+  .time-controls {
+    top: 50%;
+    right: 5%;
+    gap: 4px;
+    transform: translateY(-50%);
+  }
+
+  .time-nav {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px 4px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .time-clock-minute {
+    display: none;
+  }
+
+  .time-text {
+    position: relative;
+    bottom: auto;
+    left: auto;
     width: 100%;
+    max-width: 340px;
+    min-height: 5.5em;
+    padding-left: 0;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .time-text-item,
+  .time-text-item.is-active {
+    position: absolute;
+    inset: 0;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .time-text-item.is-active {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .time-text-offset {
@@ -380,47 +436,14 @@
 
   .time-text-item p {
     max-width: none;
-    font-size: clamp(13px, 3.6vw, 15px);
-    line-height: 1.45;
+    font-size: clamp(11px, 3vw, 13px);
+    line-height: 1.55;
+    letter-spacing: .04em;
+    text-align: center;
   }
 
   .time-progress {
-    position: absolute;
-    z-index: 3;
-    right: 20px;
-    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
-    left: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-
-  .time-progress-dot {
-    position: relative;
-    flex: 0 0 auto;
-    width: 7px;
-    height: 7px;
-    padding: 0;
-    border: 0;
-    border-radius: 999px;
-    background: rgb(255 255 255 / 28%);
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-    transition:
-      width .35s ease,
-      background-color .35s ease;
-  }
-
-  .time-progress-dot::before {
-    content: '';
-    position: absolute;
-    inset: -14px -10px;
-  }
-
-  .time-progress-dot.is-active {
-    width: 22px;
-    background: #fff;
+    display: none;
   }
 }
 
