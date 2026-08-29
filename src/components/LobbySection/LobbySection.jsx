@@ -130,21 +130,29 @@ function LobbySection() {
           </picture>
 
           <div className="lobby-content" ref={contentRef}>
-            <div className="lobby-title-wrap">
+            <div className="lobby-text">
               <h2 id="lobby-title" className="lobby-title">
-                <span className="lobby-title-line">Our Vision</span>
-                <span className="lobby-title-line">Our Mission</span>
+                Our Mission
               </h2>
-            </div>
 
-            <div className="lobby-copy-row">
-              <p className="lobby-copy">
-                Our mission is to develop high-quality residential and commercial
-                communities that exceed expectations in design, construction, and
-                customer experience. Our purpose extends beyond constructing
-                buildings—we create modern lifestyles, sustainable communities,
-                and investment opportunities that shape a better future.
-              </p>
+              <div className="lobby-intro">
+                <p className="lobby-copy">
+                  Our mission is to develop{' '}
+                  <span className="lobby-highlight">
+                    high-quality residential and commercial communities
+                  </span>{' '}
+                  that exceed expectations in{' '}
+                  <span className="lobby-highlight">
+                    design, construction, and customer experience
+                  </span>
+                  . Our purpose extends beyond constructing buildings—we create{' '}
+                  <span className="lobby-highlight">
+                    modern lifestyles, sustainable communities, and investment
+                    opportunities
+                  </span>{' '}
+                  that shape a better future.
+                </p>
+              </div>
             </div>
           </div>
         </div>

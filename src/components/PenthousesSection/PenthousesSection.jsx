@@ -24,7 +24,8 @@ function ParallaxImage({ src, width, height, intensity = 12, className = '' }) {
   )
 }
 
-function PenthousesSection() {
+function PenthousesSection({ variant = 'default', scrollContainerRef = null }) {
+  const isProjectVariant = variant === 'project'
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef(null)
   const heroSlideRef = useRef(null)
@@ -66,6 +67,9 @@ function PenthousesSection() {
       return undefined
     }
 
+    const scroller = scrollContainerRef?.current ?? undefined
+    const scrollTriggerBase = scroller ? { scroller } : {}
+
     const ctx = gsap.context(() => {
       // Mobile/tablet: no entrance lift — the y-offset left a transparent gap
       // where sticky About peeked through (Services is not pinned ≤760).
@@ -93,6 +97,7 @@ function PenthousesSection() {
               ease: 'none',
               force3D: true,
               scrollTrigger: {
+                ...scrollTriggerBase,
                 trigger: section,
                 start: 'top bottom',
                 end: 'top top',
@@ -115,6 +120,7 @@ function PenthousesSection() {
                 ease: 'none',
                 force3D: true,
                 scrollTrigger: {
+                  ...scrollTriggerBase,
                   trigger: section,
                   start: 'top top',
                   end: 'bottom top',
@@ -138,6 +144,7 @@ function PenthousesSection() {
                 ease: 'none',
                 force3D: true,
                 scrollTrigger: {
+                  ...scrollTriggerBase,
                   trigger: section,
                   start: 'top top',
                   end: 'bottom top',
@@ -152,7 +159,7 @@ function PenthousesSection() {
     }, section)
 
     return () => ctx.revert()
-  }, [])
+  }, [scrollContainerRef])
 
   useEffect(() => {
     const section = sectionRef.current
@@ -195,7 +202,13 @@ function PenthousesSection() {
   return (
     <section
       ref={sectionRef}
-      className={`penthouses-section ${isVisible ? 'is-visible' : ''}`}
+      className={[
+        'penthouses-section',
+        isProjectVariant ? 'penthouses-section--project' : '',
+        isVisible ? 'is-visible' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       id="construction"
       aria-labelledby="penthouses-title"
     >

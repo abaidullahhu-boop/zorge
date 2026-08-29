@@ -16,6 +16,14 @@
   background: transparent;
 }
 
+.apartments-section--project {
+  --improvement-cover: 0;
+  --services-handoff: 0;
+  margin-top: 0;
+  height: 100svh;
+  z-index: auto;
+}
+
 .apartments-mobile-hero {
   display: none;
 }

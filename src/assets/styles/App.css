@@ -3,3 +3,8 @@
   overflow: clip;
   background: #000;
 }
+
+.app-home-layer.is-covered {
+  pointer-events: none;
+}
+

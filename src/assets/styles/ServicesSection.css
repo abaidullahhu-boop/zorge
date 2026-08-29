@@ -15,6 +15,14 @@
   background: transparent;
 }
 
+.services-section--project {
+  --services-handoff: 0;
+  --penthouses-handoff: 0;
+  margin-top: 0;
+  height: calc(100svh * var(--item-count));
+  z-index: auto;
+}
+
 .services-sticky {
   position: sticky;
   top: 0;
