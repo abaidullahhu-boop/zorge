@@ -36,7 +36,8 @@ const ITEM_COUNT = SERVICES.length
 const CLIP_HIDDEN = 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
 const CLIP_VISIBLE = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
 
-function ServicesSection() {
+function ServicesSection({ variant = 'default', scrollContainerRef = null }) {
+  const isProjectVariant = variant === 'project'
   const [isVisible, setIsVisible] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
   const sectionRef = useRef(null)
@@ -82,6 +83,9 @@ function ServicesSection() {
       return undefined
     }
 
+    const scroller = scrollContainerRef?.current ?? undefined
+    const scrollTriggerBase = scroller ? { scroller } : {}
+
     const ctx = gsap.context(() => {
       const getLift = () => Math.min(window.innerHeight * 0.2, 180)
       const images = [...slide.querySelectorAll('.services-image-item')]
@@ -97,6 +101,7 @@ function ServicesSection() {
           ease: 'none',
           force3D: true,
           scrollTrigger: {
+            ...scrollTriggerBase,
             trigger: section,
             start: 'top bottom',
             end: 'top top',
@@ -117,6 +122,7 @@ function ServicesSection() {
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: {
+          ...scrollTriggerBase,
           trigger: section,
           start: 'top top',
           end: () => `+=${window.innerHeight * (ITEM_COUNT - 1)}`,
@@ -161,12 +167,18 @@ function ServicesSection() {
     }, section)
 
     return () => ctx.revert()
-  }, [])
+  }, [scrollContainerRef])
 
   return (
     <section
       ref={sectionRef}
-      className={`services-section ${isVisible ? 'is-visible' : ''}`}
+      className={[
+        'services-section',
+        isProjectVariant ? 'services-section--project' : '',
+        isVisible ? 'is-visible' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       id="services"
       aria-labelledby="services-title"
       style={{ '--item-count': ITEM_COUNT }}

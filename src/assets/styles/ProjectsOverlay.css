@@ -96,6 +96,8 @@
   cursor: pointer;
   overflow: hidden;
   text-align: left;
+  text-decoration: none;
+  font: inherit;
   opacity: 0;
   transform: translateY(28px);
   transition:

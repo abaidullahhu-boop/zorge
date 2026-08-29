@@ -405,6 +405,10 @@ export const projects = [
   },
 ]
 
+export function getProjectPath(id) {
+  return `/projects/${id}`
+}
+
 export function getProjectById(id) {
   return projects.find((project) => project.id === id) ?? null
 }

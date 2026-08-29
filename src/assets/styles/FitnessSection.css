@@ -280,6 +280,64 @@
   padding-right: var(--fitness-pad);
 }
 
+.fitness-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+}
+
+.fitness-unit-index {
+  margin: 0;
+  font: 600 11px / 1 'Gilroy', sans-serif;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #a0725b;
+}
+
+.fitness-unit-name {
+  margin: 0;
+  font: 600 clamp(16px, 1.875vw, 32px) / 1 'Gilroy', sans-serif;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.fitness-unit-type {
+  margin: 0 0 8px;
+  font: 600 clamp(12px, 1.05vw, 12px) / 1.25 'Gilroy', sans-serif;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: rgb(25 27 25 / 62%);
+}
+
+.fitness-unit-facts {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+}
+
+.fitness-unit-facts div {
+  display: grid;
+  gap: 4px;
+}
+
+.fitness-unit-facts dt {
+  margin: 0;
+  font: 600 10px / 1 'Gilroy', sans-serif;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgb(25 27 25 / 42%);
+}
+
+.fitness-unit-facts dd {
+  margin: 0;
+  font: 600 clamp(12px, 1.05vw, 13px) / 1.35 'Gilroy', sans-serif;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+}
+
 .fitness-parallax {
   position: relative;
   flex: 1;
@@ -324,6 +382,30 @@
 .fitness-panel--image-3 > .fitness-desktop-only,
 .fitness-panel--stack > .fitness-desktop-only {
   flex: 1;
+}
+
+.fitness-section--project {
+  --fitness-spacer: 0;
+  --fitness-handoff: 0;
+  --infra-pin: 0;
+  margin-top: 0;
+  z-index: auto;
+  pointer-events: auto;
+}
+
+.fitness-section--project .fitness-track,
+.fitness-section--project .fitness-spacer {
+  pointer-events: auto;
+}
+
+.fitness-section--project .fitness-spacer {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .fitness-section--project {
+    margin-top: 0;
+  }
 }
 
 @media (max-width: 760px) {
@@ -421,6 +503,15 @@
     font-size: clamp(13px, 3.5vw, 15px);
     line-height: 1.45;
     letter-spacing: .03em;
+  }
+
+  .fitness-unit-name {
+    font-size: clamp(28px, 8vw, 36px);
+  }
+
+  .fitness-unit-type,
+  .fitness-unit-facts dd {
+    font-size: clamp(13px, 3.5vw, 15px);
   }
 
   .fitness-panel--stack {

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { gsap } from '../../lib/gsap'
 import mapImage from '../../assets/images/map.png'
 import { projects } from '../../data/projects'
 import '../../assets/styles/MapSection.css'
@@ -93,7 +94,46 @@ function getMapSpotStyle(place) {
 function MapSection() {
   const [activeId, setActiveId] = useState(null)
   const [focusIndex, setFocusIndex] = useState(0)
+  const sectionRef = useRef(null)
+  const slideRef = useRef(null)
   const viewportRef = useRef(null)
+
+  useEffect(() => {
+    const section = sectionRef.current
+    const slide = slideRef.current
+    if (!section || !slide) return undefined
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.set(slide, { y: 0, clearProps: 'transform' })
+      return undefined
+    }
+
+    const ctx = gsap.context(() => {
+      const getLift = () => Math.min(window.innerHeight * 0.2, 180)
+
+      gsap.fromTo(
+        slide,
+        {
+          y: getLift,
+          force3D: true,
+        },
+        {
+          y: 0,
+          ease: 'none',
+          force3D: true,
+          scrollTrigger: {
+            trigger: section,
+            start: 'top bottom',
+            end: 'top top',
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        },
+      )
+    }, section)
+
+    return () => ctx.revert()
+  }, [])
 
   useEffect(() => {
     const viewport = viewportRef.current
@@ -200,16 +240,22 @@ function MapSection() {
   }
 
   return (
-    <section className="map-section" id="map" aria-labelledby="map-title">
-      <h2 id="map-title" className="map-sr-only">
-        Map of Dayim projects in Lahore
-      </h2>
+    <section
+      ref={sectionRef}
+      className="map-section"
+      id="map"
+      aria-labelledby="map-title"
+    >
+      <div className="map-slide" ref={slideRef}>
+        <h2 id="map-title" className="map-heading">
+          Location
+        </h2>
 
-      <div
-        className="map-viewport"
-        ref={viewportRef}
-        data-lenis-prevent-horizontal
-      >
+        <div
+          className="map-viewport"
+          ref={viewportRef}
+          data-lenis-prevent-horizontal
+        >
         <div className="map-scroll-sizer" aria-hidden="true" />
         <div className="map-plan">
           <img
@@ -288,8 +334,8 @@ function MapSection() {
             )
           })}
         </div>
+        </div>
       </div>
-
     </section>
   )
 }

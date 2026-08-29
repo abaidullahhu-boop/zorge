@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
-import { projects } from '../../data/projects'
+import { Link } from 'react-router-dom'
+import { getProjectPath, projects } from '../../data/projects'
 import '../../assets/styles/ProjectsOverlay.css'
 
 const ICONS = '/assets/images/icons.svg'
@@ -21,23 +22,6 @@ function ProjectsOverlay({ open, onClose }) {
       window.removeEventListener('keydown', onKeyDown)
     }
   }, [open, onClose])
-
-  const handleSelect = (id) => {
-    onClose()
-    window.setTimeout(() => {
-      const section = document.querySelector('#projects')
-      if (section) {
-        window.dispatchEvent(
-          new CustomEvent('dayim:scroll-to', { detail: { el: section } }),
-        )
-      }
-      window.setTimeout(() => {
-        window.dispatchEvent(
-          new CustomEvent('dayim:open-project', { detail: { id } }),
-        )
-      }, 400)
-    }, 120)
-  }
 
   return (
     <div
@@ -73,12 +57,12 @@ function ProjectsOverlay({ open, onClose }) {
 
         <div className="projects-overlay__grid">
           {projects.map((project, i) => (
-            <button
+            <Link
               key={project.id}
-              type="button"
+              to={getProjectPath(project.id)}
               className="projects-overlay__card"
               style={{ '--delay': `${i * 0.08}s` }}
-              onClick={() => handleSelect(project.id)}
+              onClick={onClose}
             >
               <span className="projects-overlay__card-img-wrap">
                 <img
@@ -113,7 +97,7 @@ function ProjectsOverlay({ open, onClose }) {
                   </svg>
                 </span>
               </span>
-            </button>
+            </Link>
           ))}
         </div>
       </div>

@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import heroModel from '../../assets/images/decor.webp'
 import aboutVideo from '../../assets/images/about.mp4'
 import MenuOverlay from '../MenuOverlay/MenuOverlay'
 import ProjectsOverlay from '../ProjectsOverlay/ProjectsOverlay'
@@ -124,23 +123,13 @@ function HeroSection({ introReady = false }) {
           <div className="building__layer building__layer--primary" />
           <div className="building__layer building__layer--alt" />
         </div>
-        <img
-          className="hero-model"
-          src={heroModel}
-          alt=""
-          aria-hidden="true"
-        />
-
         <header className="hero-header">
           <h1 id="hero-title">
             <span className="hero-title-line">
-              <span>Building Trust.</span>
+              <span>Building Your Vision.</span>
             </span>
             <span className="hero-title-line">
-              <span>Creating Lifestyles.</span>
-            </span>
-            <span className="hero-title-line">
-              <span>Shaping the Future.</span>
+              <span>Creating Reality.</span>
             </span>
           </h1>
 

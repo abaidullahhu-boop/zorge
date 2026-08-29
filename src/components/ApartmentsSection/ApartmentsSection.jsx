@@ -46,7 +46,8 @@ const APARTMENTS = [
   },
 ]
 
-function ApartmentsSection() {
+function ApartmentsSection({ variant = 'default', scrollContainerRef = null }) {
+  const isProjectVariant = variant === 'project'
   const [isVisible, setIsVisible] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
   const [exitIndex, setExitIndex] = useState(null)
@@ -105,6 +106,9 @@ function ApartmentsSection() {
       return undefined
     }
 
+    const scroller = scrollContainerRef?.current ?? undefined
+    const scrollTriggerBase = scroller ? { scroller } : {}
+
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
         '(max-width: 760px)': () => {
@@ -118,6 +122,7 @@ function ApartmentsSection() {
               ease: 'none',
               force3D: true,
               scrollTrigger: {
+                ...scrollTriggerBase,
                 trigger: section,
                 start: 'top bottom',
                 end: 'top top',
@@ -142,6 +147,7 @@ function ApartmentsSection() {
               ease: 'none',
               force3D: true,
               scrollTrigger: {
+                ...scrollTriggerBase,
                 trigger: section,
                 start: 'top top',
                 end: 'bottom top',
@@ -155,12 +161,18 @@ function ApartmentsSection() {
     }, section)
 
     return () => ctx.revert()
-  }, [])
+  }, [scrollContainerRef])
 
   return (
     <section
       ref={sectionRef}
-      className={`apartments-section ${isVisible ? 'is-visible' : ''}`}
+      className={[
+        'apartments-section',
+        isProjectVariant ? 'apartments-section--project' : '',
+        isVisible ? 'is-visible' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       id="apartments"
       aria-labelledby="apartments-title"
     >

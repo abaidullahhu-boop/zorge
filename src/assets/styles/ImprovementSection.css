@@ -12,6 +12,13 @@
   background: transparent;
 }
 
+.improvement-section--project {
+  --improvement-handoff: 0;
+  margin-top: 0;
+  z-index: auto;
+  background: #fff;
+}
+
 .improvement-slide {
   position: relative;
   padding:

@@ -1,8 +1,9 @@
 import { useCallback, useState } from 'react'
+import { Link } from 'react-router-dom'
 import dayimLogo from '../../assets/images/dayim-logo.png'
-import { DEVELOPER, projects } from '../../data/projects'
+import { DEVELOPER, getProjectPath, projects } from '../../data/projects'
 
-function ProjectCard({ project, onSelect }) {
+function ProjectCard({ project }) {
   const [cta, setCta] = useState({ x: 0, y: 0, visible: false })
 
   const moveCta = useCallback((event) => {
@@ -19,10 +20,9 @@ function ProjectCard({ project, onSelect }) {
   }, [])
 
   return (
-    <button
-      type="button"
+    <Link
+      to={getProjectPath(project.id)}
       className="projects-card"
-      onClick={() => onSelect(project.id)}
       aria-label={`View details for ${project.title}`}
     >
       <span
@@ -63,11 +63,11 @@ function ProjectCard({ project, onSelect }) {
         <span className="projects-card-title">{project.title}</span>
         <span className="projects-card-subtitle">{project.subtitle}</span>
       </span>
-    </button>
+    </Link>
   )
 }
 
-function DeveloperOverview({ onSelectProject }) {
+function DeveloperOverview() {
   return (
     <div className="projects-overview">
       <div className="projects-intro-block">
@@ -100,7 +100,7 @@ function DeveloperOverview({ onSelectProject }) {
       <div className="projects-grid" role="list">
         {projects.map((project) => (
           <div key={project.id} role="listitem">
-            <ProjectCard project={project} onSelect={onSelectProject} />
+            <ProjectCard project={project} />
           </div>
         ))}
       </div>

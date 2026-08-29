@@ -73,7 +73,8 @@ function ArrowIcon({ direction }) {
   )
 }
 
-function TimeSection() {
+function TimeSection({ variant = 'default', scrollContainerRef = null }) {
+  const isProjectVariant = variant === 'project'
   const [isVisible, setIsVisible] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
@@ -132,6 +133,8 @@ function TimeSection() {
       return undefined
     }
 
+    const scroller = scrollContainerRef?.current ?? undefined
+
     const ctx = gsap.context(() => {
       const getLift = () => Math.min(window.innerHeight * 0.2, 180)
 
@@ -147,6 +150,7 @@ function TimeSection() {
           force3D: true,
           scrollTrigger: {
             trigger: section,
+            scroller,
             start: 'top bottom',
             end: 'top top',
             scrub: true,
@@ -157,7 +161,7 @@ function TimeSection() {
     }, section)
 
     return () => ctx.revert()
-  }, [])
+  }, [scrollContainerRef])
 
   const goTo = useCallback((nextIndex) => {
     if (animatingRef.current) return
@@ -371,7 +375,13 @@ function TimeSection() {
   return (
     <section
       ref={sectionRef}
-      className={`time-section ${isVisible ? 'is-visible' : ''}`}
+      className={[
+        'time-section',
+        isProjectVariant ? 'time-section--project' : '',
+        isVisible ? 'is-visible' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       id="daily-schedule"
       aria-labelledby="time-title"
     >

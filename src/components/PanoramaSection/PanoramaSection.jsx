@@ -8,6 +8,7 @@ function PanoramaSection() {
   const [projectsDetailOpen, setProjectsDetailOpen] = useState(false)
   const sectionRef = useRef(null)
   const slideRef = useRef(null)
+  const imageRef = useRef(null)
 
   useEffect(() => {
     const syncProjectsDetail = () => {
@@ -47,42 +48,71 @@ function PanoramaSection() {
   useEffect(() => {
     const section = sectionRef.current
     const slide = slideRef.current
+    const image = imageRef.current
     if (!section || !slide) return undefined
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       gsap.set(slide, { y: 0, clearProps: 'transform' })
+      if (image) gsap.set(image, { scale: 1, clearProps: 'transform' })
       return undefined
     }
 
     if (projectsDetailOpen) {
       gsap.set(slide, { y: 0, clearProps: 'transform' })
+      if (image) gsap.set(image, { scale: 1, clearProps: 'transform' })
       return undefined
     }
 
     const ctx = gsap.context(() => {
-      // Climb slightly over the map while the page keeps scrolling normally.
-      // Light scrub lag avoids Lenis↔transform vibration on the map→panorama handoff.
-      const getLift = () => Math.min(window.innerHeight * 0.2, 180)
+      const isMobile = window.matchMedia('(max-width: 760px)').matches
 
-      gsap.fromTo(
-        slide,
-        {
-          y: getLift,
-          force3D: true,
-        },
-        {
-          y: 0,
-          ease: 'none',
-          force3D: true,
-          scrollTrigger: {
-            trigger: section,
-            start: 'top bottom',
-            end: 'top top',
-            scrub: 0.45,
-            invalidateOnRefresh: true,
+      // Climb slightly over the previous slide while the page scrolls normally.
+      // Skip on mobile so the lift cannot cover About content.
+      if (!isMobile) {
+        const getLift = () => Math.min(window.innerHeight * 0.2, 180)
+
+        gsap.fromTo(
+          slide,
+          {
+            y: getLift,
+            force3D: true,
           },
-        },
-      )
+          {
+            y: 0,
+            ease: 'none',
+            force3D: true,
+            scrollTrigger: {
+              trigger: section,
+              start: 'top bottom',
+              end: 'top top',
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          },
+        )
+      } else {
+        gsap.set(slide, { y: 0, clearProps: 'transform' })
+      }
+
+      if (image) {
+        gsap.fromTo(
+          image,
+          { scale: 1.14, force3D: true },
+          {
+            scale: 1,
+            ease: 'none',
+            force3D: true,
+            transformOrigin: '50% 50%',
+            scrollTrigger: {
+              trigger: section,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          },
+        )
+      }
     }, section)
 
     return () => ctx.revert()
@@ -102,6 +132,7 @@ function PanoramaSection() {
             srcSet={visionImage}
           />
           <img
+            ref={imageRef}
             className="panorama-image"
             src={visionImage}
             alt=""
@@ -113,23 +144,33 @@ function PanoramaSection() {
         <div className="panorama-shade" aria-hidden="true" />
 
         <div className="panorama-content">
-          <h2 id="panorama-title" className="panorama-kicker">
-            Building Trust.
-            <br />
-            Creating Lifestyles.
-            <br />
-            Shaping the Future.
-          </h2>
-
           <hr className="panorama-rule" />
 
-          <p className="panorama-copy">
-            At Dayim Developers, our vision is to redefine the future of real
-            estate by setting new benchmarks in innovation, quality, and trust.
-            We aspire to create iconic developments that inspire confidence,
-            enrich communities, and deliver lasting value for generations to
-            come.
-          </p>
+          <div className="panorama-text mt-24">
+            <h2 id="panorama-title" className="panorama-title">
+              Our Vision
+            </h2>
+
+            <div className="panorama-intro mt-6 ">
+              <p className="panorama-copy">
+                To redefine Pakistan&apos;s real estate landscape through{' '}
+                <span className="panorama-highlight">
+                  innovation, quality, and trust
+                </span>
+                . We aim to create{' '}
+                <span className="panorama-highlight">iconic developments</span>{' '}
+                that enrich communities and deliver lasting value. Our focus is on
+                modern lifestyles, sustainable communities, and smart investment
+                opportunities. Driven by{' '}
+                <span className="panorama-highlight">excellence and integrity</span>
+                , we strive to set new benchmarks in design, infrastructure, and
+                construction. Our vision is to become a trusted name where people
+                can{' '}
+                <span className="panorama-highlight">live, invest, and thrive</span>
+                .
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>

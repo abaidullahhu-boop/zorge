@@ -8,6 +8,13 @@
   pointer-events: none;
 }
 
+.time-section--project {
+  margin-top: 0;
+  z-index: auto;
+  pointer-events: auto;
+  background: #000;
+}
+
 .time-sticky {
   position: relative;
   height: 100%;

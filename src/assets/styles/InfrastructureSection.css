@@ -1,5 +1,5 @@
 .infrastructure-section {
-  /* Overlap Fitness while infra hero is still pinned, then cover it. */
+  /* Extra pin after the streetscape hero finishes its horizontal scrub. */
   --infra-handoff: 100svh;
   /* Hold Restaurant after clip so the carousel can be used. */
   --restaurant-hold: 100svh;
@@ -12,6 +12,12 @@
   background: #000;
   --infra-slide-duration: 2.75s;
   --infra-slide-ease: cubic-bezier(.7, 0, .3, 1);
+}
+
+.infrastructure-section--project {
+  margin-top: 0;
+  z-index: auto;
+  background: #000;
 }
 
 .infrastructure-hero {
@@ -626,22 +632,9 @@
 }
 
 @media (min-width: 761px) {
-  /*
-   * Pull over Fitness by pin buffer + handoff so Restaurant starts covering
-   * exactly when the horizontal scrub ends — while the infra hero is still
-   * fully stuck (not scrolling top→bottom).
-   */
   .infrastructure-section {
-    margin-top: calc((100svh + var(--infra-handoff)) * -1);
+    margin-top: 0;
     background: transparent;
-  }
-
-  /* Hero lives inside Fitness horizontal track on desktop. */
-  .infrastructure-hero {
-    display: none;
-    height: 0 !important;
-    overflow: hidden;
-    pointer-events: none;
   }
 }
 

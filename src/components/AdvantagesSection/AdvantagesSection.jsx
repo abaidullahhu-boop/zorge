@@ -7,46 +7,64 @@ import advantages4 from '../../assets/images/advantages-4.webp'
 import advantages5 from '../../assets/images/advantages-5.webp'
 import '../../assets/styles/AdvantagesSection.css'
 
+const SECTION_HEADING = 'Why Choose Dayim Developer'
+
 const ADVANTAGES = [
   {
-    id: 'lobby',
-    titleLines: ['Integrity'],
+    id: 'leadership',
+    titleLines: ['Trusted', 'Leadership'],
     image: advantages1,
     width: 720,
     height: 900,
-    text: 'We conduct every project with honesty, transparency, and ethical business practices.',
+    text: 'Led by experienced leadership committed to integrity, vision, and excellence in every development.',
   },
   {
-    id: 'concierge',
-    titleLines: ['Quality', 'Excellence'],
+    id: 'quality',
+    titleLines: ['Premium', 'Construction Quality'],
     image: advantages2,
     width: 720,
     height: 780,
     text: 'We never compromise on construction standards, craftsmanship, or attention to detail.',
   },
   {
-    id: 'community',
-    titleLines: ['Customer', 'First'],
+    id: 'transparency',
+    titleLines: ['Complete', 'Transparency'],
     image: advantages3,
     width: 720,
     height: 780,
+    text: 'We conduct every project with honesty, transparency, and ethical business practices.',
+  },
+  {
+    id: 'delivery',
+    titleLines: ['On-Time', 'Delivery'],
+    image: advantages4,
+    width: 720,
+    height: 900,
+    text: 'We honor our promises by delivering projects on time while maintaining the highest standards of excellence.',
+  },
+  {
+    id: 'customer',
+    titleLines: ['Customer-Centric', 'Approach'],
+    image: advantages5,
+    width: 720,
+    height: 900,
     text: 'Our clients are at the heart of every decision we make, and their trust is our greatest achievement.',
   },
   {
-    id: 'coworking',
-    titleLines: ['Innovation'],
-    image: advantages4,
+    id: 'modern',
+    titleLines: ['Modern', 'Developments'],
+    image: advantages1,
     width: 720,
     height: 900,
     text: 'We embrace modern technology, creative design, and smart solutions to shape the future of real estate.',
   },
   {
-    id: 'courtyard',
-    titleLines: ['Commitment'],
-    image: advantages5,
+    id: 'investment',
+    titleLines: ['Secure', 'Investment'],
+    image: advantages2,
     width: 720,
-    height: 900,
-    text: 'We honor our promises by delivering projects on time while maintaining the highest standards of excellence.',
+    height: 780,
+    text: 'We build lasting value through trusted developments that protect and grow our clients\' investments.',
   },
 ]
 
@@ -55,7 +73,7 @@ const CLIP_HIDDEN = 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
 const CLIP_VISIBLE = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
 
 function AdvantagesSection() {
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
   const [activeIndex, setActiveIndex] = useState(0)
   const [exitIndex, setExitIndex] = useState(null)
   const [textDirection, setTextDirection] = useState('forward')
@@ -90,10 +108,9 @@ function AdvantagesSection() {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true)
-          observer.disconnect()
         }
       },
-      { threshold: 0.12 },
+      { threshold: 0 },
     )
 
     observer.observe(section)
@@ -241,59 +258,52 @@ function AdvantagesSection() {
           </div>
 
           <div className="advantages-content" data-text-direction={textDirection}>
-            <div className="advantages-counter" aria-live="polite">
-              <span ref={counterRef} className="advantages-counter-current">
-                1
-              </span>
-              <span className="advantages-counter-line" aria-hidden="true" />
-              <span className="advantages-counter-total">{ITEM_COUNT}</span>
-            </div>
+            <div className="advantages-panel">
+              <h3 className="advantages-title">{SECTION_HEADING}</h3>
 
-            <div className="advantages-head">
-              {ADVANTAGES.map((item, index) => (
-                <p
-                  key={item.id}
-                  className={[
-                    'advantages-heading',
-                    index === activeIndex ? 'is-active' : '',
-                    index === exitIndex ? 'is-exit' : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                  aria-hidden={index !== activeIndex}
-                >
-                  {item.titleLines.map((line) => (
-                    <span key={line} className="advantages-heading-line">
-                      {line}
-                    </span>
-                  ))}
-                </p>
-              ))}
-            </div>
+              <div className="advantages-counter" aria-live="polite">
+                <span ref={counterRef} className="advantages-counter-current">
+                  1
+                </span>
+                <span className="advantages-counter-line" aria-hidden="true" />
+                <span className="advantages-counter-total">{ITEM_COUNT}</span>
+              </div>
 
-            <div className="advantages-text">
-              {ADVANTAGES.map((item, index) => (
-                <div
-                  key={item.id}
-                  className={[
-                    'advantages-text-item',
-                    index === activeIndex ? 'is-active' : '',
-                    index === exitIndex ? 'is-exit' : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                  aria-hidden={index !== activeIndex}
-                >
-                  <span className="advantages-text-offset" aria-hidden="true" />
-                  <p>{item.text}</p>
-                </div>
-              ))}
+              <div className="advantages-body">
+                {ADVANTAGES.map((item, index) => (
+                  <div
+                    key={item.id}
+                    className={[
+                      'advantages-body-item',
+                      index === activeIndex ? 'is-active' : '',
+                      index === exitIndex ? 'is-exit' : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                    aria-hidden={index !== activeIndex}
+                  >
+                    <h4 className="advantages-point-title">
+                      {item.titleLines.map((line) => (
+                        <span key={line} className="advantages-point-title-line">
+                          {line}
+                        </span>
+                      ))}
+                    </h4>
+                    <div className="advantages-intro">
+                      <p>{item.text}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <div className="advantages-mobile">
+        <div className="advantages-mobile-header">
+          <h3 className="advantages-title">{SECTION_HEADING}</h3>
+        </div>
         {ADVANTAGES.map((item, index) => (
           <article key={item.id} className="advantages-mobile-card">
             <div className="advantages-mobile-image">
@@ -312,14 +322,16 @@ function AdvantagesSection() {
                 <span className="advantages-counter-line" />
                 <span className="advantages-counter-total">{ITEM_COUNT}</span>
               </div>
-              <p className="advantages-heading is-active">
+              <h4 className="advantages-point-title is-active">
                 {item.titleLines.map((line) => (
-                  <span key={line} className="advantages-heading-line">
+                  <span key={line} className="advantages-point-title-line">
                     {line}
                   </span>
                 ))}
-              </p>
-              <p className="advantages-mobile-copy">{item.text}</p>
+              </h4>
+              <div className="advantages-intro">
+                <p>{item.text}</p>
+              </div>
             </div>
           </article>
         ))}

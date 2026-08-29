@@ -53,7 +53,8 @@ function ArrowIcon({ direction }) {
   )
 }
 
-function InfrastructureSection() {
+function InfrastructureSection({ variant = 'default', scrollContainerRef = null }) {
+  const isProjectVariant = variant === 'project'
   const [isVisible, setIsVisible] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
   const [exitIndex, setExitIndex] = useState(null)
@@ -104,6 +105,9 @@ function InfrastructureSection() {
       '(prefers-reduced-motion: reduce)',
     ).matches
 
+    const scroller = scrollContainerRef?.current ?? undefined
+    const scrollTriggerBase = scroller ? { scroller } : {}
+
     const ctx = gsap.context(() => {
       if (reduceMotion) {
         gsap.set(track, { x: 0, clearProps: 'transform' })
@@ -128,6 +132,7 @@ function InfrastructureSection() {
               ease: 'none',
               force3D: true,
               scrollTrigger: {
+                ...scrollTriggerBase,
                 trigger: hero,
                 start: 'top bottom',
                 end: 'top top',
@@ -138,10 +143,38 @@ function InfrastructureSection() {
           )
         },
         '(min-width: 761px)': () => {
-          // Desktop hero pans inside FitnessSection's horizontal track.
-          gsap.set(track, { x: 0, clearProps: 'transform' })
+          const getScrollDistance = () =>
+            Math.max(0, track.scrollWidth - window.innerWidth)
+
+          const syncHeroHeight = () => {
+            hero.style.setProperty(
+              '--infra-hero-scroll',
+              `${getScrollDistance() + window.innerHeight}px`,
+            )
+          }
+
+          syncHeroHeight()
           gsap.set(sticky, { y: 0, clearProps: 'transform' })
-          hero.style.removeProperty('--infra-hero-scroll')
+
+          gsap.to(track, {
+            x: () => -getScrollDistance(),
+            ease: 'none',
+            force3D: true,
+            scrollTrigger: {
+              ...scrollTriggerBase,
+              trigger: hero,
+              start: 'top top',
+              end: () => `+=${getScrollDistance()}`,
+              scrub: true,
+              invalidateOnRefresh: true,
+              onRefresh: syncHeroHeight,
+            },
+          })
+
+          return () => {
+            gsap.set(track, { x: 0, clearProps: 'transform' })
+            hero.style.removeProperty('--infra-hero-scroll')
+          }
         },
       })
 
@@ -165,6 +198,7 @@ function InfrastructureSection() {
                   clipPath: 'inset(0% 0% 0% 0%)',
                   ease: 'none',
                   scrollTrigger: {
+                    ...scrollTriggerBase,
                     trigger: panel,
                     start: 'top top',
                     end: () => `+=${window.innerHeight}`,
@@ -176,7 +210,9 @@ function InfrastructureSection() {
 
               // While Improvement slides over Restaurant, drift the whole
               // panel upward slowly and fade it out (pinned shell stays).
-              const improvement = document.querySelector('.improvement-section')
+              const improvement =
+                section.parentElement?.querySelector('.improvement-section') ??
+                document.querySelector('.improvement-section')
               if (improvement) {
                 gsap.fromTo(
                   panelSlide,
@@ -187,6 +223,7 @@ function InfrastructureSection() {
                     ease: 'none',
                     force3D: true,
                     scrollTrigger: {
+                      ...scrollTriggerBase,
                       trigger: improvement,
                       start: 'top bottom',
                       end: 'top top',
@@ -205,6 +242,7 @@ function InfrastructureSection() {
                       ease: 'none',
                       force3D: true,
                       scrollTrigger: {
+                        ...scrollTriggerBase,
                         trigger: improvement,
                         start: 'top bottom',
                         end: 'top top',
@@ -228,6 +266,7 @@ function InfrastructureSection() {
                   ease: 'none',
                   force3D: true,
                   scrollTrigger: {
+                    ...scrollTriggerBase,
                     trigger: panel,
                     start: 'top bottom',
                     end: 'top top',
@@ -243,7 +282,7 @@ function InfrastructureSection() {
     }, section)
 
     return () => ctx.revert()
-  }, [])
+  }, [scrollContainerRef])
 
   const goTo = useCallback((nextIndex) => {
     if (animatingRef.current) return
@@ -339,7 +378,13 @@ function InfrastructureSection() {
   return (
     <section
       ref={sectionRef}
-      className={`infrastructure-section ${isVisible ? 'is-visible' : ''}`}
+      className={[
+        'infrastructure-section',
+        isProjectVariant ? 'infrastructure-section--project' : '',
+        isVisible ? 'is-visible' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       id="infrastructure"
       aria-labelledby="infrastructure-title"
       style={{ '--infra-slide-duration': `${SLIDE_DURATION_S}s` }}

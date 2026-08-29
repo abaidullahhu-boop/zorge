@@ -22,7 +22,8 @@ function ParallaxImage({ src, width, height, intensity = 10, className = '' }) {
   )
 }
 
-function ImprovementSection() {
+function ImprovementSection({ variant = 'default', scrollContainerRef = null }) {
+  const isProjectVariant = variant === 'project'
   const [isVisible, setIsVisible] = useState(false)
   const sectionRef = useRef(null)
   const slideRef = useRef(null)
@@ -59,6 +60,9 @@ function ImprovementSection() {
       return undefined
     }
 
+    const scroller = scrollContainerRef?.current ?? undefined
+    const scrollTriggerBase = scroller ? { scroller } : {}
+
     const ctx = gsap.context(() => {
       // Mobile only: soft settle. Desktop slides over pinned Restaurant.
       ScrollTrigger.matchMedia({
@@ -76,6 +80,7 @@ function ImprovementSection() {
               ease: 'none',
               force3D: true,
               scrollTrigger: {
+                ...scrollTriggerBase,
                 trigger: section,
                 start: 'top bottom',
                 end: 'top top',
@@ -92,7 +97,7 @@ function ImprovementSection() {
     }, section)
 
     return () => ctx.revert()
-  }, [])
+  }, [scrollContainerRef])
 
   useEffect(() => {
     const section = sectionRef.current
@@ -136,7 +141,13 @@ function ImprovementSection() {
   return (
     <section
       ref={sectionRef}
-      className={`improvement-section ${isVisible ? 'is-visible' : ''}`}
+      className={[
+        'improvement-section',
+        isProjectVariant ? 'improvement-section--project' : '',
+        isVisible ? 'is-visible' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       id="improvement"
       aria-labelledby="improvement-title"
     >

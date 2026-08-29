@@ -1,64 +1,76 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from '../../lib/gsap'
-import heroImage from '../../assets/images/bgsection.png'
-import collection1 from '../../assets/images/collection1.png'
-import collection2 from '../../assets/images/collection2.png'
-import collection3 from '../../assets/images/collection3.png'
-import collection4 from '../../assets/images/collection4.png'
-import collection5 from '../../assets/images/collection5.png'
-import collection6 from '../../assets/images/collection6.png'
-import collection8 from '../../assets/images/collection8.png'
-import gallery1 from '../../assets/images/gallery1.png'
-import gallery2 from '../../assets/images/gallery2.png'
-import galleryImageLeft from '../../assets/images/architecture/image-2.webp'
-import galleryImageRight from '../../assets/images/architecture/image-3.webp'
+import heroImage from '../../assets/images/core1.png'
 import '../../assets/styles/ArchitectureSection.css'
 
-const decorLayers = [
-  { src: collection1, vmin: 2, isBase: true, zIndex: 1 },
-  { src: collection2, vmin: 4, zIndex: 2 },
-  { src: collection3, vmin: 6, zIndex: 3 },
-  { src: collection4, vmin: 8, zIndex: 4 },
-  { src: collection8, vmin: 14, zIndex: 5 },
-  { src: collection5, vmin: 10, zIndex: 6 },
-  { src: collection6, vmin: 12, zIndex: 7 },
+const HOVER_MQ = '(hover: hover) and (pointer: fine)'
+
+function canHover() {
+  return window.matchMedia(HOVER_MQ).matches
+}
+
+const CORE_VALUES = [
+  {
+    id: 'leadership',
+    title: 'Trusted Leadership',
+    text: 'Led by experienced leadership committed to integrity, vision, and excellence in every development.',
+    placement: 'bottom',
+    x: 50,
+    y: 36.5,
+  },
+  {
+    id: 'modern',
+    title: 'Modern Developments',
+    text: 'We embrace modern technology, creative design, and smart solutions to shape the future of real estate.',
+    placement: 'left',
+    x: 71,
+    y: 45,
+  },
+  {
+    id: 'transparency',
+    title: 'Complete Transparency',
+    text: 'We conduct every project with honesty, transparency, and ethical business practices.',
+    placement: 'left',
+    x: 76,
+    y: 64,
+  },
+  {
+    id: 'quality',
+    title: 'Premium Quality',
+    text: 'We never compromise on construction standards, craftsmanship, or attention to detail.',
+    placement: 'top',
+    x: 64,
+    y: 80.5,
+  },
+  {
+    id: 'delivery',
+    title: 'On-Time Delivery',
+    text: 'We honor our promises by delivering projects on time while maintaining the highest standards.',
+    placement: 'top',
+    x: 34.8,
+    y: 80.5,
+  },
+  {
+    id: 'investment',
+    title: 'Secure Investment',
+    text: 'We build lasting value through trusted developments that protect and grow our clients’ investments.',
+    placement: 'right',
+    x: 24,
+    y: 64,
+  },
+  {
+    id: 'customer',
+    title: 'Customer-Centric',
+    text: 'Our clients are at the heart of every decision we make, and their trust is our greatest achievement.',
+    placement: 'right',
+    x: 29,
+    y: 45,
+  },
 ]
-
-function DecorLayer({ src, vmin, isBase = false, zIndex }) {
-  const className = [
-    'architecture-decor-layer',
-    isBase
-      ? 'architecture-decor-layer--base'
-      : 'architecture-decor-layer--cover',
-  ].join(' ')
-
-  return (
-    <div
-      className={className}
-      data-parallax-vmin={vmin}
-      style={{ zIndex }}
-    >
-      <img src={src} alt="" draggable="false" />
-    </div>
-  )
-}
-
-function BottomGalleryParallaxImage({ src, intensity = 10 }) {
-  return (
-    <div className="architecture-bottom-parallax-frame">
-      <img
-        className="architecture-parallax-image"
-        data-parallax-intensity={intensity}
-        src={src}
-        alt=""
-        draggable="false"
-      />
-    </div>
-  )
-}
 
 function ArchitectureSection() {
   const [isVisible, setIsVisible] = useState(false)
+  const [activeId, setActiveId] = useState(null)
   const sectionRef = useRef(null)
   const slideRef = useRef(null)
 
@@ -88,7 +100,7 @@ function ArchitectureSection() {
     }
 
     const ctx = gsap.context(() => {
-      // Climb slightly over the panorama while the page keeps scrolling normally.
+      // Climb over the map while both sections scroll together.
       const getLift = () => Math.min(window.innerHeight * 0.2, 180)
 
       gsap.fromTo(
@@ -119,58 +131,44 @@ function ArchitectureSection() {
     const section = sectionRef.current
     if (!section) return undefined
 
-    const reduceMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)',
-    ).matches
-    const viewportCenter = () => window.innerHeight / 2
+    const close = () => setActiveId(null)
 
-    const updateParallax = () => {
-      const parallaxImages = section.querySelectorAll(
-        '.architecture-parallax-image',
-      )
-
-      parallaxImages.forEach((imageEl) => {
-        const bounds = imageEl.getBoundingClientRect()
-        const elementCenter = bounds.top + bounds.height / 2
-        const distance = elementCenter - viewportCenter()
-        const progress = Math.max(-1, Math.min(1, distance / window.innerHeight))
-        const intensity = imageEl.dataset.parallaxIntensity ?? 12
-
-        imageEl.style.setProperty(
-          '--architecture-parallax',
-          `${progress * -intensity}%`,
-        )
-      })
-
-      const decor = section.querySelector('.architecture-decor')
-      if (decor) {
-        const bounds = decor.getBoundingClientRect()
-        const elementCenter = bounds.top + bounds.height / 2
-        const range = window.innerHeight * 0.5 + bounds.height * 0.5
-        const factor =
-          range > 0
-            ? Math.max(
-                -1,
-                Math.min(1, (elementCenter - viewportCenter()) / range),
-              )
-            : 0
-
-        decor.querySelectorAll('.architecture-decor-layer').forEach((layer) => {
-          const vmin = Number(layer.dataset.parallaxVmin ?? 2)
-          layer.style.transform = `translateY(${factor * vmin}vmin)`
-        })
+    const onPointerDown = (event) => {
+      if (!(event.target instanceof Node)) return
+      if (!section.contains(event.target)) {
+        close()
+        return
       }
+      if (!event.target.closest('.architecture-hotspot')) close()
     }
 
-    if (!reduceMotion) {
-      updateParallax()
-      gsap.ticker.add(updateParallax)
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') close()
     }
+
+    document.addEventListener('pointerdown', onPointerDown)
+    window.addEventListener('keydown', onKeyDown)
 
     return () => {
-      gsap.ticker.remove(updateParallax)
+      document.removeEventListener('pointerdown', onPointerDown)
+      window.removeEventListener('keydown', onKeyDown)
     }
   }, [])
+
+  const handleHotspotEnter = (id) => {
+    if (!canHover()) return
+    setActiveId(id)
+  }
+
+  const handleHotspotLeave = () => {
+    if (!canHover()) return
+    setActiveId(null)
+  }
+
+  const handleHotspotClick = (id) => {
+    if (canHover()) return
+    setActiveId((current) => (current === id ? null : id))
+  }
 
   return (
     <section
@@ -180,103 +178,68 @@ function ArchitectureSection() {
       aria-labelledby="architecture-title"
     >
       <div className="architecture-slide" ref={slideRef}>
-        <h2 id="architecture-title" className="architecture-sr-only">
-          Our Story
-        </h2>
-
         <div className="architecture-intro-row">
-          <p className="architecture-intro">
-            <span className="architecture-intro-offset" aria-hidden="true" />
-            What began as a journey in real estate consultancy evolved into a
-            trusted marketing company and has now grown into a dynamic real
-            estate development firm.
-          </p>
+          <h2 id="architecture-title" className="architecture-intro">
+            Our Core Values
+          </h2>
         </div>
 
-        <div className="architecture-hero">
-          <img
-            className="architecture-hero-image architecture-parallax-image"
-            src={heroImage}
-            alt=""
-            draggable="false"
-          />
-        </div>
-
-        <div className="architecture-subhead-row">
-          <p className="architecture-subhead">
-            Creating communities,
-            <br />
-            improving lifestyles,
-            <br />
-            and lasting value
-          </p>
-        </div>
-
-        <div className="architecture-gallery-row">
-          <div className="architecture-gallery-left">
+        <div className="architecture-hero ">
+          <div className="architecture-hero-stage">
             <img
-              className="architecture-parallax-image"
-              data-parallax-intensity="10"
-              src={galleryImageLeft}
-              alt=""
+              className="architecture-hero-image"
+              src={heroImage}
+              alt="Dayim Developers core values"
               draggable="false"
             />
-          </div>
-          <div className="architecture-gallery-right">
-            <img
-              className="architecture-parallax-image"
-              data-parallax-intensity="10"
-              src={galleryImageRight}
-              alt=""
-              draggable="false"
-            />
-          </div>
-          <p className="architecture-gallery-caption">
-            Premium
-            <br />
-            construction
-          </p>
-        </div>
 
-        <div className="architecture-decor-row">
-          <div className="architecture-decor">
-            {decorLayers.map((layer) => (
-              <DecorLayer key={layer.src} {...layer} />
-            ))}
-          </div>
-        </div>
+            <ul className="architecture-hotspots">
+              {CORE_VALUES.map((value) => {
+                const isActive = activeId === value.id
 
-        <div className="architecture-copy-row">
-          <p className="architecture-copy">
-            Led by our CEO, Waleed Ahmad, Dayim Developers is driven by the
-            belief that real estate is more than constructing buildings—it&apos;s
-            about creating communities, improving lifestyles, and delivering
-            long-term value. Every development reflects our commitment to trust,
-            excellence, and sustainable growth. At Dayim Developers, we don&apos;t
-            just build properties—we build confidence, opportunities, and a
-            better future for generations to come.
-          </p>
-        </div>
+                return (
+                  <li
+                    key={value.id}
+                    className={`architecture-hotspot architecture-hotspot--${value.placement}${isActive ? ' is-active' : ''}`}
+                    style={{
+                      '--hotspot-x': `${value.x}%`,
+                      '--hotspot-y': `${value.y}%`,
+                    }}
+                    onPointerEnter={() => handleHotspotEnter(value.id)}
+                    onPointerLeave={handleHotspotLeave}
+                  >
+                    <button
+                      type="button"
+                      className="architecture-hotspot-hit"
+                      aria-expanded={isActive}
+                      aria-controls={`architecture-popup-${value.id}`}
+                      aria-label={value.title}
+                      onClick={() => handleHotspotClick(value.id)}
+                    />
 
-        <div className="architecture-bottom-gallery-row">
-          <div className="architecture-bottom-gallery-col architecture-bottom-gallery-col--left architecture-bottom-gallery-desktop">
-            <div className="architecture-bottom-gallery-image architecture-bottom-gallery-image--first">
-              <BottomGalleryParallaxImage src={gallery1} />
-            </div>
-          </div>
-
-          <div className="architecture-bottom-gallery-col architecture-bottom-gallery-col--right architecture-bottom-gallery-image--second architecture-bottom-gallery-desktop">
-            <BottomGalleryParallaxImage src={gallery2} />
-          </div>
-
-          <div className="architecture-bottom-gallery-mobile">
-            <ul className="architecture-bottom-gallery-scroll">
-              <li className="architecture-bottom-gallery-scroll-item">
-                <BottomGalleryParallaxImage src={gallery1} />
-              </li>
-              <li className="architecture-bottom-gallery-scroll-item">
-                <BottomGalleryParallaxImage src={gallery2} />
-              </li>
+                    <aside
+                      className="architecture-hotspot-popup"
+                      id={`architecture-popup-${value.id}`}
+                      aria-hidden={!isActive}
+                    >
+                      <button
+                        type="button"
+                        className="architecture-hotspot-close"
+                        aria-label="Close"
+                        onClick={(event) => {
+                          event.stopPropagation()
+                          setActiveId(null)
+                        }}
+                      >
+                        ×
+                      </button>
+                      <p className="architecture-hotspot-kicker">Core value</p>
+                      <h3 className="architecture-hotspot-title">{value.title}</h3>
+                      <p className="architecture-hotspot-text">{value.text}</p>
+                    </aside>
+                  </li>
+                )
+              })}
             </ul>
           </div>
         </div>

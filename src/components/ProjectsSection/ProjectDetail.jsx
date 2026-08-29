@@ -1,6 +1,23 @@
 import { useEffect, useState } from 'react'
+import { SITE_CONTACT } from '../../data/siteContact'
 
 const MOBILE_MQ = '(max-width: 760px)'
+
+const PROJECT_NAV = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'daily-schedule', label: 'Journey' },
+  { id: 'units', label: 'Units' },
+  { id: 'apartments', label: 'Residences' },
+  { id: 'plans', label: 'Plans' },
+  { id: 'enquire', label: 'Enquire' },
+]
+
+const COMPACT_NAV = [
+  { id: 'overview', label: 'Overview' },
+  { id: 'plans', label: 'Plans' },
+  { id: 'units', label: 'Units' },
+  { id: 'enquire', label: 'Enquire' },
+]
 
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(
@@ -18,12 +35,6 @@ function useIsMobile() {
   return isMobile
 }
 
-const TABS = [
-  { id: 'about', label: 'About' },
-  { id: 'plan', label: 'Plan' },
-  { id: 'units', label: 'Unit Information' },
-]
-
 function getFloorImages(floor) {
   if (!floor) return []
   return floor.overview ? [floor.overview, ...floor.images] : floor.images
@@ -37,22 +48,277 @@ function isUsefulImageLabel(label) {
   return /[A-Za-z]/.test(label)
 }
 
-function ProjectDetail({ project, activeTab, onTabChange, onBack }) {
+function BackArrow() {
+  return (
+    <svg viewBox="0 0 24 14" fill="none" aria-hidden="true">
+      <path
+        d="M24 7H2M8 1 1 7l7 6"
+        stroke="currentColor"
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+
+export function ProjectNav({ project, scrollRootRef, onBack, onNavigate }) {
+  const [scrolled, setScrolled] = useState(false)
+  const [activeId, setActiveId] = useState('overview')
+  const navItems = project.id === 'dsa' ? PROJECT_NAV : COMPACT_NAV
+
+  useEffect(() => {
+    const root = scrollRootRef?.current
+    if (!root) return undefined
+
+    const onScroll = () => {
+      setScrolled(root.scrollTop > 40)
+    }
+
+    onScroll()
+    root.addEventListener('scroll', onScroll, { passive: true })
+    return () => root.removeEventListener('scroll', onScroll)
+  }, [scrollRootRef])
+
+  useEffect(() => {
+    const root = scrollRootRef?.current
+    if (!root) return undefined
+
+    const targets = navItems
+      .map(({ id }) => root.querySelector(`#${id}`))
+      .filter(Boolean)
+    if (!targets.length) return undefined
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+
+        if (visible[0]?.target?.id) {
+          setActiveId(visible[0].target.id)
+        }
+      },
+      {
+        root,
+        rootMargin: '-18% 0px -62% 0px',
+        threshold: [0, 0.15, 0.4, 0.7],
+      },
+    )
+
+    targets.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
+  }, [scrollRootRef, project.id, navItems])
+
+  return (
+    <nav
+      className={`project-nav${scrolled ? ' is-scrolled' : ''}`}
+      aria-label={`${project.title} sections`}
+    >
+      <div className="project-nav__bar">
+        <button
+          type="button"
+          className="project-nav__back"
+          onClick={onBack}
+          aria-label="All projects"
+        >
+          <BackArrow />
+          <span>All projects</span>
+        </button>
+
+        <p className="project-nav__brand">{project.short}</p>
+
+        <div className="project-nav__links" role="list">
+          {navItems.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              role="listitem"
+              className={`project-nav__link${activeId === item.id ? ' is-active' : ''}`}
+              onClick={() => onNavigate(item.id)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        <button
+          type="button"
+          className="project-nav__cta"
+          onClick={() => onNavigate('enquire')}
+        >
+          Enquire
+        </button>
+      </div>
+    </nav>
+  )
+}
+
+export function ProjectHero({ project, onNavigate }) {
+  return (
+    <header className="project-hero">
+      <div className="project-hero__media">
+        <img src={project.image} alt="" draggable="false" />
+      </div>
+      <div className="project-hero__veil" />
+
+      <div className="project-hero__content">
+        <p className="project-hero__kicker">Dayim Developers · {project.short}</p>
+        <h1 className="project-hero__title">{project.title}</h1>
+        <p className="project-hero__location">{project.subtitle}</p>
+
+        <div className="project-hero__actions">
+          <button
+            type="button"
+            className="project-hero__btn project-hero__btn--solid"
+            onClick={() => onNavigate('enquire')}
+          >
+            Enquire now
+          </button>
+          <button
+            type="button"
+            className="project-hero__btn project-hero__btn--ghost"
+            onClick={() => onNavigate('plans')}
+          >
+            View plans
+          </button>
+          {project.mapsUrl ? (
+            <a
+              className="project-hero__btn project-hero__btn--ghost"
+              href={project.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open map
+            </a>
+          ) : null}
+        </div>
+      </div>
+    </header>
+  )
+}
+
+export function ProjectOverview({ project }) {
+  const floors = project.plan.floors ?? []
+  const facts = [
+    { label: 'Location', value: project.subtitle },
+    floors.length
+      ? { label: 'Floors', value: `${floors.length} levels` }
+      : null,
+    {
+      label: 'Typologies',
+      value: project.units.map((unit) => unit.label ?? unit.type).join(' · '),
+    },
+    { label: 'Status', value: 'Available' },
+  ].filter(Boolean)
+
+  return (
+    <section className="project-overview" id="overview" aria-labelledby="overview-title">
+      <div className="project-overview__grid">
+        <div className="project-overview__intro">
+          <p className="project-kicker">The project</p>
+          <h2 id="overview-title" className="project-heading">
+            A landmark address, planned with care
+          </h2>
+          <p className="project-overview__text">{project.about.description}</p>
+        </div>
+
+        <ul className="project-overview__highlights">
+          {project.about.highlights.map((item, index) => (
+            <li key={item}>
+              <span className="project-overview__index">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <dl className="project-facts">
+        {facts.map((fact) => (
+          <div key={fact.label}>
+            <dt>{fact.label}</dt>
+            <dd>{fact.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+  )
+}
+
+function ProjectLightbox({ lightbox, onClose, onStep }) {
+  const item = lightbox?.items[lightbox.index] ?? null
+  if (!item) return null
+
+  return (
+    <div
+      className="projects-lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label={item.alt}
+      onClick={onClose}
+    >
+      <button
+        type="button"
+        className="projects-lightbox-close"
+        aria-label="Close image"
+        onClick={onClose}
+      >
+        Close
+      </button>
+      {lightbox.items.length > 1 ? (
+        <>
+          <button
+            type="button"
+            className="projects-lightbox-nav is-prev"
+            aria-label="Previous image"
+            onClick={(event) => {
+              event.stopPropagation()
+              onStep(-1)
+            }}
+          >
+            Previous
+          </button>
+          <button
+            type="button"
+            className="projects-lightbox-nav is-next"
+            aria-label="Next image"
+            onClick={(event) => {
+              event.stopPropagation()
+              onStep(1)
+            }}
+          >
+            Next
+          </button>
+        </>
+      ) : null}
+      <figure
+        className="projects-lightbox-figure"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <img src={item.src} alt={item.alt} draggable="false" />
+        {item.label || lightbox.title ? (
+          <figcaption>
+            {lightbox.title && item.label
+              ? `${lightbox.title} · ${item.label}`
+              : (item.label ?? lightbox.title)}
+            {lightbox.items.length > 1
+              ? ` · ${lightbox.index + 1} / ${lightbox.items.length}`
+              : ''}
+          </figcaption>
+        ) : null}
+      </figure>
+    </div>
+  )
+}
+
+export function ProjectInventory({ project, includeUnits = true }) {
   const isMobile = useIsMobile()
   const floors = project.plan.floors ?? null
   const [selectedFloorId, setSelectedFloorId] = useState(floors?.[0]?.id ?? null)
   const [selectedUnitId, setSelectedUnitId] = useState(project.units[0]?.id ?? null)
   const [lightbox, setLightbox] = useState(null)
-
-  useEffect(() => {
-    if (isMobile) setLightbox(null)
-  }, [isMobile])
-
-  useEffect(() => {
-    setSelectedFloorId(project.plan.floors?.[0]?.id ?? null)
-    setSelectedUnitId(project.units[0]?.id ?? null)
-    setLightbox(null)
-  }, [project.id, activeTab])
 
   useEffect(() => {
     if (lightbox === null) return undefined
@@ -89,9 +355,6 @@ function ProjectDetail({ project, activeTab, onTabChange, onBack }) {
     project.units[0] ??
     null
   const unitImages = currentUnit?.images ?? []
-  const lightboxItem = lightbox?.items[lightbox.index] ?? null
-
-  const closeLightbox = () => setLightbox(null)
 
   const openLightbox = (items, index = 0, title = '') => {
     if (!items?.length || isMobile) return
@@ -107,355 +370,239 @@ function ProjectDetail({ project, activeTab, onTabChange, onBack }) {
     })
   }
 
-  const selectFloor = (floorId) => {
-    setSelectedFloorId(floorId)
-    setLightbox(null)
-  }
+  const renderThumbs = (items, { photo = false, title = '' } = {}) => (
+    <div
+      className={`projects-plan-thumbs${photo ? ' is-photos' : ''}`}
+      role="list"
+    >
+      {items.map((item, index) => {
+        const label = photo
+          ? isUsefulImageLabel(item.label)
+            ? item.label
+            : null
+          : item.label
 
-  const selectUnit = (unitId) => {
-    setSelectedUnitId(unitId)
-    setLightbox(null)
-  }
+        const thumbContent = (
+          <>
+            <span
+              className={`projects-plan-thumb-media${photo ? ' is-photo' : ''}`}
+            >
+              <img
+                src={item.src}
+                alt=""
+                draggable="false"
+                loading="lazy"
+              />
+            </span>
+            {label ? (
+              <span className="projects-plan-thumb-label">{label}</span>
+            ) : null}
+          </>
+        )
+
+        if (isMobile) {
+          return (
+            <div
+              key={`${title}-thumb-${item.alt}-${index}`}
+              role="listitem"
+              className="projects-plan-thumb is-static"
+            >
+              {thumbContent}
+            </div>
+          )
+        }
+
+        return (
+          <button
+            key={`${title}-thumb-${item.alt}-${index}`}
+            type="button"
+            role="listitem"
+            className="projects-plan-thumb"
+            aria-label={`View ${label ?? item.alt} full size`}
+            onClick={() => openLightbox(items, index, title)}
+          >
+            {thumbContent}
+          </button>
+        )
+      })}
+    </div>
+  )
 
   return (
-    <div className="projects-detail">
-      <button type="button" className="projects-back" onClick={onBack}>
-        <svg viewBox="0 0 24 14" fill="none" aria-hidden="true">
-          <path
-            d="M24 7H2M8 1 1 7l7 6"
-            stroke="currentColor"
-            strokeWidth="1.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        All Projects
-      </button>
+    <>
+      <section className="project-inventory" id="plans" aria-labelledby="plans-title">
+        <div className="project-inventory__intro">
+          <p className="project-kicker">Floor plans</p>
+          <h2 id="plans-title" className="project-heading">
+            Layouts for every level
+          </h2>
+          <p className="project-inventory__lead">
+            {isMobile
+              ? floors
+                ? 'Select a floor to browse the plans.'
+                : 'Browse the floor plans below.'
+              : floors
+                ? 'Select a floor, then click a plan to view it full size.'
+                : 'Click a plan to view it full size.'}
+          </p>
+        </div>
 
-      <div
-        className={`projects-detail-hero${activeTab === 'units' ? ' is-units' : ''}${activeTab === 'plan' ? ' is-plan' : ''}`}
-      >
-        <div className="projects-detail-copy">
-          <p className="projects-detail-kicker">{project.short}</p>
-          <h2 className="projects-detail-title">{project.title}</h2>
-          <p className="projects-detail-subtitle">{project.subtitle}</p>
-
+        {floors ? (
           <div
-            className="projects-tabs"
+            className="projects-floor-nav"
             role="tablist"
-            aria-label={`${project.title} information`}
+            aria-label={`${project.title} floors`}
           >
-            {TABS.map((tab) => (
+            {floors.map((floor) => (
               <button
-                key={tab.id}
+                key={floor.id}
                 type="button"
                 role="tab"
-                id={`projects-tab-${project.id}-${tab.id}`}
-                className={`projects-tab${activeTab === tab.id ? ' is-active' : ''}`}
-                aria-selected={activeTab === tab.id}
-                aria-controls={`projects-panel-${project.id}-${tab.id}`}
-                onClick={() => onTabChange(tab.id)}
+                className={`projects-floor-btn${selectedFloorId === floor.id ? ' is-active' : ''}`}
+                aria-selected={selectedFloorId === floor.id}
+                onClick={() => {
+                  setSelectedFloorId(floor.id)
+                  setLightbox(null)
+                }}
               >
-                {tab.label}
+                {floor.label}
               </button>
             ))}
           </div>
+        ) : null}
 
-          <div className="projects-panels projects-panels--inline">
-              <div
-                id={`projects-panel-${project.id}-about`}
-                role="tabpanel"
-                aria-labelledby={`projects-tab-${project.id}-about`}
-                className={`projects-panel${activeTab === 'about' ? ' is-active' : ''}`}
-                hidden={activeTab !== 'about'}
-              >
-                <p className="projects-panel-text">{project.about.description}</p>
-                <ul className="projects-highlights">
-                  {project.about.highlights.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div
-                id={`projects-panel-${project.id}-plan`}
-                role="tabpanel"
-                aria-labelledby={`projects-tab-${project.id}-plan`}
-                className={`projects-panel${activeTab === 'plan' ? ' is-active' : ''}`}
-                hidden={activeTab !== 'plan'}
-              >
-                <p className="projects-panel-lead">
-                  {isMobile
-                    ? floors
-                      ? 'Select a floor to browse the plans.'
-                      : 'Browse the floor plans below.'
-                    : floors
-                      ? 'Select a floor, then click a plan to view it full size.'
-                      : 'Click a plan to view it full size.'}
-                </p>
-                {floors ? (
-                  <div
-                    className="projects-floor-nav"
-                    role="tablist"
-                    aria-label={`${project.title} floors`}
-                  >
-                    {floors.map((floor) => (
-                      <button
-                        key={floor.id}
-                        type="button"
-                        role="tab"
-                        className={`projects-floor-btn${selectedFloorId === floor.id ? ' is-active' : ''}`}
-                        aria-selected={selectedFloorId === floor.id}
-                        onClick={() => selectFloor(floor.id)}
-                      >
-                        {floor.label}
-                      </button>
-                    ))}
-                  </div>
-                ) : null}
-                {planImages.length ? (
-                  <div
-                    className="projects-detail-media is-plan"
-                    aria-label={`${currentFloor?.label ?? project.title} floor plans`}
-                  >
-                    <div className="projects-plan-thumbs" role="list">
-                      {planImages.map((plan) => {
-                        const thumbContent = (
-                          <>
-                            <span className="projects-plan-thumb-media">
-                              <img src={plan.src} alt="" draggable="false" loading="lazy" />
-                            </span>
-                            {plan.label ? (
-                              <span className="projects-plan-thumb-label">{plan.label}</span>
-                            ) : null}
-                          </>
-                        )
-
-                        if (isMobile) {
-                          return (
-                            <div
-                              key={`${currentFloor?.id ?? 'plan'}-thumb-${plan.alt}`}
-                              role="listitem"
-                              className="projects-plan-thumb is-static"
-                            >
-                              {thumbContent}
-                            </div>
-                          )
-                        }
-
-                        return (
-                          <button
-                            key={`${currentFloor?.id ?? 'plan'}-thumb-${plan.alt}`}
-                            type="button"
-                            role="listitem"
-                            className="projects-plan-thumb"
-                            aria-label={`View ${plan.label ?? plan.alt} full size`}
-                            onClick={() =>
-                              openLightbox(
-                                planImages,
-                                planImages.indexOf(plan),
-                                currentFloor?.label ?? project.title,
-                              )
-                            }
-                          >
-                            {thumbContent}
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-
-              <div
-                id={`projects-panel-${project.id}-units`}
-                role="tabpanel"
-                aria-labelledby={`projects-tab-${project.id}-units`}
-                className={`projects-panel${activeTab === 'units' ? ' is-active' : ''}`}
-                hidden={activeTab !== 'units'}
-              >
-                <p className="projects-panel-lead">
-                  {isMobile
-                    ? 'Select a unit type to browse the photos.'
-                    : 'Select a unit type, then click a photo to view it full size.'}
-                </p>
-                <div
-                  className="projects-floor-nav is-units"
-                  role="tablist"
-                  aria-label={`${project.title} unit types`}
-                >
-                  {project.units.map((unit) => (
-                    <button
-                      key={unit.id}
-                      type="button"
-                      role="tab"
-                      className={`projects-floor-btn${selectedUnitId === unit.id ? ' is-active' : ''}`}
-                      aria-selected={selectedUnitId === unit.id}
-                      onClick={() => selectUnit(unit.id)}
-                    >
-                      {unit.label ?? unit.type}
-                    </button>
-                  ))}
-                </div>
-                {currentUnit ? (
-                  <dl className="projects-unit-details">
-                    <div>
-                      <dt>Type</dt>
-                      <dd>{currentUnit.type}</dd>
-                    </div>
-                    <div>
-                      <dt>Area</dt>
-                      <dd>{currentUnit.area}</dd>
-                    </div>
-                    <div>
-                      <dt>Status</dt>
-                      <dd>
-                        <span className="projects-unit-status">{currentUnit.status}</span>
-                      </dd>
-                    </div>
-                  </dl>
-                ) : null}
-                {unitImages.length ? (
-                  <div
-                    className="projects-detail-media is-plan"
-                    aria-label={`${currentUnit?.type ?? project.title} interiors`}
-                  >
-                    <div className="projects-plan-thumbs is-photos" role="list">
-                      {unitImages.map((image, index) => {
-                        const label = isUsefulImageLabel(image.label)
-                          ? image.label
-                          : null
-
-                        const thumbContent = (
-                          <>
-                            <span className="projects-plan-thumb-media is-photo">
-                              <img
-                                src={image.src}
-                                alt=""
-                                draggable="false"
-                                loading="lazy"
-                              />
-                            </span>
-                            {label ? (
-                              <span className="projects-plan-thumb-label">{label}</span>
-                            ) : null}
-                          </>
-                        )
-
-                        if (isMobile) {
-                          return (
-                            <div
-                              key={`${currentUnit?.id ?? 'unit'}-thumb-${image.alt}-${index}`}
-                              role="listitem"
-                              className="projects-plan-thumb is-static"
-                            >
-                              {thumbContent}
-                            </div>
-                          )
-                        }
-
-                        return (
-                          <button
-                            key={`${currentUnit?.id ?? 'unit'}-thumb-${image.alt}-${index}`}
-                            type="button"
-                            role="listitem"
-                            className="projects-plan-thumb"
-                            aria-label={`View ${label ?? currentUnit?.type ?? 'interior'} full size`}
-                            onClick={() =>
-                              openLightbox(
-                                unitImages,
-                                index,
-                                currentUnit?.type ?? project.title,
-                              )
-                            }
-                          >
-                            {thumbContent}
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-            </div>
-        </div>
-
-        {activeTab === 'about' ? (
-          <div className="projects-detail-media">
-            <div className="projects-detail-image">
-              <img
-                className="projects-parallax-image"
-                src={project.image}
-                alt=""
-                draggable="false"
-              />
-            </div>
+        {planImages.length ? (
+          <div
+            className="projects-detail-media is-plan"
+            aria-label={`${currentFloor?.label ?? project.title} floor plans`}
+          >
+            {renderThumbs(planImages, {
+              title: currentFloor?.label ?? project.title,
+            })}
           </div>
         ) : null}
-      </div>
+      </section>
 
-      {lightboxItem ? (
-        <div
-          className="projects-lightbox"
-          role="dialog"
-          aria-modal="true"
-          aria-label={lightboxItem.alt}
-          onClick={closeLightbox}
-        >
-          <button
-            type="button"
-            className="projects-lightbox-close"
-            aria-label="Close image"
-            onClick={closeLightbox}
-          >
-            Close
-          </button>
-          {lightbox.items.length > 1 ? (
-            <>
-              <button
-                type="button"
-                className="projects-lightbox-nav is-prev"
-                aria-label="Previous image"
-                onClick={(event) => {
-                  event.stopPropagation()
-                  stepLightbox(-1)
-                }}
-              >
-                Previous
-              </button>
-              <button
-                type="button"
-                className="projects-lightbox-nav is-next"
-                aria-label="Next image"
-                onClick={(event) => {
-                  event.stopPropagation()
-                  stepLightbox(1)
-                }}
-              >
-                Next
-              </button>
-            </>
-          ) : null}
-          <figure
-            className="projects-lightbox-figure"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <img src={lightboxItem.src} alt={lightboxItem.alt} draggable="false" />
-            {lightboxItem.label || lightbox.title ? (
-              <figcaption>
-                {lightbox.title && lightboxItem.label
-                  ? `${lightbox.title} · ${lightboxItem.label}`
-                  : (lightboxItem.label ?? lightbox.title)}
-                {lightbox.items.length > 1
-                  ? ` · ${lightbox.index + 1} / ${lightbox.items.length}`
-                  : ''}
-              </figcaption>
-            ) : null}
-          </figure>
+      {includeUnits ? (
+      <section className="project-inventory is-units" id="units" aria-labelledby="units-title">
+        <div className="project-inventory__intro">
+          <p className="project-kicker">Unit information</p>
+          <h2 id="units-title" className="project-heading">
+            Residences, retail &amp; workspace
+          </h2>
+          <p className="project-inventory__lead">
+            {isMobile
+              ? 'Select a unit type to browse the photos.'
+              : 'Select a unit type, then click a photo to view it full size.'}
+          </p>
         </div>
+
+        <div
+          className="projects-floor-nav is-units"
+          role="tablist"
+          aria-label={`${project.title} unit types`}
+        >
+          {project.units.map((unit) => (
+            <button
+              key={unit.id}
+              type="button"
+              role="tab"
+              className={`projects-floor-btn${selectedUnitId === unit.id ? ' is-active' : ''}`}
+              aria-selected={selectedUnitId === unit.id}
+              onClick={() => {
+                setSelectedUnitId(unit.id)
+                setLightbox(null)
+              }}
+            >
+              {unit.label ?? unit.type}
+            </button>
+          ))}
+        </div>
+
+        {currentUnit ? (
+          <dl className="projects-unit-details">
+            <div>
+              <dt>Type</dt>
+              <dd>{currentUnit.type}</dd>
+            </div>
+            <div>
+              <dt>Area</dt>
+              <dd>{currentUnit.area}</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd>
+                <span className="projects-unit-status">{currentUnit.status}</span>
+              </dd>
+            </div>
+          </dl>
+        ) : null}
+
+        {unitImages.length ? (
+          <div
+            className="projects-detail-media is-plan"
+            aria-label={`${currentUnit?.type ?? project.title} interiors`}
+          >
+            {renderThumbs(unitImages, {
+              photo: true,
+              title: currentUnit?.type ?? project.title,
+            })}
+          </div>
+        ) : null}
+      </section>
       ) : null}
-    </div>
+
+      {!isMobile ? (
+        <ProjectLightbox
+          lightbox={lightbox}
+          onClose={() => setLightbox(null)}
+          onStep={stepLightbox}
+        />
+      ) : null}
+    </>
   )
 }
 
-export default ProjectDetail
+export function ProjectEnquire({ project }) {
+  return (
+    <section className="project-enquire" id="enquire" aria-labelledby="enquire-title">
+      <div className="project-enquire__copy">
+        <p className="project-kicker is-light">Visit us</p>
+        <h2 id="enquire-title" className="project-heading is-light">
+          Enquire about {project.short}
+        </h2>
+        <p className="project-enquire__text">
+          Speak with the Dayim team for availability, payment plans, and a
+          private viewing of {project.title}.
+        </p>
+      </div>
+
+      <ul className="project-enquire__contacts">
+        <li>
+          <span>Call</span>
+          <a href={SITE_CONTACT.phone.href}>{SITE_CONTACT.phone.display}</a>
+        </li>
+        <li>
+          <span>Email</span>
+          <a href={SITE_CONTACT.email.href}>{SITE_CONTACT.email.display}</a>
+        </li>
+        <li>
+          <span>Address</span>
+          <address>
+            {SITE_CONTACT.address.lines.map((line) => (
+              <span key={line}>{line}</span>
+            ))}
+          </address>
+        </li>
+        {project.mapsUrl ? (
+          <li>
+            <span>Location</span>
+            <a href={project.mapsUrl} target="_blank" rel="noopener noreferrer">
+              View on Google Maps
+            </a>
+          </li>
+        ) : null}
+      </ul>
+    </section>
+  )
+}
