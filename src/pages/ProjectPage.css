@@ -578,29 +578,6 @@
 }
 
 @media (max-width: 980px) {
-  .project-nav__bar {
-    grid-template-columns: auto minmax(0, 1fr) auto;
-  }
-
-  .project-nav__brand {
-    display: none;
-  }
-
-  .project-overview__grid,
-  .project-enquire {
-    grid-template-columns: 1fr;
-  }
-
-  .project-facts {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .project-page .projects-plan-thumbs {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 760px) {
   .project-page {
     --project-nav-h: 116px;
     --project-pad: 20px;
@@ -612,6 +589,10 @@
     align-content: center;
     gap: 0 12px;
     padding: 4px 16px 8px;
+  }
+
+  .project-nav__brand {
+    display: none;
   }
 
   .project-nav__back span {
@@ -629,6 +610,11 @@
 
   .project-hero__title {
     max-width: none;
+  }
+
+  .project-overview__grid,
+  .project-enquire {
+    grid-template-columns: 1fr;
   }
 
   .project-overview__highlights {

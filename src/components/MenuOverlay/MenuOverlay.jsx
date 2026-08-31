@@ -6,11 +6,10 @@ const ICONS = '/assets/images/icons.svg'
 
 const MENU_LINKS = [
   { label: 'About Us', href: '#about' },
-  { label: 'Our Story', href: '#architecture' },
-  { label: 'Vision', href: '#panorama' },
-  { label: 'Values', href: '#advantages' },
-  { label: 'Why Choose Us', href: '#fitness' },
-  { label: 'Our Projects', href: '#projects', mobileOnly: true },
+  { label: 'Our Core Values', href: '#architecture' },
+  { label: 'Our Vision', href: '#panorama' },
+  { label: 'Choose Dayim', href: '#advantages' },
+  { label: 'Our Projects', action: 'projects', mobileOnly: true },
   { label: 'Contact Us', href: '#contact' },
 ]
 
@@ -21,7 +20,7 @@ function getActiveHref() {
   const seen = new Set()
 
   for (const { href } of MENU_LINKS) {
-    if (seen.has(href)) continue
+    if (!href || seen.has(href)) continue
     seen.add(href)
     const el = document.querySelector(href)
     if (!el) continue
@@ -188,7 +187,7 @@ function MenuOverlay({ open, onClose }) {
 
           <nav className="menu-overlay__nav" aria-label="Site sections">
             <ul className="menu-overlay__list">
-              {MENU_LINKS.map(({ label, href, mobileOnly }) => {
+              {MENU_LINKS.map(({ label, href, action, mobileOnly }) => {
                 const isActive =
                   href === activeHref &&
                   MENU_LINKS.find((link) => link.href === activeHref)?.label === label
@@ -196,9 +195,11 @@ function MenuOverlay({ open, onClose }) {
                   <li key={label} className={`menu-overlay__item${mobileOnly ? ' menu-overlay__item--mobile-only' : ''}`}>
                     <a
                       className={`menu-overlay__link${isActive ? ' is-active' : ''}`}
-                      href={href}
+                      href={href ?? '#'}
                       aria-current={isActive ? 'true' : undefined}
-                      onClick={(event) => handleNav(event, href)}
+                      onClick={(event) =>
+                        action ? handleAction(event, action) : handleNav(event, href)
+                      }
                     >
                       <span className="menu-overlay__link-text">{label}</span>
                       <span className="menu-overlay__link-arrow" aria-hidden="true">

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { SITE_CONTACT } from '../../data/siteContact'
 
-const MOBILE_MQ = '(max-width: 760px)'
+const MOBILE_MQ = '(max-width: 980px)'
 
 const PROJECT_NAV = [
   { id: 'overview', label: 'Overview' },

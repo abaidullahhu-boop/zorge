@@ -44,6 +44,16 @@ function LobbySection() {
     }
 
     const ctx = gsap.context(() => {
+      const isMobile = window.matchMedia('(max-width: 980px)').matches
+
+      if (isMobile) {
+        gsap.set(slide, { y: 0, clearProps: 'transform' })
+        gsap.set([image, content].filter(Boolean), {
+          clearProps: 'transform',
+        })
+        return
+      }
+
       const getLift = () => Math.min(window.innerHeight * 0.2, 180)
 
       gsap.fromTo(

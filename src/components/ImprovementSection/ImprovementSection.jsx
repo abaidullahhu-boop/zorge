@@ -66,7 +66,7 @@ function ImprovementSection({ variant = 'default', scrollContainerRef = null }) 
     const ctx = gsap.context(() => {
       // Mobile only: soft settle. Desktop slides over pinned Restaurant.
       ScrollTrigger.matchMedia({
-        '(max-width: 760px)': () => {
+        '(max-width: 980px)': () => {
           const getLift = () => Math.min(window.innerHeight * 0.2, 180)
 
           gsap.fromTo(
@@ -90,7 +90,7 @@ function ImprovementSection({ variant = 'default', scrollContainerRef = null }) 
             },
           )
         },
-        '(min-width: 761px)': () => {
+        '(min-width: 981px)': () => {
           gsap.set(slide, { y: 0, clearProps: 'transform' })
         },
       })

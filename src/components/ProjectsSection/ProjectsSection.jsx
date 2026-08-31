@@ -36,6 +36,11 @@ function ProjectsSection() {
       return undefined
     }
 
+    if (window.matchMedia('(max-width: 980px)').matches) {
+      gsap.set(slide, { y: 0, clearProps: 'transform' })
+      return undefined
+    }
+
     const ctx = gsap.context(() => {
       const getLift = () => Math.min(window.innerHeight * 0.2, 180)
 
@@ -70,7 +75,8 @@ function ProjectsSection() {
     const reduceMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
     ).matches
-    if (reduceMotion) return undefined
+    const isTouchLayout = window.matchMedia('(max-width: 980px)').matches
+    if (reduceMotion || isTouchLayout) return undefined
 
     const getScrollProgress = (bounds, viewportHeight) => {
       const travel = viewportHeight + bounds.height

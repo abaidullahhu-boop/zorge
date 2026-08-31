@@ -17,9 +17,9 @@
 .architecture-slide {
   position: relative;
   padding:
-    clamp(118px, 12vw, 210px)
+    clamp(18px, 12vw, 53px)
     0
-    clamp(80px, 8vw, 90px);
+    0;
   background: #fff;
   will-change: transform;
   transform: translateZ(0);
@@ -41,14 +41,14 @@
 .architecture-intro-row {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
-  margin-bottom: clamp(10px, 2vw, 10px);
+  margin-bottom: 0;
   padding-inline: clamp(20px, 1.55vw, 30px);
 }
 
 .architecture-intro {
   grid-column: 7 / 13;
   margin: 0;
-  font: 600 clamp(10px, 3vw, 30px) / 1 'Gilroy', sans-serif;
+  font: 600 clamp(53px, 2.1vw, 86px) / 1 'Gilroy', sans-serif;
   letter-spacing: 0;
   text-align: right;
   text-transform: uppercase;
@@ -68,13 +68,18 @@
 
 .architecture-hero {
   --architecture-gold: #e0b45a;
+  --architecture-crop-top: 0.22;
+  --architecture-crop-bottom: 0;
+  --architecture-visible: calc(
+    1 - var(--architecture-crop-top) - var(--architecture-crop-bottom)
+  );
 
   position: relative;
   z-index: 2;
   width: 100%;
   margin: 0;
   overflow: hidden;
-  aspect-ratio: 1;
+  aspect-ratio: 1 / var(--architecture-visible);
   background: #0b0b0b;
 }
 
@@ -94,16 +99,20 @@
 
 .architecture-hero-stage {
   position: absolute;
-  inset: 0;
+  top: calc(var(--architecture-crop-top) / var(--architecture-visible) * -100%);
+  left: 0;
+  width: 100%;
+  height: calc(100% / var(--architecture-visible));
   z-index: 1;
 }
 
 .architecture-hero-image {
   display: block;
   width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center top;
   user-select: none;
   pointer-events: none;
 }
@@ -559,7 +568,7 @@
   transform: translateY(0);
 }
 
-@media (max-width: 760px) {
+@media (max-width: 980px) {
   .architecture-slide {
     padding-top: 104px;
   }
@@ -608,7 +617,7 @@
   .architecture-hero {
     width: 100%;
     margin-inline: 0;
-    aspect-ratio: 1;
+    aspect-ratio: 1 / var(--architecture-visible);
   }
 
   .architecture-hotspot {

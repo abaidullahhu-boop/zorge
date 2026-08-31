@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap } from '../../lib/gsap'
 import mapImage from '../../assets/images/map.png'
 import { projects } from '../../data/projects'
+import { mapPlaces } from '../../data/mapPlaces'
 import '../../assets/styles/MapSection.css'
-
 
 function BuildingIcon() {
   return (
@@ -49,7 +49,50 @@ function openMaps(url) {
   window.open(url, '_blank', 'noopener,noreferrer')
 }
 
-const MOBILE_MAP_MQ = '(max-width: 760px)'
+function copyTextFallback(text) {
+  const ta = document.createElement('textarea')
+  ta.value = text
+  ta.setAttribute('readonly', '')
+  ta.style.position = 'fixed'
+  ta.style.left = '-9999px'
+  document.body.appendChild(ta)
+  ta.select()
+  let ok = false
+  try {
+    ok = document.execCommand('copy')
+  } catch {
+    ok = false
+  }
+  document.body.removeChild(ta)
+  return ok
+}
+
+function copyText(text) {
+  if (navigator.clipboard?.writeText) {
+    return navigator.clipboard.writeText(text).then(() => true).catch(() => copyTextFallback(text))
+  }
+  return Promise.resolve(copyTextFallback(text))
+}
+
+const MOBILE_MAP_MQ = '(max-width: 980px)'
+
+const PROJECT_INFO = {
+  dsa: {
+    tag: 'PROJECT',
+    address: 'Broadway Commercial, Opposite Lake City, Lahore',
+    note: 'High-rise residential on Broadway Commercial',
+  },
+  living: {
+    tag: 'PROJECT',
+    address: 'Plot 22, Block C, Al-Kabir Town Phase 2, Lahore',
+    note: 'Residential development in Al-Kabir Town',
+  },
+  zindagi: {
+    tag: 'PROJECT',
+    address: 'Business Bay, Main Raiwind Road, Lahore',
+    note: 'Landmark address on Main Raiwind Road',
+  },
+}
 
 // Red pin anchor baked into map.png — mobile markers cluster here.
 const MAP_CLUSTER = { x: 46.5, y: 63 }
@@ -71,14 +114,6 @@ function scrollMapToCluster(viewport) {
   )
 }
 
-function scrollMapToProjects(viewport) {
-  scrollMapToCluster(viewport)
-}
-
-function scrollMapToProject(viewport) {
-  scrollMapToCluster(viewport)
-}
-
 function getMapSpotStyle(place) {
   const mobileX = place.mobile?.x ?? place.x + (place.mobile?.dx ?? 0)
   const mobileY = place.mobile?.y ?? place.y + (place.mobile?.dy ?? 0)
@@ -91,12 +126,76 @@ function getMapSpotStyle(place) {
   }
 }
 
+function getMapLandmarkStyle(place) {
+  const style = getMapSpotStyle(place)
+  if (place.hitW) style['--map-hit-w'] = place.hitW
+  if (place.hitH) style['--map-hit-h'] = place.hitH
+  return style
+}
+
+function MapPopup({
+  place,
+  isActive,
+  copied,
+  onClose,
+  onOpenMaps,
+  onCopy,
+}) {
+  return (
+    <aside
+      className={`map-tooltip${place.image ? '' : ' map-tooltip--landmark'}`}
+      aria-hidden={!isActive}
+    >
+      <button
+        type="button"
+        className="map-tooltip-close"
+        aria-label="Close place information"
+        onClick={() => onClose()}
+      >
+        ×
+      </button>
+      {place.image ? <img src={place.image} alt="" /> : null}
+      <div className="map-tooltip-body">
+        {place.tag ? <span className="map-tooltip-tag">{place.tag}</span> : null}
+        <p>{place.title}</p>
+        <small>{place.address || place.subtitle}</small>
+        {place.note ? <em className="map-tooltip-note">{place.note}</em> : null}
+        <div className="map-tooltip-actions">
+          {place.address ? (
+            <button
+              type="button"
+              className="map-tooltip-copy"
+              onClick={(event) => {
+                event.stopPropagation()
+                onCopy(place.id, place.address)
+              }}
+            >
+              Copy address
+            </button>
+          ) : null}
+          <button
+            type="button"
+            className="map-tooltip-maps"
+            onClick={() => onOpenMaps(place)}
+          >
+            Open in Google Maps
+          </button>
+        </div>
+        <div className="map-copy-hint" aria-live="polite">
+          {copied ? 'Copied!' : ''}
+        </div>
+      </div>
+    </aside>
+  )
+}
+
 function MapSection() {
   const [activeId, setActiveId] = useState(null)
-  const [focusIndex, setFocusIndex] = useState(0)
+  const [copiedId, setCopiedId] = useState(null)
   const sectionRef = useRef(null)
   const slideRef = useRef(null)
   const viewportRef = useRef(null)
+  const copyTimerRef = useRef(null)
 
   useEffect(() => {
     const section = sectionRef.current
@@ -146,7 +245,7 @@ function MapSection() {
     const centerMap = () => {
       if (userScrolled) return
       centering = true
-      scrollMapToProjects(viewport)
+      scrollMapToCluster(viewport)
       startScrollLeft = viewport.scrollLeft
       centering = false
     }
@@ -194,7 +293,7 @@ function MapSection() {
     if (section) io.observe(section)
 
     viewport.addEventListener('scroll', onScroll, { passive: true })
-    viewport.addEventListener('pointerdown', onPointerDown, { passive: true })
+    viewport.addEventListener('pointerdown', onPointerDown)
     window.addEventListener('resize', onResize)
 
     return () => {
@@ -207,36 +306,59 @@ function MapSection() {
     }
   }, [])
 
-  // Close the info card when returning from Google Maps (or any other tab).
   useEffect(() => {
     const closeCard = () => setActiveId(null)
+
+    const onPointerDown = (event) => {
+      if (!(event.target instanceof Element)) return
+      if (event.target.closest('.map-spot, .map-landmark')) return
+      closeCard()
+    }
 
     const onVisibility = () => {
       if (document.visibilityState === 'visible') closeCard()
     }
 
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') closeCard()
+    }
+
+    document.addEventListener('pointerdown', onPointerDown)
     window.addEventListener('focus', closeCard)
     document.addEventListener('visibilitychange', onVisibility)
+    document.addEventListener('keydown', onKeyDown)
 
     return () => {
+      document.removeEventListener('pointerdown', onPointerDown)
       window.removeEventListener('focus', closeCard)
       document.removeEventListener('visibilitychange', onVisibility)
+      document.removeEventListener('keydown', onKeyDown)
     }
   }, [])
 
-  const openProject = (place) => {
+  useEffect(() => () => {
+    window.clearTimeout(copyTimerRef.current)
+  }, [])
+
+  const openPlace = (place) => {
     setActiveId(null)
     openMaps(place.mapsUrl)
   }
 
-  const handleMarkerClick = (place) => {
+  const handlePlaceClick = (id) => {
+    setActiveId((current) => (current === id ? null : id))
     if (isMobileMap()) {
-      setActiveId((current) => (current === place.id ? null : place.id))
-      scrollMapToProject(viewportRef.current)
-      return
+      scrollMapToCluster(viewportRef.current)
     }
+  }
 
-    openProject(place)
+  const handleCopy = (id, text) => {
+    copyText(text).then((ok) => {
+      if (!ok) return
+      setCopiedId(id)
+      window.clearTimeout(copyTimerRef.current)
+      copyTimerRef.current = window.setTimeout(() => setCopiedId(null), 1400)
+    })
   }
 
   return (
@@ -265,14 +387,54 @@ function MapSection() {
             draggable="false"
           />
 
-
-          {projects.map((place) => {
+          {mapPlaces.map((place) => {
             const isActive = activeId === place.id
-            const isFocused = projects[focusIndex]?.id === place.id
+            const placementClass = place.placement === 'bottom'
+              ? ' map-landmark--top'
+              : place.placement === 'left'
+                ? ' map-landmark--left'
+                : ''
+            const shapeClass = place.shape === 'pill'
+              ? ' map-landmark--pill'
+              : place.shape === 'pin'
+                ? ' map-landmark--pin'
+                : ''
 
             return (
               <div
-                className={`map-spot map-spot--${place.kind}${isActive ? ' is-active' : ''}${isFocused ? ' is-focused' : ''}`}
+                className={`map-landmark${shapeClass}${placementClass}${isActive ? ' is-active' : ''}`}
+                key={place.id}
+                style={getMapLandmarkStyle(place)}
+              >
+                <button
+                  className="map-landmark-hit"
+                  type="button"
+                  aria-label={`Show ${place.title}`}
+                  aria-expanded={isActive}
+                  onClick={() => handlePlaceClick(place.id)}
+                />
+                <MapPopup
+                  place={place}
+                  isActive={isActive}
+                  copied={copiedId === place.id}
+                  onClose={() => setActiveId(null)}
+                  onOpenMaps={openPlace}
+                  onCopy={handleCopy}
+                />
+              </div>
+            )
+          })}
+
+          {projects.map((place) => {
+            const isActive = activeId === place.id
+            const details = PROJECT_INFO[place.id] ?? {}
+            const popupPlace = { ...place, ...details }
+
+            const opensAbove = place.y >= 55
+
+            return (
+              <div
+                className={`map-spot map-spot--${place.kind}${opensAbove ? ' map-spot--above' : ''}${isActive ? ' is-active' : ''}`}
                 key={place.id}
                 style={getMapSpotStyle(place)}
               >
@@ -285,9 +447,9 @@ function MapSection() {
                         : 'map-brand'
                   }
                   type="button"
-                  aria-label={`${isMobileMap() ? 'Show' : 'Open'} ${place.title}${isMobileMap() ? '' : ' in Google Maps'}`}
+                  aria-label={`Show ${place.title}`}
                   aria-expanded={isActive}
-                  onClick={() => handleMarkerClick(place)}
+                  onClick={() => handlePlaceClick(place.id)}
                 >
                   {place.kind === 'pin' ? (
                     <MapPinIcon />
@@ -308,28 +470,14 @@ function MapSection() {
                   )}
                 </button>
 
-                <aside className="map-tooltip" aria-hidden={!isActive}>
-                  <button
-                    type="button"
-                    className="map-tooltip-close"
-                    aria-label="Close place information"
-                    onClick={() => setActiveId(null)}
-                  >
-                    ×
-                  </button>
-                  <img src={place.image} alt="" />
-                  <div className="map-tooltip-body">
-                    <p>{place.title}</p>
-                    <small>{place.subtitle}</small>
-                    <button
-                      type="button"
-                      className="map-tooltip-maps"
-                      onClick={() => openProject(place)}
-                    >
-                      Open in Google Maps
-                    </button>
-                  </div>
-                </aside>
+                <MapPopup
+                  place={popupPlace}
+                  isActive={isActive}
+                  copied={copiedId === place.id}
+                  onClose={() => setActiveId(null)}
+                  onOpenMaps={openPlace}
+                  onCopy={handleCopy}
+                />
               </div>
             )
           })}

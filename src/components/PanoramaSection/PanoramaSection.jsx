@@ -64,7 +64,7 @@ function PanoramaSection() {
     }
 
     const ctx = gsap.context(() => {
-      const isMobile = window.matchMedia('(max-width: 760px)').matches
+      const isMobile = window.matchMedia('(max-width: 980px)').matches
 
       // Climb slightly over the previous slide while the page scrolls normally.
       // Skip on mobile so the lift cannot cover About content.
@@ -128,7 +128,7 @@ function PanoramaSection() {
       <div className="panorama-sticky" ref={slideRef}>
         <picture>
           <source
-            media="(min-width: 761px)"
+            media="(min-width: 981px)"
             srcSet={visionImage}
           />
           <img

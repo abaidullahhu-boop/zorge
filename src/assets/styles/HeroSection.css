@@ -109,8 +109,7 @@
 }
 
 .dayim-hero.is-intro-ready .hero-title-line > span {
-  /* Wait for loading clip (~1s) so the slide-up is visible, not finished behind the overlay */
-  animation: hero-text-in 1s 1.05s cubic-bezier(.2, .75, .2, 1) both;
+  animation: hero-text-in 1s 0.2s cubic-bezier(.2, .75, .2, 1) both;
 }
 
 .hero-actions {
@@ -393,7 +392,7 @@
 }
 
 .dayim-hero.is-intro-ready .intro__logo {
-  animation: wordmark-in 1.2s 1.85s cubic-bezier(.2, .75, .2, 1) both;
+  animation: wordmark-in 1.2s 0.9s cubic-bezier(.2, .75, .2, 1) both;
 }
 
 .intro__logo-no {
@@ -524,8 +523,12 @@
   }
 
   .menu-button {
-    width: 36px;
+    width: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 14px 0;
     gap: 7px;
+    justify-items: center;
   }
 
   .intro__logo {

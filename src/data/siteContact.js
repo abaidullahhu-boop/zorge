@@ -20,5 +20,6 @@ export const SITE_CONTACT = {
 
 export const FOOTER_LEGAL_LINKS = [
   { label: 'Privacy Policy', href: '/privacy-policy' },
-  { label: 'Terms of Use', href: '/terms' },
+  { label: 'Terms & Conditions', href: '/terms' },
+  { label: 'Disclaimer', href: '/disclaimer' },
 ]

@@ -75,15 +75,12 @@ function PenthousesSection({ variant = 'default', scrollContainerRef = null }) {
       // where sticky About peeked through (Services is not pinned ≤760).
       // Desktop keeps the lift; Services handoff covers the gap there.
       ScrollTrigger.matchMedia({
-        '(max-width: 760px)': () => {
+        '(max-width: 980px)': () => {
           gsap.set(heroSlide, { y: 0, clearProps: 'transform' })
           if (heroImage) gsap.set(heroImage, { y: 0, clearProps: 'transform' })
           if (heroContent) gsap.set(heroContent, { y: 0, clearProps: 'transform' })
         },
-        '(min-width: 761px) and (max-width: 1024px)': () => {
-          gsap.set(heroSlide, { y: 0, clearProps: 'transform' })
-        },
-        '(min-width: 1025px)': () => {
+        '(min-width: 981px)': () => {
           const getLift = () => Math.min(window.innerHeight * 0.2, 180)
 
           gsap.fromTo(
@@ -111,7 +108,7 @@ function PenthousesSection({ variant = 'default', scrollContainerRef = null }) {
 
       if (heroImage) {
         ScrollTrigger.matchMedia({
-          '(min-width: 761px)': () => {
+          '(min-width: 981px)': () => {
             gsap.fromTo(
               heroImage,
               { y: '0svh', force3D: true },
@@ -135,7 +132,7 @@ function PenthousesSection({ variant = 'default', scrollContainerRef = null }) {
 
       if (heroContent) {
         ScrollTrigger.matchMedia({
-          '(min-width: 761px)': () => {
+          '(min-width: 981px)': () => {
             gsap.fromTo(
               heroContent,
               { y: '10svh', force3D: true },
@@ -166,6 +163,10 @@ function PenthousesSection({ variant = 'default', scrollContainerRef = null }) {
     if (!section) return undefined
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return undefined
+    }
+
+    if (window.matchMedia('(max-width: 980px)').matches) {
       return undefined
     }
 

@@ -142,27 +142,37 @@
   transform: translateY(0);
 }
 
-@media (max-width: 760px) {
+@media (max-width: 980px) {
   .panorama-section {
     --panorama-lift: 0px;
     margin-top: 0;
     height: auto;
-    min-height: max(85svh, 165vw);
+    min-height: 100svh;
   }
 
   .panorama-sticky {
     height: auto;
-    min-height: max(85svh, 165vw);
+    min-height: 100svh;
   }
 
   .panorama-image {
-    object-position: center 42%;
+    object-position: center 72%;
   }
 
   .panorama-shade {
     background:
-      linear-gradient(180deg, rgb(4 10 25 / 48%) 0%, transparent 28%),
-      linear-gradient(180deg, transparent 45%, rgb(4 10 25 / 62%) 100%);
+      linear-gradient(
+        180deg,
+        rgb(4 10 25 / 88%) 0%,
+        rgb(4 10 25 / 62%) 34%,
+        transparent 58%
+      ),
+      linear-gradient(
+        180deg,
+        transparent 52%,
+        rgb(4 10 25 / 55%) 78%,
+        rgb(4 10 25 / 72%) 100%
+      );
   }
 
   .panorama-content {
@@ -176,9 +186,10 @@
     box-sizing: border-box;
     height: auto;
     padding:
-      clamp(52px, 14vw, 68px)
-      20px
-      max(24px, env(safe-area-inset-bottom));
+      clamp(72px, 18vw, 96px)
+      clamp(20px, 5vw, 28px)
+      clamp(28px, 7vw, 40px);
+    padding-bottom: max(clamp(28px, 7vw, 40px), env(safe-area-inset-bottom));
   }
 
   .panorama-rule {
@@ -186,20 +197,56 @@
   }
 
   .panorama-text {
+    grid-column: auto;
     max-width: none;
     width: 100%;
-    margin-top: auto;
-    margin-bottom: 0;
-    gap: clamp(16px, 4vw, 22px);
+    margin: 0;
+    gap: clamp(14px, 3.5vw, 20px);
+    padding: clamp(18px, 4.5vw, 24px);
+    background: linear-gradient(
+      180deg,
+      rgb(4 10 25 / 82%) 0%,
+      rgb(4 10 25 / 68%) 100%
+    );
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgb(255 255 255 / 8%);
   }
 
   .panorama-title {
-    font-size: clamp(30px, 8vw, 42px);
+    font-size: clamp(28px, 7.5vw, 38px);
   }
 
   .panorama-copy {
-    font-size: clamp(14px, 3.8vw, 16px);
-    line-height: 1.62;
+    font-size: clamp(15px, 4vw, 17px);
+    line-height: 1.65;
+    text-shadow: 0 1px 12px rgb(4 10 25 / 45%);
+  }
+}
+
+@media (max-width: 980px) and (orientation: landscape) {
+  .panorama-section,
+  .panorama-sticky {
+    min-height: 100svh;
+  }
+
+  .panorama-content {
+    padding-top: clamp(56px, 12vw, 72px);
+    padding-bottom: clamp(20px, 4vw, 28px);
+  }
+
+  .panorama-text {
+    max-width: min(440px, 54vw);
+    padding: clamp(14px, 3vw, 20px);
+  }
+
+  .panorama-copy {
+    font-size: clamp(13px, 2.8vw, 15px);
+    line-height: 1.58;
+  }
+
+  .panorama-image {
+    object-position: center 62%;
   }
 }
 

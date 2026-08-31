@@ -94,7 +94,7 @@ function FitnessSection({
 
       // Mobile: slight vertical climb like other sections.
       ScrollTrigger.matchMedia({
-        '(max-width: 760px)': () => {
+        '(max-width: 980px)': () => {
           const getLift = () => Math.min(window.innerHeight * 0.2, 180)
 
           gsap.fromTo(
@@ -139,7 +139,7 @@ function FitnessSection({
             )
           })
         },
-        '(min-width: 761px)': () => {
+        '(min-width: 981px)': () => {
           // Desktop: no vertical climb — content enters from the right
           // over the last advantages card via the leading transparent spacer.
           gsap.set(sticky, { y: 0, clearProps: 'transform' })
