@@ -12,7 +12,7 @@ const MENU_LINKS = [
   { label: 'Our Projects', action: 'projects', mobileOnly: true },
   { label: 'Contact Us', href: '#contact' },
 ]
-
+ 
 function getActiveHref() {
   const mid = window.innerHeight * 0.35
   let bestHref = MENU_LINKS[0].href
