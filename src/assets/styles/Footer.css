@@ -268,7 +268,7 @@
   color: #fff;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 981px) {
   .site-footer-main {
     grid-template-columns: 1fr 1fr;
     align-items: start;
@@ -291,7 +291,26 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 980px) {
+  .site-footer-link {
+    min-height: 44px;
+    padding-block: 10px;
+  }
+
+  .site-footer-scroll {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 8px;
+    justify-content: center;
+  }
+
+  .site-footer-scroll-icons {
+    width: 18px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 760px) {
   .site-footer {
     padding-bottom: max(var(--footer-pad), env(safe-area-inset-bottom));
   }

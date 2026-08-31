@@ -6,7 +6,6 @@ import HeroSection from '../components/HeroSection/HeroSection'
 import LoadingScreen from '../components/LoadingScreen/LoadingScreen'
 // import LocationSection from '../components/LocationSection/LocationSection'
 import MapSection from '../components/MapSection/MapSection'
-import ProjectsSection from '../components/ProjectsSection/ProjectsSection'
 import PanoramaSection from '../components/PanoramaSection/PanoramaSection'
 import ArchitectureSection from '../components/ArchitectureSection/ArchitectureSection'
 import GallerySection from '../components/GallerySection/GallerySection'
@@ -42,6 +41,7 @@ function HomePage() {
     const projectsSection = document.querySelector('.projects-section')
     const panoramaSection = document.querySelector('.panorama-section')
     const architectureSection = document.querySelector('.architecture-section')
+    const architectureHero = document.querySelector('#architecture-hero')
     const gallerySection = document.querySelector('.gallery-section')
     const lobbySection = document.querySelector('.lobby-section')
     const advantagesSection = document.querySelector('.advantages-section')
@@ -63,6 +63,7 @@ function HomePage() {
       const projectsRect = projectsSection?.getBoundingClientRect()
       const panoramaRect = panoramaSection?.getBoundingClientRect()
       const architectureRect = architectureSection?.getBoundingClientRect()
+      const architectureHeroRect = architectureHero?.getBoundingClientRect()
       const galleryRect = gallerySection?.getBoundingClientRect()
       const lobbyRect = lobbySection?.getBoundingClientRect()
       const advantagesRect = advantagesSection?.getBoundingClientRect()
@@ -110,8 +111,13 @@ function HomePage() {
       const isOnDarkSlide = Boolean(
         isOnGallery || isOnLobby || isOnAdvantages || isOnFooter,
       )
+      const isOnArchitectureHero = Boolean(
+        architectureHeroRect &&
+          architectureHeroRect.top <= wordmarkTop &&
+          architectureHeroRect.bottom > wordmarkTop,
+      )
       const isOnArchitectureLight = Boolean(
-        isOnArchitecture && !isOnDarkSlide,
+        isOnArchitecture && !isOnDarkSlide && !isOnArchitectureHero,
       )
       const isOnProjectsLight = Boolean(isOnProjects && !isOnDarkSlide)
 
@@ -130,6 +136,10 @@ function HomePage() {
         ),
       )
       wordmarkRail.classList.toggle('is-on-architecture', isOnArchitectureLight)
+      wordmarkRail.classList.toggle(
+        'is-on-architecture-hero',
+        Boolean(isOnArchitectureHero && !isOnDarkSlide),
+      )
       wordmarkRail.classList.toggle('is-on-projects', isOnProjectsLight)
       wordmarkRail.classList.toggle('is-on-gallery', isOnDarkSlide)
       wordmarkRail.classList.toggle(
@@ -242,7 +252,7 @@ function HomePage() {
       if (!heroFrame || !aboutFlow || !locationSection) return []
 
       // Disable all center-snap behaviour on mobile — free scroll only.
-      if (window.innerWidth <= 760) return []
+      if (window.innerWidth <= 980) return []
 
       const heroStart = getDocumentOffsetTop(heroFrame)
       const aboutStart = getDocumentOffsetTop(aboutFlow)
@@ -250,13 +260,13 @@ function HomePage() {
       const ranges = []
 
       // Hero ↔ about center snap is desktop-only; free-scroll on mobile.
-      if (aboutStart > heroStart && window.innerWidth > 760) {
+      if (aboutStart > heroStart && window.innerWidth > 980) {
         ranges.push({ start: heroStart, end: aboutStart, id: 'about-snap' })
       }
 
       // Location: snap only near the location section top. Panorama, lobby,
       // and map between about and location stay free-scroll.
-      if (locationStart > aboutStart && window.innerWidth > 760) {
+      if (locationStart > aboutStart && window.innerWidth > 980) {
         const vh = window.innerHeight
         const snapStart = locationStart - vh * 0.65
         if (snapStart > aboutStart) {
@@ -442,7 +452,6 @@ function HomePage() {
         <ArchitectureSection />
         <AdvantagesSection />      
         {/* <LocationSection /> */}
-        <ProjectsSection />
         <GallerySection />
         <Footer />
       </div>

@@ -8,25 +8,13 @@
   color: #fff;
   background: #000;
   opacity: 1;
-  transition:
-    clip-path 1s cubic-bezier(.76, 0, .24, 1),
-    z-index 0s linear 0s;
-  clip-path: inset(0);
+  transition: opacity 0.45s ease;
 }
 
 .loading-screen--hidden {
   z-index: 0;
   pointer-events: none;
-  transition:
-    clip-path 1s cubic-bezier(.76, 0, .24, 1),
-    z-index 0s linear 1s;
-  clip-path: inset(0 65.8% 0 0);
-}
-
-/* Non-hero: fade out fully — no right→left clip reveal. */
-.loading-screen--hidden.loading-screen--dismiss {
   opacity: 0;
-  clip-path: inset(0);
   visibility: hidden;
   transition:
     opacity 0.45s ease,
@@ -198,15 +186,7 @@
   }
 }
 
-@media (max-width: 600px) {
-  .loading-screen--hidden {
-    clip-path: inset(0 0 58% 0);
-  }
-
-  .loading-screen--hidden.loading-screen--dismiss {
-    clip-path: inset(0);
-  }
-
+@media (max-width: 980px) {
   .loading-frame {
     width: 170px;
   }

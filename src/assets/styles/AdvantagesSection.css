@@ -5,8 +5,8 @@
   --advantages-accent: #f5c842;
   --advantages-text: rgb(255 255 255 / 88%);
   --advantages-muted: rgb(255 255 255 / 54%);
-  /* Cover only Architecture's bottom padding — keep core-value icons visible. */
-  --architecture-handoff: clamp(88px, 9vw, 160px);
+  /* Sit flush under Architecture hero — no white gap. */
+  --architecture-handoff: clamp(12px, 1.5vw, 24px);
 
   position: relative;
   z-index: 10;
@@ -222,7 +222,7 @@
   display: none;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 980px) {
   .advantages-section {
     height: auto;
     margin-top: 0;

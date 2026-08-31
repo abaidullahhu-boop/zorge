@@ -240,13 +240,18 @@
   transform: translateX(0);
 }
 
-/* ── Mobile ──────────────────────────────────── */
-@media (max-width: 700px) {
+/* ── Mobile / tablet ─────────────────────────── */
+@media (max-width: 980px) {
   .projects-overlay__grid {
     flex-direction: column;
     align-items: stretch;
     padding: 20px 16px;
     gap: 14px;
+  }
+
+  .projects-overlay__close {
+    width: 48px;
+    height: 48px;
   }
 
   .projects-overlay__card {

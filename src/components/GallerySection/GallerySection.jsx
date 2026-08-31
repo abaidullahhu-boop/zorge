@@ -107,6 +107,14 @@ function GallerySection() {
       return undefined
     }
 
+    if (window.matchMedia('(max-width: 980px)').matches) {
+      gsap.set(slide, { y: 0, clearProps: 'transform' })
+      if (parallaxRef.current) {
+        gsap.set(parallaxRef.current, { y: 0, clearProps: 'transform' })
+      }
+      return undefined
+    }
+
     const ctx = gsap.context(() => {
       const getLift = () => Math.min(window.innerHeight * 0.2, 180)
 

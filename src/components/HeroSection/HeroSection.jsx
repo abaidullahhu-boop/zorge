@@ -14,6 +14,12 @@ function HeroSection({ introReady = false }) {
   const closeMenu = useCallback(() => setMenuOpen(false), [])
 
   useEffect(() => {
+    const handleOpenProjects = () => setProjectsOpen(true)
+    window.addEventListener('dayim:projects', handleOpenProjects)
+    return () => window.removeEventListener('dayim:projects', handleOpenProjects)
+  }, [])
+
+  useEffect(() => {
     const heroActions = document.querySelector('.hero-actions')
     const heroProjects = document.querySelector('.hero-projects')
     const locationSection = document.querySelector('.location-section')
@@ -85,6 +91,10 @@ function HeroSection({ introReady = false }) {
     if (!frame || !hero) return undefined
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return undefined
+    }
+
+    if (window.matchMedia('(max-width: 980px)').matches) {
       return undefined
     }
 

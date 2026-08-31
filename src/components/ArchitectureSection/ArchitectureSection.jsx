@@ -11,56 +11,56 @@ function canHover() {
 
 const CORE_VALUES = [
   {
-    id: 'leadership',
-    title: 'Trusted Leadership',
-    text: 'Led by experienced leadership committed to integrity, vision, and excellence in every development.',
+    id: 'integrity',
+    title: 'Integrity',
+    text: 'We conduct every project with honesty, transparency, and ethical business practices.',
     placement: 'bottom',
     x: 50,
     y: 36.5,
   },
   {
-    id: 'modern',
-    title: 'Modern Developments',
+    id: 'innovation',
+    title: 'Innovation',
     text: 'We embrace modern technology, creative design, and smart solutions to shape the future of real estate.',
     placement: 'left',
     x: 71,
     y: 45,
   },
   {
-    id: 'transparency',
-    title: 'Complete Transparency',
-    text: 'We conduct every project with honesty, transparency, and ethical business practices.',
+    id: 'trust',
+    title: 'Trust',
+    text: 'Every relationship is built on credibility, accountability, and long-term commitment.',
     placement: 'left',
     x: 76,
     y: 64,
   },
   {
     id: 'quality',
-    title: 'Premium Quality',
+    title: 'Quality Excellence',
     text: 'We never compromise on construction standards, craftsmanship, or attention to detail.',
     placement: 'top',
     x: 64,
     y: 80.5,
   },
   {
-    id: 'delivery',
-    title: 'On-Time Delivery',
-    text: 'We honor our promises by delivering projects on time while maintaining the highest standards.',
+    id: 'commitment',
+    title: 'Commitment',
+    text: 'We honor our promises by delivering projects on time while maintaining the highest standards of excellence.',
     placement: 'top',
     x: 34.8,
     y: 80.5,
   },
   {
-    id: 'investment',
-    title: 'Secure Investment',
-    text: 'We build lasting value through trusted developments that protect and grow our clients’ investments.',
+    id: 'growth',
+    title: 'Growth Through People',
+    text: 'We believe in empowering young talent, fostering leadership, and creating opportunities for future generations.',
     placement: 'right',
     x: 24,
     y: 64,
   },
   {
     id: 'customer',
-    title: 'Customer-Centric',
+    title: 'Customer First',
     text: 'Our clients are at the heart of every decision we make, and their trust is our greatest achievement.',
     placement: 'right',
     x: 29,
@@ -95,6 +95,11 @@ function ArchitectureSection() {
     if (!section || !slide) return undefined
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      gsap.set(slide, { y: 0, clearProps: 'transform' })
+      return undefined
+    }
+
+    if (window.matchMedia('(max-width: 980px)').matches) {
       gsap.set(slide, { y: 0, clearProps: 'transform' })
       return undefined
     }
@@ -184,7 +189,7 @@ function ArchitectureSection() {
           </h2>
         </div>
 
-        <div className="architecture-hero ">
+        <div className="architecture-hero" id="architecture-hero">
           <div className="architecture-hero-stage">
             <img
               className="architecture-hero-image"

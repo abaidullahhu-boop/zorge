@@ -120,7 +120,7 @@ function InfrastructureSection({ variant = 'default', scrollContainerRef = null 
       // Desktop: Fitness-style sticky horizontal pan across the streetscape.
       // Mobile: keep a light vertical settle — no horizontal scrub.
       ScrollTrigger.matchMedia({
-        '(max-width: 760px)': () => {
+        '(max-width: 980px)': () => {
           gsap.set(track, { x: 0, clearProps: 'transform' })
           hero.style.removeProperty('--infra-hero-scroll')
 
@@ -142,7 +142,7 @@ function InfrastructureSection({ variant = 'default', scrollContainerRef = null 
             },
           )
         },
-        '(min-width: 761px)': () => {
+        '(min-width: 981px)': () => {
           const getScrollDistance = () =>
             Math.max(0, track.scrollWidth - window.innerWidth)
 
@@ -188,7 +188,7 @@ function InfrastructureSection({ variant = 'default', scrollContainerRef = null 
         // settle on the hero card (it must stay stuck, not scroll top→bottom).
         if (panelSticky && panel) {
           ScrollTrigger.matchMedia({
-            '(min-width: 761px)': () => {
+            '(min-width: 981px)': () => {
               gsap.set(panelSlide, { y: 0, clearProps: 'transform' })
 
               gsap.fromTo(
@@ -254,7 +254,7 @@ function InfrastructureSection({ variant = 'default', scrollContainerRef = null 
                 }
               }
             },
-            '(max-width: 760px)': () => {
+            '(max-width: 980px)': () => {
               gsap.set(panelSticky, { clearProps: 'clipPath' })
               if (panelImage) gsap.set(panelImage, { clearProps: 'transform' })
 

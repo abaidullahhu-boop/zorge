@@ -2,6 +2,9 @@
   --map-top: clamp(58px, 6vw, 96px);
   --map-accent: #c4a574;
   --map-brand: #a0725b;
+  --map-cream: #f4f1ea;
+  --map-line: #d8c9a3;
+  --map-red: #d9483f;
 
   position: relative;
   z-index: 8;
@@ -39,7 +42,7 @@
   height: var(--map-top);
   margin: 0;
   color: #000;
-  font: 600 clamp(33px, 2.1vw, 56px) / 1 'Gilroy', sans-serif;
+  font: 600 clamp(53px, 2.1vw, 86px) / 1 'Gilroy', sans-serif;
   letter-spacing: -0.03em;
   text-align: right;
   text-transform: uppercase;
@@ -175,12 +178,21 @@
 }
 
 .map-spot:hover .map-brand--photo,
-.map-spot:focus-within .map-brand--photo,
+.map-spot:focus-within .map-brand--photo {
+  background: #111;
+  border-color: rgba(244, 241, 234, 0.85);
+  box-shadow:
+    0 0 0 4px rgba(244, 241, 234, 0.08),
+    0 10px 28px rgb(0 0 0 / 45%);
+}
+
 .map-spot.is-active .map-brand--photo,
 .map-spot.is-focused .map-brand--photo {
   background: #111;
-  border-color: var(--map-brand);
-  box-shadow: 0 10px 28px rgb(160 114 91 / 45%);
+  border-color: var(--map-red);
+  box-shadow:
+    0 0 0 4px rgba(217, 72, 63, 0.16),
+    0 10px 28px rgb(217 72 63 / 28%);
 }
 
 /* —— Red map pin —— */
@@ -216,7 +228,7 @@
 }
 
 /* —— Landmark POIs —— */
-/* Invisible hit target over icons baked into map.png */
+/* Invisible hit target over icons/text baked into map.png */
 .map-landmark-hit {
   position: absolute;
   top: 0;
@@ -225,11 +237,33 @@
   height: var(--map-hit-h, var(--map-hit-w, clamp(34px, 3.2vw, 46px)));
   padding: 0;
   background: transparent;
-  border: 0;
-  border-radius: 999px;
+  border: 2px solid transparent;
+  border-radius: 50%;
   cursor: pointer;
   transform: translate(-50%, -50%);
   pointer-events: auto;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.map-landmark--pill .map-landmark-hit {
+  border-radius: 100px;
+}
+
+.map-landmark:hover .map-landmark-hit,
+.map-landmark:focus-within .map-landmark-hit {
+  outline: none;
+  border-color: rgba(244, 241, 234, 0.55);
+  background: rgba(244, 241, 234, 0.08);
+  box-shadow: 0 0 0 4px rgba(244, 241, 234, 0.06);
+}
+
+.map-landmark.is-active .map-landmark-hit {
+  border-color: var(--map-red);
+  background: rgba(217, 72, 63, 0.12);
+  box-shadow: 0 0 0 4px rgba(217, 72, 63, 0.1);
 }
 
 /* —— Tooltip —— */
@@ -276,8 +310,63 @@
   transform: translate(24px, -4px) scale(1);
 }
 
+/* Project markers sit low on the map — open tooltip upward so it isn't clipped. */
+.map-spot--above .map-tooltip {
+  transform: translate(22px, calc(-100% - 16px)) scale(.96);
+  transform-origin: bottom left;
+}
+
+.map-spot--above:hover .map-tooltip,
+.map-spot--above:focus-within .map-tooltip,
+.map-spot--above.is-active .map-tooltip {
+  transform: translate(22px, calc(-100% - 12px)) scale(1);
+}
+
+.map-spot--above.map-spot--pin .map-tooltip {
+  transform: translate(20px, calc(-100% - 8px)) scale(.96);
+}
+
+.map-spot--above.map-spot--pin:hover .map-tooltip,
+.map-spot--above.map-spot--pin:focus-within .map-tooltip,
+.map-spot--above.map-spot--pin.is-active .map-tooltip {
+  transform: translate(24px, calc(-100% - 4px)) scale(1);
+}
+
 .map-tooltip--landmark {
-  width: clamp(148px, 14vw, 210px);
+  width: min(280px, 62vw);
+  overflow: visible;
+  transform: translate(-50%, calc(-100% - 18px)) scale(.96);
+  transform-origin: bottom center;
+}
+
+/* Invisible bridge so the pointer can travel from the hit to the popup. */
+.map-landmark .map-tooltip--landmark::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 70%;
+  height: 18px;
+  transform: translateX(-50%);
+}
+
+.map-landmark--top .map-tooltip--landmark::before {
+  top: auto;
+  bottom: 100%;
+}
+
+.map-landmark--left .map-tooltip--landmark::before {
+  left: 100%;
+  top: 50%;
+  width: 18px;
+  height: 70%;
+  transform: translateY(-50%);
+}
+
+.map-landmark:hover .map-tooltip--landmark,
+.map-landmark:focus-within .map-tooltip--landmark,
+.map-landmark.is-active .map-tooltip--landmark {
+  transform: translate(-50%, calc(-100% - 14px)) scale(1);
 }
 
 .map-tooltip--landmark .map-tooltip-body {
@@ -285,15 +374,34 @@
   padding: 18px 14px 14px;
 }
 
-.map-landmark--top .map-tooltip {
+.map-landmark--top .map-tooltip,
+.map-landmark--top .map-tooltip--landmark {
   transform: translate(-50%, 20px) scale(.96);
   transform-origin: top center;
 }
 
 .map-landmark--top:hover .map-tooltip,
 .map-landmark--top:focus-within .map-tooltip,
-.map-landmark--top.is-active .map-tooltip {
+.map-landmark--top.is-active .map-tooltip,
+.map-landmark--top:hover .map-tooltip--landmark,
+.map-landmark--top:focus-within .map-tooltip--landmark,
+.map-landmark--top.is-active .map-tooltip--landmark {
   transform: translate(-50%, 24px) scale(1);
+}
+
+.map-landmark--left .map-tooltip,
+.map-landmark--left .map-tooltip--landmark {
+  transform: translate(calc(-100% - 16px), -50%) scale(.96);
+  transform-origin: center right;
+}
+
+.map-landmark--left:hover .map-tooltip,
+.map-landmark--left:focus-within .map-tooltip,
+.map-landmark--left.is-active .map-tooltip,
+.map-landmark--left:hover .map-tooltip--landmark,
+.map-landmark--left:focus-within .map-tooltip--landmark,
+.map-landmark--left.is-active .map-tooltip--landmark {
+  transform: translate(calc(-100% - 12px), -50%) scale(1);
 }
 
 .map-tooltip img {
@@ -313,6 +421,58 @@
   text-align: left;
 }
 
+.map-tooltip-tag {
+  display: inline-block;
+  width: fit-content;
+  margin-bottom: 2px;
+  padding: 2px 7px;
+  color: #161311;
+  background: var(--map-line);
+  border-radius: 100px;
+  font: 600 10px/1.2 'Gilroy', sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.map-tooltip-note {
+  display: block;
+  margin: 0;
+  color: rgb(255 255 255 / 48%);
+  font: italic 500 clamp(9px, 0.62vw, 11px)/1.4 'Gilroy', sans-serif;
+}
+
+.map-tooltip-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.map-tooltip-copy {
+  padding: 8px 10px;
+  color: var(--map-cream);
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 28%);
+  font: 600 clamp(9px, 0.65vw, 11px)/1 'Gilroy', sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.map-tooltip-copy:hover,
+.map-tooltip-copy:focus-visible {
+  background: rgb(255 255 255 / 8%);
+  border-color: var(--map-line);
+  outline: none;
+}
+
+.map-copy-hint {
+  min-height: 12px;
+  color: var(--map-red);
+  font: 500 10.5px/1.2 'Gilroy', sans-serif;
+}
+
 .map-tooltip p {
   margin: 0;
   font: 600 clamp(11px, .78vw, 14px)/1.2 'Gilroy', sans-serif;
@@ -328,7 +488,7 @@
 }
 
 .map-tooltip-maps {
-  margin-top: 6px;
+  margin-top: 0;
   padding: 8px 10px;
   color: #111;
   background: #fff;
@@ -352,7 +512,7 @@
 }
 
 
-@media (max-width: 760px) {
+@media (max-width: 980px) {
   .map-section {
     --map-top: 0;
     margin-top: 0;
@@ -438,8 +598,8 @@
   .map-spot.is-active .map-brand--photo,
   .map-spot.is-focused .map-brand--photo {
     background: #111;
-    border-color: var(--map-brand);
-    box-shadow: 0 6px 18px rgb(160 114 91 / 42%);
+    border-color: var(--map-red);
+    box-shadow: 0 0 0 3px rgba(217, 72, 63, 0.18);
   }
 
   .map-pin {
@@ -476,7 +636,14 @@
   .map-spot--pin:hover .map-tooltip,
   .map-spot--pin:focus-within .map-tooltip,
   .map-landmark:hover .map-tooltip,
-  .map-landmark:focus-within .map-tooltip {
+  .map-landmark:focus-within .map-tooltip,
+  .map-landmark:hover .map-tooltip--landmark,
+  .map-landmark--top:hover .map-tooltip,
+  .map-landmark--top:hover .map-tooltip--landmark,
+  .map-landmark--left:hover .map-tooltip,
+  .map-landmark--left:hover .map-tooltip--landmark,
+  .map-landmark--top:focus-within .map-tooltip,
+  .map-landmark--left:focus-within .map-tooltip {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -489,7 +656,14 @@
   .map-spot--pin.is-active .map-tooltip,
   .map-landmark.is-active .map-tooltip,
   .map-landmark.is-active:hover .map-tooltip,
-  .map-landmark.is-active:focus-within .map-tooltip {
+  .map-landmark.is-active:focus-within .map-tooltip,
+  .map-landmark.is-active .map-tooltip--landmark,
+  .map-landmark--top.is-active .map-tooltip,
+  .map-landmark--top.is-active .map-tooltip--landmark,
+  .map-landmark--left.is-active .map-tooltip,
+  .map-landmark--left.is-active .map-tooltip--landmark,
+  .map-landmark--top.is-active:hover .map-tooltip--landmark,
+  .map-landmark--left.is-active:hover .map-tooltip--landmark {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
@@ -499,6 +673,11 @@
   .map-tooltip--landmark {
     grid-template-columns: 1fr;
     width: auto;
+    transform-origin: center bottom;
+  }
+
+  .map-landmark .map-tooltip--landmark::before {
+    display: none;
   }
 
   .map-tooltip--landmark .map-tooltip-body {

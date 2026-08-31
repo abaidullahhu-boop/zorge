@@ -111,7 +111,7 @@ function ApartmentsSection({ variant = 'default', scrollContainerRef = null }) {
 
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
-        '(max-width: 760px)': () => {
+        '(max-width: 980px)': () => {
           const getLift = () => Math.min(window.innerHeight * 0.16, 140)
 
           gsap.fromTo(
@@ -132,7 +132,7 @@ function ApartmentsSection({ variant = 'default', scrollContainerRef = null }) {
             },
           )
         },
-        '(min-width: 761px)': () => {
+        '(min-width: 981px)': () => {
           gsap.set(sticky, { y: 0, clearProps: 'transform' })
 
           const image = sticky.querySelector('.apartments-image-bg')

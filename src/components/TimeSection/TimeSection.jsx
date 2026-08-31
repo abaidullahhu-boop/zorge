@@ -106,7 +106,7 @@ function TimeSection({ variant = 'default', scrollContainerRef = null }) {
 
   useEffect(() => {
     const images = imageLayerRef.current?.querySelectorAll('.time-image-item')
-    const isMobile = window.matchMedia('(max-width: 760px)').matches
+    const isMobile = window.matchMedia('(max-width: 980px)').matches
     images?.forEach((el, index) => {
       gsap.set(
         el,
@@ -127,7 +127,7 @@ function TimeSection({ variant = 'default', scrollContainerRef = null }) {
     if (!section || !slide) return undefined
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const isMobile = window.matchMedia('(max-width: 760px)').matches
+    const isMobile = window.matchMedia('(max-width: 980px)').matches
     if (reduceMotion || isMobile) {
       gsap.set(slide, { y: 0, clearProps: 'transform' })
       return undefined
@@ -186,7 +186,7 @@ function TimeSection({ variant = 'default', scrollContainerRef = null }) {
     const nextDigit = digitRefs.current[nextIndex]
     const prevText = textRefs.current[prevIndex]
     const nextText = textRefs.current[nextIndex]
-    const isMobile = window.matchMedia('(max-width: 760px)').matches
+    const isMobile = window.matchMedia('(max-width: 980px)').matches
 
     if (isMobile) {
       gsap.set([prevImage, prevDigit, prevText].filter(Boolean), { opacity: 1 })
@@ -335,7 +335,7 @@ function TimeSection({ variant = 'default', scrollContainerRef = null }) {
 
   useEffect(() => {
     const slide = slideRef.current
-    if (!slide || window.matchMedia('(min-width: 761px)').matches) {
+    if (!slide || window.matchMedia('(min-width: 981px)').matches) {
       return undefined
     }
 
