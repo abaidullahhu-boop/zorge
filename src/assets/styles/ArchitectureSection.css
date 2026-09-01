@@ -48,7 +48,7 @@
 .architecture-intro {
   grid-column: 7 / 13;
   margin: 0;
-  font: 600 clamp(53px, 2.1vw, 86px) / 1 'Gilroy', sans-serif;
+  font: 600 clamp(65px, 2.1vw, 96px) / 1 'Gilroy', sans-serif;
   letter-spacing: 0;
   text-align: right;
   text-transform: uppercase;
@@ -569,9 +569,7 @@
 }
 
 @media (max-width: 980px) {
-  .architecture-slide {
-    padding-top: 104px;
-  }
+  
 
   .architecture-intro-row,
   .architecture-subhead-row,
