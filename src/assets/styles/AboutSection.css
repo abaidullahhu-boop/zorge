@@ -447,14 +447,7 @@ body.gallery-modal-open .about-wordmark-rail {
   }
 
   .about-panel--visual {
-    max-height: none;
-    width: 100%;
-  }
-
-  .about-visual {
-    width: min(100%, 240px);
-    height: auto;
-    max-height: min(48svh, 360px);
+    display: none;
   }
 }
 

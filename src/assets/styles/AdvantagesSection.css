@@ -67,8 +67,16 @@
   flex: 1;
   width: 50%;
   height: 100%;
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity .85s ease .1s,
+    transform .95s cubic-bezier(.2, .75, .15, 1) .1s;
+}
+
+.advantages-section.is-visible .advantages-content {
   opacity: 1;
-  transform: none;
+  transform: translateY(0);
 }
 
 .advantages-panel {
@@ -97,6 +105,16 @@
   padding-bottom: clamp(10px, 1.2vh, 14px);
   border-bottom: 2px solid var(--advantages-accent);
   width: fit-content;
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity .8s ease .18s,
+    transform .9s cubic-bezier(.2, .75, .15, 1) .18s;
+}
+
+.advantages-section.is-visible .advantages-title {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .advantages-counter {
@@ -107,6 +125,16 @@
   letter-spacing: .03em;
   text-transform: uppercase;
   color: var(--advantages-muted);
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity .8s ease .26s,
+    transform .9s cubic-bezier(.2, .75, .15, 1) .26s;
+}
+
+.advantages-section.is-visible .advantages-counter {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .advantages-counter-current {
@@ -139,9 +167,22 @@
   display: flex;
   flex-direction: column;
   gap: clamp(12px, 1.6vh, 18px);
+  pointer-events: none;
+}
+
+.advantages-body-item.is-active {
+  pointer-events: auto;
+}
+
+.advantages-point-title {
+  margin: 0;
+  overflow: hidden;
+  font: 600 clamp(18px, 2vw, 26px) / 1.15 'Gilroy', sans-serif;
+  letter-spacing: .03em;
+  text-transform: uppercase;
+  color: #fff;
   opacity: 0;
   visibility: hidden;
-  pointer-events: none;
   transform: translate3d(0, 115%, 0);
   transition:
     opacity .4s ease,
@@ -150,22 +191,22 @@
 }
 
 .advantages-content[data-text-direction='backward']
-  .advantages-body-item:not(.is-active):not(.is-exit) {
+  .advantages-body-item:not(.is-active):not(.is-exit)
+  .advantages-point-title {
   transform: translate3d(0, -115%, 0);
 }
 
-.advantages-body-item.is-active {
+.advantages-body-item.is-active .advantages-point-title {
   opacity: 1;
   visibility: visible;
   transform: translate3d(0, 0, 0);
-  pointer-events: auto;
   transition:
     opacity .45s ease,
     transform .55s cubic-bezier(.2, .75, .15, 1),
     visibility 0s linear 0s;
 }
 
-.advantages-body-item.is-exit {
+.advantages-body-item.is-exit .advantages-point-title {
   opacity: 0;
   visibility: hidden;
   transform: translate3d(0, -115%, 0);
@@ -175,16 +216,10 @@
     visibility 0s linear .55s;
 }
 
-.advantages-content[data-text-direction='backward'] .advantages-body-item.is-exit {
+.advantages-content[data-text-direction='backward']
+  .advantages-body-item.is-exit
+  .advantages-point-title {
   transform: translate3d(0, 115%, 0);
-}
-
-.advantages-point-title {
-  margin: 0;
-  font: 600 clamp(18px, 2vw, 26px) / 1.15 'Gilroy', sans-serif;
-  letter-spacing: .03em;
-  text-transform: uppercase;
-  color: #fff;
 }
 
 .advantages-point-title-line {
@@ -196,6 +231,46 @@
   flex-direction: column;
   gap: clamp(12px, 1.6vh, 18px);
   max-width: 36em;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 40px, 0);
+  transition:
+    opacity .35s ease,
+    transform .5s cubic-bezier(.2, .75, .15, 1),
+    visibility 0s linear .5s;
+}
+
+.advantages-content[data-text-direction='backward']
+  .advantages-body-item:not(.is-active):not(.is-exit)
+  .advantages-intro {
+  transform: translate3d(0, -40px, 0);
+}
+
+.advantages-body-item.is-active .advantages-intro {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
+  transition:
+    opacity .4s ease .08s,
+    transform .5s cubic-bezier(.2, .75, .15, 1) .08s,
+    visibility 0s linear 0s;
+}
+
+.advantages-body-item.is-exit .advantages-intro {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, -40px, 0);
+  transition:
+    opacity .35s ease,
+    transform .5s cubic-bezier(.2, .75, .15, 1),
+    visibility 0s linear .5s;
+}
+
+.advantages-content[data-text-direction='backward']
+  .advantages-body-item.is-exit
+  .advantages-intro {
+  transform: translate3d(0, 40px, 0);
 }
 
 .advantages-intro p {
@@ -244,20 +319,65 @@
 
   .advantages-mobile-image {
     width: 100%;
-    height: 72vw;
-    min-height: 260px;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
+    background: #000;
   }
 
   .advantages-mobile-image img {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
   }
 
   .advantages-mobile-header {
     padding: clamp(48px, 12vw, 64px) 20px 20px;
+  }
+
+  .advantages-mobile-header .advantages-title {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity .8s ease,
+      transform .9s cubic-bezier(.2, .75, .15, 1);
+  }
+
+  .advantages-section.is-visible .advantages-mobile-header .advantages-title {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .advantages-mobile-card .advantages-counter,
+  .advantages-mobile-card .advantages-point-title,
+  .advantages-mobile-card .advantages-intro,
+  .advantages-mobile-card .advantages-intro p {
+    opacity: 0;
+    visibility: visible;
+    transform: translateY(24px);
+    transition:
+      opacity .7s ease,
+      transform .85s cubic-bezier(.2, .75, .15, 1);
+  }
+
+  .advantages-mobile-card.is-inview .advantages-counter {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0s;
+  }
+
+  .advantages-mobile-card.is-inview .advantages-point-title {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: .08s;
+  }
+
+  .advantages-mobile-card.is-inview .advantages-intro,
+  .advantages-mobile-card.is-inview .advantages-intro p {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: .16s;
   }
 
   .advantages-mobile-content {
@@ -287,10 +407,7 @@
 
   .advantages-mobile .advantages-point-title {
     font-size: clamp(18px, 5vw, 24px);
-    opacity: 1;
     visibility: visible;
-    transform: none;
-    transition: none;
   }
 
   .advantages-mobile .advantages-intro p {
@@ -299,18 +416,33 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .advantages-content,
+  .advantages-title,
+  .advantages-counter,
   .advantages-image-item,
-  .advantages-body-item {
+  .advantages-point-title,
+  .advantages-intro,
+  .advantages-mobile-card .advantages-counter,
+  .advantages-mobile-card .advantages-point-title,
+  .advantages-mobile-card .advantages-intro p {
     transition: none;
   }
 
-  .advantages-body-item.is-active {
+  .advantages-section.is-visible .advantages-content,
+  .advantages-section.is-visible .advantages-title,
+  .advantages-section.is-visible .advantages-counter,
+  .advantages-body-item.is-active .advantages-point-title,
+  .advantages-body-item.is-active .advantages-intro,
+  .advantages-mobile-card.is-inview .advantages-counter,
+  .advantages-mobile-card.is-inview .advantages-point-title,
+  .advantages-mobile-card.is-inview .advantages-intro p {
     opacity: 1;
     visibility: visible;
     transform: none;
   }
 
-  .advantages-body-item.is-exit {
+  .advantages-body-item.is-exit .advantages-point-title,
+  .advantages-body-item.is-exit .advantages-intro {
     opacity: 0;
     visibility: hidden;
     transform: none;

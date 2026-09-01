@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from '../../lib/gsap'
-import advantages1 from '../../assets/images/advantages-1.webp'
-import advantages2 from '../../assets/images/advantages-2.webp'
-import advantages3 from '../../assets/images/advantages-3.webp'
-import advantages4 from '../../assets/images/advantages-4.webp'
-import advantages5 from '../../assets/images/advantages-5.webp'
+import our1 from '../../assets/images/our1.png'
+import our2 from '../../assets/images/our2.png'
+import our3 from '../../assets/images/our3.png'
+import our4 from '../../assets/images/our4.png'
+import our5 from '../../assets/images/our5.png'
+import our6 from '../../assets/images/our6.png'
+import our7 from '../../assets/images/our7.png'
 import '../../assets/styles/AdvantagesSection.css'
 
 const SECTION_HEADING = 'Why Choose Dayim Developer'
@@ -13,57 +15,57 @@ const ADVANTAGES = [
   {
     id: 'leadership',
     titleLines: ['Trusted', 'Leadership'],
-    image: advantages1,
-    width: 720,
-    height: 900,
+    image: our1,
+    width: 1024,
+    height: 1024,
     text: 'Led by experienced leadership committed to integrity, vision, and excellence in every development.',
   },
   {
     id: 'quality',
     titleLines: ['Premium', 'Construction Quality'],
-    image: advantages2,
-    width: 720,
-    height: 780,
+    image: our2,
+    width: 1024,
+    height: 1024,
     text: 'We never compromise on construction standards, craftsmanship, or attention to detail.',
   },
   {
     id: 'transparency',
     titleLines: ['Complete', 'Transparency'],
-    image: advantages3,
-    width: 720,
-    height: 780,
+    image: our3,
+    width: 1024,
+    height: 1024,
     text: 'We conduct every project with honesty, transparency, and ethical business practices.',
   },
   {
     id: 'delivery',
     titleLines: ['On-Time', 'Delivery'],
-    image: advantages4,
-    width: 720,
-    height: 900,
+    image: our4,
+    width: 1024,
+    height: 1024,
     text: 'We honor our promises by delivering projects on time while maintaining the highest standards of excellence.',
   },
   {
     id: 'customer',
     titleLines: ['Customer-Centric', 'Approach'],
-    image: advantages5,
-    width: 720,
-    height: 900,
+    image: our5,
+    width: 1024,
+    height: 1024,
     text: 'Our clients are at the heart of every decision we make, and their trust is our greatest achievement.',
   },
   {
     id: 'modern',
     titleLines: ['Modern', 'Developments'],
-    image: advantages1,
-    width: 720,
-    height: 900,
+    image: our6,
+    width: 1024,
+    height: 1024,
     text: 'We embrace modern technology, creative design, and smart solutions to shape the future of real estate.',
   },
   {
     id: 'investment',
     titleLines: ['Secure', 'Investment'],
-    image: advantages2,
-    width: 720,
-    height: 780,
+    image: our7,
+    width: 1024,
+    height: 1024,
     text: 'We build lasting value through trusted developments that protect and grow our clients\' investments.',
   },
 ]
@@ -73,7 +75,7 @@ const CLIP_HIDDEN = 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
 const CLIP_VISIBLE = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
 
 function AdvantagesSection() {
-  const [isVisible, setIsVisible] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
   const [activeIndex, setActiveIndex] = useState(0)
   const [exitIndex, setExitIndex] = useState(null)
   const [textDirection, setTextDirection] = useState('forward')
@@ -108,12 +110,31 @@ function AdvantagesSection() {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true)
+          observer.disconnect()
         }
       },
-      { threshold: 0 },
+      { threshold: 0.12 },
     )
 
     observer.observe(section)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const mobileRoot = sectionRef.current?.querySelector('.advantages-mobile')
+    if (!mobileRoot) return undefined
+
+    const cards = [...mobileRoot.querySelectorAll('.advantages-mobile-card')]
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle('is-inview', entry.isIntersecting)
+        })
+      },
+      { threshold: 0.15 },
+    )
+
+    cards.forEach((card) => observer.observe(card))
     return () => observer.disconnect()
   }, [])
 

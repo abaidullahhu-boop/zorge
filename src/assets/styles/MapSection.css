@@ -42,8 +42,8 @@
   height: var(--map-top);
   margin: 0;
   color: #000;
-  font: 600 clamp(53px, 2.1vw, 86px) / 1 'Gilroy', sans-serif;
-  letter-spacing: -0.03em;
+  font: 600 clamp(65px, 2.1vw, 96px) / 1 'Gilroy', sans-serif;
+  letter-spacing: 0.01em;
   text-align: right;
   text-transform: uppercase;
   pointer-events: none;
