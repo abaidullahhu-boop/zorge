@@ -1,20 +1,19 @@
 export const SITE_CONTACT = {
   address: {
     lines: [
-      'Dayim Signature Apartments',
-      'Broadway Commercial, Opposite Lake City',
-      'Lahore, Punjab, Pakistan',
+      'Dayim Developers ',
+      '45,46,47-A side, Broadway Commercial, Al- Kabir Town, Phase 2, Opposite Lake City, Raiwind Road, Lahore, Pakistan.',
     ],
     mapsUrl:
-      'https://www.google.com/maps/search/?api=1&query=Dayim+Signature+Apartments+Broadway+Commercial+Lake+City+Lahore',
+      'https://www.google.com/maps/search/?api=1&query=Dayim+Developers+Broadway+Commercial+Lake+City+Lahore',
   },
   phone: {
-    display: '+92 309 511 1176',
-    href: 'tel:+923095111176',
+    display: '+92 308 5111176',
+    href: 'tel:+923085111176',
   },
   email: {
-    display: 'info@dayimmarketing.com',
-    href: 'mailto:info@dayimmarketing.com',
+    display: 'info@dayimdevelopers.com',
+    href: 'mailto:info@dayimdevelopers.com',
   },
 }
 
