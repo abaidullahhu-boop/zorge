@@ -146,7 +146,7 @@ function Footer({ onScrollTop }) {
               <span className="site-footer-contact-icon" aria-hidden="true">
                 <PhoneIcon />
               </span>
-              <FooterLink href={SITE_CONTACT.phone.href}>
+              <FooterLink href={SITE_CONTACT.phone.href} external>
                 {SITE_CONTACT.phone.display}
               </FooterLink>
             </li>

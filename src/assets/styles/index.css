@@ -64,7 +64,8 @@
 }
 
 @media (max-width: 980px) {
-  html {
+  html,
+  body {
     overflow-x: clip;
   }
 

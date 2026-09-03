@@ -1,5 +1,7 @@
 .map-section {
-  --map-top: clamp(58px, 6vw, 96px);
+  --map-top-pad: clamp(20px, 3vw, 40px);
+  --map-top-row: clamp(54px, 6vw, 94px);
+  --map-top: calc(var(--map-top-pad) + var(--map-top-row));
   --map-accent: #c4a574;
   --map-brand: #a0725b;
   --map-cream: #f4f1ea;
@@ -32,16 +34,20 @@
 
 .map-heading {
   position: absolute;
-  z-index: 2;
+  z-index: 4;
   top: 0;
-  right: clamp(20px, 1.55vw, 30px);
-  left: clamp(20px, 1.55vw, 30px);
+  right: 0;
+  left: 0;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  box-sizing: border-box;
   height: var(--map-top);
   margin: 0;
+  padding-top: var(--map-top-pad);
+  padding-inline: clamp(20px, 1.55vw, 30px);
   color: #000;
+  background: #fff;
   font: 600 clamp(65px, 2.1vw, 96px) / 1 'Gilroy', sans-serif;
   letter-spacing: 0.01em;
   text-align: right;
@@ -50,9 +56,11 @@
 }
 
 .map-viewport {
-  position: relative;
-  width: 100%;
-  height: 100%;
+  position: absolute;
+  top: var(--map-top);
+  right: 0;
+  bottom: 0;
+  left: 0;
   overflow: hidden;
 }
 
@@ -62,7 +70,7 @@
 
 .map-plan {
   position: absolute;
-  top: var(--map-top);
+  top: 0;
   left: 50%;
   width: max(100%, calc(100svh * 980 / 653));
   height: auto;
@@ -514,43 +522,46 @@
 
 @media (max-width: 980px) {
   .map-section {
-    --map-top: 0;
     margin-top: 0;
-    height: max(100svh, calc(100vw * 653 / 980));
-    min-height: 520px;
+    height: max(
+      calc(100svh + var(--map-top)),
+      calc(var(--map-top) + 100vw * 653 / 980)
+    );
+    min-height: calc(520px + var(--map-top));
+    overflow-x: clip;
+    overflow-y: hidden;
+    overscroll-behavior-x: none;
+  }
+
+  .map-slide {
+    overflow-x: clip;
+    overflow-y: hidden;
   }
 
   .map-heading {
-    display: none;
+    font-size: clamp(25px, 7.5vw, 36px);
+    line-height: 1.08;
   }
 
   .map-viewport {
-    overflow-x: auto;
-    overflow-y: hidden;
-    overscroll-behavior-inline: contain;
-    touch-action: pan-x pan-y;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .map-viewport::-webkit-scrollbar {
-    display: none;
+    overflow: hidden;
+    overscroll-behavior-x: none;
+    touch-action: pan-y;
   }
 
   .map-scroll-sizer {
-    display: block;
-    width: max(940px, 168vw, calc(100svh * 980 / 653));
-    height: 1px;
-    visibility: hidden;
-    pointer-events: none;
+    display: none;
   }
 
   .map-plan {
+    /* Zoomed-out map, locked so Dayim Signature / pin sit in the middle. */
+    --map-focus-x: 49%;
     left: 0;
     width: max(940px, 168vw, calc(100svh * 980 / 653));
+    max-width: none;
     top: 0;
-    transform: none;
+    /* 50vw = viewport center; focus% = point on the map image */
+    transform: translate3d(calc(50vw - var(--map-focus-x)), 0, 0);
   }
 
   .map-spot {
@@ -611,90 +622,63 @@
     height: var(--map-hit-h, 38px);
   }
 
-  .map-tooltip {
+  /* Bottom sheet is portaled to body so transform/overflow on the map
+     cannot trap position:fixed or clip the card. */
+  .map-tooltip--sheet {
     position: fixed;
-    z-index: 10;
+    z-index: 120;
     top: auto;
     right: 12px;
-    bottom: calc(16px + env(safe-area-inset-bottom));
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
     left: 12px;
     display: grid;
-    grid-template-columns: 38% 1fr;
+    grid-template-columns: minmax(96px, 38%) minmax(0, 1fr);
     width: auto;
+    max-width: none;
+    max-height: min(42vh, 280px);
+    overflow: hidden;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     transform: translateY(12px);
+    transform-origin: center bottom;
     transition:
       opacity .4s ease,
       transform .4s ease,
       visibility .4s;
   }
 
-  .map-spot:hover .map-tooltip,
-  .map-spot:focus-within .map-tooltip,
-  .map-spot--pin:hover .map-tooltip,
-  .map-spot--pin:focus-within .map-tooltip,
-  .map-landmark:hover .map-tooltip,
-  .map-landmark:focus-within .map-tooltip,
-  .map-landmark:hover .map-tooltip--landmark,
-  .map-landmark--top:hover .map-tooltip,
-  .map-landmark--top:hover .map-tooltip--landmark,
-  .map-landmark--left:hover .map-tooltip,
-  .map-landmark--left:hover .map-tooltip--landmark,
-  .map-landmark--top:focus-within .map-tooltip,
-  .map-landmark--left:focus-within .map-tooltip {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(12px);
-  }
-
-  .map-spot.is-active .map-tooltip,
-  .map-spot.is-active:hover .map-tooltip,
-  .map-spot.is-active:focus-within .map-tooltip,
-  .map-spot--pin.is-active .map-tooltip,
-  .map-landmark.is-active .map-tooltip,
-  .map-landmark.is-active:hover .map-tooltip,
-  .map-landmark.is-active:focus-within .map-tooltip,
-  .map-landmark.is-active .map-tooltip--landmark,
-  .map-landmark--top.is-active .map-tooltip,
-  .map-landmark--top.is-active .map-tooltip--landmark,
-  .map-landmark--left.is-active .map-tooltip,
-  .map-landmark--left.is-active .map-tooltip--landmark,
-  .map-landmark--top.is-active:hover .map-tooltip--landmark,
-  .map-landmark--left.is-active:hover .map-tooltip--landmark {
+  .map-tooltip--sheet.is-open {
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
     transform: translateY(0);
   }
 
-  .map-tooltip--landmark {
+  .map-tooltip--sheet.map-tooltip--landmark {
     grid-template-columns: 1fr;
-    width: auto;
-    transform-origin: center bottom;
+    max-height: none;
   }
 
-  .map-landmark .map-tooltip--landmark::before {
-    display: none;
-  }
-
-  .map-tooltip--landmark .map-tooltip-body {
+  .map-tooltip--sheet.map-tooltip--landmark .map-tooltip-body {
     padding: 16px 14px;
   }
 
-  .map-tooltip img {
+  .map-tooltip--sheet img {
     height: 100%;
-    aspect-ratio: 1.1;
+    min-height: 0;
+    aspect-ratio: auto;
+    object-fit: cover;
   }
 
-  .map-tooltip-body {
-    align-content: end;
+  .map-tooltip--sheet .map-tooltip-body {
+    align-content: center;
+    min-height: 0;
+    overflow: auto;
     padding: 14px;
   }
 
-  .map-tooltip-close {
+  .map-tooltip--sheet .map-tooltip-close {
     display: grid;
     position: absolute;
     z-index: 1;
