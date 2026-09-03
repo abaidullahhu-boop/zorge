@@ -92,13 +92,19 @@ function CareerPage() {
       return
     }
 
-    if (resume && !isAllowedResume(resume)) {
+    if (!resume) {
+      setStatus('error')
+      setError('Please upload your CV / resume.')
+      return
+    }
+
+    if (!isAllowedResume(resume)) {
       setStatus('error')
       setError('Resume must be a PDF, DOC, or DOCX file.')
       return
     }
 
-    if (resume && resume.size > CAREER_RESUME_MAX_BYTES) {
+    if (resume.size > CAREER_RESUME_MAX_BYTES) {
       setStatus('error')
       setError('Resume must be 5MB or smaller.')
       return
@@ -108,7 +114,7 @@ function CareerPage() {
     setError('')
 
     try {
-      const resumeBase64 = resume ? await fileToBase64(resume) : ''
+      const resumeBase64 = await fileToBase64(resume)
       const lastExperience = fields.lastExperience.trim()
       const body = new URLSearchParams({
         name: fields.name.trim(),
@@ -118,8 +124,8 @@ function CareerPage() {
         // Existing Apps Script reads `position` — keep in sync
         position: lastExperience,
         message: fields.message.trim(),
-        resumeName: resume ? resume.name : '',
-        resumeMime: resume ? resume.type || 'application/pdf' : '',
+        resumeName: resume.name,
+        resumeMime: resume.type || 'application/pdf',
         resumeBase64,
       })
 
@@ -257,7 +263,7 @@ function CareerPage() {
               htmlFor={`${formId}-resume`}
             >
               <span className="career-form__label">
-                CV
+                CV <abbr title="required">*</abbr>
               </span>
               <span className="career-form__file">
                 <input
@@ -265,6 +271,7 @@ function CareerPage() {
                   name="resume"
                   type="file"
                   accept={CAREER_RESUME_ACCEPT}
+                  required
                   onChange={onResumeChange}
                   disabled={isSubmitting}
                 />
