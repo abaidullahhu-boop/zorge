@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import '../../assets/styles/MenuOverlay.css'
 
 const ICONS = '/assets/images/icons.svg'
@@ -9,6 +10,7 @@ const MENU_LINKS = [
   { label: 'Our Core Values', href: '#architecture' },
   { label: 'Our Vision', href: '#panorama' },
   { label: 'Choose Dayim', href: '#advantages' },
+  { label: 'Careers', to: '/careers' },
   { label: 'Contact Us', href: '#contact' },
 ]
 
@@ -47,6 +49,7 @@ function scrollToTarget(selector) {
 }
 
 function MenuOverlay({ open, onClose }) {
+  const navigate = useNavigate()
   const [activeHref, setActiveHref] = useState(
     () => MENU_LINKS.find((link) => link.href)?.href,
   )
@@ -86,6 +89,12 @@ function MenuOverlay({ open, onClose }) {
         window.dispatchEvent(new CustomEvent('dayim:projects'))
       }, 120)
     }
+  }
+
+  const handleRoute = (event, to) => {
+    event.preventDefault()
+    onClose()
+    window.setTimeout(() => navigate(to), 120)
   }
 
   return (
@@ -137,7 +146,7 @@ function MenuOverlay({ open, onClose }) {
 
           <nav className="menu-overlay__nav" aria-label="Site sections">
             <ul className="menu-overlay__list">
-              {MENU_LINKS.map(({ label, href, action, mobileOnly }) => {
+              {MENU_LINKS.map(({ label, href, to, action, mobileOnly }) => {
                 const isActive =
                   href === activeHref &&
                   MENU_LINKS.find((link) => link.href === activeHref)?.label === label
@@ -145,11 +154,13 @@ function MenuOverlay({ open, onClose }) {
                   <li key={label} className={`menu-overlay__item${mobileOnly ? ' menu-overlay__item--mobile-only' : ''}`}>
                     <a
                       className={`menu-overlay__link${isActive ? ' is-active' : ''}`}
-                      href={href ?? '#'}
+                      href={to ?? href ?? '#'}
                       aria-current={isActive ? 'true' : undefined}
-                      onClick={(event) =>
-                        action ? handleAction(event, action) : handleNav(event, href)
-                      }
+                      onClick={(event) => {
+                        if (action) return handleAction(event, action)
+                        if (to) return handleRoute(event, to)
+                        return handleNav(event, href)
+                      }}
                     >
                       <span className="menu-overlay__link-text">{label}</span>
                       <span className="menu-overlay__link-arrow" aria-hidden="true">
