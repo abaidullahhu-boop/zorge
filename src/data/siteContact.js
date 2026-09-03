@@ -9,7 +9,7 @@ export const SITE_CONTACT = {
   },
   phone: {
     display: '+92 308 5111176',
-    href: 'tel:+923085111176',
+    href: 'https://wa.me/923085111176',
   },
   email: {
     display: 'info@dayimdevelopers.com',

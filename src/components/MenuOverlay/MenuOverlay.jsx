@@ -1,21 +1,20 @@
 import { useEffect, useState } from 'react'
-import menuDecor from '../../assets/images/deco.png'
 import '../../assets/styles/MenuOverlay.css'
 
 const ICONS = '/assets/images/icons.svg'
 
 const MENU_LINKS = [
+  { label: 'Our Projects', action: 'projects', mobileOnly: true },
   { label: 'About Us', href: '#about' },
   { label: 'Our Core Values', href: '#architecture' },
   { label: 'Our Vision', href: '#panorama' },
   { label: 'Choose Dayim', href: '#advantages' },
-  { label: 'Our Projects', action: 'projects', mobileOnly: true },
   { label: 'Contact Us', href: '#contact' },
 ]
- 
+
 function getActiveHref() {
   const mid = window.innerHeight * 0.35
-  let bestHref = MENU_LINKS[0].href
+  let bestHref = MENU_LINKS.find((link) => link.href)?.href
   let bestDist = Number.POSITIVE_INFINITY
   const seen = new Set()
 
@@ -48,7 +47,9 @@ function scrollToTarget(selector) {
 }
 
 function MenuOverlay({ open, onClose }) {
-  const [activeHref, setActiveHref] = useState(MENU_LINKS[0].href)
+  const [activeHref, setActiveHref] = useState(
+    () => MENU_LINKS.find((link) => link.href)?.href,
+  )
 
   useEffect(() => {
     if (!open) return undefined
@@ -77,6 +78,16 @@ function MenuOverlay({ open, onClose }) {
     window.setTimeout(() => scrollToTarget(href), 120)
   }
 
+  const handleAction = (event, action) => {
+    event.preventDefault()
+    onClose()
+    if (action === 'projects') {
+      window.setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('dayim:projects'))
+      }, 120)
+    }
+  }
+
   return (
     <div
       className={`menu-overlay${open ? ' is-open' : ''}`}
@@ -91,65 +102,6 @@ function MenuOverlay({ open, onClose }) {
         className="menu-overlay__panel"
         onClick={(event) => event.stopPropagation()}
       >
-        <div className="menu-overlay__side">
-          <img
-            className="menu-overlay__decor"
-            src={menuDecor}
-            alt=""
-            draggable="false"
-          />
-
-          <button
-            className="menu-overlay__logo"
-            type="button"
-            aria-label="Close"
-            onClick={onClose}
-          >
-            <span className="menu-overlay__logo-mark" aria-hidden="true">
-              <span>DAYIM DEVELOPERS</span>
-            </span>
-          </button>
-
-          <div className="menu-overlay__side-footer">
-            <a
-              className="menu-overlay__gallery"
-              href="#gallery"
-              onClick={(event) => handleNav(event, '#gallery')}
-            >
-              <span className="menu-overlay__gallery-text">
-                <span className="menu-overlay__gallery-clone">
-                  <span>
-                    Gallery of Completed
-                    <br />
-                    Residences
-                  </span>
-                  <span aria-hidden="true">
-                    Gallery of Completed
-                    <br />
-                    Residences
-                  </span>
-                </span>
-              </span>
-              <span className="menu-overlay__gallery-arrow" aria-hidden="true">
-                <svg
-                  className="menu-overlay__arrow-icon"
-                  width="7"
-                  height="12"
-                  viewBox="0 0 7 12"
-                  fill="none"
-                >
-                  <path
-                    pathLength="100"
-                    d="M1.027 1 6 5.167v1.666L1.027 11"
-                    stroke="currentColor"
-                    strokeWidth="1.2"
-                  />
-                </svg>
-              </span>
-            </a>
-          </div>
-        </div>
-
         <div className="menu-overlay__content">
           <header className="menu-overlay__header">
             <button
@@ -164,8 +116,6 @@ function MenuOverlay({ open, onClose }) {
             </button>
 
             <div className="menu-overlay__header-actions">
-             
-
               <button
                 className="menu-overlay__close"
                 type="button"
@@ -224,8 +174,6 @@ function MenuOverlay({ open, onClose }) {
               })}
             </ul>
           </nav>
-
-          <div className="menu-overlay__divider" aria-hidden="true" />
         </div>
       </div>
     </div>

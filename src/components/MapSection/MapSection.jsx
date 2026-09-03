@@ -1,9 +1,28 @@
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { gsap } from '../../lib/gsap'
 import mapImage from '../../assets/images/map.png'
 import { projects } from '../../data/projects'
 import { mapPlaces } from '../../data/mapPlaces'
 import '../../assets/styles/MapSection.css'
+
+const MOBILE_MAP_MQ = '(max-width: 980px)'
+
+function useMobileMap() {
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia(MOBILE_MAP_MQ).matches : false,
+  )
+
+  useEffect(() => {
+    const mq = window.matchMedia(MOBILE_MAP_MQ)
+    const onChange = () => setIsMobile(mq.matches)
+    onChange()
+    mq.addEventListener('change', onChange)
+    return () => mq.removeEventListener('change', onChange)
+  }, [])
+
+  return isMobile
+}
 
 function BuildingIcon() {
   return (
@@ -74,8 +93,6 @@ function copyText(text) {
   return Promise.resolve(copyTextFallback(text))
 }
 
-const MOBILE_MAP_MQ = '(max-width: 980px)'
-
 const PROJECT_INFO = {
   dsa: {
     tag: 'PROJECT',
@@ -92,26 +109,6 @@ const PROJECT_INFO = {
     address: 'Business Bay, Main Raiwind Road, Lahore',
     note: 'Landmark address on Main Raiwind Road',
   },
-}
-
-// Red pin anchor baked into map.png — mobile markers cluster here.
-const MAP_CLUSTER = { x: 46.5, y: 63 }
-
-function isMobileMap() {
-  return window.matchMedia(MOBILE_MAP_MQ).matches
-}
-
-function scrollMapToCluster(viewport) {
-  if (!viewport || !isMobileMap()) return
-
-  const plan = viewport.querySelector('.map-plan')
-  if (!plan?.clientWidth) return
-
-  const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth)
-  viewport.scrollLeft = Math.max(
-    0,
-    Math.min(maxScroll, plan.clientWidth * (MAP_CLUSTER.x / 100) - viewport.clientWidth / 2),
-  )
 }
 
 function getMapSpotStyle(place) {
@@ -140,10 +137,11 @@ function MapPopup({
   onClose,
   onOpenMaps,
   onCopy,
+  sheet = false,
 }) {
   return (
     <aside
-      className={`map-tooltip${place.image ? '' : ' map-tooltip--landmark'}`}
+      className={`map-tooltip${place.image ? '' : ' map-tooltip--landmark'}${sheet ? ' map-tooltip--sheet' : ''}${isActive ? ' is-open' : ''}`}
       aria-hidden={!isActive}
     >
       <button
@@ -189,13 +187,24 @@ function MapPopup({
   )
 }
 
+function getPopupPlace(id) {
+  const landmark = mapPlaces.find((place) => place.id === id)
+  if (landmark) return landmark
+
+  const project = projects.find((place) => place.id === id)
+  if (!project) return null
+
+  return { ...project, ...(PROJECT_INFO[project.id] ?? {}) }
+}
+
 function MapSection() {
   const [activeId, setActiveId] = useState(null)
   const [copiedId, setCopiedId] = useState(null)
+  const isMobile = useMobileMap()
   const sectionRef = useRef(null)
   const slideRef = useRef(null)
-  const viewportRef = useRef(null)
   const copyTimerRef = useRef(null)
+  const activePlace = activeId ? getPopupPlace(activeId) : null
 
   useEffect(() => {
     const section = sectionRef.current
@@ -235,83 +244,11 @@ function MapSection() {
   }, [])
 
   useEffect(() => {
-    const viewport = viewportRef.current
-    if (!viewport) return undefined
-
-    let startScrollLeft = 0
-    let userScrolled = false
-    let centering = false
-
-    const centerMap = () => {
-      if (userScrolled) return
-      centering = true
-      scrollMapToCluster(viewport)
-      startScrollLeft = viewport.scrollLeft
-      centering = false
-    }
-
-    const onScroll = () => {
-      if (centering) return
-      if (Math.abs(viewport.scrollLeft - startScrollLeft) > 12) {
-        userScrolled = true
-      }
-    }
-
-    const onPointerDown = () => {
-      startScrollLeft = viewport.scrollLeft
-    }
-
-    const onResize = () => {
-      if (!userScrolled) centerMap()
-    }
-
-    centerMap()
-    requestAnimationFrame(() => {
-      requestAnimationFrame(centerMap)
-    })
-
-    const img = viewport.querySelector('.map-plan-image')
-    const onImageLoad = () => {
-      requestAnimationFrame(centerMap)
-    }
-    if (img && !img.complete) {
-      img.addEventListener('load', onImageLoad)
-    }
-
-    const resizeObserver = new ResizeObserver(onResize)
-    resizeObserver.observe(viewport)
-    const plan = viewport.querySelector('.map-plan')
-    if (plan) resizeObserver.observe(plan)
-
-    const section = viewport.closest('.map-section')
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) centerMap()
-      },
-      { threshold: 0.15 },
-    )
-    if (section) io.observe(section)
-
-    viewport.addEventListener('scroll', onScroll, { passive: true })
-    viewport.addEventListener('pointerdown', onPointerDown)
-    window.addEventListener('resize', onResize)
-
-    return () => {
-      img?.removeEventListener('load', onImageLoad)
-      resizeObserver.disconnect()
-      io.disconnect()
-      viewport.removeEventListener('scroll', onScroll)
-      viewport.removeEventListener('pointerdown', onPointerDown)
-      window.removeEventListener('resize', onResize)
-    }
-  }, [])
-
-  useEffect(() => {
     const closeCard = () => setActiveId(null)
 
     const onPointerDown = (event) => {
       if (!(event.target instanceof Element)) return
-      if (event.target.closest('.map-spot, .map-landmark')) return
+      if (event.target.closest('.map-spot, .map-landmark, .map-tooltip')) return
       closeCard()
     }
 
@@ -347,9 +284,6 @@ function MapSection() {
 
   const handlePlaceClick = (id) => {
     setActiveId((current) => (current === id ? null : id))
-    if (isMobileMap()) {
-      scrollMapToCluster(viewportRef.current)
-    }
   }
 
   const handleCopy = (id, text) => {
@@ -373,12 +307,7 @@ function MapSection() {
           Location
         </h2>
 
-        <div
-          className="map-viewport"
-          ref={viewportRef}
-          data-lenis-prevent-horizontal
-        >
-        <div className="map-scroll-sizer" aria-hidden="true" />
+        <div className="map-viewport">
         <div className="map-plan">
           <img
             className="map-plan-image"
@@ -413,14 +342,16 @@ function MapSection() {
                   aria-expanded={isActive}
                   onClick={() => handlePlaceClick(place.id)}
                 />
-                <MapPopup
-                  place={place}
-                  isActive={isActive}
-                  copied={copiedId === place.id}
-                  onClose={() => setActiveId(null)}
-                  onOpenMaps={openPlace}
-                  onCopy={handleCopy}
-                />
+                {!isMobile ? (
+                  <MapPopup
+                    place={place}
+                    isActive={isActive}
+                    copied={copiedId === place.id}
+                    onClose={() => setActiveId(null)}
+                    onOpenMaps={openPlace}
+                    onCopy={handleCopy}
+                  />
+                ) : null}
               </div>
             )
           })}
@@ -470,20 +401,37 @@ function MapSection() {
                   )}
                 </button>
 
-                <MapPopup
-                  place={popupPlace}
-                  isActive={isActive}
-                  copied={copiedId === place.id}
-                  onClose={() => setActiveId(null)}
-                  onOpenMaps={openPlace}
-                  onCopy={handleCopy}
-                />
+                {!isMobile ? (
+                  <MapPopup
+                    place={popupPlace}
+                    isActive={isActive}
+                    copied={copiedId === place.id}
+                    onClose={() => setActiveId(null)}
+                    onOpenMaps={openPlace}
+                    onCopy={handleCopy}
+                  />
+                ) : null}
               </div>
             )
           })}
         </div>
         </div>
       </div>
+
+      {isMobile && activePlace
+        ? createPortal(
+          <MapPopup
+            place={activePlace}
+            isActive
+            sheet
+            copied={copiedId === activePlace.id}
+            onClose={() => setActiveId(null)}
+            onOpenMaps={openPlace}
+            onCopy={handleCopy}
+          />,
+          document.body,
+        )
+        : null}
     </section>
   )
 }
