@@ -128,22 +128,27 @@
 .menu-overlay__nav {
   display: flex;
   flex: 1 1 auto;
-  align-items: center;
-  justify-content: flex-start;
-  padding: clamp(28px, 4vw, 56px) clamp(20px, 2vw, 40px);
+  flex-direction: column;
+  min-height: 0;
+  padding: clamp(28px, 6vh, 64px) clamp(20px, 2vw, 40px) clamp(16px, 2vw, 28px);
 }
 
 .menu-overlay__list {
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
   gap: 0;
   width: min(100%, 720px);
+  min-height: 0;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .menu-overlay__item {
+  display: flex;
+  flex: 1 1 0;
+  min-height: 0;
   opacity: 0;
   transform: translateY(18px);
   border-bottom: 1px solid var(--menu-line);
@@ -151,6 +156,10 @@
     opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: 0s;
+}
+
+.menu-overlay__item:last-child {
+  border-bottom: 0;
 }
 
 .menu-overlay.is-open .menu-overlay__item {
@@ -163,15 +172,17 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: clamp(14px, 1.6vw, 22px);
-  min-height: clamp(56px, 7vw, 72px);
-  padding: 4px 0;
+  flex: 1;
+  width: 100%;
+  gap: clamp(12px, 1.4vw, 18px);
+  min-height: 0;
+  padding: 6px 0;
   color: inherit;
   text-decoration: none;
 }
 
 .menu-overlay__link-text {
-  font: 700 clamp(22px, 3.2vw, 40px) / 1.05 'Gilroy', sans-serif;
+  font: 700 clamp(18px, 2.2vw, 28px) / 1.05 'Gilroy', sans-serif;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   transition: color 0.3s ease, transform 0.35s ease;
@@ -237,8 +248,8 @@
   }
 
   .menu-overlay__nav {
-    padding-top: clamp(36px, 5vw, 72px);
-    padding-bottom: clamp(24px, 3vw, 40px);
+    padding-top: clamp(32px, 7vh, 72px);
+    padding-bottom: clamp(16px, 2vw, 28px);
   }
 
   .menu-overlay__list {
@@ -249,23 +260,26 @@
 @media (max-width: 899px) {
   .menu-overlay__header {
     align-items: center;
-    padding: max(18px, env(safe-area-inset-top)) 20px 16px;
+    padding: max(14px, env(safe-area-inset-top)) 20px 12px;
+  }
+
+  .menu-overlay__brand {
+    gap: 4px;
   }
 
   .menu-overlay__brand-name {
-    font-size: clamp(16px, 4.4vw, 20px);
+    font-size: clamp(15px, 4vw, 18px);
     letter-spacing: 0.08em;
   }
 
   .menu-overlay__close {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     margin-top: 0;
   }
 
   .menu-overlay__nav {
-    align-items: stretch;
-    padding: 12px 20px max(28px, env(safe-area-inset-bottom));
+    padding: clamp(32px, 9vh, 72px) 20px max(16px, env(safe-area-inset-bottom));
   }
 
   .menu-overlay__list {
@@ -273,12 +287,12 @@
   }
 
   .menu-overlay__link {
-    min-height: 52px;
     gap: 12px;
+    padding: 4px 0;
   }
 
   .menu-overlay__link-text {
-    font-size: clamp(20px, 6.2vw, 28px);
+    font-size: clamp(16px, 4.6vw, 20px);
     letter-spacing: 0.03em;
   }
 
