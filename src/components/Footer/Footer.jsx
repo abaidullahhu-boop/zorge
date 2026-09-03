@@ -1,5 +1,9 @@
 import { Link } from 'react-router-dom'
-import { FOOTER_LEGAL_LINKS, SITE_CONTACT } from '../../data/siteContact'
+import {
+  FOOTER_LEGAL_LINKS,
+  FOOTER_SITE_LINKS,
+  SITE_CONTACT,
+} from '../../data/siteContact'
 import '../../assets/styles/Footer.css'
 
 function LongArrowUp() {
@@ -172,9 +176,14 @@ function Footer({ onScrollTop }) {
           </ul>
         </div>
 
-        <nav className="site-footer-col site-footer-col--legal" aria-label="Legal">
-          <p className="site-footer-label">Legal</p>
+        <nav className="site-footer-col site-footer-col--legal" aria-label="Company">
+          <p className="site-footer-label">Company</p>
           <ul className="site-footer-legal-list">
+            {FOOTER_SITE_LINKS.map(({ label, href }) => (
+              <li key={href}>
+                <FooterLink href={href}>{label}</FooterLink>
+              </li>
+            ))}
             {FOOTER_LEGAL_LINKS.map(({ label, href }) => (
               <li key={href}>
                 <FooterLink href={href}>{label}</FooterLink>

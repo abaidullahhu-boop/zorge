@@ -1,0 +1,213 @@
+.career-page__inner {
+  max-width: 720px;
+}
+
+.career-form {
+  display: grid;
+  gap: clamp(18px, 2.2vw, 24px);
+}
+
+.career-form__grid {
+  display: grid;
+  gap: clamp(16px, 2vw, 20px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.career-form__field {
+  display: grid;
+  gap: 8px;
+}
+
+.career-form__label {
+  color: rgb(255 255 255 / 72%);
+  font: 600 12px / 1.3 'Gilroy', sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.career-form__label abbr {
+  color: #a0725b;
+  text-decoration: none;
+}
+
+.career-form__field input,
+.career-form__field select,
+.career-form__field textarea {
+  width: 100%;
+  margin: 0;
+  padding: 14px 16px;
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 0;
+  color: #fff;
+  font: 400 15px / 1.4 'Gilroy', sans-serif;
+  background: rgb(255 255 255 / 4%);
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.career-form__field select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, rgb(255 255 255 / 55%) 50%),
+    linear-gradient(135deg, rgb(255 255 255 / 55%) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) calc(50% - 2px),
+    calc(100% - 12px) calc(50% - 2px);
+  background-size:
+    6px 6px,
+    6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 36px;
+}
+
+.career-form__field select option {
+  color: #111;
+  background: #fff;
+}
+
+.career-form__field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.career-form__field input:focus,
+.career-form__field select:focus,
+.career-form__field textarea:focus {
+  border-color: rgb(160 114 91 / 70%);
+  background: rgb(255 255 255 / 6%);
+}
+
+.career-form__field input:disabled,
+.career-form__field select:disabled,
+.career-form__field textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.career-form__file {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1px dashed rgb(255 255 255 / 22%);
+  background: rgb(255 255 255 / 3%);
+}
+
+.career-form__file input[type='file'] {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 13px;
+}
+
+.career-form__file input[type='file']::file-selector-button {
+  margin-right: 12px;
+  padding: 8px 14px;
+  border: 1px solid rgb(160 114 91 / 55%);
+  color: #fff;
+  font: 600 12px / 1 'Gilroy', sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgb(160 114 91 / 18%);
+  cursor: pointer;
+}
+
+.career-form__file-meta {
+  color: rgb(255 255 255 / 55%);
+  font: 400 13px / 1.4 'Gilroy', sans-serif;
+  word-break: break-word;
+}
+
+.career-form__button {
+  justify-self: start;
+  min-width: 200px;
+  padding: 14px 28px;
+  border: 1px solid #a0725b;
+  color: #fff;
+  font: 600 12px / 1 'Gilroy', sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: #a0725b;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.career-form__button:hover,
+.career-form__button:focus-visible {
+  background: #b4846b;
+  border-color: #b4846b;
+}
+
+.career-form__button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.career-form__button--ghost {
+  margin-top: 8px;
+  border-color: rgb(255 255 255 / 28%);
+  background: transparent;
+}
+
+.career-form__button--ghost:hover,
+.career-form__button--ghost:focus-visible {
+  border-color: #a0725b;
+  background: rgb(160 114 91 / 16%);
+}
+
+.career-form__error {
+  margin: 0;
+  padding: 12px 14px;
+  border-left: 3px solid #c45c4a;
+  color: #f0c4bc;
+  font: 400 14px / 1.5 'Gilroy', sans-serif;
+  background: rgb(196 92 74 / 12%);
+}
+
+.career-form__note {
+  margin: 0;
+  color: rgb(255 255 255 / 55%);
+  font: 400 13px / 1.6 'Gilroy', sans-serif;
+}
+
+.career-form__note a {
+  color: #a0725b;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.career-form__success {
+  display: grid;
+  gap: 12px;
+  padding: clamp(20px, 3vw, 28px);
+  border-left: 3px solid rgb(160 114 91 / 70%);
+  background: rgb(255 255 255 / 4%);
+}
+
+.career-form__success h2 {
+  margin: 0;
+  color: #fff;
+  font: 600 16px / 1.3 'Gilroy', sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.career-form__success p {
+  margin: 0;
+  color: rgb(255 255 255 / 78%);
+  font: 400 15px / 1.6 'Gilroy', sans-serif;
+}
+
+@media (max-width: 720px) {
+  .career-form__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .career-form__button {
+    width: 100%;
+    justify-self: stretch;
+  }
+}

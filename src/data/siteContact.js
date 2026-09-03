@@ -17,6 +17,8 @@ export const SITE_CONTACT = {
   },
 }
 
+export const FOOTER_SITE_LINKS = [{ label: 'Careers', href: '/careers' }]
+
 export const FOOTER_LEGAL_LINKS = [
   { label: 'Privacy Policy', href: '/privacy-policy' },
   { label: 'Terms & Conditions', href: '/terms' },
