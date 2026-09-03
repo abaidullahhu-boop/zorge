@@ -77,7 +77,6 @@ function MenuOverlay({ open, onClose }) {
     event.preventDefault()
     setActiveHref(href)
     onClose()
-    // Allow close animation to start before scrolling
     window.setTimeout(() => scrollToTarget(href), 120)
   }
 
@@ -111,47 +110,52 @@ function MenuOverlay({ open, onClose }) {
         className="menu-overlay__panel"
         onClick={(event) => event.stopPropagation()}
       >
+        <div className="menu-overlay__atmosphere" aria-hidden="true" />
+
         <div className="menu-overlay__content">
           <header className="menu-overlay__header">
             <button
-              className="menu-overlay__mobile-logo"
+              className="menu-overlay__brand"
+              type="button"
+              aria-label="Close menu"
+              onClick={onClose}
+            >
+              <span className="menu-overlay__brand-kicker">Menu</span>
+              <span className="menu-overlay__brand-name">Dayim Developers</span>
+            </button>
+
+            <button
+              className="menu-overlay__close"
               type="button"
               aria-label="Close"
               onClick={onClose}
             >
-              <span className="menu-overlay__mobile-logo-mark" aria-hidden="true">
-                <span>DAYIM DEVELOPERS</span>
-              </span>
-            </button>
-
-            <div className="menu-overlay__header-actions">
-              <button
-                className="menu-overlay__close"
-                type="button"
-                aria-label="Close"
-                onClick={onClose}
+              <svg
+                className="menu-overlay__close-icon"
+                width="18"
+                height="16"
+                aria-hidden="true"
+                viewBox="0 0 18 16"
               >
-                <svg
-                  className="menu-overlay__close-icon"
-                  width="18"
-                  height="16"
-                  aria-hidden="true"
-                  viewBox="0 0 18 16"
-                >
-                  <use href={`${ICONS}#close`} />
-                </svg>
-              </button>
-            </div>
+                <use href={`${ICONS}#close`} />
+              </svg>
+            </button>
           </header>
 
           <nav className="menu-overlay__nav" aria-label="Site sections">
             <ul className="menu-overlay__list">
-              {MENU_LINKS.map(({ label, href, to, action, mobileOnly }) => {
+              {MENU_LINKS.map(({ label, href, to, action, mobileOnly }, index) => {
                 const isActive =
                   href === activeHref &&
-                  MENU_LINKS.find((link) => link.href === activeHref)?.label === label
+                  MENU_LINKS.find((link) => link.href === activeHref)?.label ===
+                    label
+
                 return (
-                  <li key={label} className={`menu-overlay__item${mobileOnly ? ' menu-overlay__item--mobile-only' : ''}`}>
+                  <li
+                    key={label}
+                    className={`menu-overlay__item${mobileOnly ? ' menu-overlay__item--mobile-only' : ''}`}
+                    style={{ '--menu-i': index + 1 }}
+                  >
                     <a
                       className={`menu-overlay__link${isActive ? ' is-active' : ''}`}
                       href={to ?? href ?? '#'}
