@@ -9,9 +9,46 @@ import collection6 from '../../assets/images/collection6.png'
 import collection8 from '../../assets/images/collection8.png'
 import gallery1 from '../../assets/images/gallery1.png'
 import gallery2 from '../../assets/images/gallery2.png'
-import galleryImageLeft from '../../assets/images/architecture/image-2.webp'
-import galleryImageRight from '../../assets/images/architecture/image-3.webp'
+import groundFloorPlan from '../../assets/images/gfloor.jpeg'
+import lowerGroundFloorPlan from '../../assets/images/lfloor.jpeg'
+import firstFloorPlan from '../../assets/images/1floor.jpeg'
+import secondFloorPlan from '../../assets/images/2floor.jpeg'
 import '../../assets/styles/ArchitectureSection.css'
+
+const floorPlanGallery = [
+  {
+    id: 'ground',
+    src: groundFloorPlan,
+    alt: 'Ground Floor offices layout',
+    label: 'Ground Floor',
+    detail: 'Commercial offices with lobby, lift & pantry',
+  },
+  {
+    id: 'lower-ground',
+    src: lowerGroundFloorPlan,
+    alt: 'Lower Ground Floor commercial shops layout',
+    label: 'Lower Ground',
+    detail: 'Retail shops with main lobby & service core',
+  },
+  {
+    id: 'first',
+    src: firstFloorPlan,
+    alt: 'First Floor commercial outlets layout',
+    label: 'First Floor',
+    detail: 'Commercial outlets across seven shop units',
+  },
+  {
+    id: 'second',
+    src: secondFloorPlan,
+    alt: '2nd Floor studio and one bed apartments layout',
+    label: '2nd Floor',
+    detail: 'Studio & one-bed apartments with balconies',
+  },
+]
+
+const PLAN_COUNT = floorPlanGallery.length
+const CLIP_HIDDEN = 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
+const CLIP_VISIBLE = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
 
 const decorLayers = [
   { src: collection1, vmin: 2, isBase: true, zIndex: 1 },
@@ -56,9 +93,21 @@ function BottomGalleryParallaxImage({ src, intensity = 10 }) {
   )
 }
 
-function ProjectStorySection() {
+function ProjectStorySection({ scrollContainerRef = null }) {
   const [isVisible, setIsVisible] = useState(false)
+  const [activePlanIndex, setActivePlanIndex] = useState(0)
   const sectionRef = useRef(null)
+  const galleryPinRef = useRef(null)
+  const galleryStickyRef = useRef(null)
+  const activeIndexRef = useRef(0)
+  const setActiveFromScrollRef = useRef(null)
+  const activePlan = floorPlanGallery[activePlanIndex] ?? floorPlanGallery[0]
+
+  setActiveFromScrollRef.current = (nextIndex) => {
+    if (nextIndex === activeIndexRef.current) return
+    activeIndexRef.current = nextIndex
+    setActivePlanIndex(nextIndex)
+  }
 
   useEffect(() => {
     const section = sectionRef.current
@@ -74,6 +123,92 @@ function ProjectStorySection() {
     observer.observe(section)
     return () => observer.disconnect()
   }, [])
+
+  useEffect(() => {
+    const pin = galleryPinRef.current
+    const sticky = galleryStickyRef.current
+    if (!pin || !sticky) return undefined
+
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+    const images = [...sticky.querySelectorAll('.architecture-gallery-stack-item')]
+
+    if (reduceMotion || images.length < 2) {
+      images.forEach((image, index) => {
+        gsap.set(image, {
+          zIndex: index + 1,
+          clipPath: CLIP_VISIBLE,
+          y: 0,
+          clearProps: reduceMotion ? 'clipPath,transform' : undefined,
+        })
+      })
+      return undefined
+    }
+
+    const scroller = scrollContainerRef?.current ?? undefined
+    const scrollTriggerBase = scroller ? { scroller } : {}
+
+    const ctx = gsap.context(() => {
+      images.forEach((image, index) => {
+        gsap.set(image, {
+          zIndex: index === 0 ? 1 : 0,
+          clipPath: index === 0 ? CLIP_VISIBLE : CLIP_HIDDEN,
+          y: index === 0 ? '0%' : '5%',
+        })
+      })
+
+      const getStickyH = () => sticky.offsetHeight || window.innerHeight
+
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          ...scrollTriggerBase,
+          trigger: pin,
+          start: 'top top',
+          end: () => `+=${getStickyH() * (PLAN_COUNT - 1)}`,
+          scrub: true,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const segments = PLAN_COUNT - 1
+            const raw = self.progress * segments
+            const base = Math.min(PLAN_COUNT - 1, Math.floor(raw))
+            const local = raw - Math.floor(raw)
+            const nextIndex =
+              raw >= segments
+                ? PLAN_COUNT - 1
+                : local >= 0.5
+                  ? Math.min(PLAN_COUNT - 1, base + 1)
+                  : base
+            setActiveFromScrollRef.current?.(nextIndex)
+          },
+        },
+      })
+
+      for (let i = 0; i < PLAN_COUNT - 1; i += 1) {
+        const next = i + 1
+        const position = i
+        const prevImage = images[i]
+        const nextImage = images[next]
+
+        if (nextImage) {
+          gsap.set(nextImage, { zIndex: next + 1 })
+          tl.fromTo(
+            nextImage,
+            { clipPath: CLIP_HIDDEN, y: '5%' },
+            { clipPath: CLIP_VISIBLE, y: '0%', duration: 1 },
+            position,
+          )
+        }
+
+        if (prevImage) {
+          tl.to(prevImage, { y: '-8%', duration: 1 }, position)
+        }
+      }
+    }, pin)
+
+    return () => ctx.revert()
+  }, [scrollContainerRef])
 
   useEffect(() => {
     const section = sectionRef.current
@@ -138,6 +273,7 @@ function ProjectStorySection() {
       className={`architecture-section architecture-section--project ${isVisible ? 'is-visible' : ''}`}
       id="story"
       aria-label="Project story"
+      style={{ '--plan-count': PLAN_COUNT }}
     >
       <div className="architecture-slide">
         <div className="architecture-subhead-row">
@@ -150,30 +286,61 @@ function ProjectStorySection() {
           </p>
         </div>
 
-        <div className="architecture-gallery-row">
-          <div className="architecture-gallery-left">
-            <img
-              className="architecture-parallax-image"
-              data-parallax-intensity="10"
-              src={galleryImageLeft}
-              alt=""
-              draggable="false"
-            />
+        <div className="architecture-gallery-pin" ref={galleryPinRef}>
+          <div className="architecture-gallery-sticky" ref={galleryStickyRef}>
+            <div className="architecture-gallery-row">
+              <div className="architecture-gallery-copy" aria-live="polite">
+                <p className="architecture-gallery-kicker">Floor plans</p>
+                <div key={activePlan.id} className="architecture-gallery-plan-text">
+                  <p className="architecture-gallery-caption">{activePlan.label}</p>
+                  <p className="architecture-gallery-plan-detail">{activePlan.detail}</p>
+                </div>
+                <div className="architecture-gallery-meta">
+                  <p className="architecture-gallery-counter" aria-hidden="true">
+                    <span className="architecture-gallery-counter-current">
+                      {String(activePlanIndex + 1).padStart(2, '0')}
+                    </span>
+                    <span className="architecture-gallery-counter-sep">/</span>
+                    <span className="architecture-gallery-counter-total">
+                      {String(PLAN_COUNT).padStart(2, '0')}
+                    </span>
+                  </p>
+                  <div
+                    className="architecture-gallery-progress"
+                    role="presentation"
+                  >
+                    {floorPlanGallery.map((plan, index) => (
+                      <span
+                        key={plan.id}
+                        className={`architecture-gallery-progress-dot${
+                          index === activePlanIndex ? ' is-active' : ''
+                        }${index < activePlanIndex ? ' is-done' : ''}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="architecture-gallery-right">
+                <div className="architecture-gallery-frame">
+                  <div className="architecture-gallery-stack" aria-label="Floor plans">
+                    {floorPlanGallery.map((plan, index) => (
+                      <div
+                        key={plan.id}
+                        className="architecture-gallery-stack-item"
+                        aria-hidden={index !== activePlanIndex}
+                      >
+                        <img
+                          src={plan.src}
+                          alt={plan.alt}
+                          draggable="false"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="architecture-gallery-right">
-            <img
-              className="architecture-parallax-image"
-              data-parallax-intensity="10"
-              src={galleryImageRight}
-              alt=""
-              draggable="false"
-            />
-          </div>
-          <p className="architecture-gallery-caption">
-            Premium
-            <br />
-            construction
-          </p>
         </div>
 
         <div className="architecture-decor-row">

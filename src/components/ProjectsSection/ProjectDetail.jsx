@@ -126,7 +126,7 @@ export function ProjectNav({ project, scrollRootRef, onBack, onNavigate }) {
           <span>All projects</span>
         </button>
 
-        <p className="project-nav__brand">{project.short}</p>
+        <p className="project-nav__brand">{project.brand ?? project.short}</p>
 
         <div className="project-nav__links" role="list">
           {navItems.map((item) => (
@@ -163,7 +163,7 @@ export function ProjectHero({ project, onNavigate }) {
       <div className="project-hero__veil" />
 
       <div className="project-hero__content">
-        <p className="project-hero__kicker">Dayim Developers · {project.short}</p>
+        <p className="project-hero__kicker">A PROJECT BY DAYIM DEVELOPERS</p>
         <h1 className="project-hero__title">{project.title}</h1>
         <p className="project-hero__location">{project.subtitle}</p>
 
@@ -569,7 +569,7 @@ export function ProjectEnquire({ project }) {
       <div className="project-enquire__copy">
         <p className="project-kicker is-light">Visit us</p>
         <h2 id="enquire-title" className="project-heading is-light">
-          Enquire about {project.short}
+          Enquire about {project.brand ?? project.short}
         </h2>
         <p className="project-enquire__text">
           Speak with the Dayim team for availability, payment plans, and a

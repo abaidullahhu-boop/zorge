@@ -207,7 +207,7 @@ function ProjectPage() {
             scrollContainerRef={pageRef}
             project={project}
           />
-          <ProjectStorySection />
+          <ProjectStorySection scrollContainerRef={pageRef} />
           <InfrastructureSection variant="project" scrollContainerRef={pageRef} />
           <ImprovementSection variant="project" scrollContainerRef={pageRef} />
           <ApartmentsSection variant="project" scrollContainerRef={pageRef} />

@@ -89,11 +89,12 @@
 
 .project-page .architecture-section {
   background: #fff;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .project-page .architecture-section--project .architecture-slide {
   padding-top: clamp(72px, 8vw, 128px);
+  overflow: visible;
 }
 
 .project-page .improvement-section {
