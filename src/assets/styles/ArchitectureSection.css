@@ -12,6 +12,7 @@
   margin-top: 0;
   z-index: auto;
   background: #fff;
+  overflow: visible;
 }
 
 .architecture-slide {
@@ -349,29 +350,145 @@
     transform .9s cubic-bezier(.2, .75, .15, 1) .28s;
 }
 
-.architecture-gallery-row {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  align-items: end;
-  gap: clamp(16px, 1.8vw, 28px);
+.architecture-gallery-pin {
+  --plan-count: 4;
+  --gallery-sticky-h: 100svh;
+  --gallery-pad: var(--project-pad, clamp(20px, 4.2vw, 80px));
+
+  height: calc(var(--gallery-sticky-h) * var(--plan-count));
   margin-top: clamp(48px, 5.5vw, 96px);
 }
 
-.architecture-gallery-left {
-  grid-column: 4 / 7;
-  overflow: hidden;
-  aspect-ratio: .83 / 1;
+.architecture-gallery-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: stretch;
+  box-sizing: border-box;
+  height: var(--gallery-sticky-h);
+  padding-top: var(--project-nav-h, 72px);
+  background: #fff;
+}
+
+.architecture-gallery-row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: center;
+  gap: clamp(24px, 3vw, 56px);
+  width: 100%;
+  height: 100%;
+  padding:
+    clamp(28px, 3.5vw, 56px)
+    var(--gallery-pad)
+    clamp(32px, 4vw, 64px);
+  box-sizing: border-box;
+}
+
+.architecture-gallery-copy {
+  grid-column: 1 / 6;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(28px, 3vw, 44px);
+  min-height: 0;
+  max-width: 18em;
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(20px);
   transition:
-    opacity .75s ease .38s,
-    transform .85s cubic-bezier(.2, .75, .15, 1) .38s;
+    opacity .75s ease .58s,
+    transform .85s cubic-bezier(.2, .75, .15, 1) .58s;
+}
+
+.architecture-gallery-kicker {
+  margin: 0;
+  font: 600 clamp(11px, .85vw, 13px) / 1 'Gilroy', sans-serif;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--project-accent, #a0725b);
+}
+
+.architecture-gallery-plan-text {
+  display: grid;
+  gap: clamp(14px, 1.4vw, 20px);
+  animation: architecture-gallery-plan-in .5s cubic-bezier(.2, .75, .15, 1) both;
+}
+
+.architecture-gallery-caption {
+  margin: 0;
+  font: 600 clamp(36px, 4.2vw, 72px) / .98 'Gilroy', sans-serif;
+  letter-spacing: -.05em;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.architecture-gallery-plan-detail {
+  margin: 0;
+  max-width: 18ch;
+  font: 500 clamp(13px, 1.05vw, 16px) / 1.45 'Gilroy', sans-serif;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: rgb(0 0 0 / 55%);
+}
+
+.architecture-gallery-meta {
+  display: grid;
+  gap: 14px;
+}
+
+.architecture-gallery-counter {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin: 0;
+  font: 600 clamp(12px, .95vw, 14px) / 1 'Gilroy', sans-serif;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.architecture-gallery-counter-current {
+  color: #000;
+}
+
+.architecture-gallery-counter-sep,
+.architecture-gallery-counter-total {
+  color: rgb(0 0 0 / 35%);
+}
+
+.architecture-gallery-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.architecture-gallery-progress-dot {
+  display: block;
+  width: 28px;
+  height: 2px;
+  background: rgb(0 0 0 / 14%);
+  transition:
+    background .35s ease,
+    width .35s cubic-bezier(.2, .75, .15, 1);
+}
+
+.architecture-gallery-progress-dot.is-done {
+  background: rgb(0 0 0 / 35%);
+}
+
+.architecture-gallery-progress-dot.is-active {
+  width: 44px;
+  background: var(--project-accent, #a0725b);
 }
 
 .architecture-gallery-right {
-  grid-column: 7 / 13;
-  overflow: hidden;
-  aspect-ratio: 1 / 1;
+  grid-column: 6 / 13;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 0;
+  container-type: size;
   opacity: 0;
   transform: translateY(24px);
   transition:
@@ -379,18 +496,58 @@
     transform .85s cubic-bezier(.2, .75, .15, 1) .48s;
 }
 
+.architecture-gallery-frame {
+  position: relative;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 1600 / 1370;
+  overflow: hidden;
+  background: #111;
+}
 
-.architecture-gallery-caption {
-  grid-column: 9 / 13;
-  font: 600 clamp(24px, 2.35vw, 46px)/1.02 'Gilroy', sans-serif;
-  letter-spacing: -.045em;
-  text-transform: uppercase;
-  text-align: right;
-  opacity: 0;
-  transform: translateY(20px);
-  transition:
-    opacity .75s ease .58s,
-    transform .85s cubic-bezier(.2, .75, .15, 1) .58s;
+@supports (width: min(1cqi, 1cqh)) {
+  .architecture-gallery-frame {
+    /* Fit inside the column while keeping the floor-plan aspect ratio,
+       so the full plan shows without cropping top/bottom. */
+    width: min(100cqi, calc(100cqh * 1600 / 1370));
+  }
+}
+
+.architecture-gallery-stack {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.architecture-gallery-stack-item {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  will-change: transform, clip-path;
+}
+
+.architecture-gallery-stack-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  user-select: none;
+  pointer-events: none;
+}
+
+@keyframes architecture-gallery-plan-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .architecture-bottom-gallery-row {
@@ -557,9 +714,8 @@
 
 .architecture-section.is-visible .architecture-intro,
 .architecture-section.is-visible .architecture-subhead,
-.architecture-section.is-visible .architecture-gallery-left,
 .architecture-section.is-visible .architecture-gallery-right,
-.architecture-section.is-visible .architecture-gallery-caption,
+.architecture-section.is-visible .architecture-gallery-copy,
 .architecture-section.is-visible .architecture-copy,
 .architecture-section.is-visible .architecture-decor,
 .architecture-section.is-visible .architecture-bottom-gallery-desktop,
@@ -577,6 +733,54 @@
   .architecture-copy-row,
   .architecture-decor-row {
     display: block;
+  }
+
+  .architecture-gallery-pin {
+    --gallery-sticky-h: 100svh;
+  }
+
+  .architecture-gallery-sticky {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .architecture-gallery-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 22px;
+    height: 100%;
+    padding-inline: var(--gallery-pad);
+  }
+
+  .architecture-gallery-copy {
+    order: -1;
+    max-width: none;
+    gap: 18px;
+    margin-top: 0;
+  }
+
+  .architecture-gallery-caption {
+    font-size: clamp(32px, 10vw, 48px);
+    line-height: 1;
+  }
+
+  .architecture-gallery-plan-detail {
+    max-width: 28ch;
+  }
+
+  .architecture-gallery-right {
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 58vw;
+    container-type: size;
+  }
+
+  .architecture-gallery-frame {
+    width: min(100cqi, calc(100cqh * 1600 / 1370));
+    height: auto;
+    max-height: 100%;
   }
 
   .architecture-bottom-gallery-row {
@@ -664,19 +868,6 @@
     line-height: 1.02;
   }
 
-  .architecture-gallery-left,
-  .architecture-gallery-right {
-    aspect-ratio: .84 / 1;
-    margin-top: 18px;
-  }
-
-  .architecture-gallery-caption {
-    margin-top: 34px;
-    text-align: left;
-    font-size: clamp(25px, 7.5vw, 36px);
-    line-height: 1.02;
-  }
-
   .architecture-copy {
     margin-top: 42px;
     font-size: 13px;
@@ -698,14 +889,56 @@
 
   .architecture-intro,
   .architecture-subhead,
-  .architecture-gallery-left,
   .architecture-gallery-right,
-  .architecture-gallery-caption,
+  .architecture-gallery-copy,
   .architecture-copy,
   .architecture-decor,
   .architecture-bottom-gallery-desktop,
   .architecture-bottom-gallery-scroll-item {
     transition: none;
+  }
+
+  .architecture-gallery-plan-text {
+    animation: none;
+  }
+
+  .architecture-gallery-pin {
+    height: auto;
+  }
+
+  .architecture-gallery-sticky {
+    position: relative;
+    top: auto;
+    height: auto;
+    padding-top: 0;
+  }
+
+  .architecture-gallery-row {
+    height: auto;
+  }
+
+  .architecture-gallery-right {
+    height: auto;
+  }
+
+  .architecture-gallery-frame {
+    max-height: none;
+    aspect-ratio: 1600 / 1370;
+    height: auto;
+  }
+
+  .architecture-gallery-stack {
+    display: grid;
+    gap: 16px;
+    height: auto;
+  }
+
+  .architecture-gallery-stack-item {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 1600 / 1370;
+    clip-path: none !important;
+    transform: none !important;
   }
 
   .architecture-bottom-parallax-frame .architecture-parallax-image {

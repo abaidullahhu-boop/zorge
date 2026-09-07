@@ -7,9 +7,11 @@ const ICONS = '/assets/images/icons.svg'
 const MENU_LINKS = [
   { label: 'Our Projects', action: 'projects', mobileOnly: true },
   { label: 'About Us', href: '#about' },
+  { label: 'Vision', href: '#panorama' },
+  { label: 'Mission', href: '#mission' },
   { label: 'Our Core Values', href: '#architecture' },
-  { label: 'Our Vision', href: '#panorama' },
-  { label: 'Choose Dayim', href: '#advantages' },
+  { label: 'Location', href: '#location' },
+  { label: 'Why Choose Dayim Developers?', href: '#advantages' },
   { label: 'Careers', to: '/careers' },
   { label: 'Contact Us', href: '#contact' },
 ]

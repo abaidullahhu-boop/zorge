@@ -299,7 +299,7 @@ function MapSection() {
     <section
       ref={sectionRef}
       className="map-section"
-      id="map"
+      id="location"
       aria-labelledby="map-title"
     >
       <div className="map-slide" ref={slideRef}>

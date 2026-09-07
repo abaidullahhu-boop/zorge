@@ -124,7 +124,7 @@ function LobbySection() {
     <section
       ref={sectionRef}
       className={`lobby-section ${isVisible ? 'is-visible' : ''}`}
-      id="lobby"
+      id="mission"
       aria-labelledby="lobby-title"
     >
       <div className="lobby-sticky">

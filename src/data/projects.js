@@ -264,8 +264,9 @@ export const projects = [
   {
     id: 'dsa',
     title: 'Dayim Signature Apartments',
-    short: 'DSA',
-    subtitle: 'Broadway Commercial · Opposite Lake City',
+    short: 'A Signature Address. A Smarter Way to Live',
+    brand: 'DSA',
+    subtitle: 'Broadway Commercial · Al-Kabir Town Phase 2, Lahore',
     image: dsaImage,
     mapsUrl: 'https://share.google/1Z56ADgZS5XvUwBgB',
     x: 43,
@@ -276,11 +277,11 @@ export const projects = [
       description:
         'Dayim Signature Apartments brings together contemporary design, premium amenities, and a prime location opposite Lake City. A professionally planned high-rise residential development offering lifestyle and investment value on Broadway Commercial.',
       highlights: [
-        'Prime location on Broadway Commercial, opposite Lake City',
-        'Contemporary high-rise residential development',
-        'Flexible payment options and installment plans',
-        'Premium amenities including elevators, 24/7 security, and backup power',
-        'Construction commenced April 2024',
+        'Prime Location',
+        'Temporary High-rise Residential',
+        'On Ground Delivered Project ( Possession Harded Over )',
+        'Premium Amenities',
+        'Construction Commenced April 2024',
       ],
     },
     plan: {
@@ -346,8 +347,8 @@ export const projects = [
   {
     id: 'living',
     title: 'Dayim Living',
-    short: 'Living',
-    subtitle: 'Plot 22, Block C · Al-Kabir Town Phase 2',
+    short: 'Smart Living',
+    subtitle: 'Block C Commercial · Al-Kabir Town Phase 2',
     image: livingImage,
     mapsUrl: 'https://share.google/uQuucywNcsJaxM1TJ',
     x: 50,
@@ -358,10 +359,10 @@ export const projects = [
       description:
         'Dayim Living offers thoughtfully designed residential spaces in the heart of Al-Kabir Town Phase 2. Built with the same commitment to quality and trust that defines every Dayim development.',
       highlights: [
-        'Plot 22, Block C, Al-Kabir Town Phase 2',
-        'Community-focused residential development',
-        'Trusted Dayim Developers quality standards',
-        'Convenient access to Raiwind Road corridor',
+        'Hotel Service Studio Apartments',
+        'Investment Potential',
+        'Construction In Process',
+        'On Ground Delivered Project ( Possession Harded Over )',
       ],
     },
     plan: {
@@ -376,8 +377,8 @@ export const projects = [
   {
     id: 'zindagi',
     title: 'Dayim Zindagi',
-    short: 'Zindagi',
-    subtitle: 'Business Bay · Main Raiwind Road',
+    short: 'Zindagi Elevated',
+    subtitle: 'Business Bay Commercial · Al-Kabir Town Phase 2',
     image: zindagiImage,
     mapsUrl: 'https://share.google/ntyEvG8FmQl5EgXMT',
     x: 44,
@@ -388,10 +389,11 @@ export const projects = [
       description:
         'Dayim Zindagi is positioned in Business Bay along Main Raiwind Road—a landmark address combining commercial potential with modern living. Designed for investors and residents seeking long-term value.',
       highlights: [
-        'Business Bay location on Main Raiwind Road',
-        'Mixed-use commercial and residential potential',
-        'Strategic position in Lahore\'s growing corridor',
-        'Dayim Developers commitment to on-time delivery',
+        'Luxury Living Experience',
+        'Premium Lifestyle Above The City',
+        'Construction Starting Soon',
+        'Premium Amenities',
+        'Construction Commenced April 2024',
       ],
     },
     plan: {
