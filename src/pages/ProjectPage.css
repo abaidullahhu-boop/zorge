@@ -1,6 +1,8 @@
 .project-page {
   --project-nav-h: 72px;
   --project-accent: #a0725b;
+  /* Shared floor-nav styles in ProjectsSection.css read --projects-accent */
+  --projects-accent: var(--project-accent);
   --project-pad: clamp(20px, 4.2vw, 80px);
 
   position: fixed;
@@ -438,19 +440,146 @@
   color: var(--color-ink);
 }
 
-/* Plans / units */
-.project-plans-page .project-inventory {
-  padding-top: calc(var(--project-nav-h) + clamp(40px, 6vw, 80px));
+/* Plans / units — no dark hero, so nav must stay solid/readable */
+.project-plans-page .project-nav,
+.project-plans-page .project-nav:not(.is-scrolled) {
+  color: var(--color-ink);
+  background: rgb(255 255 255 / 96%);
+  border-bottom: 1px solid rgb(25 27 25 / 8%);
+  box-shadow: 0 10px 30px rgb(25 27 25 / 6%);
+  backdrop-filter: blur(16px);
+  text-shadow: none;
 }
 
-.project-inventory--board .projects-floor-nav {
-  margin-bottom: clamp(28px, 4vw, 40px);
+.project-plans-page .project-nav:not(.is-scrolled) .project-nav__link.is-active {
+  color: var(--project-accent);
+}
+
+.project-plans-page .project-nav__cta,
+.project-plans-page .project-nav:not(.is-scrolled) .project-nav__cta {
+  color: #fff;
+  background: var(--project-accent);
+  border-color: var(--project-accent);
+}
+
+.project-plans-page .project-inventory {
+  padding-top: calc(var(--project-nav-h) + clamp(36px, 5vw, 72px));
+}
+
+.project-inventory {
+  padding:
+    clamp(72px, 8vw, 120px)
+    var(--project-pad)
+    clamp(56px, 6vw, 88px);
+  background:
+    linear-gradient(180deg, #f7f5f2 0%, #fff 220px),
+    #fff;
+}
+
+.project-inventory.is-units {
+  padding-top: clamp(24px, 3vw, 40px);
+  border-top: 1px solid rgb(25 27 25 / 8%);
+  background: #fff;
+}
+
+.project-inventory__intro {
+  max-width: 760px;
+  margin-bottom: clamp(22px, 3vw, 32px);
+}
+
+.project-inventory__lead {
+  margin: 14px 0 0;
+  font: 400 15px / 1.55 var(--font-sans);
+  color: rgb(25 27 25 / 62%);
+}
+
+.inventory-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 28px;
+  margin: 22px 0 0;
+  padding: 0;
+}
+
+.inventory-summary__item {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+}
+
+.inventory-summary__item dt {
+  margin: 0;
+  font: 600 11px / 1 var(--font-sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgb(25 27 25 / 48%);
+}
+
+.inventory-summary__item dd {
+  margin: 0;
+  font: 600 clamp(22px, 2.4vw, 28px) / 1 var(--font-sans);
+  letter-spacing: -0.03em;
+  color: var(--color-ink);
+}
+
+.inventory-summary__item.is-available dd {
+  color: #2f6b4f;
+}
+
+.inventory-summary__item.is-sold dd {
+  color: #9a3b32;
+}
+
+.project-inventory--board .projects-floor-nav--inventory {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  margin: 0 0 clamp(24px, 3.4vw, 36px);
+  padding-bottom: 4px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.project-inventory--board .projects-floor-nav--inventory::-webkit-scrollbar {
+  display: none;
+}
+
+.project-inventory--board .projects-floor-nav--inventory .projects-floor-btn {
+  flex: 0 0 auto;
+  width: auto;
+  min-width: max-content;
+  gap: 8px;
+  min-height: 44px;
+  padding: 11px 16px;
+  border-radius: 2px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.projects-floor-btn__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5em;
+  padding: 2px 6px;
+  border-radius: 2px;
+  background: rgb(25 27 25 / 6%);
+  font: 700 10px / 1 var(--font-sans);
+  letter-spacing: 0.02em;
+  color: inherit;
+}
+
+.project-inventory--board .projects-floor-btn.is-active .projects-floor-btn__count {
+  background: rgb(255 255 255 / 22%);
 }
 
 .inventory-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(16px, 2vw, 24px);
+  gap: clamp(14px, 1.8vw, 22px);
 }
 
 @media (max-width: 1200px) {
@@ -463,15 +592,36 @@
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  padding: 14px;
-  border: 1px solid rgb(25 27 25 / 12%);
+  overflow: hidden;
+  border: 1px solid rgb(25 27 25 / 10%);
   background: #fff;
+  transition:
+    border-color 180ms ease,
+    transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 220ms ease;
+}
+
+.inventory-card:hover {
+  border-color: rgb(160 114 91 / 40%);
+  box-shadow: 0 18px 40px rgb(25 27 25 / 8%);
+  transform: translateY(-3px);
+}
+
+.inventory-card.is-sold {
+  background: #faf9f7;
+}
+
+.inventory-card.is-sold:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: rgb(25 27 25 / 10%);
 }
 
 .inventory-card__media {
-  aspect-ratio: 1 / 1;
+  position: relative;
+  aspect-ratio: 5 / 4;
   overflow: hidden;
-  background: #f4f4f2;
+  background: #f0eeea;
 }
 
 .inventory-card__media img {
@@ -479,153 +629,138 @@
   height: 100%;
   object-fit: contain;
   display: block;
+  transition: transform 320ms ease, filter 220ms ease;
 }
 
-.inventory-card__status {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 14px;
-  min-height: 34px;
+.inventory-card:hover .inventory-card__media img {
+  transform: scale(1.03);
+}
+
+.inventory-card.is-sold .inventory-card__media img {
+  filter: grayscale(0.35) brightness(0.96);
+}
+
+.inventory-card.is-sold:hover .inventory-card__media img {
+  transform: none;
 }
 
 .inventory-card__badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 12px;
-  border-radius: 999px;
-  font: 700 11px / 1 var(--font-sans);
-  letter-spacing: 0.06em;
+  padding: 7px 11px;
+  border-radius: 2px;
+  font: 700 10px / 1 var(--font-sans);
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #fff;
   white-space: nowrap;
+  backdrop-filter: blur(8px);
 }
 
 .inventory-card__badge.is-available {
-  background: #d4a017;
+  background: rgb(47 107 79 / 92%);
 }
 
 .inventory-card__badge.is-sold {
-  background: #c62828;
-}
-
-.inventory-card__book,
-.inventory-card__contact {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  background: #2e7d32;
-  color: #fff;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background 160ms ease, transform 160ms ease;
-}
-
-.inventory-card__book:hover,
-.inventory-card__book:focus-visible,
-.inventory-card__contact:hover,
-.inventory-card__contact:focus-visible {
-  background: #1b5e20;
-}
-
-.inventory-card__book:focus-visible,
-.inventory-card__contact:focus-visible {
-  outline: 2px solid var(--project-accent);
-  outline-offset: 2px;
-}
-
-.inventory-card__book {
-  padding: 6px 12px;
-  font: 700 11px / 1 var(--font-sans);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.inventory-card__buyer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 6px;
-  margin: 0;
-  font: 500 11px / 1.3 var(--font-sans);
-  color: rgb(25 27 25 / 62%);
-  text-align: right;
-}
-
-.inventory-card__buyer-name {
-  display: inline-flex;
-  align-items: center;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: #c62828;
-  color: #fff;
-  font-weight: 700;
+  background: rgb(154 59 50 / 92%);
 }
 
 .inventory-card__body {
-  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+  padding: 16px 16px 18px;
+}
+
+.inventory-card__copy {
+  display: grid;
+  gap: 6px;
 }
 
 .inventory-card__title {
   margin: 0;
-  font: 700 clamp(18px, 1.5vw, 22px) / 1.15 var(--font-sans);
+  font: 700 clamp(17px, 1.35vw, 20px) / 1.2 var(--font-sans);
+  letter-spacing: -0.02em;
   color: var(--color-ink);
 }
 
 .inventory-card__floor {
-  margin: 6px 0 0;
-  font: 400 14px / 1.35 var(--font-sans);
-  color: rgb(25 27 25 / 72%);
+  margin: 0;
+  font: 400 13px / 1.4 var(--font-sans);
+  color: rgb(25 27 25 / 58%);
 }
 
 .inventory-card__meta {
-  margin: 8px 0 0;
-  font: 600 14px / 1.35 var(--font-sans);
+  margin: 2px 0 0;
+  font: 600 13px / 1.35 var(--font-sans);
+  letter-spacing: 0.02em;
   color: var(--project-accent);
 }
 
-.inventory-card__actions {
+.inventory-card__book {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   margin-top: auto;
-  padding-top: 16px;
+  width: 100%;
+  min-height: 42px;
+  padding: 10px 14px;
+  border: 1px solid var(--project-accent);
+  background: var(--project-accent);
+  color: #fff;
+  font: 700 11px / 1 var(--font-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
 }
 
-.inventory-card__contact {
-  padding: 7px 14px;
-  font: 600 12px / 1 var(--font-sans);
+.inventory-card__book:hover,
+.inventory-card__book:focus-visible {
+  background: #8a5f4b;
+  border-color: #8a5f4b;
+}
+
+.inventory-card__book:focus-visible {
+  outline: 2px solid var(--project-accent);
+  outline-offset: 2px;
+}
+
+.inventory-card__buyer {
+  display: grid;
+  gap: 6px;
+  margin: auto 0 0;
+  padding-top: 2px;
+}
+
+.inventory-card__buyer-label {
+  font: 600 10px / 1 var(--font-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(25 27 25 / 48%);
+}
+
+.inventory-card__buyer-name {
+  font: 600 14px / 1.3 var(--font-sans);
+  color: #9a3b32;
 }
 
 .inventory-empty {
   margin: 12px 0 0;
+  padding: 28px 0;
   font: 400 15px / 1.5 var(--font-sans);
   color: rgb(25 27 25 / 55%);
-}
-
-.project-inventory {
-  padding:
-    clamp(72px, 8vw, 120px)
-    var(--project-pad)
-    clamp(56px, 6vw, 88px);
-  background: #fff;
-}
-
-.project-inventory.is-units {
-  padding-top: clamp(24px, 3vw, 40px);
-  border-top: 1px solid rgb(25 27 25 / 8%);
-}
-
-.project-inventory__intro {
-  max-width: 720px;
-  margin-bottom: clamp(24px, 3vw, 36px);
-}
-
-.project-inventory__lead {
-  margin: 14px 0 0;
-  font: 400 15px / 1.55 var(--font-sans);
-  color: rgb(25 27 25 / 62%);
+  text-align: center;
+  border: 1px dashed rgb(25 27 25 / 14%);
 }
 
 .project-page .projects-plan-thumbs {
@@ -840,25 +975,26 @@
 
   .inventory-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
+    gap: 12px;
   }
 
-  .inventory-card {
-    padding: 12px;
+  .inventory-card__body {
+    gap: 14px;
+    padding: 14px;
   }
 
   .inventory-card__title {
-    font-size: 17px;
+    font-size: 16px;
   }
 
-  .inventory-card__status {
-    flex-wrap: wrap;
+  .inventory-card__badge {
+    top: 10px;
+    left: 10px;
+    padding: 6px 9px;
   }
 
-  .inventory-card__buyer {
-    justify-content: flex-start;
-    width: 100%;
-    text-align: left;
+  .inventory-summary {
+    gap: 10px 20px;
   }
 }
 
@@ -895,6 +1031,14 @@
   .project-page,
   .project-page.is-leaving {
     animation: none;
+    transform: none;
+  }
+
+  .inventory-card,
+  .inventory-card:hover,
+  .inventory-card__media img,
+  .inventory-card:hover .inventory-card__media img {
+    transition: none;
     transform: none;
   }
 }
