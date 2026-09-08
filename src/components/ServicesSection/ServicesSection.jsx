@@ -19,8 +19,8 @@ const SERVICES = [
       { src: officeImage1, label: 'Cabin' },
       { src: officeImage2, label: 'Lounge' },
     ],
-    width: 720,
-    height: 900,
+    width: 1024,
+    height: 768,
     text: 'Ground-floor workspaces designed for focus, meetings, and a polished professional presence.',
   },
   {
@@ -30,8 +30,8 @@ const SERVICES = [
       { src: shopImage1, label: 'Corridor' },
       { src: shopImage2, label: 'Arcade' },
     ],
-    width: 720,
-    height: 900,
+    width: 1024,
+    height: 768,
     text: 'Retail-ready units on the lower ground and first floors, built for foot traffic and visibility.',
   },
   {
@@ -41,8 +41,8 @@ const SERVICES = [
       { src: studioImage1, label: 'Room' },
       { src: studioImage2, label: 'Living' },
     ],
-    width: 720,
-    height: 900,
+    width: 1024,
+    height: 768,
     text: 'Compact, light-filled studios with efficient layouts for modern city living.',
   },
   {
@@ -53,8 +53,8 @@ const SERVICES = [
       { src: oneBedImage2, label: 'Bedroom' },
       { src: oneBedImage3, label: 'Kitchen' },
     ],
-    width: 720,
-    height: 900,
+    width: 1024,
+    height: 768,
     text: 'Spacious one-bedroom homes with refined finishes for comfort and everyday ease.',
   },
 ].filter((item) => item.images.length > 0)
@@ -77,7 +77,7 @@ const CLIP_VISIBLE = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
 
 function ServicesSection({ variant = 'default', scrollContainerRef = null }) {
   const isProjectVariant = variant === 'project'
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(isProjectVariant)
   const [activeSlideIndex, setActiveSlideIndex] = useState(0)
   const sectionRef = useRef(null)
   const slideRef = useRef(null)
@@ -94,8 +94,16 @@ function ServicesSection({ variant = 'default', scrollContainerRef = null }) {
   }
 
   useEffect(() => {
+    if (isVisible) return undefined
+
     const section = sectionRef.current
+    const slide = slideRef.current
     if (!section) return undefined
+
+    // Observe the sticky viewport panel — the section itself is many
+    // viewports tall, so a 0.12 threshold on it can never be reached.
+    const target = slide ?? section
+    const root = scrollContainerRef?.current ?? null
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -104,12 +112,16 @@ function ServicesSection({ variant = 'default', scrollContainerRef = null }) {
           observer.disconnect()
         }
       },
-      { threshold: 0.12 },
+      {
+        root,
+        threshold: 0,
+        rootMargin: '0px 0px -10% 0px',
+      },
     )
 
-    observer.observe(section)
+    observer.observe(target)
     return () => observer.disconnect()
-  }, [])
+  }, [scrollContainerRef, isVisible])
 
   useEffect(() => {
     const section = sectionRef.current
@@ -129,35 +141,41 @@ function ServicesSection({ variant = 'default', scrollContainerRef = null }) {
     const scrollTriggerBase = scroller ? { scroller } : {}
 
     const ctx = gsap.context(() => {
-      const getLift = () => Math.min(window.innerHeight * 0.2, 180)
       const images = [...slide.querySelectorAll('.services-image-item')]
 
-      gsap.fromTo(
-        slide,
-        {
-          y: getLift,
-          force3D: true,
-        },
-        {
-          y: 0,
-          ease: 'none',
-          force3D: true,
-          scrollTrigger: {
-            ...scrollTriggerBase,
-            trigger: section,
-            start: 'top bottom',
-            end: 'top top',
-            scrub: true,
-            invalidateOnRefresh: true,
+      // Homepage only: lift the panel as it enters. On the project page the
+      // lift leaves a black gap above the image while the section scrolls in.
+      if (!isProjectVariant) {
+        const getLift = () => Math.min(window.innerHeight * 0.2, 180)
+        gsap.fromTo(
+          slide,
+          {
+            y: getLift,
+            force3D: true,
           },
-        },
-      )
+          {
+            y: 0,
+            ease: 'none',
+            force3D: true,
+            scrollTrigger: {
+              ...scrollTriggerBase,
+              trigger: section,
+              start: 'top bottom',
+              end: 'top top',
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          },
+        )
+      } else {
+        gsap.set(slide, { y: 0, clearProps: 'transform' })
+      }
 
       images.forEach((image, index) => {
         gsap.set(image, {
           zIndex: index === 0 ? 1 : 0,
           clipPath: index === 0 ? CLIP_VISIBLE : CLIP_HIDDEN,
-          y: index === 0 ? '0svh' : '5svh',
+          y: 0,
         })
       })
 
@@ -191,27 +209,22 @@ function ServicesSection({ variant = 'default', scrollContainerRef = null }) {
       for (let i = 0; i < SLIDE_COUNT - 1; i += 1) {
         const next = i + 1
         const position = i
-        const prevImage = images[i]
         const nextImage = images[next]
 
         if (nextImage) {
           gsap.set(nextImage, { zIndex: next + 1 })
           tl.fromTo(
             nextImage,
-            { clipPath: CLIP_HIDDEN, y: '5svh' },
-            { clipPath: CLIP_VISIBLE, y: '0svh', duration: 1 },
+            { clipPath: CLIP_HIDDEN },
+            { clipPath: CLIP_VISIBLE, duration: 1 },
             position,
           )
-        }
-
-        if (prevImage) {
-          tl.to(prevImage, { y: '-8svh', duration: 1 }, position)
         }
       }
     }, section)
 
     return () => ctx.revert()
-  }, [scrollContainerRef])
+  }, [scrollContainerRef, isProjectVariant])
 
   if (!SLIDE_COUNT) return null
 
