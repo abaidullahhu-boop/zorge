@@ -1,90 +1,75 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { gsap } from '../../lib/gsap'
-import time1 from '../../assets/images/time-1.webp'
-import time2 from '../../assets/images/time-2.webp'
-import time3 from '../../assets/images/time-3.webp'
-import time4 from '../../assets/images/time-4.webp'
-import time5 from '../../assets/images/time-5.webp'
+import g1 from '../../assets/images/g1.jpeg'
+import g2 from '../../assets/images/g2.jpeg'
+import g3 from '../../assets/images/g3.jpeg'
+import g4 from '../../assets/images/g4.jpeg'
+import g5 from '../../assets/images/g5.jpeg'
 import '../../assets/styles/TimeSection.css'
 
-const SCHEDULE = [
+const journeyGallery = [
   {
-    id: 'time-1',
-    time: '07:00',
-    hourDegree: -150,
-    image: time1,
-    text: 'Construction of Dayim Signature Apartments officially commenced in April 2024.',
+    id: 'g4',
+    src: g4,
+    alt: 'Dayim Signature Apartments foundation slab with column reinforcement cages',
+    label: 'Foundation',
+    detail:
+      'Raft slab cast and column cages set as Dayim Signature Apartments breaks ground.',
   },
   {
-    id: 'time-2',
-    time: '08:00',
-    hourDegree: -120,
-    image: time2,
-    text: 'Through disciplined planning, efficient execution, and continuous supervision, we completed the main structural framework within just 8 months.',
+    id: 'g5',
+    src: g5,
+    alt: 'Dayim Signature Apartments vision board beside rising structure and formwork',
+    label: 'Rising',
+    detail:
+      'From render to reality—the first floors climb beside the finished building vision.',
   },
   {
-    id: 'time-3',
-    time: '09:00',
-    hourDegree: -30,
-    image: time3,
-    text: 'Following the successful development of our project, we proudly handed over possession of our commercial shops in March 2026.',
+    id: 'g3',
+    src: g3,
+    alt: 'Dayim Signature Apartments floor slab reinforcement and service conduits before pour',
+    label: 'Slab Works',
+    detail:
+      'Rebar mesh and service conduits laid across the deck, ready for the next pour.',
   },
   {
-    id: 'time-4',
-    time: '10:00',
-    hourDegree: 60,
-    image: time4,
-    text: 'A+ construction standards are fundamental to our philosophy—durability, structural strength, material quality, finishing standards, and long-term performance.',
+    id: 'g1',
+    src: g1,
+    alt: 'Dayim Signature Apartments multi-storey concrete frame with early masonry',
+    label: 'Structure',
+    detail:
+      'The full frame stands tall, with masonry underway on the lower residential floors.',
   },
   {
-    id: 'time-5',
-    time: '11:00',
-    hourDegree: 270,
-    image: time5,
-    text: 'We build with the understanding that a building\'s true value is experienced over many years. Strength. Quality. Safety. Durability. Reliability.',
+    id: 'g2',
+    src: g2,
+    alt: 'Dayim Signature Apartments exterior scaffolding during finishing works',
+    label: 'Finishing',
+    detail:
+      'Exterior scaffolding wraps the facade as finishing works advance across Dayim Signature Apartments.',
   },
 ]
 
-function ArrowIcon({ direction }) {
-  const isLeft = direction === 'left'
-  return (
-    <svg
-      className={`time-arrow-icon time-arrow-icon--${direction}`}
-      width="41"
-      height="14"
-      viewBox="0 0 41 14"
-      aria-hidden="true"
-    >
-      <path
-        className="time-arrow-icon__line"
-        pathLength="100"
-        d={isLeft ? 'M41 7H8' : 'M1 7H33'}
-      />
-      <path
-        className="time-arrow-icon__head"
-        pathLength="100"
-        d={
-          isLeft
-            ? 'M1 7L8 1M1 7L8 13'
-            : 'M40 7L33 1M40 7L33 13'
-        }
-      />
-    </svg>
-  )
-}
+const PLAN_COUNT = journeyGallery.length
+const CLIP_HIDDEN = 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
+const CLIP_VISIBLE = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
 
 function TimeSection({ variant = 'default', scrollContainerRef = null }) {
   const isProjectVariant = variant === 'project'
   const [isVisible, setIsVisible] = useState(false)
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [isAnimating, setIsAnimating] = useState(false)
+  const [activePlanIndex, setActivePlanIndex] = useState(0)
   const sectionRef = useRef(null)
-  const slideRef = useRef(null)
-  const imageLayerRef = useRef(null)
-  const digitRefs = useRef([])
-  const textRefs = useRef([])
+  const galleryPinRef = useRef(null)
+  const galleryStickyRef = useRef(null)
   const activeIndexRef = useRef(0)
-  const animatingRef = useRef(false)
+  const setActiveFromScrollRef = useRef(null)
+  const activePlan = journeyGallery[activePlanIndex] ?? journeyGallery[0]
+
+  setActiveFromScrollRef.current = (nextIndex) => {
+    if (nextIndex === activeIndexRef.current) return
+    activeIndexRef.current = nextIndex
+    setActivePlanIndex(nextIndex)
+  }
 
   useEffect(() => {
     const section = sectionRef.current
@@ -92,12 +77,9 @@ function TimeSection({ variant = 'default', scrollContainerRef = null }) {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-          observer.disconnect()
-        }
+        if (entry.isIntersecting) setIsVisible(true)
       },
-      { threshold: 0.18 },
+      { threshold: 0.12 },
     )
 
     observer.observe(section)
@@ -105,272 +87,90 @@ function TimeSection({ variant = 'default', scrollContainerRef = null }) {
   }, [])
 
   useEffect(() => {
-    const images = imageLayerRef.current?.querySelectorAll('.time-image-item')
-    const isMobile = window.matchMedia('(max-width: 980px)').matches
-    images?.forEach((el, index) => {
-      gsap.set(
-        el,
-        isMobile
-          ? {
-              opacity: index === 0 ? 1 : 0,
-            }
-          : {
-              clipPath: index === 0 ? 'inset(0 0 0 0)' : 'inset(100% 0 0 0)',
-            },
-      )
-    })
-  }, [])
-
-  useEffect(() => {
-    const section = sectionRef.current
-    const slide = slideRef.current
-    if (!section || !slide) return undefined
-
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const isMobile = window.matchMedia('(max-width: 980px)').matches
-    if (reduceMotion || isMobile) {
-      gsap.set(slide, { y: 0, clearProps: 'transform' })
-      return undefined
-    }
-
-    const scroller = scrollContainerRef?.current ?? undefined
-
-    const ctx = gsap.context(() => {
-      const getLift = () => Math.min(window.innerHeight * 0.2, 180)
-
-      gsap.fromTo(
-        slide,
-        {
-          y: getLift,
-          force3D: true,
-        },
-        {
-          y: 0,
-          ease: 'none',
-          force3D: true,
-          scrollTrigger: {
-            trigger: section,
-            scroller,
-            start: 'top bottom',
-            end: 'top top',
-            scrub: true,
-            invalidateOnRefresh: true,
-          },
-        },
-      )
-    }, section)
-
-    return () => ctx.revert()
-  }, [scrollContainerRef])
-
-  const goTo = useCallback((nextIndex) => {
-    if (animatingRef.current) return
-    if (nextIndex < 0 || nextIndex >= SCHEDULE.length) return
-    if (nextIndex === activeIndexRef.current) return
+    const pin = galleryPinRef.current
+    const sticky = galleryStickyRef.current
+    if (!pin || !sticky) return undefined
 
     const reduceMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
     ).matches
-    const prevIndex = activeIndexRef.current
-    const direction = nextIndex > prevIndex ? 1 : -1
+    const images = [...sticky.querySelectorAll('.time-gallery-stack-item')]
 
-    animatingRef.current = true
-    setIsAnimating(true)
-    activeIndexRef.current = nextIndex
-    setActiveIndex(nextIndex)
-
-    const images = imageLayerRef.current?.querySelectorAll('.time-image-item')
-    const prevImage = images?.[prevIndex]
-    const nextImage = images?.[nextIndex]
-    const prevDigit = digitRefs.current[prevIndex]
-    const nextDigit = digitRefs.current[nextIndex]
-    const prevText = textRefs.current[prevIndex]
-    const nextText = textRefs.current[nextIndex]
-    const isMobile = window.matchMedia('(max-width: 980px)').matches
-
-    if (isMobile) {
-      gsap.set([prevImage, prevDigit, prevText].filter(Boolean), { opacity: 1 })
-      gsap.set([nextImage, nextDigit, nextText].filter(Boolean), { opacity: 0 })
-    }
-
-    if (reduceMotion) {
-      if (isMobile) {
-        gsap.set(prevImage, { opacity: 0 })
-        gsap.set(nextImage, { opacity: 1 })
-      } else {
-        gsap.set(prevImage, { clipPath: 'inset(100% 0 0 0)' })
-        gsap.set(nextImage, { clipPath: 'inset(0 0 0 0)' })
-      }
-      gsap.set([prevDigit, prevText].filter(Boolean), { opacity: 0, y: 0, yPercent: 0 })
-      gsap.set([nextDigit, nextText].filter(Boolean), { opacity: 1, y: 0, yPercent: 0 })
-      animatingRef.current = false
-      setIsAnimating(false)
-      return
-    }
-
-    const hideClip =
-      direction > 0 ? 'inset(0 0 100% 0)' : 'inset(100% 0 0 0)'
-    const showFromClip =
-      direction > 0 ? 'inset(100% 0 0 0)' : 'inset(0 0 100% 0)'
-
-    const tl = gsap.timeline({
-      defaults: { ease: 'power2.inOut' },
-      onComplete: () => {
-        gsap.set(
-          [prevDigit, nextDigit, prevText, nextText].filter(Boolean),
-          { clearProps: 'opacity,transform,y,yPercent' },
-        )
-        if (!isMobile) {
-          gsap.set([prevImage, nextImage].filter(Boolean), {
-            clearProps: 'opacity',
-          })
-        }
-        animatingRef.current = false
-        setIsAnimating(false)
-      },
-    })
-
-    if (prevDigit && nextDigit) {
-      if (isMobile) {
-        tl.to(prevDigit, { opacity: 0, duration: 0.35 }, 0)
-        tl.fromTo(
-          nextDigit,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.45 },
-          0.08,
-        )
-      } else {
-        tl.to(
-          prevDigit,
-          {
-            yPercent: -30 * direction,
-            opacity: 0,
-            duration: 0.55,
-          },
-          0,
-        )
-        tl.fromTo(
-          nextDigit,
-          { yPercent: 40 * direction, opacity: 0 },
-          { yPercent: 0, opacity: 1, duration: 0.65 },
-          0.12,
-        )
-      }
-    }
-
-    if (prevText && nextText) {
-      if (isMobile) {
-        tl.to(prevText, { opacity: 0, duration: 0.35 }, 0)
-        tl.fromTo(
-          nextText,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.45 },
-          0.08,
-        )
-      } else {
-        tl.to(
-          prevText,
-          {
-            y: -18 * direction,
-            opacity: 0,
-            duration: 0.45,
-          },
-          0,
-        )
-        tl.fromTo(
-          nextText,
-          { y: 28 * direction, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6 },
-          0.15,
-        )
-      }
-    }
-
-    if (prevImage && nextImage) {
-      gsap.set(nextImage, { zIndex: 2 })
-      gsap.set(prevImage, { zIndex: 1 })
-      if (isMobile) {
-        tl.to(
-          prevImage,
-          {
-            opacity: 0,
-            duration: 0.45,
-          },
-          0,
-        )
-        tl.fromTo(
-          nextImage,
-          { opacity: 0 },
-          { opacity: 1, duration: 0.45 },
-          0.05,
-        )
-      } else {
-        tl.to(
-          prevImage,
-          {
-            clipPath: hideClip,
-            duration: 1.1,
-          },
-          0,
-        )
-        tl.fromTo(
-          nextImage,
-          { clipPath: showFromClip },
-          { clipPath: 'inset(0 0 0 0)', duration: 1.1 },
-          0,
-        )
-      }
-      tl.set(prevImage, { zIndex: 0 })
-      tl.set(nextImage, { zIndex: 1 })
-    }
-  }, [])
-
-  const goPrev = useCallback(() => {
-    goTo(activeIndexRef.current - 1)
-  }, [goTo])
-
-  const goNext = useCallback(() => {
-    goTo(activeIndexRef.current + 1)
-  }, [goTo])
-
-  useEffect(() => {
-    const slide = slideRef.current
-    if (!slide || window.matchMedia('(min-width: 981px)').matches) {
+    if (reduceMotion || images.length < 2) {
+      images.forEach((image, index) => {
+        gsap.set(image, {
+          zIndex: index + 1,
+          clipPath: CLIP_VISIBLE,
+          y: 0,
+          clearProps: reduceMotion ? 'clipPath,transform' : undefined,
+        })
+      })
       return undefined
     }
 
-    let startX = 0
-    let startY = 0
+    const scroller = scrollContainerRef?.current ?? undefined
+    const scrollTriggerBase = scroller ? { scroller } : {}
 
-    const onTouchStart = (event) => {
-      const touch = event.touches[0]
-      if (!touch) return
-      startX = touch.clientX
-      startY = touch.clientY
-    }
+    const ctx = gsap.context(() => {
+      images.forEach((image, index) => {
+        gsap.set(image, {
+          zIndex: index === 0 ? 1 : 0,
+          clipPath: index === 0 ? CLIP_VISIBLE : CLIP_HIDDEN,
+          y: index === 0 ? '0%' : '5%',
+        })
+      })
 
-    const onTouchEnd = (event) => {
-      const touch = event.changedTouches[0]
-      if (!touch) return
-      const dx = touch.clientX - startX
-      const dy = touch.clientY - startY
-      if (Math.abs(dx) < 56 || Math.abs(dx) < Math.abs(dy) * 1.25) return
-      if (dx < 0) goNext()
-      else goPrev()
-    }
+      const getStickyH = () => sticky.offsetHeight || window.innerHeight
 
-    slide.addEventListener('touchstart', onTouchStart, { passive: true })
-    slide.addEventListener('touchend', onTouchEnd, { passive: true })
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          ...scrollTriggerBase,
+          trigger: pin,
+          start: 'top top',
+          end: () => `+=${getStickyH() * (PLAN_COUNT - 1)}`,
+          scrub: true,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const segments = PLAN_COUNT - 1
+            const raw = self.progress * segments
+            const base = Math.min(PLAN_COUNT - 1, Math.floor(raw))
+            const local = raw - Math.floor(raw)
+            const nextIndex =
+              raw >= segments
+                ? PLAN_COUNT - 1
+                : local >= 0.5
+                  ? Math.min(PLAN_COUNT - 1, base + 1)
+                  : base
+            setActiveFromScrollRef.current?.(nextIndex)
+          },
+        },
+      })
 
-    return () => {
-      slide.removeEventListener('touchstart', onTouchStart)
-      slide.removeEventListener('touchend', onTouchEnd)
-    }
-  }, [goNext, goPrev])
+      for (let i = 0; i < PLAN_COUNT - 1; i += 1) {
+        const next = i + 1
+        const position = i
+        const prevImage = images[i]
+        const nextImage = images[next]
 
-  const active = SCHEDULE[activeIndex]
-  const canPrev = activeIndex > 0
-  const canNext = activeIndex < SCHEDULE.length - 1
+        if (nextImage) {
+          gsap.set(nextImage, { zIndex: next + 1 })
+          tl.fromTo(
+            nextImage,
+            { clipPath: CLIP_HIDDEN, y: '5%' },
+            { clipPath: CLIP_VISIBLE, y: '0%', duration: 1 },
+            position,
+          )
+        }
+
+        if (prevImage) {
+          tl.to(prevImage, { y: '-8%', duration: 1 }, position)
+        }
+      }
+    }, pin)
+
+    return () => ctx.revert()
+  }, [scrollContainerRef])
 
   return (
     <section
@@ -384,139 +184,65 @@ function TimeSection({ variant = 'default', scrollContainerRef = null }) {
         .join(' ')}
       id="daily-schedule"
       aria-labelledby="time-title"
+      style={{ '--plan-count': PLAN_COUNT }}
     >
-      <div className="time-sticky">
-        <div className="time-slide" ref={slideRef}>
-          <h2 id="time-title" className="time-sr-only">
-            Construction journey
-          </h2>
+      <h2 id="time-title" className="time-sr-only">
+        Construction journey
+      </h2>
 
-          <div className="time-image" ref={imageLayerRef}>
-            {SCHEDULE.map((item, index) => (
-              <div
-                key={item.id}
-                className="time-image-item"
-                aria-hidden={index !== activeIndex}
-              >
-                <img
-                  src={item.image}
-                  alt=""
-                  width="720"
-                  height="900"
-                  draggable="false"
-                />
+      <div className="time-gallery-pin" ref={galleryPinRef}>
+        <div className="time-gallery-sticky" ref={galleryStickyRef}>
+          <div className="time-gallery-row">
+            <div className="time-gallery-copy" aria-live="polite">
+              <p className="time-gallery-kicker">Journey</p>
+              <div key={activePlan.id} className="time-gallery-plan-text">
+                <p className="time-gallery-caption">{activePlan.label}</p>
+                <p className="time-gallery-plan-detail">{activePlan.detail}</p>
               </div>
-            ))}
-          </div>
-
-          <div className="time-content">
-            <div className="time-text">
-              {SCHEDULE.map((item, index) => (
-                <div
-                  key={item.id}
-                  ref={(el) => {
-                    textRefs.current[index] = el
-                  }}
-                  className={[
-                    'time-text-item',
-                    index === activeIndex ? 'is-active' : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                  aria-hidden={index !== activeIndex}
-                >
-                  <span className="time-text-offset" aria-hidden="true" />
-                  <p>{item.text}</p>
+              <div className="time-gallery-meta">
+                <p className="time-gallery-counter" aria-hidden="true">
+                  <span className="time-gallery-counter-current">
+                    {String(activePlanIndex + 1).padStart(2, '0')}
+                  </span>
+                  <span className="time-gallery-counter-sep">/</span>
+                  <span className="time-gallery-counter-total">
+                    {String(PLAN_COUNT).padStart(2, '0')}
+                  </span>
+                </p>
+                <div className="time-gallery-progress" role="presentation">
+                  {journeyGallery.map((plan, index) => (
+                    <span
+                      key={plan.id}
+                      className={`time-gallery-progress-dot${
+                        index === activePlanIndex ? ' is-active' : ''
+                      }${index < activePlanIndex ? ' is-done' : ''}`}
+                    />
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
 
-            <div className="time-progress" role="tablist" aria-label="Schedule">
-              {SCHEDULE.map((item, index) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  className={[
-                    'time-progress-dot',
-                    index === activeIndex ? 'is-active' : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                  role="tab"
-                  aria-label={item.time}
-                  aria-selected={index === activeIndex}
-                  onClick={() => goTo(index)}
-                  disabled={isAnimating}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className="time-dial">
-            <div
-              className="time-clock"
-              style={{ '--hour-degree': active.hourDegree }}
-              aria-hidden="true"
-            >
-              <span className="time-clock-hour" />
-              <span className="time-clock-minute" />
-            </div>
-
-            <div className="time-digits" aria-live="polite">
-              {SCHEDULE.map((item, index) => (
+            <div className="time-gallery-right">
+              <div className="time-gallery-frame">
                 <div
-                  key={item.id}
-                  ref={(el) => {
-                    digitRefs.current[index] = el
-                  }}
-                  className={[
-                    'time-digit',
-                    index === activeIndex ? 'is-active' : '',
-                  ]
-                    .filter(Boolean)
-                    .join(' ')}
-                  aria-hidden={index !== activeIndex}
+                  className="time-gallery-stack"
+                  aria-label="Construction journey"
                 >
-                  <p className="time-digit-text">{item.time}</p>
+                  {journeyGallery.map((plan, index) => (
+                    <div
+                      key={plan.id}
+                      className="time-gallery-stack-item"
+                      aria-hidden={index !== activePlanIndex}
+                    >
+                      <img
+                        src={plan.src}
+                        alt={plan.alt}
+                        draggable="false"
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-
-            <div className="time-controls">
-              <button
-                type="button"
-                className={[
-                  'time-nav',
-                  'time-nav--prev',
-                  !canPrev || isAnimating ? 'is-disabled' : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-                aria-label="Previous item"
-                disabled={!canPrev || isAnimating}
-                onClick={goPrev}
-              >
-                <span className="time-nav-icon">
-                  <ArrowIcon direction="left" />
-                </span>
-              </button>
-              <button
-                type="button"
-                className={[
-                  'time-nav',
-                  'time-nav--next',
-                  !canNext || isAnimating ? 'is-disabled' : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-                aria-label="Next item"
-                disabled={!canNext || isAnimating}
-                onClick={goNext}
-              >
-                <span className="time-nav-icon">
-                  <ArrowIcon direction="right" />
-                </span>
-              </button>
+              </div>
             </div>
           </div>
         </div>

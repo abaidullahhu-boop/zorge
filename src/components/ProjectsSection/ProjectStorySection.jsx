@@ -17,18 +17,18 @@ import '../../assets/styles/ArchitectureSection.css'
 
 const floorPlanGallery = [
   {
-    id: 'ground',
-    src: groundFloorPlan,
-    alt: 'Ground Floor offices layout',
-    label: 'Ground Floor',
-    detail: 'Commercial offices with lobby, lift & pantry',
-  },
-  {
     id: 'lower-ground',
     src: lowerGroundFloorPlan,
     alt: 'Lower Ground Floor commercial shops layout',
     label: 'Lower Ground',
     detail: 'Retail shops with main lobby & service core',
+  },
+  {
+    id: 'ground',
+    src: groundFloorPlan,
+    alt: 'Ground Floor offices layout',
+    label: 'Ground Floor',
+    detail: 'Commercial offices with lobby, lift & pantry',
   },
   {
     id: 'first',
@@ -40,8 +40,8 @@ const floorPlanGallery = [
   {
     id: 'second',
     src: secondFloorPlan,
-    alt: '2nd Floor studio and one bed apartments layout',
-    label: '2nd Floor',
+    alt: '2nd to 6th Floor studio and one bed apartments layout',
+    label: '2 - 6 Floor',
     detail: 'Studio & one-bed apartments with balconies',
   },
 ]
@@ -276,15 +276,7 @@ function ProjectStorySection({ scrollContainerRef = null }) {
       style={{ '--plan-count': PLAN_COUNT }}
     >
       <div className="architecture-slide">
-        <div className="architecture-subhead-row">
-          <p className="architecture-subhead">
-            Creating communities,
-            <br />
-            improving lifestyles,
-            <br />
-            and lasting value
-          </p>
-        </div>
+        
 
         <div className="architecture-gallery-pin" ref={galleryPinRef}>
           <div className="architecture-gallery-sticky" ref={galleryStickyRef}>

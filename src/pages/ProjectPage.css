@@ -72,7 +72,7 @@
 }
 
 .project-page .time-section {
-  height: 100svh;
+  height: auto;
   background: #000;
 }
 
@@ -626,7 +626,6 @@
     grid-template-columns: 1fr;
   }
 
-  .project-page .time-section,
   .project-page .apartments-section {
     height: auto;
     min-height: 100svh;

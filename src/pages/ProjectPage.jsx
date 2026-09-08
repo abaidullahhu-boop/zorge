@@ -9,7 +9,6 @@ import {
 } from '../components/ProjectsSection/ProjectDetail'
 import ProjectStorySection from '../components/ProjectsSection/ProjectStorySection'
 import TimeSection from '../components/TimeSection/TimeSection'
-import FitnessSection from '../components/FitnessSection/FitnessSection'
 import ApartmentsSection from '../components/ApartmentsSection/ApartmentsSection'
 import ServicesSection from '../components/ServicesSection/ServicesSection'
 import PenthousesSection from '../components/PenthousesSection/PenthousesSection'
@@ -51,12 +50,19 @@ function ProjectPage() {
 
   const { leaving, settled } = motion
 
-  const closeToHome = () => {
+  const openProjectsOverlay = () => {
+    window.requestAnimationFrame(() => {
+      window.dispatchEvent(new CustomEvent('dayim:projects'))
+    })
+  }
+
+  const closeToProjects = () => {
     if (leavingRef.current) return
     leavingRef.current = true
 
     if (prefersReducedMotion()) {
       navigate('/')
+      openProjectsOverlay()
       return
     }
 
@@ -68,7 +74,7 @@ function ProjectPage() {
   }
 
   useEffect(() => {
-    closeRef.current = closeToHome
+    closeRef.current = closeToProjects
   })
 
   useEffect(() => {
@@ -134,6 +140,7 @@ function ProjectPage() {
 
     if (leavingRef.current) {
       navigate('/')
+      openProjectsOverlay()
       return
     }
 
@@ -193,7 +200,7 @@ function ProjectPage() {
         key={`nav-${project.id}`}
         project={project}
         scrollRootRef={pageRef}
-        onBack={closeToHome}
+        onBack={closeToProjects}
         onNavigate={scrollToId}
       />
       <ProjectHero project={project} onNavigate={scrollToId} />
@@ -202,11 +209,7 @@ function ProjectPage() {
       {project.id === 'dsa' ? (
         <>
           <TimeSection variant="project" scrollContainerRef={pageRef} />
-          <FitnessSection
-            variant="project"
-            scrollContainerRef={pageRef}
-            project={project}
-          />
+          {/* Unit Information (FitnessSection) temporarily hidden */}
           <ProjectStorySection scrollContainerRef={pageRef} />
           <InfrastructureSection variant="project" scrollContainerRef={pageRef} />
           <ImprovementSection variant="project" scrollContainerRef={pageRef} />
