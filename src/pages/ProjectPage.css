@@ -46,11 +46,7 @@
 .project-page #daily-schedule,
 .project-page #fitness,
 .project-page #story,
-.project-page #infrastructure,
-.project-page #improvement,
-.project-page #apartments,
 .project-page #services,
-.project-page #construction,
 .project-page #plans,
 .project-page #units,
 .project-page #enquire {
@@ -61,11 +57,7 @@
 .project-page .time-section,
 .project-page .fitness-section,
 .project-page .architecture-section,
-.project-page .infrastructure-section,
-.project-page .improvement-section,
-.project-page .apartments-section,
-.project-page .services-section,
-.project-page .penthouses-section {
+.project-page .services-section {
   margin-top: 0;
   z-index: auto;
   pointer-events: auto;
@@ -97,26 +89,10 @@
   overflow: visible;
 }
 
-.project-page .improvement-section {
-  --improvement-handoff: 0;
-  background: #fff;
-}
-
-.project-page .apartments-section {
-  --improvement-cover: 0;
-  --services-handoff: 0;
-  height: 100svh;
-}
-
 .project-page .services-section {
   --services-handoff: 0;
   --penthouses-handoff: 0;
   height: calc(100svh * var(--item-count));
-}
-
-.project-page .penthouses-section {
-  --penthouses-handoff: 0;
-  background: #000;
 }
 
 .project-kicker {
@@ -463,6 +439,171 @@
 }
 
 /* Plans / units */
+.project-plans-page .project-inventory {
+  padding-top: calc(var(--project-nav-h) + clamp(40px, 6vw, 80px));
+}
+
+.project-inventory--board .projects-floor-nav {
+  margin-bottom: clamp(28px, 4vw, 40px);
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(16px, 2vw, 24px);
+}
+
+@media (max-width: 1200px) {
+  .inventory-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.inventory-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 14px;
+  border: 1px solid rgb(25 27 25 / 12%);
+  background: #fff;
+}
+
+.inventory-card__media {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #f4f4f2;
+}
+
+.inventory-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.inventory-card__status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 14px;
+  min-height: 34px;
+}
+
+.inventory-card__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font: 700 11px / 1 var(--font-sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.inventory-card__badge.is-available {
+  background: #d4a017;
+}
+
+.inventory-card__badge.is-sold {
+  background: #c62828;
+}
+
+.inventory-card__book,
+.inventory-card__contact {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #2e7d32;
+  color: #fff;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.inventory-card__book:hover,
+.inventory-card__book:focus-visible,
+.inventory-card__contact:hover,
+.inventory-card__contact:focus-visible {
+  background: #1b5e20;
+}
+
+.inventory-card__book:focus-visible,
+.inventory-card__contact:focus-visible {
+  outline: 2px solid var(--project-accent);
+  outline-offset: 2px;
+}
+
+.inventory-card__book {
+  padding: 6px 12px;
+  font: 700 11px / 1 var(--font-sans);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.inventory-card__buyer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  margin: 0;
+  font: 500 11px / 1.3 var(--font-sans);
+  color: rgb(25 27 25 / 62%);
+  text-align: right;
+}
+
+.inventory-card__buyer-name {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #c62828;
+  color: #fff;
+  font-weight: 700;
+}
+
+.inventory-card__body {
+  margin-top: 14px;
+}
+
+.inventory-card__title {
+  margin: 0;
+  font: 700 clamp(18px, 1.5vw, 22px) / 1.15 var(--font-sans);
+  color: var(--color-ink);
+}
+
+.inventory-card__floor {
+  margin: 6px 0 0;
+  font: 400 14px / 1.35 var(--font-sans);
+  color: rgb(25 27 25 / 72%);
+}
+
+.inventory-card__meta {
+  margin: 8px 0 0;
+  font: 600 14px / 1.35 var(--font-sans);
+  color: var(--project-accent);
+}
+
+.inventory-card__actions {
+  margin-top: auto;
+  padding-top: 16px;
+}
+
+.inventory-card__contact {
+  padding: 7px 14px;
+  font: 600 12px / 1 var(--font-sans);
+}
+
+.inventory-empty {
+  margin: 12px 0 0;
+  font: 400 15px / 1.5 var(--font-sans);
+  color: rgb(25 27 25 / 55%);
+}
+
 .project-inventory {
   padding:
     clamp(72px, 8vw, 120px)
@@ -689,11 +830,6 @@
     grid-template-columns: 1fr;
   }
 
-  .project-page .apartments-section {
-    height: auto;
-    min-height: 100svh;
-  }
-
   .project-page .services-section {
     height: auto;
   }
@@ -701,11 +837,38 @@
   .project-page .projects-plan-thumbs {
     grid-template-columns: 1fr;
   }
+
+  .inventory-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .inventory-card {
+    padding: 12px;
+  }
+
+  .inventory-card__title {
+    font-size: 17px;
+  }
+
+  .inventory-card__status {
+    flex-wrap: wrap;
+  }
+
+  .inventory-card__buyer {
+    justify-content: flex-start;
+    width: 100%;
+    text-align: left;
+  }
 }
 
 @media (max-width: 480px) {
   .project-page {
     --project-pad: 16px;
+  }
+
+  .inventory-grid {
+    grid-template-columns: 1fr;
   }
 
   .project-nav__bar {

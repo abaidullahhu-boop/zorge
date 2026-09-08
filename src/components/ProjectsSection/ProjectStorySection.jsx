@@ -7,8 +7,6 @@ import collection4 from '../../assets/images/collection4.png'
 import collection5 from '../../assets/images/collection5.png'
 import collection6 from '../../assets/images/collection6.png'
 import collection8 from '../../assets/images/collection8.png'
-import gallery1 from '../../assets/images/gallery1.png'
-import gallery2 from '../../assets/images/gallery2.png'
 import groundFloorPlan from '../../assets/images/gfloor.jpeg'
 import lowerGroundFloorPlan from '../../assets/images/lfloor.jpeg'
 import firstFloorPlan from '../../assets/images/1floor.jpeg'
@@ -75,20 +73,6 @@ function DecorLayer({ src, vmin, isBase = false, zIndex }) {
       style={{ zIndex }}
     >
       <img src={src} alt="" draggable="false" />
-    </div>
-  )
-}
-
-function BottomGalleryParallaxImage({ src, intensity = 10 }) {
-  return (
-    <div className="architecture-bottom-parallax-frame">
-      <img
-        className="architecture-parallax-image"
-        data-parallax-intensity={intensity}
-        src={src}
-        alt=""
-        draggable="false"
-      />
     </div>
   )
 }
@@ -220,41 +204,24 @@ function ProjectStorySection({ scrollContainerRef = null }) {
     const viewportCenter = () => window.innerHeight / 2
 
     const updateParallax = () => {
-      const parallaxImages = section.querySelectorAll(
-        '.architecture-parallax-image',
-      )
-
-      parallaxImages.forEach((imageEl) => {
-        const bounds = imageEl.getBoundingClientRect()
-        const elementCenter = bounds.top + bounds.height / 2
-        const distance = elementCenter - viewportCenter()
-        const progress = Math.max(-1, Math.min(1, distance / window.innerHeight))
-        const intensity = imageEl.dataset.parallaxIntensity ?? 12
-
-        imageEl.style.setProperty(
-          '--architecture-parallax',
-          `${progress * -intensity}%`,
-        )
-      })
-
       const decor = section.querySelector('.architecture-decor')
-      if (decor) {
-        const bounds = decor.getBoundingClientRect()
-        const elementCenter = bounds.top + bounds.height / 2
-        const range = window.innerHeight * 0.5 + bounds.height * 0.5
-        const factor =
-          range > 0
-            ? Math.max(
-                -1,
-                Math.min(1, (elementCenter - viewportCenter()) / range),
-              )
-            : 0
+      if (!decor) return
 
-        decor.querySelectorAll('.architecture-decor-layer').forEach((layer) => {
-          const vmin = Number(layer.dataset.parallaxVmin ?? 2)
-          layer.style.transform = `translateY(${factor * vmin}vmin)`
-        })
-      }
+      const bounds = decor.getBoundingClientRect()
+      const elementCenter = bounds.top + bounds.height / 2
+      const range = window.innerHeight * 0.5 + bounds.height * 0.5
+      const factor =
+        range > 0
+          ? Math.max(
+              -1,
+              Math.min(1, (elementCenter - viewportCenter()) / range),
+            )
+          : 0
+
+      decor.querySelectorAll('.architecture-decor-layer').forEach((layer) => {
+        const vmin = Number(layer.dataset.parallaxVmin ?? 2)
+        layer.style.transform = `translateY(${factor * vmin}vmin)`
+      })
     }
 
     if (!reduceMotion) {
@@ -272,12 +239,10 @@ function ProjectStorySection({ scrollContainerRef = null }) {
       ref={sectionRef}
       className={`architecture-section architecture-section--project ${isVisible ? 'is-visible' : ''}`}
       id="story"
-      aria-label="Project story"
+      aria-labelledby="story-title"
       style={{ '--plan-count': PLAN_COUNT }}
     >
       <div className="architecture-slide">
-        
-
         <div className="architecture-gallery-pin" ref={galleryPinRef}>
           <div className="architecture-gallery-sticky" ref={galleryStickyRef}>
             <div className="architecture-gallery-row">
@@ -335,46 +300,17 @@ function ProjectStorySection({ scrollContainerRef = null }) {
           </div>
         </div>
 
+        <div className="architecture-subhead-row">
+          <h2 id="story-title" className="architecture-subhead">
+          Premium Materials
+          </h2>
+        </div>
+
         <div className="architecture-decor-row">
           <div className="architecture-decor">
             {decorLayers.map((layer) => (
               <DecorLayer key={layer.src} {...layer} />
             ))}
-          </div>
-        </div>
-
-        <div className="architecture-copy-row">
-          <p className="architecture-copy">
-            Led by our CEO, Waleed Ahmad, Dayim Developers is driven by the
-            belief that real estate is more than constructing buildings—it&apos;s
-            about creating communities, improving lifestyles, and delivering
-            long-term value. Every development reflects our commitment to trust,
-            excellence, and sustainable growth. At Dayim Developers, we don&apos;t
-            just build properties—we build confidence, opportunities, and a
-            better future for generations to come.
-          </p>
-        </div>
-
-        <div className="architecture-bottom-gallery-row">
-          <div className="architecture-bottom-gallery-col architecture-bottom-gallery-col--left architecture-bottom-gallery-desktop">
-            <div className="architecture-bottom-gallery-image architecture-bottom-gallery-image--first">
-              <BottomGalleryParallaxImage src={gallery1} />
-            </div>
-          </div>
-
-          <div className="architecture-bottom-gallery-col architecture-bottom-gallery-col--right architecture-bottom-gallery-image--second architecture-bottom-gallery-desktop">
-            <BottomGalleryParallaxImage src={gallery2} />
-          </div>
-
-          <div className="architecture-bottom-gallery-mobile">
-            <ul className="architecture-bottom-gallery-scroll">
-              <li className="architecture-bottom-gallery-scroll-item">
-                <BottomGalleryParallaxImage src={gallery1} />
-              </li>
-              <li className="architecture-bottom-gallery-scroll-item">
-                <BottomGalleryParallaxImage src={gallery2} />
-              </li>
-            </ul>
           </div>
         </div>
       </div>

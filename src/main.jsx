@@ -7,6 +7,7 @@ import CareerPage from './pages/CareerPage.jsx'
 import DisclaimerPage from './pages/DisclaimerPage.jsx'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage.jsx'
 import ProjectPage from './pages/ProjectPage.jsx'
+import ProjectPlansPage from './pages/ProjectPlansPage.jsx'
 import TermsPage from './pages/TermsPage.jsx'
 
 const router = createBrowserRouter([
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { index: true, element: null },
+      { path: 'projects/:projectId/plans', element: <ProjectPlansPage /> },
       { path: 'projects/:projectId', element: <ProjectPage /> },
       { path: '*', element: <Navigate to="/" replace /> },
     ],
