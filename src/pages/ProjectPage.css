@@ -462,13 +462,10 @@
   border-color: var(--project-accent);
 }
 
-.project-plans-page .project-inventory {
-  padding-top: calc(var(--project-nav-h) + clamp(36px, 5vw, 72px));
-}
 
 .project-inventory {
   padding:
-    clamp(72px, 8vw, 120px)
+    clamp(32px, 4vw, 56px)
     var(--project-pad)
     clamp(56px, 6vw, 88px);
   background:
