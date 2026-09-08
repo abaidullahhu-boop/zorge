@@ -21,16 +21,6 @@ function signaturePlan(relativePath) {
   return src
 }
 
-function titleCaseWords(value) {
-  return value
-    .replace(/\s+/g, ' ')
-    .trim()
-    .split(' ')
-    .filter(Boolean)
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ')
-}
-
 function parsePlanMeta(relativePath, label) {
   const base = relativePath.split('/').pop().replace(/\.png$/i, '')
   const groups = [...base.matchAll(/\(([^)]+)\)/g)].map((match) =>
@@ -39,7 +29,7 @@ function parsePlanMeta(relativePath, label) {
 
   let area = null
   let code = null
-  let buyer = null
+  let markedSold = false
 
   for (const group of groups) {
     if (/sq\.?\s*ft/i.test(group)) {
@@ -59,7 +49,8 @@ function parsePlanMeta(relativePath, label) {
       continue
     }
 
-    buyer = titleCaseWords(group)
+    // Filename may include a buyer name — keep sold marker, never show the name.
+    if (group) markedSold = true
   }
 
   let title = label
@@ -86,8 +77,8 @@ function parsePlanMeta(relativePath, label) {
     title,
     area,
     code,
-    buyer,
-    status: buyer ? 'sold' : 'available',
+    buyer: null,
+    status: markedSold ? 'sold' : 'available',
   }
 }
 
