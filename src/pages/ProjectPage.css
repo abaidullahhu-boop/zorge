@@ -580,20 +580,24 @@
 
 @media (max-width: 980px) {
   .project-page {
-    --project-nav-h: 116px;
+    --project-nav-h: 56px;
     --project-pad: 20px;
   }
 
   .project-nav__bar {
-    grid-template-columns: 1fr auto;
-    grid-template-rows: 56px 52px;
-    align-content: center;
-    gap: 0 12px;
-    padding: 4px 16px 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px 10px;
+    padding: 0 12px 0 16px;
   }
 
   .project-nav__brand {
     display: none;
+  }
+
+  .project-nav__back {
+    flex: 0 0 auto;
+    padding: 8px 4px 8px 0;
   }
 
   .project-nav__back span {
@@ -601,16 +605,75 @@
   }
 
   .project-nav__links {
-    grid-column: 1 / -1;
+    flex: 1 1 auto;
     justify-content: flex-start;
+    gap: 0;
+    padding-right: 8px;
+    mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 20px), transparent);
   }
 
+  .project-nav__link {
+    padding: 10px 11px;
+  }
+
+  /* Hero already has Enquire — avoid a second full-width CTA. */
   .project-nav__cta {
-    padding: 9px 12px;
+    display: none;
+  }
+
+  .project-hero__veil {
+    background:
+      linear-gradient(
+        180deg,
+        rgb(0 0 0 / 58%) 0%,
+        rgb(0 0 0 / 18%) 32%,
+        rgb(0 0 0 / 55%) 58%,
+        rgb(0 0 0 / 82%) 100%
+      );
+  }
+
+  .project-hero__content {
+    padding:
+      calc(var(--project-nav-h) + 20px)
+      var(--project-pad)
+      max(28px, env(safe-area-inset-bottom, 0px) + 20px);
+  }
+
+  .project-hero__kicker {
+    font-size: 11px;
+    letter-spacing: 0.14em;
   }
 
   .project-hero__title {
     max-width: none;
+    margin-bottom: 10px;
+    font-size: clamp(30px, 8.2vw, 44px);
+    line-height: 0.96;
+    text-shadow: 0 2px 28px rgb(0 0 0 / 55%);
+  }
+
+  .project-hero__location {
+    margin-bottom: 22px;
+    font-size: 14px;
+    line-height: 1.45;
+    color: rgb(255 255 255 / 88%);
+    text-shadow: 0 1px 16px rgb(0 0 0 / 55%);
+  }
+
+  .project-hero__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .project-hero__btn {
+    width: 100%;
+    min-height: 46px;
+    padding: 12px 14px;
+  }
+
+  .project-hero__actions > :nth-child(n + 3) {
+    grid-column: 1 / -1;
   }
 
   .project-overview__grid,
@@ -637,6 +700,31 @@
 
   .project-page .projects-plan-thumbs {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-page {
+    --project-pad: 16px;
+  }
+
+  .project-nav__bar {
+    padding: 0 8px 0 12px;
+    gap: 2px 6px;
+  }
+
+  .project-nav__link {
+    padding: 10px 9px;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+
+  .project-hero__actions {
+    grid-template-columns: 1fr;
+  }
+
+  .project-hero__actions > :nth-child(n + 3) {
+    grid-column: auto;
   }
 }
 
