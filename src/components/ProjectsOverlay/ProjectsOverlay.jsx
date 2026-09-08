@@ -1,16 +1,21 @@
-import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useRef } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { getProjectPath, projects } from '../../data/projects'
 import '../../assets/styles/ProjectsOverlay.css'
 
 const ICONS = '/assets/images/icons.svg'
 
 function ProjectsOverlay({ open, onClose }) {
+  const { pathname } = useLocation()
+  const coveredByProjectRef = useRef(pathname.startsWith('/projects/'))
+  coveredByProjectRef.current = pathname.startsWith('/projects/')
+
   useEffect(() => {
     if (!open) return undefined
 
     const onKeyDown = (event) => {
-      if (event.key === 'Escape') onClose()
+      // Project page sits above this overlay — let it own Escape.
+      if (event.key === 'Escape' && !coveredByProjectRef.current) onClose()
     }
 
     const previousOverflow = document.body.style.overflow
@@ -62,7 +67,6 @@ function ProjectsOverlay({ open, onClose }) {
               to={getProjectPath(project.id)}
               className="projects-overlay__card"
               style={{ '--delay': `${i * 0.08}s` }}
-              onClick={onClose}
             >
               <span className="projects-overlay__card-img-wrap">
                 <img

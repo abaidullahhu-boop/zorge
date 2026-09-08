@@ -6,7 +6,6 @@ const MOBILE_MQ = '(max-width: 980px)'
 const PROJECT_NAV = [
   { id: 'overview', label: 'Overview' },
   { id: 'daily-schedule', label: 'Journey' },
-  { id: 'units', label: 'Units' },
   { id: 'apartments', label: 'Residences' },
   { id: 'plans', label: 'Plans' },
   { id: 'enquire', label: 'Enquire' },
