@@ -273,4 +273,8 @@
   .projects-overlay__card-body {
     padding: 14px 14px 16px;
   }
+
+  .projects-overlay__card-highlights {
+    display: none;
+  }
 }
