@@ -6,14 +6,14 @@ const MOBILE_MQ = '(max-width: 980px)'
 const PROJECT_NAV = [
   { id: 'overview', label: 'Overview' },
   { id: 'daily-schedule', label: 'Journey' },
-  { id: 'apartments', label: 'Residences' },
-  { id: 'plans', label: 'Plans' },
-  { id: 'enquire', label: 'Enquire' },
+  { id: 'story', label: 'Floor Plan' },
+  { id: 'services', label: 'Interiors' },
+  { id: 'plans', label: 'Inventory' },
 ]
 
 const COMPACT_NAV = [
   { id: 'overview', label: 'Overview' },
-  { id: 'plans', label: 'Plans' },
+  { id: 'plans', label: 'Inventory' },
   { id: 'units', label: 'Units' },
   { id: 'enquire', label: 'Enquire' },
 ]
@@ -61,10 +61,22 @@ function BackArrow() {
   )
 }
 
-export function ProjectNav({ project, scrollRootRef, onBack, onNavigate }) {
+export function ProjectNav({
+  project,
+  scrollRootRef,
+  onBack,
+  onNavigate,
+  activeId: activeIdProp = null,
+  backLabel = 'All projects',
+}) {
   const [scrolled, setScrolled] = useState(false)
-  const [activeId, setActiveId] = useState('overview')
+  const [activeId, setActiveId] = useState(activeIdProp ?? 'overview')
   const navItems = project.id === 'dsa' ? PROJECT_NAV : COMPACT_NAV
+  const lockActive = activeIdProp != null
+
+  useEffect(() => {
+    if (lockActive) setActiveId(activeIdProp)
+  }, [lockActive, activeIdProp])
 
   useEffect(() => {
     const root = scrollRootRef?.current
@@ -80,6 +92,8 @@ export function ProjectNav({ project, scrollRootRef, onBack, onNavigate }) {
   }, [scrollRootRef])
 
   useEffect(() => {
+    if (lockActive) return undefined
+
     const root = scrollRootRef?.current
     if (!root) return undefined
 
@@ -107,7 +121,7 @@ export function ProjectNav({ project, scrollRootRef, onBack, onNavigate }) {
 
     targets.forEach((el) => observer.observe(el))
     return () => observer.disconnect()
-  }, [scrollRootRef, project.id, navItems])
+  }, [scrollRootRef, project.id, navItems, lockActive])
 
   return (
     <nav
@@ -119,10 +133,10 @@ export function ProjectNav({ project, scrollRootRef, onBack, onNavigate }) {
           type="button"
           className="project-nav__back"
           onClick={onBack}
-          aria-label="All projects"
+          aria-label={backLabel}
         >
           <BackArrow />
-          <span>All projects</span>
+          <span>{backLabel}</span>
         </button>
 
         <p className="project-nav__brand">{project.brand ?? project.short}</p>
@@ -179,7 +193,7 @@ export function ProjectHero({ project, onNavigate }) {
             className="project-hero__btn project-hero__btn--ghost"
             onClick={() => onNavigate('plans')}
           >
-            View plans
+            View inventory
           </button>
           {project.mapsUrl ? (
             <a
@@ -312,7 +326,11 @@ function ProjectLightbox({ lightbox, onClose, onStep }) {
   )
 }
 
-export function ProjectInventory({ project, includeUnits = true }) {
+export function ProjectInventory({
+  project,
+  includePlans = true,
+  includeUnits = true,
+}) {
   const isMobile = useIsMobile()
   const floors = project.plan.floors ?? null
   const [selectedFloorId, setSelectedFloorId] = useState(floors?.[0]?.id ?? null)
@@ -429,6 +447,7 @@ export function ProjectInventory({ project, includeUnits = true }) {
 
   return (
     <>
+      {includePlans ? (
       <section className="project-inventory" id="plans" aria-labelledby="plans-title">
         <div className="project-inventory__intro">
           <p className="project-kicker">Floor plans</p>
@@ -481,6 +500,7 @@ export function ProjectInventory({ project, includeUnits = true }) {
           </div>
         ) : null}
       </section>
+      ) : null}
 
       {includeUnits ? (
       <section className="project-inventory is-units" id="units" aria-labelledby="units-title">

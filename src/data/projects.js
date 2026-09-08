@@ -21,8 +21,103 @@ function signaturePlan(relativePath) {
   return src
 }
 
+function titleCaseWords(value) {
+  return value
+    .replace(/\s+/g, ' ')
+    .trim()
+    .split(' ')
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ')
+}
+
+function parsePlanMeta(relativePath, label) {
+  const base = relativePath.split('/').pop().replace(/\.png$/i, '')
+  const groups = [...base.matchAll(/\(([^)]+)\)/g)].map((match) =>
+    match[1].replace(/\s+/g, ' ').trim(),
+  )
+
+  let area = null
+  let code = null
+  let buyer = null
+
+  for (const group of groups) {
+    if (/sq\.?\s*ft/i.test(group)) {
+      const amount = group.match(/(\d[\d,]*)/)
+      area = amount ? `${amount[1]} Sq.Ft.` : group
+      continue
+    }
+
+    const unitMatch = group.match(/^(shop|office|apartment|apt)\s*#?\s*(\d+)/i)
+    if (unitMatch) {
+      const kind = unitMatch[1].toLowerCase().startsWith('shop')
+        ? 'Shop'
+        : unitMatch[1].toLowerCase().startsWith('office')
+          ? 'Office'
+          : 'Apartment'
+      code = `${kind} # ${unitMatch[2]}`
+      continue
+    }
+
+    buyer = titleCaseWords(group)
+  }
+
+  let title = label
+  if (label.includes('·')) {
+    const [name, size] = label.split('·').map((part) => part.trim())
+    title = name
+    if (!area && size) {
+      const amount = size.match(/(\d[\d,]*)/)
+      area = amount ? `${amount[1]} Sq.Ft.` : size
+    }
+  } else {
+    const shopMatch = label.match(/^shop\s*#?\s*(\d+)$/i)
+    const officeMatch = label.match(/^office\s*#?\s*(\d+)$/i)
+    if (shopMatch) {
+      title = 'Shop'
+      code = code ?? `Shop # ${shopMatch[1]}`
+    } else if (officeMatch) {
+      title = 'Office'
+      code = code ?? `Office # ${officeMatch[1]}`
+    }
+  }
+
+  return {
+    title,
+    area,
+    code,
+    buyer,
+    status: buyer ? 'sold' : 'available',
+  }
+}
+
 function planImage(relativePath, label, alt) {
-  return { src: signaturePlan(relativePath), label, alt }
+  return {
+    src: signaturePlan(relativePath),
+    label,
+    alt,
+    ...parsePlanMeta(relativePath, label),
+  }
+}
+
+export function getProjectInventory(project) {
+  const floors = project?.plan?.floors
+  if (!floors?.length) return []
+
+  return floors.flatMap((floor) =>
+    (floor.images ?? []).map((image, index) => ({
+      id: `${floor.id}-${index}`,
+      floorId: floor.id,
+      floorLabel: floor.label,
+      src: image.src,
+      alt: image.alt,
+      title: image.title ?? image.label,
+      area: image.area ?? null,
+      unitLabel: image.code ?? `Apartment # ${index + 1}`,
+      status: image.status ?? 'available',
+      buyer: image.buyer ?? null,
+    })),
+  )
 }
 
 function signatureInteriors(folderPart, altPrefix) {
@@ -409,6 +504,10 @@ export const projects = [
 
 export function getProjectPath(id) {
   return `/projects/${id}`
+}
+
+export function getProjectPlansPath(id) {
+  return `/projects/${id}/plans`
 }
 
 export function getProjectById(id) {

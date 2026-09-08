@@ -1,54 +1,96 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from '../../lib/gsap'
-import services1 from '../../assets/images/services-1.webp'
-import services2 from '../../assets/images/services-2.webp'
-import services3 from '../../assets/images/services-3.webp'
+import officeImage1 from '../../assets/images/11.jpg'
+import officeImage2 from '../../assets/images/13.jpg'
+import studioImage1 from '../../assets/images/studio-1.png'
+import studioImage2 from '../../assets/images/studio-2.png'
+import oneBedImage1 from '../../assets/images/onebed-1.png'
+import oneBedImage2 from '../../assets/images/onebed-2.png'
+import oneBedImage3 from '../../assets/images/onebed-3.png'
+import shopImage1 from '../../assets/images/shop-1.png'
+import shopImage2 from '../../assets/images/shop-2.png'
 import '../../assets/styles/ServicesSection.css'
 
 const SERVICES = [
   {
-    id: 'elevator',
-    title: 'Growth Through People',
-    image: services1,
+    id: 'office',
+    title: 'Commercial Offices',
+    images: [
+      { src: officeImage1, label: 'Cabin' },
+      { src: officeImage2, label: 'Lounge' },
+    ],
     width: 720,
     height: 900,
-    text: 'We believe in empowering young talent, fostering leadership, and creating opportunities for future generations.',
+    text: 'Ground-floor workspaces designed for focus, meetings, and a polished professional presence.',
   },
   {
-    id: 'control',
-    title: 'Trust',
-    image: services2,
+    id: 'shop',
+    title: 'Shops',
+    images: [
+      { src: shopImage1, label: 'Corridor' },
+      { src: shopImage2, label: 'Arcade' },
+    ],
     width: 720,
     height: 900,
-    text: 'Every relationship is built on credibility, accountability, and long-term commitment.',
+    text: 'Retail-ready units on the lower ground and first floors, built for foot traffic and visibility.',
   },
   {
-    id: 'bellman',
-    title: 'Trusted Leadership',
-    image: services3,
+    id: 'studio',
+    title: 'Studio Apartments',
+    images: [
+      { src: studioImage1, label: 'Room' },
+      { src: studioImage2, label: 'Living' },
+    ],
     width: 720,
     height: 900,
-    text: 'Founded on a journey of dedication, vision, and integrity, our leadership brings years of industry experience and a passion for excellence.',
+    text: 'Compact, light-filled studios with efficient layouts for modern city living.',
   },
-]
+  {
+    id: 'one-bed',
+    title: 'One Bedroom Apartments',
+    images: [
+      { src: oneBedImage1, label: 'Living' },
+      { src: oneBedImage2, label: 'Bedroom' },
+      { src: oneBedImage3, label: 'Kitchen' },
+    ],
+    width: 720,
+    height: 900,
+    text: 'Spacious one-bedroom homes with refined finishes for comfort and everyday ease.',
+  },
+].filter((item) => item.images.length > 0)
 
-const ITEM_COUNT = SERVICES.length
+const SLIDES = SERVICES.flatMap((item, serviceIndex) =>
+  item.images.map((image, imageIndex) => ({
+    id: `${item.id}-${imageIndex}`,
+    serviceId: item.id,
+    serviceIndex,
+    image,
+    width: item.width,
+    height: item.height,
+  })),
+)
+
+const SERVICE_COUNT = SERVICES.length
+const SLIDE_COUNT = SLIDES.length
 const CLIP_HIDDEN = 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
 const CLIP_VISIBLE = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
 
 function ServicesSection({ variant = 'default', scrollContainerRef = null }) {
   const isProjectVariant = variant === 'project'
   const [isVisible, setIsVisible] = useState(false)
-  const [activeIndex, setActiveIndex] = useState(0)
+  const [activeSlideIndex, setActiveSlideIndex] = useState(0)
   const sectionRef = useRef(null)
   const slideRef = useRef(null)
-  const activeIndexRef = useRef(0)
+  const activeSlideIndexRef = useRef(0)
   const setActiveFromScrollRef = useRef(null)
 
+  const activeServiceIndex =
+    SLIDES[activeSlideIndex]?.serviceIndex ?? 0
+
   setActiveFromScrollRef.current = (nextIndex) => {
-    if (nextIndex === activeIndexRef.current) return
-    activeIndexRef.current = nextIndex
-    setActiveIndex(nextIndex)
+    if (nextIndex === activeSlideIndexRef.current) return
+    activeSlideIndexRef.current = nextIndex
+    setActiveSlideIndex(nextIndex)
   }
 
   useEffect(() => {
@@ -72,7 +114,7 @@ function ServicesSection({ variant = 'default', scrollContainerRef = null }) {
   useEffect(() => {
     const section = sectionRef.current
     const slide = slideRef.current
-    if (!section || !slide) return undefined
+    if (!section || !slide || SLIDE_COUNT < 1) return undefined
 
     const reduceMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
@@ -119,32 +161,34 @@ function ServicesSection({ variant = 'default', scrollContainerRef = null }) {
         })
       })
 
+      if (SLIDE_COUNT < 2) return
+
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: {
           ...scrollTriggerBase,
           trigger: section,
           start: 'top top',
-          end: () => `+=${window.innerHeight * (ITEM_COUNT - 1)}`,
+          end: () => `+=${window.innerHeight * (SLIDE_COUNT - 1)}`,
           scrub: true,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            const segments = ITEM_COUNT - 1
+            const segments = SLIDE_COUNT - 1
             const raw = self.progress * segments
-            const base = Math.min(ITEM_COUNT - 1, Math.floor(raw))
+            const base = Math.min(SLIDE_COUNT - 1, Math.floor(raw))
             const local = raw - Math.floor(raw)
             const nextIndex =
               raw >= segments
-                ? ITEM_COUNT - 1
+                ? SLIDE_COUNT - 1
                 : local >= 0.5
-                  ? Math.min(ITEM_COUNT - 1, base + 1)
+                  ? Math.min(SLIDE_COUNT - 1, base + 1)
                   : base
             setActiveFromScrollRef.current?.(nextIndex)
           },
         },
       })
 
-      for (let i = 0; i < ITEM_COUNT - 1; i += 1) {
+      for (let i = 0; i < SLIDE_COUNT - 1; i += 1) {
         const next = i + 1
         const position = i
         const prevImage = images[i]
@@ -169,6 +213,8 @@ function ServicesSection({ variant = 'default', scrollContainerRef = null }) {
     return () => ctx.revert()
   }, [scrollContainerRef])
 
+  if (!SLIDE_COUNT) return null
+
   return (
     <section
       ref={sectionRef}
@@ -181,26 +227,26 @@ function ServicesSection({ variant = 'default', scrollContainerRef = null }) {
         .join(' ')}
       id="services"
       aria-labelledby="services-title"
-      style={{ '--item-count': ITEM_COUNT }}
+      style={{ '--item-count': SLIDE_COUNT }}
     >
       <div className="services-sticky">
         <div className="services-slide" ref={slideRef}>
           <h2 id="services-title" className="services-sr-only">
-            Our Values
+            Signature Interiors
           </h2>
 
           <div className="services-image">
-            {SERVICES.map((item, index) => (
+            {SLIDES.map((slide, index) => (
               <div
-                key={item.id}
+                key={slide.id}
                 className="services-image-item"
-                aria-hidden={index !== activeIndex}
+                aria-hidden={index !== activeSlideIndex}
               >
                 <img
-                  src={item.image}
+                  src={slide.image.src}
                   alt=""
-                  width={item.width}
-                  height={item.height}
+                  width={slide.width}
+                  height={slide.height}
                   draggable="false"
                 />
               </div>
@@ -209,24 +255,29 @@ function ServicesSection({ variant = 'default', scrollContainerRef = null }) {
 
           <div className="services-right">
             <p className="services-section-title" aria-hidden="true">
-              OUR
-              <br />
-              VALUES
+              <span>SIGNATURE</span>
+              <span>INTERIORS</span>
             </p>
 
             <div className="services-content">
               <div
-                className={`services-list${activeIndex === ITEM_COUNT - 1 ? ' is-last-active' : ''}`}
+                className={`services-list${
+                  activeServiceIndex === SERVICE_COUNT - 1
+                    ? ' is-last-active'
+                    : ''
+                }`}
                 aria-live="polite"
                 style={{
-                  '--active-index': activeIndex,
-                  '--item-count': ITEM_COUNT,
+                  '--active-index': activeServiceIndex,
+                  '--item-count': SERVICE_COUNT,
                 }}
               >
                 {SERVICES.map((item, index) => (
                   <article
                     key={item.id}
-                    className={`services-card${index === activeIndex ? ' is-active' : ''}`}
+                    className={`services-card${
+                      index === activeServiceIndex ? ' is-active' : ''
+                    }`}
                   >
                     <p className="services-card-title">{item.title}</p>
                     <p className="services-card-text">{item.text}</p>
@@ -240,21 +291,27 @@ function ServicesSection({ variant = 'default', scrollContainerRef = null }) {
 
       <div className="services-mobile">
         <p className="services-section-title">
-          OUR
-          <br />
-          VALUES
+          <span>SIGNATURE</span>
+          <span>INTERIORS</span>
         </p>
         {SERVICES.map((item, index) => (
           <article key={item.id} className="services-mobile-card">
-            <div className="services-mobile-image">
-              <img
-                src={item.image}
-                alt=""
-                width={item.width}
-                height={item.height}
-                draggable="false"
-                loading="lazy"
-              />
+            <div className="services-mobile-images">
+              {item.images.map((image, imageIndex) => (
+                <div
+                  key={`${item.id}-mobile-${imageIndex}`}
+                  className="services-mobile-image"
+                >
+                  <img
+                    src={image.src}
+                    alt=""
+                    width={item.width}
+                    height={item.height}
+                    draggable="false"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
             </div>
             <div className="services-mobile-content">
               <div className="services-mobile-head">
@@ -262,7 +319,7 @@ function ServicesSection({ variant = 'default', scrollContainerRef = null }) {
                 <div className="services-counter">
                   <span className="services-counter-current">{index + 1}</span>
                   <span className="services-counter-line" aria-hidden="true" />
-                  <span className="services-counter-total">{ITEM_COUNT}</span>
+                  <span className="services-counter-total">{SERVICE_COUNT}</span>
                 </div>
               </div>
               <p className="services-mobile-copy">{item.text}</p>

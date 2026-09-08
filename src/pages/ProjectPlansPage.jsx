@@ -1,18 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import {
-  ProjectEnquire,
-  ProjectHero,
-  ProjectInventory,
   ProjectNav,
-  ProjectOverview,
 } from '../components/ProjectsSection/ProjectDetail'
-import ProjectStorySection from '../components/ProjectsSection/ProjectStorySection'
-import TimeSection from '../components/TimeSection/TimeSection'
-import ServicesSection from '../components/ServicesSection/ServicesSection'
+import ProjectInventoryBoard from '../components/ProjectsSection/ProjectInventoryBoard'
 import Footer from '../components/Footer/Footer'
-import { getProjectById, getProjectPlansPath } from '../data/projects'
-import { ScrollTrigger } from '../lib/gsap'
+import { getProjectById, getProjectPath } from '../data/projects'
 import '../assets/styles/ProjectsSection.css'
 import './ProjectPage.css'
 
@@ -23,24 +16,18 @@ function prefersReducedMotion() {
   )
 }
 
-function ProjectPage() {
+function ProjectPlansPage() {
   const { projectId } = useParams()
   const navigate = useNavigate()
-  const location = useLocation()
   const project = getProjectById(projectId)
   const pageRef = useRef(null)
   const leavingRef = useRef(false)
   const closeRef = useRef(() => {})
-  const pendingScrollRef = useRef(location.state?.scrollTo ?? null)
   const [motion, setMotion] = useState(() => ({
     projectId,
     leaving: false,
     settled: prefersReducedMotion(),
   }))
-
-  if (location.state?.scrollTo) {
-    pendingScrollRef.current = location.state.scrollTo
-  }
 
   if (motion.projectId !== projectId) {
     setMotion({
@@ -52,19 +39,18 @@ function ProjectPage() {
 
   const { leaving, settled } = motion
 
-  const openProjectsOverlay = () => {
-    window.requestAnimationFrame(() => {
-      window.dispatchEvent(new CustomEvent('dayim:projects'))
+  const goToProject = (scrollTo = null) => {
+    navigate(getProjectPath(projectId), {
+      state: scrollTo ? { scrollTo } : undefined,
     })
   }
 
-  const closeToProjects = () => {
+  const closeToProject = () => {
     if (leavingRef.current) return
     leavingRef.current = true
 
     if (prefersReducedMotion()) {
-      navigate('/')
-      openProjectsOverlay()
+      goToProject()
       return
     }
 
@@ -76,14 +62,14 @@ function ProjectPage() {
   }
 
   useEffect(() => {
-    closeRef.current = closeToProjects
+    closeRef.current = closeToProject
   })
 
   useEffect(() => {
     if (!project) return undefined
 
     const previousTitle = document.title
-    document.title = `${project.title} · Dayim Developers`
+    document.title = `${project.title} Inventory · Dayim Developers`
     return () => {
       document.title = previousTitle
     }
@@ -104,20 +90,9 @@ function ProjectPage() {
 
   useEffect(() => {
     if (!project) return undefined
-
     leavingRef.current = false
     if (pageRef.current) pageRef.current.scrollTop = 0
   }, [project, projectId])
-
-  useEffect(() => {
-    if (!settled || !project) return undefined
-
-    const frame = window.requestAnimationFrame(() => {
-      ScrollTrigger.refresh()
-    })
-
-    return () => window.cancelAnimationFrame(frame)
-  }, [settled, project])
 
   useEffect(() => {
     if (!project) return undefined
@@ -133,40 +108,6 @@ function ProjectPage() {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [project])
 
-  const scrollToId = (id) => {
-    const root = pageRef.current
-    const target = root?.querySelector(`#${CSS.escape(id)}`)
-    if (!root || !target) return
-
-    const nav = root.querySelector('.project-nav')
-    const offset = nav instanceof HTMLElement ? nav.getBoundingClientRect().height : 0
-    const nextTop =
-      target.getBoundingClientRect().top -
-      root.getBoundingClientRect().top +
-      root.scrollTop -
-      offset
-
-    root.scrollTo({
-      top: Math.max(0, nextTop),
-      behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-    })
-  }
-
-  useEffect(() => {
-    const scrollTo = pendingScrollRef.current
-    if (!scrollTo || !project || !settled) return undefined
-
-    pendingScrollRef.current = null
-    if (location.state?.scrollTo) {
-      navigate('.', { replace: true, state: {} })
-    }
-
-    const frame = window.requestAnimationFrame(() => {
-      scrollToId(scrollTo)
-    })
-    return () => window.cancelAnimationFrame(frame)
-  }, [project, settled, location.state, navigate])
-
   if (!project) {
     return <Navigate to="/" replace />
   }
@@ -175,8 +116,7 @@ function ProjectPage() {
     if (event.target !== pageRef.current) return
 
     if (leavingRef.current) {
-      navigate('/')
-      openProjectsOverlay()
+      goToProject()
       return
     }
 
@@ -185,11 +125,14 @@ function ProjectPage() {
 
   const handleNavigate = (id) => {
     if (id === 'plans') {
-      navigate(getProjectPlansPath(project.id))
+      pageRef.current?.scrollTo({
+        top: 0,
+        behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+      })
       return
     }
 
-    scrollToId(id)
+    goToProject(id)
   }
 
   const scrollToTop = () => {
@@ -203,52 +146,37 @@ function ProjectPage() {
     <main
       className={[
         'project-page',
+        'project-plans-page',
         settled ? 'is-settled' : '',
         leaving ? 'is-leaving' : '',
       ]
         .filter(Boolean)
         .join(' ')}
-      id="project-page"
+      id="project-plans-page"
       ref={pageRef}
       role="dialog"
       aria-modal="true"
-      aria-label={project.title}
+      aria-label={`${project.title} inventory`}
       data-lenis-prevent
       data-lenis-prevent-wheel
       data-lenis-prevent-touch
       onAnimationEnd={handleAnimationEnd}
     >
       <ProjectNav
-        key={`nav-${project.id}`}
+        key={`plans-nav-${project.id}`}
         project={project}
         scrollRootRef={pageRef}
-        onBack={closeToProjects}
+        onBack={closeToProject}
         onNavigate={handleNavigate}
+        activeId="plans"
+        backLabel="Back to project"
       />
-      <ProjectHero project={project} onNavigate={handleNavigate} />
-      <ProjectOverview project={project} />
 
-      {project.id === 'dsa' ? (
-        <>
-          <TimeSection variant="project" scrollContainerRef={pageRef} />
-          <ProjectStorySection scrollContainerRef={pageRef} />
-          <ServicesSection variant="project" scrollContainerRef={pageRef} />
-        </>
-      ) : null}
+      <ProjectInventoryBoard key={`inventory-${project.id}`} project={project} />
 
-      {project.id !== 'dsa' ? (
-        <ProjectInventory
-          key={project.id}
-          project={project}
-          includePlans={false}
-          includeUnits
-        />
-      ) : null}
-
-      <ProjectEnquire project={project} />
       <Footer onScrollTop={scrollToTop} />
     </main>
   )
 }
 
-export default ProjectPage
+export default ProjectPlansPage

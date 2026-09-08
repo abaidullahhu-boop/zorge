@@ -187,28 +187,43 @@ function TimeSection({ variant = 'default', scrollContainerRef = null }) {
       style={{ '--plan-count': PLAN_COUNT }}
     >
       <h2 id="time-title" className="time-sr-only">
-        Construction journey
+        Primer Construction
       </h2>
 
       <div className="time-gallery-pin" ref={galleryPinRef}>
         <div className="time-gallery-sticky" ref={galleryStickyRef}>
           <div className="time-gallery-row">
-            <div className="time-gallery-copy" aria-live="polite">
-              <p className="time-gallery-kicker">Journey</p>
-              <div key={activePlan.id} className="time-gallery-plan-text">
-                <p className="time-gallery-caption">{activePlan.label}</p>
-                <p className="time-gallery-plan-detail">{activePlan.detail}</p>
-              </div>
-              <div className="time-gallery-meta">
-                <p className="time-gallery-counter" aria-hidden="true">
-                  <span className="time-gallery-counter-current">
-                    {String(activePlanIndex + 1).padStart(2, '0')}
-                  </span>
-                  <span className="time-gallery-counter-sep">/</span>
-                  <span className="time-gallery-counter-total">
-                    {String(PLAN_COUNT).padStart(2, '0')}
-                  </span>
+            <div className="time-gallery-copy">
+              <div className="time-gallery-intro">
+                <p className="time-gallery-kicker">Journey</p>
+                <h3 className="time-gallery-intro-title">
+                  Primer Construction
+                </h3>
+                <p className="time-gallery-intro-body">
+                  Started April 2024. Main structure complete in 8 months —
+                  planned, supervised, and delivered without losing momentum.
                 </p>
+                <p className="time-gallery-intro-tagline">
+                  8 Months. One Complete Structure.
+                </p>
+              </div>
+
+              <div className="time-gallery-stage" aria-live="polite">
+                <div key={activePlan.id} className="time-gallery-plan-text">
+                  <div className="time-gallery-stage-head">
+                    <p className="time-gallery-caption">{activePlan.label}</p>
+                    <p className="time-gallery-counter" aria-hidden="true">
+                      <span className="time-gallery-counter-current">
+                        {String(activePlanIndex + 1).padStart(2, '0')}
+                      </span>
+                      <span className="time-gallery-counter-sep">/</span>
+                      <span className="time-gallery-counter-total">
+                        {String(PLAN_COUNT).padStart(2, '0')}
+                      </span>
+                    </p>
+                  </div>
+                  <p className="time-gallery-plan-detail">{activePlan.detail}</p>
+                </div>
                 <div className="time-gallery-progress" role="presentation">
                   {journeyGallery.map((plan, index) => (
                     <span
