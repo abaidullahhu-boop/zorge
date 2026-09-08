@@ -3,7 +3,12 @@ import livingImage from '../assets/images/dayim-living.png'
 import zindagiImage from '../assets/images/dayim-zindagi.png'
 
 const signaturePlanFiles = import.meta.glob(
-  '../assets/images/Signature floor plans/FLOOR PLANS/**/*.png',
+  '../assets/images/Signature floor plans/FLOOR PLANS/Floor Plans/*.png',
+  { eager: true, import: 'default' },
+)
+
+const dsaInventoryFiles = import.meta.glob(
+  '../assets/images/DSA Inventory /**/*.{png,jpg,jpeg,PNG,JPG,JPEG}',
   { eager: true, import: 'default' },
 )
 
@@ -21,57 +26,56 @@ function signaturePlan(relativePath) {
   return src
 }
 
-function parsePlanMeta(relativePath, label) {
-  const base = relativePath.split('/').pop().replace(/\.png$/i, '')
-  const groups = [...base.matchAll(/\(([^)]+)\)/g)].map((match) =>
-    match[1].replace(/\s+/g, ' ').trim(),
+function overviewImage(relativePath, alt) {
+  return {
+    src: signaturePlan(relativePath),
+    label: 'Floor layout',
+    alt,
+    title: 'Floor layout',
+    area: null,
+    code: null,
+    buyer: null,
+    status: 'available',
+  }
+}
+
+function parseDsaInventoryMeta(fileName) {
+  const base = fileName
+    .replace(/\.[^.]+$/, '')
+    .replace(/_+$/g, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+
+  const areaMatch = base.match(/(\d[\d,]*)\s*Sq\.?\s*ft/i)
+  const area = areaMatch ? `${areaMatch[1].replace(/,/g, '')} Sq.Ft.` : null
+
+  const shopMatch = base.match(/Commercial\s+Shop\s*0*(\d+)/i)
+  const hallMatch = base.match(/Commercial\s+Hall\s*0*(\d+)/i)
+  const officeMatch = base.match(/Commercial\s+Office\s*0*(\d+)/i)
+  const aptMatch = base.match(
+    /^(Studio Executive|Studio Deluxe|One Bed Executive|One Bed Deluxe|2 Bed Executive)/i,
   )
 
-  let area = null
+  let title = base
   let code = null
-  let markedSold = false
 
-  for (const group of groups) {
-    if (/sq\.?\s*ft/i.test(group)) {
-      const amount = group.match(/(\d[\d,]*)/)
-      area = amount ? `${amount[1]} Sq.Ft.` : group
-      continue
-    }
-
-    const unitMatch = group.match(/^(shop|office|apartment|apt)\s*#?\s*(\d+)/i)
-    if (unitMatch) {
-      const kind = unitMatch[1].toLowerCase().startsWith('shop')
-        ? 'Shop'
-        : unitMatch[1].toLowerCase().startsWith('office')
-          ? 'Office'
-          : 'Apartment'
-      code = `${kind} # ${unitMatch[2]}`
-      continue
-    }
-
-    // Filename may include a buyer name — keep sold marker, never show the name.
-    if (group) markedSold = true
+  if (shopMatch) {
+    title = 'Shop'
+    code = `Shop # ${shopMatch[1].padStart(2, '0')}`
+  } else if (hallMatch) {
+    title = 'Commercial Hall'
+    code = `Hall # ${hallMatch[1].padStart(2, '0')}`
+  } else if (officeMatch) {
+    title = 'Office'
+    code = `Office # ${officeMatch[1].padStart(2, '0')}`
+  } else if (aptMatch) {
+    title = aptMatch[1].replace(/\s+/g, ' ')
   }
 
-  let title = label
-  if (label.includes('·')) {
-    const [name, size] = label.split('·').map((part) => part.trim())
-    title = name
-    if (!area && size) {
-      const amount = size.match(/(\d[\d,]*)/)
-      area = amount ? `${amount[1]} Sq.Ft.` : size
-    }
-  } else {
-    const shopMatch = label.match(/^shop\s*#?\s*(\d+)$/i)
-    const officeMatch = label.match(/^office\s*#?\s*(\d+)$/i)
-    if (shopMatch) {
-      title = 'Shop'
-      code = code ?? `Shop # ${shopMatch[1]}`
-    } else if (officeMatch) {
-      title = 'Office'
-      code = code ?? `Office # ${officeMatch[1]}`
-    }
-  }
+  // Buyer name after sqft — mark sold, never expose the name.
+  const afterArea = areaMatch ? base.slice(areaMatch.index + areaMatch[0].length) : ''
+  const buyerPart = afterArea.replace(/^[\s_\-–—]+/, '').replace(/[_\s]+$/, '').trim()
+  const markedSold = Boolean(buyerPart)
 
   return {
     title,
@@ -82,13 +86,63 @@ function parsePlanMeta(relativePath, label) {
   }
 }
 
-function planImage(relativePath, label, alt) {
-  return {
-    src: signaturePlan(relativePath),
-    label,
-    alt,
-    ...parsePlanMeta(relativePath, label),
+function dsaInventoryImages(folderHint, altPrefix) {
+  const typeOrder = [
+    'Studio Executive',
+    'Studio Deluxe',
+    'One Bed Executive',
+    'One Bed Deluxe',
+    '2 Bed Executive',
+    'Shop',
+    'Commercial Hall',
+    'Office',
+  ]
+
+  const images = Object.entries(dsaInventoryFiles)
+    .filter(([key]) => key.includes(folderHint))
+    .map(([key, src]) => {
+      const fileName = key.split('/').pop()
+      const meta = parseDsaInventoryMeta(fileName)
+      return { key, src, fileName, meta }
+    })
+    .sort((a, b) => {
+      const aCodeNum = Number.parseInt(a.meta.code?.match(/\d+/)?.[0] ?? '', 10)
+      const bCodeNum = Number.parseInt(b.meta.code?.match(/\d+/)?.[0] ?? '', 10)
+      if (!Number.isNaN(aCodeNum) && !Number.isNaN(bCodeNum) && aCodeNum !== bCodeNum) {
+        return aCodeNum - bCodeNum
+      }
+
+      const aType = typeOrder.indexOf(a.meta.title)
+      const bType = typeOrder.indexOf(b.meta.title)
+      if (aType !== bType) {
+        return (aType === -1 ? 99 : aType) - (bType === -1 ? 99 : bType)
+      }
+
+      const aArea = Number.parseInt(a.meta.area ?? '', 10) || 0
+      const bArea = Number.parseInt(b.meta.area ?? '', 10) || 0
+      if (aArea !== bArea) return aArea - bArea
+
+      return a.key.localeCompare(b.key, undefined, {
+        numeric: true,
+        sensitivity: 'base',
+      })
+    })
+    .map(({ src, meta }, index) => {
+      const code = meta.code ?? `Apartment # ${index + 1}`
+      return {
+        src,
+        label: meta.title,
+        alt: `${altPrefix} — ${meta.title}${meta.area ? ` (${meta.area})` : ''}`,
+        ...meta,
+        code,
+      }
+    })
+
+  if (!images.length) {
+    throw new Error(`Missing DSA inventory images: ${folderHint}`)
   }
+
+  return images
 }
 
 export function getProjectInventory(project) {
@@ -204,136 +258,98 @@ const dsaFloors = [
   {
     id: 'lower-ground',
     label: 'Lower Ground',
-    overview: planImage(
+    overview: overviewImage(
       'Floor Plans/Lower Ground.png',
-      'Floor layout',
       'Dayim Signature Apartments lower ground floor layout',
     ),
-    images: [
-      planImage('Lower Ground/Lower Ground (Shop 01) (Surriya Perveen).png', 'Shop 01', 'Dayim Signature Apartments lower ground shop 01 floor plan'),
-      planImage('Lower Ground/Lower Ground (Shop 02) (Imran Ali).png', 'Shop 02', 'Dayim Signature Apartments lower ground shop 02 floor plan'),
-      planImage('Lower Ground/Lower Ground (Shop 03).png', 'Shop 03', 'Dayim Signature Apartments lower ground shop 03 floor plan'),
-      planImage('Lower Ground/Lower Ground (Shop 04).png', 'Shop 04', 'Dayim Signature Apartments lower ground shop 04 floor plan'),
-      planImage('Lower Ground/Lower Ground (Shop 05).png', 'Shop 05', 'Dayim Signature Apartments lower ground shop 05 floor plan'),
-      planImage('Lower Ground/Lower Ground (Shop 06).png', 'Shop 06', 'Dayim Signature Apartments lower ground shop 06 floor plan'),
-      planImage('Lower Ground/Lower Ground (Shop 07).png', 'Shop 07', 'Dayim Signature Apartments lower ground shop 07 floor plan'),
-      planImage('Lower Ground/Lower Ground (Shop 08).png', 'Shop 08', 'Dayim Signature Apartments lower ground shop 08 floor plan'),
-    ],
+    images: dsaInventoryImages(
+      '01- Lower Ground',
+      'Dayim Signature Apartments lower ground',
+    ),
   },
   {
     id: 'ground',
     label: 'Ground Floor',
-    overview: planImage(
+    overview: overviewImage(
       'Floor Plans/Ground Floor.png',
-      'Floor layout',
       'Dayim Signature Apartments ground floor layout',
     ),
-    images: [
-      planImage('Ground Floor/Ground Floor (Office 01).png', 'Office 01', 'Dayim Signature Apartments ground floor office 01 floor plan'),
-      planImage('Ground Floor/Ground Floor (Office 02).png', 'Office 02', 'Dayim Signature Apartments ground floor office 02 floor plan'),
-      planImage('Ground Floor/Ground Floor (Office 03) (Muhammad Sadiq).png', 'Office 03', 'Dayim Signature Apartments ground floor office 03 floor plan'),
-    ],
+    images: dsaInventoryImages(
+      '2- Ground Floor',
+      'Dayim Signature Apartments ground floor',
+    ),
   },
   {
     id: 'first',
     label: 'First Floor',
-    overview: planImage(
+    overview: overviewImage(
       'Floor Plans/First Floor.png',
-      'Floor layout',
       'Dayim Signature Apartments first floor layout',
     ),
-    images: [
-      planImage('First Floor/First Floor (Shop 01).png', 'Shop 01', 'Dayim Signature Apartments first floor shop 01 floor plan'),
-      planImage('First Floor/First Floor (Shop 02).png', 'Shop 02', 'Dayim Signature Apartments first floor shop 02 floor plan'),
-      planImage('First Floor/First Floor (Shop 03).png', 'Shop 03', 'Dayim Signature Apartments first floor shop 03 floor plan'),
-      planImage('First Floor/First Floor (Shop 04).png', 'Shop 04', 'Dayim Signature Apartments first floor shop 04 floor plan'),
-      planImage('First Floor/First Floor (Shop 05).png', 'Shop 05', 'Dayim Signature Apartments first floor shop 05 floor plan'),
-      planImage('First Floor/First Floor (Shop 06).png', 'Shop 06', 'Dayim Signature Apartments first floor shop 06 floor plan'),
-      planImage('First Floor/First Floor (Shop 07).png', 'Shop 07', 'Dayim Signature Apartments first floor shop 07 floor plan'),
-    ],
+    images: dsaInventoryImages(
+      '3- First Floor',
+      'Dayim Signature Apartments first floor',
+    ),
   },
   {
     id: 'second',
     label: '2nd Floor',
-    overview: planImage(
+    overview: overviewImage(
       'Floor Plans/2nd to 4th Floor.png',
-      'Floor layout',
       'Dayim Signature Apartments 2nd to 4th floor layout',
     ),
-    images: [
-      planImage('2nd Floor/Studio Executive (350 sqft)( Ali Imran).png', 'Studio Executive · 350 sqft', 'Dayim Signature Apartments 2nd floor studio executive 350 sqft floor plan'),
-      planImage('2nd Floor/Studio Deluxe (369 sqft) (Muhammad Sadiq).png', 'Studio Deluxe · 369 sqft', 'Dayim Signature Apartments 2nd floor studio deluxe 369 sqft floor plan'),
-      planImage('2nd Floor/Studio Deluxe (391 sqft).png', 'Studio Deluxe · 391 sqft', 'Dayim Signature Apartments 2nd floor studio deluxe 391 sqft floor plan'),
-      planImage('2nd Floor/One Bed Executive (575 sqft) ( Muhammad Sadiq).png', 'One Bed Executive · 575 sqft', 'Dayim Signature Apartments 2nd floor one bed executive 575 sqft floor plan'),
-      planImage('2nd Floor/One Bed Executive (593 sqft)(Shabaz Tariq).png', 'One Bed Executive · 593 sqft', 'Dayim Signature Apartments 2nd floor one bed executive 593 sqft floor plan'),
-      planImage('2nd Floor/One Bed Deluxe (596 sqft) (Mujahid Farooqi).png', 'One Bed Deluxe · 596 sqft', 'Dayim Signature Apartments 2nd floor one bed deluxe 596 sqft floor plan'),
-    ],
+    images: dsaInventoryImages(
+      '4- Second Floor',
+      'Dayim Signature Apartments 2nd floor',
+    ),
   },
   {
     id: 'third',
     label: '3rd Floor',
-    overview: planImage(
+    overview: overviewImage(
       'Floor Plans/2nd to 4th Floor.png',
-      'Floor layout',
       'Dayim Signature Apartments 2nd to 4th floor layout',
     ),
-    images: [
-      planImage('3rd Floor/Studio Executive (350 sqft)( Imran Bin Ali).png', 'Studio Executive · 350 sqft', 'Dayim Signature Apartments 3rd floor studio executive 350 sqft floor plan'),
-      planImage('3rd Floor/Studio Deluxe (369 sqft) ( Muhammad Saqib).png', 'Studio Deluxe · 369 sqft', 'Dayim Signature Apartments 3rd floor studio deluxe 369 sqft floor plan'),
-      planImage('3rd Floor/Studio Deluxe (391 sqft).png', 'Studio Deluxe · 391 sqft', 'Dayim Signature Apartments 3rd floor studio deluxe 391 sqft floor plan'),
-      planImage('3rd Floor/One Bed Executive (575 sqft).png', 'One Bed Executive · 575 sqft', 'Dayim Signature Apartments 3rd floor one bed executive 575 sqft floor plan'),
-      planImage('3rd Floor/One Bed Executive (593 sqft) ( jehad Khan).png', 'One Bed Executive · 593 sqft', 'Dayim Signature Apartments 3rd floor one bed executive 593 sqft floor plan'),
-      planImage('3rd Floor/One Bed Deluxe (596 sqft).png', 'One Bed Deluxe · 596 sqft', 'Dayim Signature Apartments 3rd floor one bed deluxe 596 sqft floor plan'),
-    ],
+    images: dsaInventoryImages(
+      '5- Third Floor',
+      'Dayim Signature Apartments 3rd floor',
+    ),
   },
   {
     id: 'fourth',
     label: '4th Floor',
-    overview: planImage(
+    overview: overviewImage(
       'Floor Plans/2nd to 4th Floor.png',
-      'Floor layout',
       'Dayim Signature Apartments 2nd to 4th floor layout',
     ),
-    images: [
-      planImage('4th Floor/Studio Executive (350 sqft) (Amir Saeed).png', 'Studio Executive · 350 sqft', 'Dayim Signature Apartments 4th floor studio executive 350 sqft floor plan'),
-      planImage('4th Floor/Studio Deluxe (369 sqft).png', 'Studio Deluxe · 369 sqft', 'Dayim Signature Apartments 4th floor studio deluxe 369 sqft floor plan'),
-      planImage('4th Floor/Studio Deluxe (391 sqft).png', 'Studio Deluxe · 391 sqft', 'Dayim Signature Apartments 4th floor studio deluxe 391 sqft floor plan'),
-      planImage('4th Floor/One Bed Executive (575 sqft).png', 'One Bed Executive · 575 sqft', 'Dayim Signature Apartments 4th floor one bed executive 575 sqft floor plan'),
-      planImage('4th Floor/One Bed Executive (593 sqft).png', 'One Bed Executive · 593 sqft', 'Dayim Signature Apartments 4th floor one bed executive 593 sqft floor plan'),
-      planImage('4th Floor/One Bed Deluxe (596 sqft).png', 'One Bed Deluxe · 596 sqft', 'Dayim Signature Apartments 4th floor one bed deluxe 596 sqft floor plan'),
-    ],
+    images: dsaInventoryImages(
+      '6- Fourth Floor',
+      'Dayim Signature Apartments 4th floor',
+    ),
   },
   {
     id: 'fifth',
     label: '5th Floor',
-    overview: planImage(
+    overview: overviewImage(
       'Floor Plans/5th to 6th Floor.png',
-      'Floor layout',
       'Dayim Signature Apartments 5th to 6th floor layout',
     ),
-    images: [
-      planImage('5th Floor/Studio Executive (350 sqft)( Muhammad Faisal Shahid).png', 'Studio Executive · 350 sqft', 'Dayim Signature Apartments 5th floor studio executive 350 sqft floor plan'),
-      planImage('5th Floor/Studio Deluxe (391 sqft).png', 'Studio Deluxe · 391 sqft', 'Dayim Signature Apartments 5th floor studio deluxe 391 sqft floor plan'),
-      planImage('5th Floor/One Bed Executive (575 sqft).png', 'One Bed Executive · 575 sqft', 'Dayim Signature Apartments 5th floor one bed executive 575 sqft floor plan'),
-      planImage('5th Floor/One Bed Deluxe (596 sqft).png', 'One Bed Deluxe · 596 sqft', 'Dayim Signature Apartments 5th floor one bed deluxe 596 sqft floor plan'),
-      planImage('5th Floor/2 Bed Executive (959 sqft)  (Rabia Waseem).png', '2 Bed Executive · 959 sqft', 'Dayim Signature Apartments 5th floor 2 bed executive 959 sqft floor plan'),
-    ],
+    images: dsaInventoryImages(
+      '7- Fifth Floor',
+      'Dayim Signature Apartments 5th floor',
+    ),
   },
   {
     id: 'sixth',
     label: '6th Floor',
-    overview: planImage(
+    overview: overviewImage(
       'Floor Plans/5th to 6th Floor.png',
-      'Floor layout',
       'Dayim Signature Apartments 5th to 6th floor layout',
     ),
-    images: [
-      planImage('6th Floor/Studio Executive (350 sqft)( Muhammad Maisam).png', 'Studio Executive · 350 sqft', 'Dayim Signature Apartments 6th floor studio executive 350 sqft floor plan'),
-      planImage('6th Floor/Studio Deluxe (391 sqft).png', 'Studio Deluxe · 391 sqft', 'Dayim Signature Apartments 6th floor studio deluxe 391 sqft floor plan'),
-      planImage('6th Floor/One Bed Executive (575 sqft) ( Rao Shahrukh Suleman ).png', 'One Bed Executive · 575 sqft', 'Dayim Signature Apartments 6th floor one bed executive 575 sqft floor plan'),
-      planImage('6th Floor/One Bed Deluxe (596 sqft).png', 'One Bed Deluxe · 596 sqft', 'Dayim Signature Apartments 6th floor one bed deluxe 596 sqft floor plan'),
-      planImage('6th Floor/2 Bed Executive.png', '2 Bed Executive', 'Dayim Signature Apartments 6th floor 2 bed executive floor plan'),
-    ],
+    images: dsaInventoryImages(
+      '8- Sixth Floor',
+      'Dayim Signature Apartments 6th floor',
+    ),
   },
 ]
 
@@ -378,7 +394,7 @@ export const projects = [
         id: 'studio',
         label: 'Studio',
         type: 'Studio',
-        area: '350–391 sq ft',
+        area: '360–410 sq ft',
         beds: 0,
         status: 'Available',
         images: dsaStudioImages,
@@ -387,7 +403,7 @@ export const projects = [
         id: 'one-bed',
         label: 'One Bed',
         type: 'One Bedroom',
-        area: '575–596 sq ft',
+        area: '573–625 sq ft',
         beds: 1,
         status: 'Available',
         images: dsaOneBedImages,
@@ -405,7 +421,7 @@ export const projects = [
         id: 'shop',
         label: 'Shop',
         type: 'Retail Shop',
-        area: 'Lower Ground & First Floor',
+        area: 'Lower Ground',
         beds: null,
         status: 'Available',
         images: dsaShopImages,
@@ -413,8 +429,8 @@ export const projects = [
       {
         id: 'office',
         label: 'Office',
-        type: 'Office',
-        area: 'Ground Floor',
+        type: 'Office / Commercial Hall',
+        area: 'Ground & First Floor',
         beds: null,
         status: 'Available',
         images: dsaOfficeImages,
@@ -497,8 +513,8 @@ export function getProjectPath(id) {
   return `/projects/${id}`
 }
 
-export function getProjectPlansPath(id) {
-  return `/projects/${id}/plans`
+export function getProjectInventoryPath(id) {
+  return `/projects/${id}/inventory`
 }
 
 export function getProjectById(id) {

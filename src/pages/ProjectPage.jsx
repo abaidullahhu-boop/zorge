@@ -11,7 +11,7 @@ import ProjectStorySection from '../components/ProjectsSection/ProjectStorySecti
 import TimeSection from '../components/TimeSection/TimeSection'
 import ServicesSection from '../components/ServicesSection/ServicesSection'
 import Footer from '../components/Footer/Footer'
-import { getProjectById, getProjectPlansPath } from '../data/projects'
+import { getProjectById, getProjectInventoryPath } from '../data/projects'
 import { ScrollTrigger } from '../lib/gsap'
 import '../assets/styles/ProjectsSection.css'
 import './ProjectPage.css'
@@ -185,7 +185,7 @@ function ProjectPage() {
 
   const handleNavigate = (id) => {
     if (id === 'plans') {
-      navigate(getProjectPlansPath(project.id))
+      navigate(getProjectInventoryPath(project.id))
       return
     }
 
