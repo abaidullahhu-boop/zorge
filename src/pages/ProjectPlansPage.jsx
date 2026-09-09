@@ -100,6 +100,7 @@ function ProjectPlansPage() {
     const onKeyDown = (event) => {
       if (event.key !== 'Escape') return
       if (pageRef.current?.querySelector('.projects-lightbox')) return
+      if (document.body.classList.contains('inventory-booking-open')) return
       event.preventDefault()
       closeRef.current()
     }

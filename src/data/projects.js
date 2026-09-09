@@ -359,7 +359,7 @@ export const DEVELOPER = {
   description:
     'At Dayim Developers, our vision is to redefine the future of real estate by setting new benchmarks in innovation, quality, and trust. We aspire to create iconic developments that inspire confidence, enrich communities, and deliver lasting value for generations to come.',
   story:
-    'Led by our CEO, Waleed Ahmad, Dayim Developers is driven by the belief that real estate is more than constructing buildings—it is about creating communities, improving lifestyles, and delivering long-term value.',
+    'Led by our CEO, Waleed Ahmad, and Director, Ubaid Ullah, Dayim Developers is driven by the belief that real estate is more than constructing buildings—it is about creating communities, improving lifestyles, and delivering long-term value.',
 }
 
 export const projects = [

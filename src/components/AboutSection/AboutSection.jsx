@@ -1,6 +1,19 @@
 import dayimLogo from '../../assets/images/dayim-logo.png'
 import '../../assets/styles/AboutSection.css'
 
+const ABOUT_LEADERSHIP = [
+  {
+    name: 'Waleed Ahmad',
+    role: 'CEO',
+    initials: 'WA',
+  },
+  {
+    name: 'Ubaid Ullah',
+    role: 'Director',
+    initials: 'UU',
+  },
+]
+
 const ABOUT_FEATURES = [
   {
     title: 'Innovation',
@@ -75,7 +88,8 @@ function AboutSection() {
               <span className="about-highlight">Dayim Developers</span> was founded
               with a vision to redefine Pakistan&apos;s real estate industry through
               innovation, transparency, and quality. Led by CEO{' '}
-              <span className="about-highlight">Waleed Ahmad</span>, we have evolved
+              <span className="about-highlight">Waleed Ahmad</span> and Director{' '}
+              <span className="about-highlight">Ubaid Ullah</span>, we have evolved
               from a real estate consultancy into a trusted marketing and development
               firm.
             </p>
@@ -86,6 +100,20 @@ function AboutSection() {
               sustainable growth.
             </p>
           </div>
+
+          <ul className="about-leadership" aria-label="Leadership">
+            {ABOUT_LEADERSHIP.map(({ name, role, initials }) => (
+              <li key={name} className="about-leader">
+                <span className="about-leader-avatar" aria-hidden="true">
+                  {initials}
+                </span>
+                <span className="about-leader-copy">
+                  <strong className="about-leader-name">{name}</strong>
+                  <span className="about-leader-role">{role}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
 
           <div className="about-divider" aria-hidden="true" />
 

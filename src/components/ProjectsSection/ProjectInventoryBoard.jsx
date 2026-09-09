@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react'
 import useProjectInventory from '../../hooks/useProjectInventory'
-import { SITE_CONTACT } from '../../data/siteContact'
+import InventoryBookingModal from './InventoryBookingModal'
 
-function InventoryCard({ unit }) {
-  const isSold = unit.status === 'sold'
+function InventoryCard({ unit, onBook }) {
+  const status = unitStatus(unit)
   const heading = unit.unitLabel || unit.title
   const typeLabel =
     unit.unitLabel && unit.title && unit.title !== unit.unitLabel
@@ -11,13 +11,11 @@ function InventoryCard({ unit }) {
       : null
 
   return (
-    <article className={`inventory-card${isSold ? ' is-sold' : ' is-available'}`}>
+    <article className={`inventory-card is-${status}`}>
       <div className="inventory-card__media">
         <img src={unit.src} alt={unit.alt} draggable="false" loading="lazy" />
-        <span
-          className={`inventory-card__badge${isSold ? ' is-sold' : ' is-available'}`}
-        >
-          {isSold ? 'Sold' : 'Available'}
+        <span className={`inventory-card__badge is-${status}`}>
+          {status === 'sold' ? 'Sold' : status === 'reserved' ? 'Reserved' : 'Available'}
         </span>
       </div>
 
@@ -32,67 +30,84 @@ function InventoryCard({ unit }) {
           ) : null}
         </div>
 
-        {isSold ? (
+        {status === 'sold' ? (
           unit.buyer ? (
             <p className="inventory-card__buyer">
               <span className="inventory-card__buyer-label">Purchased by</span>
               <span className="inventory-card__buyer-name">{unit.buyer}</span>
             </p>
           ) : null
+        ) : status === 'reserved' ? (
+          <span className="inventory-card__book inventory-card__book--reserved" aria-disabled="true">
+            Reserved
+          </span>
         ) : (
-          <a
+          <button
+            type="button"
             className="inventory-card__book"
-            href={SITE_CONTACT.phone.href}
-            target="_blank"
-            rel="noopener noreferrer"
+            onClick={() => onBook(unit)}
           >
             Book now
-          </a>
+          </button>
         )}
       </div>
     </article>
   )
 }
 
+function unitStatus(unit) {
+  return unit.status === 'sold' || unit.status === 'reserved' ? unit.status : 'available'
+}
+
 export default function ProjectInventoryBoard({ project }) {
   const { inventory } = useProjectInventory(project)
   const floors = project.plan?.floors ?? []
   const [selectedFloorId, setSelectedFloorId] = useState('all')
+  const [selectedStatus, setSelectedStatus] = useState('all')
+  const [bookingUnit, setBookingUnit] = useState(null)
 
   const floorStats = useMemo(() => {
-    const byFloor = Object.fromEntries(
-      floors.map((floor) => [floor.id, { total: 0, available: 0, sold: 0 }]),
-    )
-    let available = 0
-    let sold = 0
+    const empty = () => ({ total: 0, available: 0, reserved: 0, sold: 0 })
+    const byFloor = Object.fromEntries(floors.map((floor) => [floor.id, empty()]))
+    const all = empty()
 
     for (const unit of inventory) {
-      const isSold = unit.status === 'sold'
-      if (isSold) sold += 1
-      else available += 1
+      const status = unitStatus(unit)
+      all.total += 1
+      all[status] += 1
 
       const bucket = byFloor[unit.floorId]
       if (!bucket) continue
       bucket.total += 1
-      if (isSold) bucket.sold += 1
-      else bucket.available += 1
+      bucket[status] += 1
     }
 
-    return {
-      all: { total: inventory.length, available, sold },
-      byFloor,
-    }
+    return { all, byFloor }
   }, [floors, inventory])
 
-  const visibleUnits =
-    selectedFloorId === 'all'
-      ? inventory
-      : inventory.filter((unit) => unit.floorId === selectedFloorId)
+  const visibleUnits = useMemo(() => {
+    const byFloor =
+      selectedFloorId === 'all'
+        ? inventory
+        : inventory.filter((unit) => unit.floorId === selectedFloorId)
+
+    if (selectedStatus === 'all') return byFloor
+    return byFloor.filter((unit) => unitStatus(unit) === selectedStatus)
+  }, [inventory, selectedFloorId, selectedStatus])
 
   const activeStats =
     selectedFloorId === 'all'
       ? floorStats.all
-      : floorStats.byFloor[selectedFloorId] ?? { total: 0, available: 0, sold: 0 }
+      : floorStats.byFloor[selectedFloorId] ?? {
+          total: 0,
+          available: 0,
+          reserved: 0,
+          sold: 0,
+        }
+
+  const toggleStatus = (status) => {
+    setSelectedStatus((current) => (current === status ? 'all' : status))
+  }
 
   return (
     <section
@@ -110,20 +125,44 @@ export default function ProjectInventoryBoard({ project }) {
           each layout.
         </p>
 
-        <dl className="inventory-summary" aria-live="polite">
-          <div className="inventory-summary__item">
-            <dt>Showing</dt>
-            <dd>{activeStats.total}</dd>
-          </div>
-          <div className="inventory-summary__item is-available">
-            <dt>Available</dt>
-            <dd>{activeStats.available}</dd>
-          </div>
-          <div className="inventory-summary__item is-sold">
-            <dt>Sold</dt>
-            <dd>{activeStats.sold}</dd>
-          </div>
-        </dl>
+        <div className="inventory-summary" role="group" aria-label="Filter by status">
+          <button
+            type="button"
+            className={`inventory-summary__item${selectedStatus === 'all' ? ' is-active' : ''}`}
+            aria-pressed={selectedStatus === 'all'}
+            onClick={() => setSelectedStatus('all')}
+          >
+            <span className="inventory-summary__label">Showing</span>
+            <span className="inventory-summary__value">{visibleUnits.length}</span>
+          </button>
+          <button
+            type="button"
+            className={`inventory-summary__item is-available${selectedStatus === 'available' ? ' is-active' : ''}`}
+            aria-pressed={selectedStatus === 'available'}
+            onClick={() => toggleStatus('available')}
+          >
+            <span className="inventory-summary__label">Available</span>
+            <span className="inventory-summary__value">{activeStats.available}</span>
+          </button>
+          <button
+            type="button"
+            className={`inventory-summary__item is-reserved${selectedStatus === 'reserved' ? ' is-active' : ''}`}
+            aria-pressed={selectedStatus === 'reserved'}
+            onClick={() => toggleStatus('reserved')}
+          >
+            <span className="inventory-summary__label">Reserved</span>
+            <span className="inventory-summary__value">{activeStats.reserved}</span>
+          </button>
+          <button
+            type="button"
+            className={`inventory-summary__item is-sold${selectedStatus === 'sold' ? ' is-active' : ''}`}
+            aria-pressed={selectedStatus === 'sold'}
+            onClick={() => toggleStatus('sold')}
+          >
+            <span className="inventory-summary__label">Sold</span>
+            <span className="inventory-summary__value">{activeStats.sold}</span>
+          </button>
+        </div>
       </div>
 
       {floors.length ? (
@@ -165,13 +204,25 @@ export default function ProjectInventoryBoard({ project }) {
         <div className="inventory-grid" role="list">
           {visibleUnits.map((unit) => (
             <div key={unit.id} role="listitem">
-              <InventoryCard unit={unit} />
+              <InventoryCard unit={unit} onBook={setBookingUnit} />
             </div>
           ))}
         </div>
       ) : (
-        <p className="inventory-empty">No units on this floor yet.</p>
+        <p className="inventory-empty">
+          {selectedStatus === 'all'
+            ? 'No units on this floor yet.'
+            : `No ${selectedStatus} units on this floor.`}
+        </p>
       )}
+
+      {bookingUnit ? (
+        <InventoryBookingModal
+          project={project}
+          unit={bookingUnit}
+          onClose={() => setBookingUnit(null)}
+        />
+      ) : null}
     </section>
   )
 }
