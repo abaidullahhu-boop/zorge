@@ -383,6 +383,10 @@
   background: #fff;
 }
 
+.architecture-section--project .architecture-gallery-sticky {
+  padding-top: var(--project-nav-h, 72px);
+}
+
 .architecture-gallery-row {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -759,49 +763,89 @@
   .architecture-gallery-sticky {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    overflow: hidden;
   }
 
   .architecture-gallery-row {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    gap: 22px;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 12px;
     height: 100%;
-    padding-inline: var(--gallery-pad);
+    min-height: 0;
+    padding:
+      12px
+      var(--gallery-pad)
+      max(12px, env(safe-area-inset-bottom, 0px));
   }
 
   .architecture-gallery-copy {
     order: -1;
+    flex: 0 0 auto;
+    align-items: flex-start;
+    width: 100%;
     max-width: none;
     gap: 0;
     margin-top: 0;
+    text-align: left;
+  }
+
+  .architecture-gallery-kicker {
+    margin-bottom: 6px;
+    font-size: 10px;
+  }
+
+  .architecture-gallery-plan-text {
+    gap: 6px;
   }
 
   .architecture-gallery-meta {
-    margin-top: 18px;
+    margin-top: 10px;
   }
 
   .architecture-gallery-caption {
-    font-size: clamp(32px, 10vw, 48px);
+    font-size: clamp(22px, 6.5vw, 30px);
     line-height: 1;
   }
 
   .architecture-gallery-plan-detail {
-    max-width: 28ch;
+    max-width: none;
+    font-size: clamp(11px, 3.1vw, 13px);
+    line-height: 1.4;
+  }
+
+  .architecture-gallery-progress-dot {
+    width: 22px;
+  }
+
+  .architecture-gallery-progress-dot.is-active {
+    width: 36px;
   }
 
   .architecture-gallery-right {
-    flex: 1 1 auto;
+    flex: 1 1 0;
     width: 100%;
-    min-height: 58vw;
+    min-height: 0;
+    align-items: stretch;
+    justify-content: stretch;
     container-type: size;
   }
 
   .architecture-gallery-frame {
-    width: min(100cqi, calc(100cqh * 1600 / 1370));
-    height: auto;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    aspect-ratio: auto;
+  }
+
+  @supports (width: min(1cqi, 1cqh)) {
+    .architecture-gallery-frame {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .architecture-bottom-gallery-row {
@@ -932,6 +976,10 @@
     top: auto;
     height: auto;
     padding-top: 0;
+  }
+
+  .architecture-section--project .architecture-gallery-sticky {
+    padding-top: var(--project-nav-h, 72px);
   }
 
   .architecture-gallery-row {
