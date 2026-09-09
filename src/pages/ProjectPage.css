@@ -442,28 +442,152 @@
   color: var(--color-ink);
 }
 
-/* Plans / units — no dark hero, so nav must stay solid/readable */
+/* Inventory page — dark shell to match unit artwork */
+.project-plans-page {
+  color: #f3efe8;
+  background: #0c0c0c;
+}
+
 .project-plans-page .project-nav,
-.project-plans-page .project-nav:not(.is-scrolled) {
-  color: var(--color-ink);
-  background: rgb(255 255 255 / 96%);
-  border-bottom: 1px solid rgb(25 27 25 / 8%);
-  box-shadow: 0 10px 30px rgb(25 27 25 / 6%);
+.project-plans-page .project-nav:not(.is-scrolled),
+.project-plans-page .project-nav.is-scrolled {
+  color: #f3efe8;
+  background: rgb(12 12 12 / 92%);
+  border-bottom: 1px solid rgb(255 255 255 / 10%);
+  box-shadow: none;
   backdrop-filter: blur(16px);
   text-shadow: none;
 }
 
-.project-plans-page .project-nav:not(.is-scrolled) .project-nav__link.is-active {
-  color: var(--project-accent);
+.project-plans-page .project-nav__link.is-active,
+.project-plans-page .project-nav:not(.is-scrolled) .project-nav__link.is-active,
+.project-plans-page .project-nav.is-scrolled .project-nav__link.is-active {
+  color: #c49278;
 }
 
 .project-plans-page .project-nav__cta,
-.project-plans-page .project-nav:not(.is-scrolled) .project-nav__cta {
+.project-plans-page .project-nav:not(.is-scrolled) .project-nav__cta,
+.project-plans-page .project-nav.is-scrolled .project-nav__cta {
   color: #fff;
   background: var(--project-accent);
   border-color: var(--project-accent);
 }
 
+.project-plans-page .project-inventory--board {
+  background: #0c0c0c;
+}
+
+.project-plans-page .project-heading {
+  color: #f3efe8;
+}
+
+.project-plans-page .project-inventory__lead {
+  color: rgb(243 239 232 / 62%);
+}
+
+.project-plans-page .inventory-summary__item dt,
+.project-plans-page .inventory-summary__label {
+  color: rgb(243 239 232 / 48%);
+}
+
+.project-plans-page .inventory-summary__item dd,
+.project-plans-page .inventory-summary__value {
+  color: #f3efe8;
+}
+
+.project-plans-page .inventory-summary__item.is-available {
+  color: #6fbf93;
+}
+
+.project-plans-page .inventory-summary__item.is-available dd,
+.project-plans-page .inventory-summary__item.is-available .inventory-summary__value {
+  color: #6fbf93;
+}
+
+.project-plans-page .inventory-summary__item.is-reserved {
+  color: #d4b84a;
+}
+
+.project-plans-page .inventory-summary__item.is-reserved dd,
+.project-plans-page .inventory-summary__item.is-reserved .inventory-summary__value {
+  color: #d4b84a;
+}
+
+.project-plans-page .inventory-summary__item.is-sold {
+  color: #e07a6f;
+}
+
+.project-plans-page .inventory-summary__item.is-sold dd,
+.project-plans-page .inventory-summary__item.is-sold .inventory-summary__value {
+  color: #e07a6f;
+}
+
+.project-plans-page .inventory-summary__item:focus-visible {
+  outline-color: rgb(196 146 120 / 70%);
+}
+
+.project-plans-page .projects-floor-nav--inventory .projects-floor-btn {
+  border-color: rgb(255 255 255 / 14%);
+  background: rgb(255 255 255 / 4%);
+  color: rgb(243 239 232 / 68%);
+}
+
+.project-plans-page .projects-floor-nav--inventory .projects-floor-btn:hover,
+.project-plans-page .projects-floor-nav--inventory .projects-floor-btn:focus-visible {
+  border-color: rgb(196 146 120 / 55%);
+  color: #f3efe8;
+}
+
+.project-plans-page .projects-floor-nav--inventory .projects-floor-btn.is-active {
+  color: #fff;
+  background: var(--project-accent);
+  border-color: var(--project-accent);
+}
+
+.project-plans-page .projects-floor-btn__count {
+  background: rgb(255 255 255 / 10%);
+}
+
+.project-plans-page .inventory-card {
+  border-color: rgb(255 255 255 / 12%);
+  background: #141414;
+}
+
+.project-plans-page .inventory-card:hover {
+  border-color: rgb(196 146 120 / 45%);
+  box-shadow: 0 18px 40px rgb(0 0 0 / 35%);
+}
+
+.project-plans-page .inventory-card.is-sold {
+  background: #101010;
+}
+
+.project-plans-page .inventory-card.is-reserved {
+  background: #121110;
+}
+
+.project-plans-page .inventory-card.is-sold:hover,
+.project-plans-page .inventory-card.is-reserved:hover {
+  border-color: rgb(255 255 255 / 12%);
+  box-shadow: none;
+}
+
+.project-plans-page .inventory-card__title {
+  color: #f3efe8;
+}
+
+.project-plans-page .inventory-card__floor {
+  color: rgb(243 239 232 / 58%);
+}
+
+.project-plans-page .inventory-card__buyer-label {
+  color: rgb(243 239 232 / 48%);
+}
+
+.project-plans-page .inventory-empty {
+  color: rgb(243 239 232 / 55%);
+  border-color: rgb(255 255 255 / 14%);
+}
 
 .project-inventory {
   padding:
@@ -504,9 +628,33 @@
   display: grid;
   gap: 4px;
   margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.72;
+  transition: opacity 160ms ease;
 }
 
-.inventory-summary__item dt {
+.inventory-summary__item:hover,
+.inventory-summary__item:focus-visible,
+.inventory-summary__item.is-active {
+  opacity: 1;
+}
+
+.inventory-summary__item:focus-visible {
+  outline: 2px solid rgb(196 146 120 / 70%);
+  outline-offset: 4px;
+}
+
+.inventory-summary__item.is-active {
+  box-shadow: inset 0 -2px 0 currentColor;
+}
+
+.inventory-summary__item dt,
+.inventory-summary__label {
   margin: 0;
   font: 600 11px / 1 var(--font-sans);
   letter-spacing: 0.1em;
@@ -514,18 +662,38 @@
   color: rgb(25 27 25 / 48%);
 }
 
-.inventory-summary__item dd {
+.inventory-summary__item dd,
+.inventory-summary__value {
   margin: 0;
   font: 600 clamp(22px, 2.4vw, 28px) / 1 var(--font-sans);
   letter-spacing: -0.03em;
   color: var(--color-ink);
 }
 
-.inventory-summary__item.is-available dd {
+.inventory-summary__item.is-available {
   color: #2f6b4f;
 }
 
-.inventory-summary__item.is-sold dd {
+.inventory-summary__item.is-available dd,
+.inventory-summary__item.is-available .inventory-summary__value {
+  color: #2f6b4f;
+}
+
+.inventory-summary__item.is-reserved {
+  color: #c9a227;
+}
+
+.inventory-summary__item.is-reserved dd,
+.inventory-summary__item.is-reserved .inventory-summary__value {
+  color: #c9a227;
+}
+
+.inventory-summary__item.is-sold {
+  color: #9a3b32;
+}
+
+.inventory-summary__item.is-sold dd,
+.inventory-summary__item.is-sold .inventory-summary__value {
   color: #9a3b32;
 }
 
@@ -606,11 +774,13 @@
   transform: translateY(-3px);
 }
 
-.inventory-card.is-sold {
+.inventory-card.is-sold,
+.inventory-card.is-reserved {
   background: #faf9f7;
 }
 
-.inventory-card.is-sold:hover {
+.inventory-card.is-sold:hover,
+.inventory-card.is-reserved:hover {
   transform: none;
   box-shadow: none;
   border-color: rgb(25 27 25 / 10%);
@@ -658,7 +828,8 @@
   transform: scale(1.03);
 }
 
-.inventory-card.is-sold .inventory-card__media {
+.inventory-card.is-sold .inventory-card__media,
+.inventory-card.is-reserved .inventory-card__media {
   background:
     radial-gradient(
       ellipse 78% 70% at 50% 42%,
@@ -668,11 +839,13 @@
     );
 }
 
-.inventory-card.is-sold .inventory-card__media img {
+.inventory-card.is-sold .inventory-card__media img,
+.inventory-card.is-reserved .inventory-card__media img {
   filter: grayscale(0.2) brightness(0.9) drop-shadow(0 10px 22px rgb(0 0 0 / 45%));
 }
 
-.inventory-card.is-sold:hover .inventory-card__media img {
+.inventory-card.is-sold:hover .inventory-card__media img,
+.inventory-card.is-reserved:hover .inventory-card__media img {
   transform: none;
 }
 
@@ -696,6 +869,11 @@
 
 .inventory-card__badge.is-available {
   background: rgb(47 107 79 / 92%);
+}
+
+.inventory-card__badge.is-reserved {
+  background: rgb(201 162 39 / 94%);
+  color: #1a1814;
 }
 
 .inventory-card__badge.is-sold {
@@ -750,6 +928,8 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-decoration: none;
+  cursor: pointer;
+  appearance: none;
   transition:
     background 160ms ease,
     color 160ms ease,
@@ -765,6 +945,20 @@
 .inventory-card__book:focus-visible {
   outline: 2px solid var(--project-accent);
   outline-offset: 2px;
+}
+
+.inventory-card__book--reserved {
+  cursor: default;
+  pointer-events: none;
+  border-color: #c9a227;
+  background: #c9a227;
+  color: #1a1814;
+}
+
+.project-plans-page .inventory-card__book--reserved {
+  border-color: #d4b84a;
+  background: #d4b84a;
+  color: #1a1814;
 }
 
 .inventory-card__buyer {
@@ -793,6 +987,242 @@
   color: rgb(25 27 25 / 55%);
   text-align: center;
   border: 1px dashed rgb(25 27 25 / 14%);
+}
+
+/* Inventory booking modal */
+.inventory-booking {
+  position: fixed;
+  inset: 0;
+  z-index: 520;
+  display: grid;
+  place-items: center;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+  background: rgb(17 17 17 / 52%);
+  backdrop-filter: blur(2px);
+}
+
+.inventory-booking__dialog {
+  position: relative;
+  width: min(100%, 520px);
+  max-height: min(92svh, 720px);
+  overflow: auto;
+  padding: clamp(22px, 3.5vw, 32px);
+  color: #191b19;
+  background: #fff;
+  box-shadow: 0 24px 64px rgb(0 0 0 / 28%);
+  outline: none;
+}
+
+.inventory-booking__close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  padding: 0;
+  color: rgb(25 27 25 / 55%);
+  font: 400 28px / 1 var(--font-sans);
+  background: transparent;
+  cursor: pointer;
+}
+
+.inventory-booking__close:hover,
+.inventory-booking__close:focus-visible {
+  color: #191b19;
+}
+
+.inventory-booking__kicker {
+  margin: 0 0 8px;
+  font: 600 11px / 1 var(--font-sans);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--project-accent, #a0725b);
+}
+
+.inventory-booking__title {
+  margin: 0;
+  padding-right: 28px;
+  font: 700 clamp(22px, 3vw, 28px) / 1.15 var(--font-sans);
+  letter-spacing: -0.02em;
+}
+
+.inventory-booking__meta {
+  margin: 8px 0 0;
+  font: 500 13px / 1.4 var(--font-sans);
+  color: rgb(25 27 25 / 58%);
+}
+
+.inventory-booking__lead {
+  margin: 12px 0 0;
+  font: 400 14px / 1.55 var(--font-sans);
+  color: rgb(25 27 25 / 68%);
+}
+
+.inventory-booking__form {
+  display: grid;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.inventory-booking__grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.inventory-booking__field {
+  display: grid;
+  gap: 7px;
+}
+
+.inventory-booking__label {
+  font: 600 11px / 1.2 var(--font-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgb(25 27 25 / 58%);
+}
+
+.inventory-booking__label abbr {
+  color: var(--project-accent, #a0725b);
+  text-decoration: none;
+}
+
+.inventory-booking__field input,
+.inventory-booking__field textarea {
+  width: 100%;
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid rgb(25 27 25 / 14%);
+  border-radius: 0;
+  color: #191b19;
+  font: 400 15px / 1.4 var(--font-sans);
+  background: #fafafa;
+  outline: none;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.inventory-booking__field textarea {
+  resize: vertical;
+  min-height: 88px;
+}
+
+.inventory-booking__field input:focus,
+.inventory-booking__field textarea:focus {
+  border-color: rgb(160 114 91 / 70%);
+  background: #fff;
+}
+
+.inventory-booking__field input:disabled,
+.inventory-booking__field textarea:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.inventory-booking__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 18px;
+  margin-top: 4px;
+}
+
+.inventory-booking__button {
+  min-width: 160px;
+  min-height: 44px;
+  padding: 12px 20px;
+  border: 1px solid var(--project-accent, #a0725b);
+  color: #fff;
+  font: 700 11px / 1 var(--font-sans);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--project-accent, #a0725b);
+  cursor: pointer;
+  appearance: none;
+  transition: background 160ms ease, border-color 160ms ease, opacity 160ms ease;
+}
+
+.inventory-booking__button:hover,
+.inventory-booking__button:focus-visible {
+  background: #8a5f4b;
+  border-color: #8a5f4b;
+}
+
+.inventory-booking__button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.inventory-booking__button--ghost {
+  border-color: rgb(25 27 25 / 22%);
+  color: #191b19;
+  background: transparent;
+}
+
+.inventory-booking__button--ghost:hover,
+.inventory-booking__button--ghost:focus-visible {
+  border-color: var(--project-accent, #a0725b);
+  color: #fff;
+  background: var(--project-accent, #a0725b);
+}
+
+.inventory-booking__whatsapp {
+  font: 600 12px / 1.3 var(--font-sans);
+  letter-spacing: 0.04em;
+  color: rgb(25 27 25 / 62%);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.inventory-booking__whatsapp:hover,
+.inventory-booking__whatsapp:focus-visible {
+  color: var(--project-accent, #a0725b);
+}
+
+.inventory-booking__error {
+  margin: 0;
+  padding: 12px 14px;
+  border-left: 3px solid #9a3b32;
+  color: #7a2e28;
+  font: 400 14px / 1.45 var(--font-sans);
+  background: rgb(154 59 50 / 8%);
+}
+
+.inventory-booking__success {
+  display: grid;
+  gap: 10px;
+  margin-top: 22px;
+  padding: 18px 16px;
+  border-left: 3px solid var(--project-accent, #a0725b);
+  background: rgb(160 114 91 / 8%);
+}
+
+.inventory-booking__success h3 {
+  margin: 0;
+  font: 700 13px / 1.3 var(--font-sans);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.inventory-booking__success p {
+  margin: 0;
+  font: 400 14px / 1.55 var(--font-sans);
+  color: rgb(25 27 25 / 72%);
+}
+
+@media (max-width: 560px) {
+  .inventory-booking__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .inventory-booking__button {
+    width: 100%;
+  }
+
+  .inventory-booking__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
 
 .project-page .projects-plan-thumbs {

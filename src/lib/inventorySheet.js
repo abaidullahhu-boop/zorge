@@ -1,4 +1,5 @@
-const STATUS_SOLD = new Set(['sold', 'sale', 'booked', 'reserved'])
+const STATUS_SOLD = new Set(['sold', 'sale'])
+const STATUS_RESERVED = new Set(['reserved', 'reserve', 'booked', 'hold', 'onhold'])
 const STATUS_AVAILABLE = new Set(['available', 'open', 'free', 'unsold'])
 
 function normalizeKeyPart(value) {
@@ -87,6 +88,7 @@ function headerIndex(headers, aliases) {
 function normalizeStatus(rawStatus, buyer) {
   const value = normalizeKeyPart(rawStatus)
   if (STATUS_SOLD.has(value)) return 'sold'
+  if (STATUS_RESERVED.has(value) || value.includes('reserv')) return 'reserved'
   if (STATUS_AVAILABLE.has(value)) return 'available'
   if (buyer) return 'sold'
   if (rawStatus) return value.includes('sold') ? 'sold' : 'available'
@@ -141,7 +143,7 @@ export function parseInventorySheetCsv(text) {
     if (buyerIdx !== -1) patch.buyer = buyer
     if (area) patch.area = area
     if (status === 'available') patch.buyer = null
-    else if (status === 'sold' && buyer) patch.buyer = buyer
+    else if ((status === 'sold' || status === 'reserved') && buyer) patch.buyer = buyer
 
     overrides.set(inventoryUnitKey(projectId, floorId, unit), patch)
   }

@@ -16,9 +16,9 @@ dsa,first,Office # 03,sold,,310
 dsa,first,Office # 04,sold,,330
 dsa,first,Office # 05,sold,,490
 dsa,first,Office # 06,available,,516
-dsa,first,Office # 07,available,,631
+dsa,first,Office # 07,reserved,,631
 dsa,second,Apartment # 1,available,,360
-dsa,second,Apartment # 2,available,,387
+dsa,second,Apartment # 2,reserved,,387
 dsa,second,Apartment # 3,available,,410
 dsa,second,Apartment # 4,available,,573
 dsa,second,Apartment # 5,available,,595
@@ -43,7 +43,6 @@ dsa,fifth,Apartment # 5,available,,595
 dsa,fifth,Apartment # 6,available,,625
 dsa,sixth,Apartment # 1,available,,360
 dsa,sixth,Apartment # 2,available,,387
-dsa,sixth,Apartment # 3,available,,410
-dsa,sixth,Apartment # 4,available,,573
-dsa,sixth,Apartment # 5,available,,595
-dsa,sixth,Apartment # 6,available,,625
+dsa,sixth,Apartment # 3,available,,573
+dsa,sixth,Apartment # 4,available,,595
+dsa,sixth,Apartment # 5,available,,1035
