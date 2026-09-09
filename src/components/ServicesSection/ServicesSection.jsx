@@ -309,6 +309,17 @@ function ServicesSection({ variant = 'default', scrollContainerRef = null }) {
         </p>
         {SERVICES.map((item, index) => (
           <article key={item.id} className="services-mobile-card">
+            <div className="services-mobile-content">
+              <div className="services-mobile-head">
+                <p className="services-mobile-title">{item.title}</p>
+                <div className="services-counter">
+                  <span className="services-counter-current">{index + 1}</span>
+                  <span className="services-counter-line" aria-hidden="true" />
+                  <span className="services-counter-total">{SERVICE_COUNT}</span>
+                </div>
+              </div>
+              <p className="services-mobile-copy">{item.text}</p>
+            </div>
             <div className="services-mobile-images">
               {item.images.map((image, imageIndex) => (
                 <div
@@ -325,17 +336,6 @@ function ServicesSection({ variant = 'default', scrollContainerRef = null }) {
                   />
                 </div>
               ))}
-            </div>
-            <div className="services-mobile-content">
-              <div className="services-mobile-head">
-                <p className="services-mobile-title">{item.title}</p>
-                <div className="services-counter">
-                  <span className="services-counter-current">{index + 1}</span>
-                  <span className="services-counter-line" aria-hidden="true" />
-                  <span className="services-counter-total">{SERVICE_COUNT}</span>
-                </div>
-              </div>
-              <p className="services-mobile-copy">{item.text}</p>
             </div>
           </article>
         ))}
