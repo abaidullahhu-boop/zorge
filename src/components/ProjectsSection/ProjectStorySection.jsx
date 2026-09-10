@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { gsap } from '../../lib/gsap'
 import collection1 from '../../assets/images/collection1.png'
 import collection2 from '../../assets/images/collection2.png'
@@ -13,7 +13,7 @@ import firstFloorPlan from '../../assets/images/1floor.jpeg'
 import secondFloorPlan from '../../assets/images/2floor.jpeg'
 import '../../assets/styles/ArchitectureSection.css'
 
-const floorPlanGallery = [
+const defaultFloorPlanGallery = [
   {
     id: 'lower-ground',
     src: lowerGroundFloorPlan,
@@ -44,7 +44,6 @@ const floorPlanGallery = [
   },
 ]
 
-const PLAN_COUNT = floorPlanGallery.length
 const CLIP_HIDDEN = 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
 const CLIP_VISIBLE = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
 
@@ -77,7 +76,12 @@ function DecorLayer({ src, vmin, isBase = false, zIndex }) {
   )
 }
 
-function ProjectStorySection({ scrollContainerRef = null }) {
+function ProjectStorySection({ scrollContainerRef = null, project = null }) {
+  const floorPlanGallery = useMemo(
+    () => project?.story?.floorPlans ?? defaultFloorPlanGallery,
+    [project],
+  )
+  const planCount = floorPlanGallery.length
   const [isVisible, setIsVisible] = useState(false)
   const [activePlanIndex, setActivePlanIndex] = useState(0)
   const sectionRef = useRef(null)
@@ -92,6 +96,11 @@ function ProjectStorySection({ scrollContainerRef = null }) {
     activeIndexRef.current = nextIndex
     setActivePlanIndex(nextIndex)
   }
+
+  useEffect(() => {
+    setActivePlanIndex(0)
+    activeIndexRef.current = 0
+  }, [project?.id])
 
   useEffect(() => {
     const section = sectionRef.current
@@ -150,26 +159,26 @@ function ProjectStorySection({ scrollContainerRef = null }) {
           ...scrollTriggerBase,
           trigger: pin,
           start: 'top top',
-          end: () => `+=${getStickyH() * (PLAN_COUNT - 1)}`,
+          end: () => `+=${getStickyH() * (planCount - 1)}`,
           scrub: true,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            const segments = PLAN_COUNT - 1
+            const segments = planCount - 1
             const raw = self.progress * segments
-            const base = Math.min(PLAN_COUNT - 1, Math.floor(raw))
+            const base = Math.min(planCount - 1, Math.floor(raw))
             const local = raw - Math.floor(raw)
             const nextIndex =
               raw >= segments
-                ? PLAN_COUNT - 1
+                ? planCount - 1
                 : local >= 0.5
-                  ? Math.min(PLAN_COUNT - 1, base + 1)
+                  ? Math.min(planCount - 1, base + 1)
                   : base
             setActiveFromScrollRef.current?.(nextIndex)
           },
         },
       })
 
-      for (let i = 0; i < PLAN_COUNT - 1; i += 1) {
+      for (let i = 0; i < planCount - 1; i += 1) {
         const next = i + 1
         const position = i
         const prevImage = images[i]
@@ -192,7 +201,7 @@ function ProjectStorySection({ scrollContainerRef = null }) {
     }, pin)
 
     return () => ctx.revert()
-  }, [scrollContainerRef])
+  }, [scrollContainerRef, planCount, project?.id])
 
   useEffect(() => {
     const section = sectionRef.current
@@ -234,13 +243,15 @@ function ProjectStorySection({ scrollContainerRef = null }) {
     }
   }, [])
 
+  if (!planCount) return null
+
   return (
     <section
       ref={sectionRef}
       className={`architecture-section architecture-section--project ${isVisible ? 'is-visible' : ''}`}
       id="story"
       aria-labelledby="story-title"
-      style={{ '--plan-count': PLAN_COUNT }}
+      style={{ '--plan-count': planCount }}
     >
       <div className="architecture-slide">
         <div className="architecture-gallery-pin" ref={galleryPinRef}>
@@ -259,7 +270,7 @@ function ProjectStorySection({ scrollContainerRef = null }) {
                     </span>
                     <span className="architecture-gallery-counter-sep">/</span>
                     <span className="architecture-gallery-counter-total">
-                      {String(PLAN_COUNT).padStart(2, '0')}
+                      {String(planCount).padStart(2, '0')}
                     </span>
                   </p>
                   <div

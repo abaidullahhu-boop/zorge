@@ -11,13 +11,6 @@ const PROJECT_NAV = [
   { id: 'plans', label: 'Inventory' },
 ]
 
-const COMPACT_NAV = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'plans', label: 'Inventory' },
-  { id: 'units', label: 'Units' },
-  { id: 'enquire', label: 'Enquire' },
-]
-
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(
     () => typeof window !== 'undefined' && window.matchMedia(MOBILE_MQ).matches,
@@ -71,7 +64,7 @@ export function ProjectNav({
 }) {
   const [scrolled, setScrolled] = useState(false)
   const [activeId, setActiveId] = useState(activeIdProp ?? 'overview')
-  const navItems = project.id === 'dsa' ? PROJECT_NAV : COMPACT_NAV
+  const navItems = PROJECT_NAV
   const lockActive = activeIdProp != null
 
   useEffect(() => {
