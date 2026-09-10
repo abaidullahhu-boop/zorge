@@ -1,6 +1,8 @@
 import dsaImage from '../assets/images/dayim-signature.png'
 import livingImage from '../assets/images/dayim-living.png'
 import zindagiImage from '../assets/images/dayim-zindagi.png'
+import livingGroundFloorPlan from '../assets/images/living-floor-plans/Ground Floor.png'
+import livingLowerGroundFloorPlan from '../assets/images/living-floor-plans/Lower Ground.png'
 
 const signaturePlanFiles = import.meta.glob(
   '../assets/images/Signature floor plans/FLOOR PLANS/Floor Plans/*.png',
@@ -384,11 +386,31 @@ const livingFloors = [
   {
     id: 'lower-ground',
     label: 'Lower Ground',
+    overview: {
+      src: livingLowerGroundFloorPlan,
+      label: 'Floor layout',
+      alt: 'Dayim Living lower ground floor commercial outlets layout',
+      title: 'Floor layout',
+      area: null,
+      code: null,
+      buyer: null,
+      status: 'available',
+    },
     images: livingLowerGroundImages,
   },
   {
     id: 'ground',
     label: 'Ground Floor',
+    overview: {
+      src: livingGroundFloorPlan,
+      label: 'Floor layout',
+      alt: 'Dayim Living ground floor commercial outlets layout',
+      title: 'Floor layout',
+      area: null,
+      code: null,
+      buyer: null,
+      status: 'available',
+    },
     images: livingGroundImages,
   },
   {
@@ -604,6 +626,20 @@ export const projects = [
         ],
       },
       floorPlans: [
+        {
+          id: 'living-lower-ground',
+          src: livingLowerGroundFloorPlan,
+          alt: 'Dayim Living lower ground floor commercial outlets layout',
+          label: 'Lower Ground Floor',
+          detail: '720 Sq.Ft. commercial outlets with office hall, lift & stair lobby',
+        },
+        {
+          id: 'living-ground',
+          src: livingGroundFloorPlan,
+          alt: 'Dayim Living ground floor commercial outlets layout',
+          label: 'Ground Floor',
+          detail: '784 Sq.Ft. commercial outlets with office hall, bath, lift & stair lobby',
+        },
         {
           id: 'living-studio-deluxe-268',
           src: livingResidentialImages[0].src,
