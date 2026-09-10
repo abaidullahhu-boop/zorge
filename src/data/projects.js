@@ -392,8 +392,28 @@ const livingFloors = [
     images: livingGroundImages,
   },
   {
-    id: 'residential',
-    label: '1st – 5th Floor',
+    id: 'first',
+    label: '1st Floor',
+    images: livingResidentialImages,
+  },
+  {
+    id: 'second',
+    label: '2nd Floor',
+    images: livingResidentialImages,
+  },
+  {
+    id: 'third',
+    label: '3rd Floor',
+    images: livingResidentialImages,
+  },
+  {
+    id: 'fourth',
+    label: '4th Floor',
+    images: livingResidentialImages,
+  },
+  {
+    id: 'fifth',
+    label: '5th Floor',
     images: livingResidentialImages,
   },
 ]
