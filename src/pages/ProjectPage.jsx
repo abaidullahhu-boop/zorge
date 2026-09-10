@@ -3,7 +3,6 @@ import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom'
 import {
   ProjectEnquire,
   ProjectHero,
-  ProjectInventory,
   ProjectNav,
   ProjectOverview,
 } from '../components/ProjectsSection/ProjectDetail'
@@ -228,22 +227,17 @@ function ProjectPage() {
       <ProjectHero project={project} onNavigate={handleNavigate} />
       <ProjectOverview project={project} />
 
-      {project.id === 'dsa' ? (
-        <>
-          <TimeSection variant="project" scrollContainerRef={pageRef} />
-          <ProjectStorySection scrollContainerRef={pageRef} />
-          <ServicesSection variant="project" scrollContainerRef={pageRef} />
-        </>
-      ) : null}
-
-      {project.id !== 'dsa' ? (
-        <ProjectInventory
-          key={project.id}
-          project={project}
-          includePlans={false}
-          includeUnits
-        />
-      ) : null}
+      <TimeSection
+        variant="project"
+        project={project}
+        scrollContainerRef={pageRef}
+      />
+      <ProjectStorySection project={project} scrollContainerRef={pageRef} />
+      <ServicesSection
+        variant="project"
+        project={project}
+        scrollContainerRef={pageRef}
+      />
 
       <ProjectEnquire project={project} />
       <Footer onScrollTop={scrollToTop} />

@@ -12,6 +12,11 @@ const dsaInventoryFiles = import.meta.glob(
   { eager: true, import: 'default' },
 )
 
+const dlInventoryFiles = import.meta.glob(
+  '../assets/images/dl-inventory/**/*.{png,jpg,jpeg,PNG,JPG,JPEG}',
+  { eager: true, import: 'default' },
+)
+
 const signatureInteriorFiles = import.meta.glob(
   '../assets/images/Signature-Interior-Images/**/*.{png,jpg,jpeg,JPG,JPEG,PNG}',
   { eager: true, import: 'default' },
@@ -53,7 +58,7 @@ function parseDsaInventoryMeta(fileName) {
   const hallMatch = base.match(/Commercial\s+Hall\s*0*(\d+)/i)
   const officeMatch = base.match(/Commercial\s+Office\s*0*(\d+)/i)
   const aptMatch = base.match(
-    /^(Studio Executive|Studio Deluxe|One Bed Executive|One Bed Deluxe|2 Bed Executive)/i,
+    /^(Studio Executive|Executive Studio|Studio Deluxe|One Bed Executive|One Bed Deluxe|2 Bed Executive)/i,
   )
 
   let title = base
@@ -86,9 +91,10 @@ function parseDsaInventoryMeta(fileName) {
   }
 }
 
-function dsaInventoryImages(folderHint, altPrefix) {
+function inventoryImagesFrom(files, folderHint, altPrefix, missingLabel) {
   const typeOrder = [
     'Studio Executive',
+    'Executive Studio',
     'Studio Deluxe',
     'One Bed Executive',
     'One Bed Deluxe',
@@ -98,7 +104,7 @@ function dsaInventoryImages(folderHint, altPrefix) {
     'Office',
   ]
 
-  const images = Object.entries(dsaInventoryFiles)
+  const images = Object.entries(files)
     .filter(([key]) => key.includes(folderHint))
     .map(([key, src]) => {
       const fileName = key.split('/').pop()
@@ -139,10 +145,18 @@ function dsaInventoryImages(folderHint, altPrefix) {
     })
 
   if (!images.length) {
-    throw new Error(`Missing DSA inventory images: ${folderHint}`)
+    throw new Error(`Missing ${missingLabel} inventory images: ${folderHint}`)
   }
 
   return images
+}
+
+function dsaInventoryImages(folderHint, altPrefix) {
+  return inventoryImagesFrom(dsaInventoryFiles, folderHint, altPrefix, 'DSA')
+}
+
+function dlInventoryImages(folderHint, altPrefix) {
+  return inventoryImagesFrom(dlInventoryFiles, folderHint, altPrefix, 'DL')
 }
 
 export function getProjectInventory(project) {
@@ -353,6 +367,37 @@ const dsaFloors = [
   },
 ]
 
+const livingLowerGroundImages = dlInventoryImages(
+  '01- Lower Ground',
+  'Dayim Living lower ground',
+)
+const livingGroundImages = dlInventoryImages(
+  '02- Ground',
+  'Dayim Living ground floor',
+)
+const livingResidentialImages = dlInventoryImages(
+  '1st - 5th Floor',
+  'Dayim Living 1st to 5th floor',
+)
+
+const livingFloors = [
+  {
+    id: 'lower-ground',
+    label: 'Lower Ground',
+    images: livingLowerGroundImages,
+  },
+  {
+    id: 'ground',
+    label: 'Ground Floor',
+    images: livingGroundImages,
+  },
+  {
+    id: 'residential',
+    label: '1st – 5th Floor',
+    images: livingResidentialImages,
+  },
+]
+
 export const DEVELOPER = {
   name: 'Dayim Developers',
   tagline: 'Building Trust. Creating Lifestyles. Shaping the Future.',
@@ -360,6 +405,40 @@ export const DEVELOPER = {
     'At Dayim Developers, our vision is to redefine the future of real estate by setting new benchmarks in innovation, quality, and trust. We aspire to create iconic developments that inspire confidence, enrich communities, and deliver lasting value for generations to come.',
   story:
     'Led by our CEO, Waleed Ahmad, and Director, Ubaid Ullah, Dayim Developers is driven by the belief that real estate is more than constructing buildings—it is about creating communities, improving lifestyles, and delivering long-term value.',
+}
+
+function inventoryStatus(status) {
+  const value = String(status ?? '').toLowerCase()
+  if (value === 'sold') return 'sold'
+  if (value === 'limited' || value === 'reserved') return 'reserved'
+  return 'available'
+}
+
+function typologyInventoryFloor({ id, label, image, alt, units }) {
+  return {
+    id,
+    label,
+    overview: {
+      src: image,
+      label: 'Project overview',
+      alt,
+      title: 'Project overview',
+      area: null,
+      code: null,
+      buyer: null,
+      status: 'available',
+    },
+    images: units.map((unit) => ({
+      src: image,
+      alt: `${unit.type} — ${unit.area}`,
+      label: unit.label,
+      title: unit.type,
+      area: unit.area,
+      code: unit.label,
+      buyer: null,
+      status: inventoryStatus(unit.status),
+    })),
+  }
 }
 
 export const projects = [
@@ -450,6 +529,7 @@ export const projects = [
     id: 'living',
     title: 'Dayim Living',
     short: 'Smart Living',
+    brand: 'Living',
     subtitle: 'Block C Commercial · Al-Kabir Town Phase 2, Lahore.',
     image: livingImage,
     mapsUrl: 'https://share.google/uQuucywNcsJaxM1TJ',
@@ -467,19 +547,171 @@ export const projects = [
         'On Ground Delivered Project ( Possession Harded Over )',
       ],
     },
+    story: {
+      journey: {
+        title: 'Living Underway',
+        body: 'Hotel-service residences rising in Block C Commercial—planned for daily comfort and long-term investment value.',
+        tagline: 'Smart living. Dayim standard.',
+        items: [
+          {
+            id: 'living-vision',
+            src: livingImage,
+            alt: 'Dayim Living project vision',
+            label: 'Vision',
+            detail: 'Hotel-service studio apartments designed for modern city living in Al-Kabir Town Phase 2.',
+          },
+          {
+            id: 'living-site',
+            src: livingImage,
+            alt: 'Dayim Living site progress',
+            label: 'Site',
+            detail: 'Construction in process at Block C Commercial, with the same quality standard as every Dayim build.',
+          },
+          {
+            id: 'living-value',
+            src: livingImage,
+            alt: 'Dayim Living investment potential',
+            label: 'Value',
+            detail: 'A grounded address with strong investment potential for residents and buyers alike.',
+          },
+          {
+            id: 'living-delivery',
+            src: livingImage,
+            alt: 'Dayim Living delivery focus',
+            label: 'Delivery',
+            detail: 'On-ground delivered project focus—possession-ready planning with Dayim supervision.',
+          },
+        ],
+      },
+      floorPlans: [
+        {
+          id: 'living-studio-deluxe-268',
+          src: livingResidentialImages[0].src,
+          alt: livingResidentialImages[0].alt,
+          label: livingResidentialImages[0].label,
+          detail: livingResidentialImages[0].area
+            ? `${livingResidentialImages[0].area} hotel-service studio`
+            : 'Hotel-service studio typology',
+        },
+        {
+          id: 'living-studio-deluxe-354',
+          src: livingResidentialImages[1].src,
+          alt: livingResidentialImages[1].alt,
+          label: livingResidentialImages[1].label,
+          detail: livingResidentialImages[1].area
+            ? `${livingResidentialImages[1].area} hotel-service studio`
+            : 'Hotel-service studio typology',
+        },
+        {
+          id: 'living-executive-studio',
+          src: livingResidentialImages[2].src,
+          alt: livingResidentialImages[2].alt,
+          label: livingResidentialImages[2].label,
+          detail: livingResidentialImages[2].area
+            ? `${livingResidentialImages[2].area} executive studio`
+            : 'Executive studio typology',
+        },
+        {
+          id: 'living-hall-01',
+          src: livingLowerGroundImages[0].src,
+          alt: livingLowerGroundImages[0].alt,
+          label: livingLowerGroundImages[0].code ?? 'Hall # 01',
+          detail: livingLowerGroundImages[0].area
+            ? `${livingLowerGroundImages[0].area} commercial hall on lower ground`
+            : 'Commercial hall on lower ground',
+        },
+        {
+          id: 'living-hall-02',
+          src: livingGroundImages[0].src,
+          alt: livingGroundImages[0].alt,
+          label: livingGroundImages[0].code ?? 'Hall # 02',
+          detail: livingGroundImages[0].area
+            ? `${livingGroundImages[0].area} commercial hall on ground floor`
+            : 'Commercial hall on ground floor',
+        },
+      ],
+      interiors: {
+        brandLines: ['LIVING', 'INTERIORS'],
+        services: [
+          {
+            id: 'living-studio-deluxe',
+            title: 'Studio Deluxe',
+            images: [
+              { src: livingResidentialImages[0].src, label: '268 Sq.Ft.' },
+              { src: livingResidentialImages[1].src, label: '354 Sq.Ft.' },
+            ],
+            width: 1024,
+            height: 768,
+            text: 'Compact hotel-service studios planned for efficient city living.',
+          },
+          {
+            id: 'living-executive-studio',
+            title: 'Executive Studio',
+            images: [{ src: livingResidentialImages[2].src, label: '425 Sq.Ft.' }],
+            width: 1024,
+            height: 768,
+            text: 'Larger studio layouts with more room for daily routines and guests.',
+          },
+          {
+            id: 'living-commercial-hall',
+            title: 'Commercial Hall',
+            images: [
+              { src: livingLowerGroundImages[0].src, label: 'Lower Ground' },
+              { src: livingGroundImages[0].src, label: 'Ground Floor' },
+            ],
+            width: 1024,
+            height: 768,
+            text: 'Ground-level commercial halls for retail and business use.',
+          },
+        ],
+      },
+    },
     plan: {
-      images: [{ src: livingImage, alt: 'Dayim Living project overview' }],
+      floors: livingFloors,
     },
     units: [
-      { id: 'living-2bed', label: '2 Bed', type: '2 Bedroom', area: '900 sq ft', beds: 2, status: 'Available' },
-      { id: 'living-3bed', label: '3 Bed', type: '3 Bedroom', area: '1,100 sq ft', beds: 3, status: 'Available' },
-      { id: 'living-4bed', label: '4 Bed', type: '4 Bedroom', area: '1,400 sq ft', beds: 4, status: 'Enquire' },
+      {
+        id: 'studio-deluxe',
+        label: 'Studio Deluxe',
+        type: 'Studio Deluxe',
+        area: '268–354 Sq.Ft.',
+        beds: 0,
+        status: 'Available',
+        images: [
+          { src: livingResidentialImages[0].src, label: '268 Sq.Ft.', alt: livingResidentialImages[0].alt },
+          { src: livingResidentialImages[1].src, label: '354 Sq.Ft.', alt: livingResidentialImages[1].alt },
+        ],
+      },
+      {
+        id: 'executive-studio',
+        label: 'Executive Studio',
+        type: 'Executive Studio',
+        area: '425 Sq.Ft.',
+        beds: 0,
+        status: 'Available',
+        images: [
+          { src: livingResidentialImages[2].src, label: 'Residence', alt: livingResidentialImages[2].alt },
+        ],
+      },
+      {
+        id: 'commercial-hall',
+        label: 'Commercial Hall',
+        type: 'Commercial Hall',
+        area: '720–784 Sq.Ft.',
+        beds: null,
+        status: 'Available',
+        images: [
+          { src: livingLowerGroundImages[0].src, label: 'Lower Ground', alt: livingLowerGroundImages[0].alt },
+          { src: livingGroundImages[0].src, label: 'Ground Floor', alt: livingGroundImages[0].alt },
+        ],
+      },
     ],
   },
   {
     id: 'zindagi',
     title: 'Dayim Zindagi',
     short: 'Zindagi Elevated',
+    brand: 'Zindagi',
     subtitle: 'Business Bay Commercial · Al-Kabir Town Phase 2, Lahore.',
     image: zindagiImage,
     mapsUrl: 'https://share.google/ntyEvG8FmQl5EgXMT',
@@ -498,13 +730,114 @@ export const projects = [
         'Construction Commenced April 2024',
       ],
     },
+    story: {
+      journey: {
+        title: 'Zindagi Rising',
+        body: 'A Business Bay landmark on Main Raiwind Road—commercial energy below, elevated living above.',
+        tagline: 'Premium lifestyle. City presence.',
+        items: [
+          {
+            id: 'zindagi-address',
+            src: zindagiImage,
+            alt: 'Dayim Zindagi landmark address',
+            label: 'Address',
+            detail: 'Business Bay Commercial on Main Raiwind Road—built for visibility and long-term value.',
+          },
+          {
+            id: 'zindagi-mix',
+            src: zindagiImage,
+            alt: 'Dayim Zindagi mixed-use vision',
+            label: 'Mix',
+            detail: 'Shops, offices, and residences planned together for a complete urban lifestyle.',
+          },
+          {
+            id: 'zindagi-launch',
+            src: zindagiImage,
+            alt: 'Dayim Zindagi construction launch',
+            label: 'Launch',
+            detail: 'Construction starting soon, with Dayim planning and supervision from day one.',
+          },
+          {
+            id: 'zindagi-lifestyle',
+            src: zindagiImage,
+            alt: 'Dayim Zindagi premium lifestyle',
+            label: 'Lifestyle',
+            detail: 'Premium amenities and elevated living designed for residents above the city.',
+          },
+        ],
+      },
+      floorPlans: [
+        {
+          id: 'zindagi-shop-plan',
+          src: zindagiImage,
+          alt: 'Dayim Zindagi commercial shop typology',
+          label: 'Shop',
+          detail: '350 sq ft retail units for high-visibility business',
+        },
+        {
+          id: 'zindagi-office-plan',
+          src: zindagiImage,
+          alt: 'Dayim Zindagi office typology',
+          label: 'Office',
+          detail: '800 sq ft workspaces for growing teams',
+        },
+        {
+          id: 'zindagi-2bed-plan',
+          src: zindagiImage,
+          alt: 'Dayim Zindagi 2 bedroom typology',
+          label: '2 Bed',
+          detail: '950 sq ft apartments for elevated city living',
+        },
+      ],
+      interiors: {
+        brandLines: ['ZINDAGI', 'INTERIORS'],
+        services: [
+          {
+            id: 'zindagi-shop',
+            title: 'Commercial Shops',
+            images: [{ src: zindagiImage, label: 'Retail' }],
+            width: 1024,
+            height: 768,
+            text: '350 sq ft retail units positioned for foot traffic and brand presence.',
+          },
+          {
+            id: 'zindagi-office',
+            title: 'Office Spaces',
+            images: [{ src: zindagiImage, label: 'Workspace' }],
+            width: 1024,
+            height: 768,
+            text: '800 sq ft offices planned for focus, meetings, and professional growth.',
+          },
+          {
+            id: 'zindagi-2bed',
+            title: '2 Bedroom Apartments',
+            images: [{ src: zindagiImage, label: 'Residence' }],
+            width: 1024,
+            height: 768,
+            text: '950 sq ft homes designed for comfort above Business Bay.',
+          },
+        ],
+      },
+    },
     plan: {
-      images: [{ src: zindagiImage, alt: 'Dayim Zindagi project overview' }],
+      floors: [
+        typologyInventoryFloor({
+          id: 'zindagi-units',
+          label: 'Typologies',
+          image: zindagiImage,
+          alt: 'Dayim Zindagi project overview',
+          units: [
+            { id: 'zindagi-shop', label: 'Shop', type: 'Commercial Shop', area: '350 sq ft', beds: null, status: 'Available' },
+            { id: 'zindagi-office', label: 'Office', type: 'Office Space', area: '800 sq ft', beds: null, status: 'Available' },
+            { id: 'zindagi-2bed', label: '2 Bed', type: '2 Bedroom Apartment', area: '950 sq ft', beds: 2, status: 'Limited' },
+          ],
+        }),
+      ],
     },
     units: [
-      { id: 'zindagi-shop', label: 'Shop', type: 'Commercial Shop', area: '350 sq ft', beds: null, status: 'Available' },
-      { id: 'zindagi-office', label: 'Office', type: 'Office Space', area: '800 sq ft', beds: null, status: 'Available' },
-      { id: 'zindagi-2bed', label: '2 Bed', type: '2 Bedroom Apartment', area: '950 sq ft', beds: 2, status: 'Limited' },
+      { id: 'zindagi-shop', label: 'Shop', type: 'Commercial Shop', area: '350 sq ft', beds: null, status: 'Available', images: [{ src: zindagiImage, label: 'Retail', alt: 'Dayim Zindagi shop' }] },
+      { id: 'zindagi-office', label: 'Office', type: 'Office Space', area: '800 sq ft', beds: null, status: 'Available', images: [{ src: zindagiImage, label: 'Workspace', alt: 'Dayim Zindagi office' }] },
+      { id: 'zindagi-2bed', label: '2 Bed', type: '2 Bedroom Apartment', area: '950 sq ft', beds: 2, status: 'Limited', images: [{ src: zindagiImage, label: 'Residence', alt: 'Dayim Zindagi 2 bedroom' }] },
     ],
   },
 ]
