@@ -213,10 +213,15 @@ export function ProjectOverview({ project }) {
       : null,
     {
       label: 'Typologies',
-      value: project.units.map((unit) => unit.label ?? unit.type).join(' · '),
+      value:
+        project.about.typologies ??
+        project.units.map((unit) => unit.label ?? unit.type).join(' · '),
     },
     { label: 'Status', value: 'Available' },
   ].filter(Boolean)
+  const overviewCopy = Array.isArray(project.about.description)
+    ? project.about.description
+    : [project.about.description]
 
   return (
     <section className="project-overview" id="overview" aria-labelledby="overview-title">
@@ -226,7 +231,13 @@ export function ProjectOverview({ project }) {
           <h2 id="overview-title" className="project-heading">
             A landmark address, planned with care
           </h2>
-          <p className="project-overview__text">{project.about.description}</p>
+          <div className="project-overview__copy">
+            {overviewCopy.map((paragraph) => (
+              <p key={paragraph} className="project-overview__text">
+                {paragraph}
+              </p>
+            ))}
+          </div>
         </div>
 
         <ul className="project-overview__highlights">

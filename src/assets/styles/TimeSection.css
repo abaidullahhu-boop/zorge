@@ -65,7 +65,7 @@
   justify-content: center;
   gap: clamp(22px, 2.6vw, 36px);
   min-height: 0;
-  max-width: 22em;
+  max-width: 28em;
   opacity: 0;
   transform: translateY(20px);
   transition:
@@ -136,10 +136,12 @@
 
 .time-gallery-caption {
   margin: 0;
-  font: 600 clamp(26px, 2.8vw, 44px) / .98 'Gilroy', sans-serif;
-  letter-spacing: -.045em;
+  min-width: 0;
+  font: 600 clamp(18px, 1.65vw, 28px) / 1 'Gilroy', sans-serif;
+  letter-spacing: -.04em;
   text-transform: uppercase;
   text-align: left;
+  white-space: nowrap;
   color: #fff;
 }
 
@@ -332,7 +334,7 @@
   }
 
   .time-gallery-caption {
-    font-size: clamp(22px, 6.5vw, 30px);
+    font-size: clamp(16px, 4.4vw, 22px);
     line-height: 1;
   }
 
@@ -394,7 +396,7 @@
   }
 
   .time-gallery-caption {
-    font-size: clamp(20px, 6.5vw, 26px);
+    font-size: clamp(14px, 4.2vw, 18px);
   }
 
   .time-gallery-plan-detail {

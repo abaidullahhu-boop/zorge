@@ -1,8 +1,6 @@
 import dsaImage from '../assets/images/dayim-signature.png'
 import livingImage from '../assets/images/dayim-living.png'
 import zindagiImage from '../assets/images/dayim-zindagi.png'
-import livingGroundFloorPlan from '../assets/images/living-floor-plans/Ground Floor.png'
-import livingLowerGroundFloorPlan from '../assets/images/living-floor-plans/Lower Ground.png'
 
 const signaturePlanFiles = import.meta.glob(
   '../assets/images/Signature floor plans/FLOOR PLANS/Floor Plans/*.png',
@@ -159,6 +157,26 @@ function dsaInventoryImages(folderHint, altPrefix) {
 
 function dlInventoryImages(folderHint, altPrefix) {
   return inventoryImagesFrom(dlInventoryFiles, folderHint, altPrefix, 'DL')
+}
+
+function dlOverviewImage(fileName, alt) {
+  const entry = Object.entries(dlInventoryFiles).find(([key]) => {
+    const name = key.split('/').pop()
+    return name === fileName
+  })
+  if (!entry) {
+    throw new Error(`Missing DL floor plan: ${fileName}`)
+  }
+  return {
+    src: entry[1],
+    label: 'Floor layout',
+    alt,
+    title: 'Floor layout',
+    area: null,
+    code: null,
+    buyer: null,
+    status: 'available',
+  }
 }
 
 export function getProjectInventory(project) {
@@ -386,31 +404,19 @@ const livingFloors = [
   {
     id: 'lower-ground',
     label: 'Lower Ground',
-    overview: {
-      src: livingLowerGroundFloorPlan,
-      label: 'Floor layout',
-      alt: 'Dayim Living lower ground floor commercial outlets layout',
-      title: 'Floor layout',
-      area: null,
-      code: null,
-      buyer: null,
-      status: 'available',
-    },
+    overview: dlOverviewImage(
+      'Lower Ground.png',
+      'Dayim Living lower ground floor layout',
+    ),
     images: livingLowerGroundImages,
   },
   {
     id: 'ground',
     label: 'Ground Floor',
-    overview: {
-      src: livingGroundFloorPlan,
-      label: 'Floor layout',
-      alt: 'Dayim Living ground floor commercial outlets layout',
-      title: 'Floor layout',
-      area: null,
-      code: null,
-      buyer: null,
-      status: 'available',
-    },
+    overview: dlOverviewImage(
+      'Ground.png',
+      'Dayim Living ground floor layout',
+    ),
     images: livingGroundImages,
   },
   {
@@ -580,114 +586,76 @@ export const projects = [
     mobile: { x: 50, y: 71 },
     kind: 'photo',
     about: {
-      description:
-        'Dayim Living offers thoughtfully designed residential spaces in the heart of Al-Kabir Town Phase 2. Built with the same commitment to quality and trust that defines every Dayim development.',
+      description: [
+        'Introducing Dayim Living, our second development by Dayim Developers, located in the prime surroundings of Al-Kabir Town Phase 2.',
+        'Designed as a hotel-service studio apartment building, Dayim Living is created for clients who want more than a conventional apartment. It offers a modern, managed living experience with amenities designed to make every stay comfortable while creating an attractive opportunity for rental income.',
+        'With a structured 3-year payment plan and possession planned within 2 years, Dayim Living is designed to provide our clients with a practical path toward property ownership and income generation.',
+      ],
       highlights: [
         'Hotel Service Studio Apartments',
         'Investment Potential',
-        'Construction In Process',
-        'On Ground Delivered Project ( Possession Harded Over )',
+        'Hotel Service Living',
+        'High Rental',
       ],
+      typologies: 'Studio (Executive & Deluxe)',
     },
     story: {
       journey: {
-        title: 'Living Underway',
-        body: 'Hotel-service residences rising in Block C Commercial—planned for daily comfort and long-term investment value.',
-        tagline: 'Smart living. Dayim standard.',
+        title: 'Construction Underway',
+        body: 'Construction of Dayim Living is already in progress. We have successfully completed key foundation-stage milestones.',
+        tagline: 'Hotel Service Living. High Rental.',
         items: [
           {
             id: 'living-vision',
             src: livingImage,
             alt: 'Dayim Living project vision',
-            label: 'Vision',
-            detail: 'Hotel-service studio apartments designed for modern city living in Al-Kabir Town Phase 2.',
+            label: 'Raft work completed',
+            detail:
+              'The raft work has been completed, which is the foundation of the building. This is a critical step in the construction process as it provides a stable base for the building to stand on.',
           },
           {
             id: 'living-site',
             src: livingImage,
             alt: 'Dayim Living site progress',
-            label: 'Site',
-            detail: 'Construction in process at Block C Commercial, with the same quality standard as every Dayim build.',
+            label: 'Retaining walls completed',
+            detail:
+              'The retaining walls have been completed, which are the walls that hold the soil back. This is a critical step in the construction process as it provides a stable base for the building to stand on.',
           },
           {
             id: 'living-value',
             src: livingImage,
             alt: 'Dayim Living investment potential',
-            label: 'Value',
-            detail: 'A grounded address with strong investment potential for residents and buyers alike.',
+            label: 'Lower Ground Slab Completed',
+            detail:
+              'The lower ground slab has been completed, which is the foundation of the building. This is a critical step in the construction process as it provides a stable base for the building to stand on.',
           },
-          {
-            id: 'living-delivery',
-            src: livingImage,
-            alt: 'Dayim Living delivery focus',
-            label: 'Delivery',
-            detail: 'On-ground delivered project focus—possession-ready planning with Dayim supervision.',
-          },
+         
         ],
       },
       floorPlans: [
         {
           id: 'living-lower-ground',
-          src: livingLowerGroundFloorPlan,
-          alt: 'Dayim Living lower ground floor commercial outlets layout',
-          label: 'Lower Ground Floor',
-          detail: '720 Sq.Ft. commercial outlets with office hall, lift & stair lobby',
+          ...dlOverviewImage(
+            'Lower Ground.png',
+            'Dayim Living lower ground floor layout',
+          ),
+          label: 'Lower Ground',
+          detail: 'Commercial hall with lobby & service core',
+          orientation: 'portrait',
         },
         {
           id: 'living-ground',
-          src: livingGroundFloorPlan,
-          alt: 'Dayim Living ground floor commercial outlets layout',
+          ...dlOverviewImage(
+            'Ground.png',
+            'Dayim Living ground floor layout',
+          ),
           label: 'Ground Floor',
-          detail: '784 Sq.Ft. commercial outlets with office hall, bath, lift & stair lobby',
-        },
-        {
-          id: 'living-studio-deluxe-268',
-          src: livingResidentialImages[0].src,
-          alt: livingResidentialImages[0].alt,
-          label: livingResidentialImages[0].label,
-          detail: livingResidentialImages[0].area
-            ? `${livingResidentialImages[0].area} hotel-service studio`
-            : 'Hotel-service studio typology',
-        },
-        {
-          id: 'living-studio-deluxe-354',
-          src: livingResidentialImages[1].src,
-          alt: livingResidentialImages[1].alt,
-          label: livingResidentialImages[1].label,
-          detail: livingResidentialImages[1].area
-            ? `${livingResidentialImages[1].area} hotel-service studio`
-            : 'Hotel-service studio typology',
-        },
-        {
-          id: 'living-executive-studio',
-          src: livingResidentialImages[2].src,
-          alt: livingResidentialImages[2].alt,
-          label: livingResidentialImages[2].label,
-          detail: livingResidentialImages[2].area
-            ? `${livingResidentialImages[2].area} executive studio`
-            : 'Executive studio typology',
-        },
-        {
-          id: 'living-hall-01',
-          src: livingLowerGroundImages[0].src,
-          alt: livingLowerGroundImages[0].alt,
-          label: livingLowerGroundImages[0].code ?? 'Hall # 01',
-          detail: livingLowerGroundImages[0].area
-            ? `${livingLowerGroundImages[0].area} commercial hall on lower ground`
-            : 'Commercial hall on lower ground',
-        },
-        {
-          id: 'living-hall-02',
-          src: livingGroundImages[0].src,
-          alt: livingGroundImages[0].alt,
-          label: livingGroundImages[0].code ?? 'Hall # 02',
-          detail: livingGroundImages[0].area
-            ? `${livingGroundImages[0].area} commercial hall on ground floor`
-            : 'Commercial hall on ground floor',
+          detail: 'Commercial hall with lobby & service core',
+          orientation: 'portrait',
         },
       ],
       interiors: {
-        brandLines: ['LIVING', 'INTERIORS'],
+        brandLines: [ 'INTERIORS'],
         services: [
           {
             id: 'living-studio-deluxe',
@@ -707,17 +675,6 @@ export const projects = [
             width: 1024,
             height: 768,
             text: 'Larger studio layouts with more room for daily routines and guests.',
-          },
-          {
-            id: 'living-commercial-hall',
-            title: 'Commercial Hall',
-            images: [
-              { src: livingLowerGroundImages[0].src, label: 'Lower Ground' },
-              { src: livingGroundImages[0].src, label: 'Ground Floor' },
-            ],
-            width: 1024,
-            height: 768,
-            text: 'Ground-level commercial halls for retail and business use.',
           },
         ],
       },
@@ -747,18 +704,6 @@ export const projects = [
         status: 'Available',
         images: [
           { src: livingResidentialImages[2].src, label: 'Residence', alt: livingResidentialImages[2].alt },
-        ],
-      },
-      {
-        id: 'commercial-hall',
-        label: 'Commercial Hall',
-        type: 'Commercial Hall',
-        area: '720–784 Sq.Ft.',
-        beds: null,
-        status: 'Available',
-        images: [
-          { src: livingLowerGroundImages[0].src, label: 'Lower Ground', alt: livingLowerGroundImages[0].alt },
-          { src: livingGroundImages[0].src, label: 'Ground Floor', alt: livingGroundImages[0].alt },
         ],
       },
     ],
