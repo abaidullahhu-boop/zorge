@@ -289,7 +289,16 @@ function ProjectStorySection({ scrollContainerRef = null, project = null }) {
                 </div>
               </div>
               <div className="architecture-gallery-right">
-                <div className="architecture-gallery-frame">
+                <div
+                  className={[
+                    'architecture-gallery-frame',
+                    floorPlanGallery.some((plan) => plan.orientation === 'portrait')
+                      ? 'architecture-gallery-frame--portrait'
+                      : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
                   <div className="architecture-gallery-stack" aria-label="Floor plans">
                     {floorPlanGallery.map((plan, index) => (
                       <div

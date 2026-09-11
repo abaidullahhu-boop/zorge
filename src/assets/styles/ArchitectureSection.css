@@ -408,7 +408,7 @@
   justify-content: center;
   gap: 0;
   min-height: 0;
-  max-width: 18em;
+  max-width: min(100%, 28em);
   opacity: 0;
   transform: translateY(20px);
   transition:
@@ -432,19 +432,20 @@
 
 .architecture-gallery-caption {
   margin: 0;
-  font: 600 clamp(36px, 4.2vw, 72px) / .98 'Gilroy', sans-serif;
+  font: 600 clamp(32px, 3.4vw, 56px) / 1.05 'Gilroy', sans-serif;
   letter-spacing: -.05em;
   text-transform: uppercase;
   text-align: left;
+  white-space: nowrap;
 }
 
 .architecture-gallery-plan-detail {
   margin: 0;
-  max-width: 18ch;
-  font: 500 clamp(13px, 1.05vw, 16px) / 1.45 'Gilroy', sans-serif;
+  max-width: none;
+  font: 700 clamp(13px, 1.05vw, 16px) / 1.45 'Gilroy', sans-serif;
   letter-spacing: .04em;
   text-transform: uppercase;
-  color: rgb(0 0 0 / 55%);
+  color: rgb(0 0 0 / 70%);
 }
 
 .architecture-gallery-meta {
@@ -522,6 +523,13 @@
   aspect-ratio: 1600 / 1370;
   overflow: hidden;
   background: #111;
+  box-sizing: border-box;
+  padding: clamp(12px, 2cqi, 28px);
+}
+
+.architecture-gallery-frame--portrait {
+  aspect-ratio: 1 / 2;
+  padding: clamp(8px, 1.4cqi, 16px);
 }
 
 @supports (width: min(1cqi, 1cqh)) {
@@ -530,18 +538,25 @@
        so the full plan shows without cropping top/bottom. */
     width: min(100cqi, calc(100cqh * 1600 / 1370));
   }
+
+  .architecture-gallery-frame--portrait {
+    width: min(100cqi, calc(100cqh * 1 / 2));
+  }
 }
 
 .architecture-gallery-stack {
   position: relative;
   width: 100%;
   height: 100%;
+  isolation: isolate;
+  background: #111;
 }
 
 .architecture-gallery-stack-item {
   position: absolute;
   inset: 0;
   overflow: hidden;
+  background: #111;
   will-change: transform, clip-path;
 }
 
@@ -551,6 +566,7 @@
   height: 100%;
   object-fit: contain;
   object-position: center;
+  background: #111;
   user-select: none;
   pointer-events: none;
 }

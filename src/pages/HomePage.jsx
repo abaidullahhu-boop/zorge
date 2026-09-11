@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Lenis from 'lenis'
 import '../assets/styles/App.css'
 import AboutSection from '../components/AboutSection/AboutSection'
 import HeroSection from '../components/HeroSection/HeroSection'
-import LoadingScreen from '../components/LoadingScreen/LoadingScreen'
 // import LocationSection from '../components/LocationSection/LocationSection'
 import MapSection from '../components/MapSection/MapSection'
 import PanoramaSection from '../components/PanoramaSection/PanoramaSection'
@@ -16,23 +15,6 @@ import ScrollIndicator from '../components/ScrollIndicator/ScrollIndicator'
 import { gsap, ScrollTrigger } from '../lib/gsap'
 
 function HomePage() {
-  const [showIntro] = useState(() => {
-    try {
-      return sessionStorage.getItem('dayim-intro-seen') !== '1'
-    } catch {
-      return true
-    }
-  })
-  const [introReady, setIntroReady] = useState(() => !showIntro)
-  const handleIntroHidden = useCallback(() => {
-    try {
-      sessionStorage.setItem('dayim-intro-seen', '1')
-    } catch {
-      /* ignore */
-    }
-    setIntroReady(true)
-  }, [])
-
   useEffect(() => {
     const aboutSection = document.querySelector('.about-section')
     const locationSection = document.querySelector('.location-section')
@@ -432,8 +414,7 @@ function HomePage() {
   return (
     <main className="dayim-page" id="top">
       <ScrollIndicator />
-      {showIntro ? <LoadingScreen onHidden={handleIntroHidden} /> : null}
-      <HeroSection introReady={introReady} />
+      <HeroSection introReady />
       <div className="about-wordmark-rail" aria-hidden="true">
         <div className="about-wordmark">
           <p className="about-wordmark-layer">
