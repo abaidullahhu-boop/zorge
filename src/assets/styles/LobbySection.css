@@ -105,7 +105,11 @@
 }
 
 .lobby-highlight {
-  color: var(--lobby-accent);
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
   font-weight: 600;
 }
 

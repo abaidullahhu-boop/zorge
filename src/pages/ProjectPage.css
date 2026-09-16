@@ -104,7 +104,11 @@
   font: 600 12px / 1 var(--font-sans);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--project-accent);
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .project-kicker.is-light {
@@ -195,7 +199,11 @@
 .project-nav__back:focus-visible,
 .project-nav__link:focus-visible,
 .project-nav__cta:focus-visible {
-  outline: 2px solid var(--project-accent);
+  outline: 2px solid linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
   outline-offset: 3px;
 }
 
@@ -248,9 +256,8 @@
 }
 
 .project-nav.is-scrolled .project-nav__cta {
-  color: #fff;
-  background: var(--project-accent);
-  border-color: var(--project-accent);
+  color: #0a0a0a;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
 }
 
 /* Hero */
@@ -303,7 +310,11 @@
   font: 600 12px / 1 var(--font-sans);
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #e4c4b3;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .project-hero__title {
@@ -342,8 +353,9 @@
 }
 
 .project-hero__btn--solid {
-  background: var(--project-accent);
-  border-color: var(--project-accent);
+  background: white;
+  border-color: white;
+  color: var(--color-ink);
 }
 
 .project-hero__btn--ghost {
@@ -412,7 +424,7 @@
 .project-overview__index {
   font: 600 12px / 1.4 var(--font-sans);
   letter-spacing: 0.08em;
-  color: var(--project-accent);
+  color: var(--color-ink);
 }
 
 .project-facts {
@@ -468,15 +480,18 @@
 .project-plans-page .project-nav__link.is-active,
 .project-plans-page .project-nav:not(.is-scrolled) .project-nav__link.is-active,
 .project-plans-page .project-nav.is-scrolled .project-nav__link.is-active {
-  color: #c49278;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .project-plans-page .project-nav__cta,
 .project-plans-page .project-nav:not(.is-scrolled) .project-nav__cta,
 .project-plans-page .project-nav.is-scrolled .project-nav__cta {
-  color: #fff;
-  background: var(--project-accent);
-  border-color: var(--project-accent);
+  color: #0e0d0d;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
 }
 
 .project-plans-page .project-inventory--board {
@@ -540,14 +555,16 @@
 
 .project-plans-page .projects-floor-nav--inventory .projects-floor-btn:hover,
 .project-plans-page .projects-floor-nav--inventory .projects-floor-btn:focus-visible {
-  border-color: rgb(196 146 120 / 55%);
   color: #f3efe8;
 }
 
 .project-plans-page .projects-floor-nav--inventory .projects-floor-btn.is-active {
   color: #fff;
-  background: var(--project-accent);
-  border-color: var(--project-accent);
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .project-plans-page .projects-floor-btn__count {
@@ -560,7 +577,6 @@
 }
 
 .project-plans-page .inventory-card:hover {
-  border-color: rgb(196 146 120 / 45%);
   box-shadow: 0 18px 40px rgb(0 0 0 / 35%);
 }
 
@@ -775,7 +791,6 @@
 }
 
 .inventory-card:hover {
-  border-color: rgb(160 114 91 / 40%);
   box-shadow: 0 18px 40px rgb(25 27 25 / 8%);
   transform: translateY(-3px);
 }
@@ -916,7 +931,11 @@
   margin: 2px 0 0;
   font: 600 13px / 1.35 var(--font-sans);
   letter-spacing: 0.02em;
-  color: var(--project-accent);
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .inventory-card__book {
@@ -927,9 +946,9 @@
   width: 100%;
   min-height: 42px;
   padding: 10px 14px;
-  border: 1px solid var(--project-accent);
-  background: var(--project-accent);
-  color: #fff;
+  border: 1px solid linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  color: #0a0a0a;
   font: 700 11px / 1 var(--font-sans);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -944,8 +963,7 @@
 
 .inventory-card__book:hover,
 .inventory-card__book:focus-visible {
-  background: #8a5f4b;
-  border-color: #8a5f4b;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
 }
 
 .inventory-card__book:focus-visible {
@@ -1297,10 +1315,7 @@
   color: inherit;
 }
 
-.project-enquire__contacts a:hover,
-.project-enquire__contacts a:focus-visible {
-  color: #e4c4b3;
-}
+
 
 @keyframes project-page-in {
   from {

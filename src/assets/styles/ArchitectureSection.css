@@ -45,10 +45,16 @@
   margin-bottom: 0;
   padding-top: clamp(20px, 3vw, 40px);
   padding-inline: clamp(20px, 1.55vw, 30px);
+  background: black;
 }
 
 .architecture-intro {
   margin: 0;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
   font: 600 clamp(65px, 2.1vw, 96px) / 1 'Gilroy', sans-serif;
   letter-spacing: 0.01em;
   text-align: right;
@@ -357,6 +363,11 @@
   transition:
     opacity .8s ease .28s,
     transform .9s cubic-bezier(.2, .75, .15, 1) .28s;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .architecture-section--project .architecture-subhead {
@@ -421,7 +432,11 @@
   font: 600 clamp(11px, .85vw, 13px) / 1 'Gilroy', sans-serif;
   letter-spacing: .16em;
   text-transform: uppercase;
-  color: var(--project-accent, #a0725b);
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .architecture-gallery-plan-text {
@@ -495,7 +510,7 @@
 
 .architecture-gallery-progress-dot.is-active {
   width: 44px;
-  background: var(--project-accent, #a0725b);
+  background: black;
 }
 
 .architecture-gallery-right {

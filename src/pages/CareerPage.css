@@ -26,7 +26,7 @@
 }
 
 .career-form__label abbr {
-  color: #a0725b;
+  color: var(--color-ink);
   text-decoration: none;
 }
 
@@ -74,7 +74,7 @@
 .career-form__field input:focus,
 .career-form__field select:focus,
 .career-form__field textarea:focus {
-  border-color: rgb(160 114 91 / 70%);
+  border-color: var(--color-ink);
   background: rgb(255 255 255 / 6%);
 }
 
@@ -103,12 +103,12 @@
 .career-form__file input[type='file']::file-selector-button {
   margin-right: 12px;
   padding: 8px 14px;
-  border: 1px solid rgb(160 114 91 / 55%);
-  color: #fff;
+  border: 1px solid linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  color: #0a0a0a;
   font: 600 12px / 1 'Gilroy', sans-serif;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  background: rgb(160 114 91 / 18%);
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
   cursor: pointer;
 }
 
@@ -122,12 +122,11 @@
   justify-self: start;
   min-width: 200px;
   padding: 14px 28px;
-  border: 1px solid #a0725b;
-  color: #fff;
+  color: #070707;
   font: 600 12px / 1 'Gilroy', sans-serif;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  background: #a0725b;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
   cursor: pointer;
   transition:
     background-color 0.2s ease,
@@ -135,11 +134,7 @@
     opacity 0.2s ease;
 }
 
-.career-form__button:hover,
-.career-form__button:focus-visible {
-  background: #b4846b;
-  border-color: #b4846b;
-}
+
 
 .career-form__button:disabled {
   opacity: 0.65;
@@ -154,8 +149,8 @@
 
 .career-form__button--ghost:hover,
 .career-form__button--ghost:focus-visible {
-  border-color: #a0725b;
-  background: rgb(160 114 91 / 16%);
+  border-color: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
 }
 
 .career-form__error {
@@ -174,7 +169,11 @@
 }
 
 .career-form__note a {
-  color: #a0725b;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
   text-decoration: underline;
   text-underline-offset: 3px;
 }

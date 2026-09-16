@@ -1,7 +1,6 @@
 .site-footer {
   --footer-pad: clamp(12px, 1.55vw, 20px);
   --footer-line: rgb(255 255 255 / 14%);
-  --footer-logo: #a0725b;
   --footer-text: #fff;
 
   position: relative;
@@ -76,8 +75,9 @@
 
 .site-footer-label {
   margin: 0;
-  color: var(--footer-logo);
-  font: 600 10px / 1 'Gilroy', sans-serif;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;  font: 600 10px / 1 'Gilroy', sans-serif;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
@@ -108,8 +108,8 @@
   place-items: center;
   width: 24px;
   height: 24px;
-  color: var(--footer-logo);
-  border: 1px solid rgb(160 114 91 / 35%);
+  color: #dc9f27;
+  border: 1px solid #dc9f27;
   border-radius: 50%;
 }
 
