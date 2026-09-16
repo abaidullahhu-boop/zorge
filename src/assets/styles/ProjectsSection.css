@@ -1,5 +1,4 @@
 .projects-section {
-  --projects-accent: #a0725b;
   --projects-pad: clamp(20px, 1.55vw, 30px);
 
   position: relative;
@@ -362,8 +361,6 @@
 }
 
 .projects-detail {
-  --projects-accent: #a0725b;
-
   min-height: 100%;
   background: #fff;
 }

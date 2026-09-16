@@ -47,7 +47,11 @@
   font: 600 clamp(11px, 0.75vw, 13px) / 1 'Gilroy', sans-serif;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #a0725b;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .projects-overlay__close {
@@ -95,7 +99,6 @@
   padding: 0;
   color: #fff;
   background: #161616;
-  border: 1px solid rgb(255 255 255 / 10%);
   border-radius: 12px;
   cursor: pointer;
   overflow: hidden;
@@ -125,7 +128,7 @@
 
 .projects-overlay__card:hover {
   background: #1c1c1c;
-  border-color: rgb(160 114 91 / 40%);
+  border-color: #dc9f27;
   box-shadow: 0 8px 40px rgb(0 0 0 / 50%);
 }
 
@@ -167,7 +170,11 @@
   font: 600 clamp(10px, 0.8vw, 13px) / 1 'Gilroy', sans-serif;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #a0725b;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
   margin-bottom: 4px;
 }
 
@@ -209,7 +216,11 @@
   height: 3px;
   margin-top: 0.5em;
   border-radius: 50%;
-  background: #a0725b;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 /* ── CTA ─────────────────────────────────────── */

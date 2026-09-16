@@ -31,7 +31,11 @@
 
 .legal-page__title {
   margin: 0 0 clamp(20px, 2.5vw, 28px);
-  color: #a0725b;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
   font: 600 clamp(28px, 4vw, 40px) / 1.1 'Gilroy', sans-serif;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -74,19 +78,22 @@
 }
 
 .legal-page__content a {
-  color: #a0725b;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
 .legal-page__content a:hover,
 .legal-page__content a:focus-visible {
-  color: #c49278;
+  text-underline-offset: calc(1em + 2px);
 }
 
 .legal-page__notice {
   padding: clamp(16px, 2vw, 20px);
-  border-left: 3px solid rgb(160 114 91 / 60%);
   color: rgb(255 255 255 / 68%);
   font-size: 14px;
   background: rgb(255 255 255 / 4%);

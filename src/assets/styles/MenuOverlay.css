@@ -1,5 +1,4 @@
 .menu-overlay {
-  --menu-accent: #a0725b;
   --menu-accent-soft: rgb(160 114 91 / 22%);
   --menu-line: rgb(255 255 255 / 12%);
 
@@ -84,7 +83,11 @@
   font: 600 11px / 1 'Gilroy', sans-serif;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--menu-accent);
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .menu-overlay__brand-name {
@@ -194,7 +197,11 @@
   width: 7px;
   height: 12px;
   opacity: 0;
-  color: var(--menu-accent);
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
   transform: translateX(-8px);
   transition: opacity 0.35s ease, transform 0.35s ease;
 }
@@ -230,7 +237,11 @@
 }
 
 .menu-overlay__link.is-active .menu-overlay__link-text {
-  color: var(--menu-accent);
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .menu-overlay__link.is-active .menu-overlay__link-arrow {

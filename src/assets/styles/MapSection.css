@@ -3,7 +3,6 @@
   --map-top-row: clamp(54px, 6vw, 94px);
   --map-top: calc(var(--map-top-pad) + var(--map-top-row));
   --map-accent: #c4a574;
-  --map-brand: #a0725b;
   --map-cream: #f4f1ea;
   --map-line: #d8c9a3;
   --map-red: #d9483f;
@@ -30,6 +29,7 @@
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
+  background: black;
 }
 
 .map-heading {
@@ -53,8 +53,14 @@
   text-align: right;
   text-transform: uppercase;
   pointer-events: none;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
+ 
 .map-viewport {
   position: absolute;
   top: var(--map-top);

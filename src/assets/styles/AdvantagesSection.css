@@ -97,11 +97,15 @@
 }
 
 .advantages-title {
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
   margin: 0;
   font: 700 clamp(24px, 3.2vw, 34px) / 1 'Gilroy', sans-serif;
   letter-spacing: .04em;
   text-transform: uppercase;
-  color: var(--advantages-accent);
   padding-bottom: clamp(10px, 1.2vh, 14px);
   border-bottom: 2px solid var(--advantages-accent);
   width: fit-content;

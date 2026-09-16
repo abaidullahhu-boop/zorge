@@ -234,13 +234,17 @@
 
 .about-title {
   margin: 0;
+  width: fit-content;
+  padding-bottom: clamp(10px, 1.2vh, 14px);
+  border-bottom: 2px solid var(--panorama-accent);
   font: 700 clamp(34px, 4.2vw, 54px)/1 'Gilroy', sans-serif;
   letter-spacing: .04em;
   text-transform: uppercase;
-  color: var(--about-accent);
-  padding-bottom: clamp(10px, 1.2vh, 14px);
-  border-bottom: 2px solid var(--about-accent);
-  width: fit-content;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .about-intro {
