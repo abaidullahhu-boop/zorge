@@ -84,16 +84,7 @@ function FooterLink({ href, children, external = false, className = '' }) {
     return (
       <Tag className={classes} {...props}>
         <span className="site-footer-link-text">{children}</span>
-        <span className="site-footer-link-arrow" aria-hidden="true">
-          <svg width="7" height="12" viewBox="0 0 7 12" fill="none">
-            <path
-              pathLength="100"
-              d="M1.027 1 6 5.167v1.666L1.027 11"
-              stroke="currentColor"
-              strokeWidth="1.2"
-            />
-          </svg>
-        </span>
+        
       </Tag>
     )
   }
@@ -117,18 +108,7 @@ function Footer({ onScrollTop }) {
 
   return (
     <footer className="site-footer" id="contact">
-      <div className="site-footer-top">
-        <a
-          className="site-footer-scroll"
-          href="#top"
-          aria-label="Scroll to top of the page"
-          onClick={scrollToTop}
-        >
-          <span className="site-footer-scroll-icons" aria-hidden="true">
-            <LongArrowUp />
-          </span>
-        </a>
-      </div>
+     
 
       <div className="site-footer-main">
         <div className="site-footer-col site-footer-col--contact">
@@ -141,7 +121,13 @@ function Footer({ onScrollTop }) {
               </span>
               <address className="site-footer-address">
                 {SITE_CONTACT.address.lines.map((line) => (
-                  <span key={line}>{line}</span>
+                  <span key={line}>
+                    {line.trim() === 'Dayim Developers' ? (
+                      <strong className="site-footer-brand">{line}</strong>
+                    ) : (
+                      line
+                    )}
+                  </span>
                 ))}
               </address>
             </li>
@@ -194,7 +180,9 @@ function Footer({ onScrollTop }) {
       </div>
 
       <div className="site-footer-bar">
-        <p className="site-footer-copy">© 2026 Dayim Developers</p>
+        <p className="site-footer-copy">
+          © 2026 <strong className="site-footer-brand">Dayim Developers</strong>
+        </p>
 
         <div className="site-footer-credit">
           <a

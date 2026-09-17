@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { SITE_CONTACT } from '../../data/siteContact'
+import dsMark from '../../assets/images/dsmark.png'
 
 const MOBILE_MQ = '(max-width: 980px)'
 
@@ -58,9 +59,11 @@ export function ProjectNav({
   project,
   scrollRootRef,
   onBack,
+  onHome,
   onNavigate,
   activeId: activeIdProp = null,
   backLabel = 'All projects',
+  homeLabel = 'Home',
 }) {
   const [scrolled, setScrolled] = useState(false)
   const [activeId, setActiveId] = useState(activeIdProp ?? 'overview')
@@ -122,15 +125,28 @@ export function ProjectNav({
       aria-label={`${project.title} sections`}
     >
       <div className="project-nav__bar">
-        <button
-          type="button"
-          className="project-nav__back"
-          onClick={onBack}
-          aria-label={backLabel}
-        >
-          <BackArrow />
-          <span>{backLabel}</span>
-        </button>
+        <div className="project-nav__start">
+          <button
+            type="button"
+            className="project-nav__back"
+            onClick={onBack}
+            aria-label={backLabel}
+          >
+            <BackArrow />
+            <span>{backLabel}</span>
+          </button>
+
+          {onHome ? (
+            <button
+              type="button"
+              className="project-nav__home"
+              onClick={onHome}
+              aria-label={homeLabel}
+            >
+              {homeLabel}
+            </button>
+          ) : null}
+        </div>
 
         <p className="project-nav__brand">{project.brand ?? project.short}</p>
 
@@ -162,45 +178,47 @@ export function ProjectNav({
 
 export function ProjectHero({ project, onNavigate }) {
   return (
-    <header className="project-hero">
-      <div className="project-hero__media">
-        <img src={project.image} alt="" draggable="false" />
-      </div>
-      <div className="project-hero__veil" />
-
-      <div className="project-hero__content">
-        <p className="project-hero__kicker">A PROJECT BY DAYIM DEVELOPERS</p>
-        <h1 className="project-hero__title">{project.title}</h1>
-        <p className="project-hero__location">{project.subtitle}</p>
-
-        <div className="project-hero__actions">
-          <button
-            type="button"
-            className="project-hero__btn project-hero__btn--solid"
-            onClick={() => onNavigate('enquire')}
-          >
-            Enquire now
-          </button>
-          <button
-            type="button"
-            className="project-hero__btn project-hero__btn--ghost"
-            onClick={() => onNavigate('plans')}
-          >
-            View inventory
-          </button>
-          {project.mapsUrl ? (
-            <a
-              className="project-hero__btn project-hero__btn--ghost"
-              href={project.mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Open map
-            </a>
-          ) : null}
+    <div className="project-stack project-stack--hero">
+      <header className="project-hero">
+        <div className="project-hero__media">
+          <img src={project.image} alt="" draggable="false" />
         </div>
-      </div>
-    </header>
+        <div className="project-hero__veil" />
+
+        <div className="project-hero__content">
+          <p className="project-hero__kicker">A PROJECT BY DAYIM DEVELOPERS</p>
+          <h1 className="project-hero__title">{project.title}</h1>
+          <p className="project-hero__location">{project.subtitle}</p>
+
+          <div className="project-hero__actions">
+            <button
+              type="button"
+              className="project-hero__btn project-hero__btn--solid"
+              onClick={() => onNavigate('enquire')}
+            >
+              Enquire now
+            </button>
+            <button
+              type="button"
+              className="project-hero__btn project-hero__btn--ghost"
+              onClick={() => onNavigate('plans')}
+            >
+              View inventory
+            </button>
+            {project.mapsUrl ? (
+              <a
+                className="project-hero__btn project-hero__btn--ghost"
+                href={project.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open map
+              </a>
+            ) : null}
+          </div>
+        </div>
+      </header>
+    </div>
   )
 }
 
@@ -224,43 +242,58 @@ export function ProjectOverview({ project }) {
     : [project.about.description]
 
   return (
-    <section className="project-overview" id="overview" aria-labelledby="overview-title">
-      <div className="project-overview__grid">
-        <div className="project-overview__intro">
-          <p className="project-kicker">The project</p>
-          <h2 id="overview-title" className="project-heading">
-            A landmark address, planned with care
-          </h2>
-          <div className="project-overview__copy">
-            {overviewCopy.map((paragraph) => (
-              <p key={paragraph} className="project-overview__text">
-                {paragraph}
-              </p>
-            ))}
+    <div className="project-stack project-stack--overview">
+      <section
+        className="project-overview"
+        id="overview"
+        aria-labelledby="overview-title"
+      >
+        <img
+          className="project-overview__mark"
+          src={project.mark ?? dsMark}
+          alt=""
+          aria-hidden="true"
+          draggable="false"
+        />
+        <div className="project-overview__grid">
+          <div className="project-overview__intro">
+            <p className="project-kicker">The project</p>
+            <h2 id="overview-title" className="project-heading">
+              A landmark address, planned with care
+            </h2>
+            <div className="project-overview__copy">
+              {overviewCopy.map((paragraph) => (
+                <p key={paragraph} className="project-overview__text">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
           </div>
+
+          <ul className="project-overview__highlights">
+            {project.about.highlights.map((item, index) => (
+              <li key={item}>
+                <span className="project-overview__index">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <ul className="project-overview__highlights">
-          {project.about.highlights.map((item, index) => (
-            <li key={item}>
-              <span className="project-overview__index">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <span>{item}</span>
-            </li>
+        <dl className="project-facts">
+          {facts.map((fact) => (
+            <div key={fact.label}>
+              <dt>{fact.label}</dt>
+              <dd>{fact.value}</dd>
+            </div>
           ))}
-        </ul>
-      </div>
-
-      <dl className="project-facts">
-        {facts.map((fact) => (
-          <div key={fact.label}>
-            <dt>{fact.label}</dt>
-            <dd>{fact.value}</dd>
-          </div>
-        ))}
-      </dl>
-    </section>
+        </dl>
+      </section>
+      {/* Sibling spacer (not padding) so sticky actually holds while Time covers */}
+      <div className="project-stack__spacer" aria-hidden="true" />
+    </div>
   )
 }
 
@@ -588,44 +621,58 @@ export function ProjectInventory({
 
 export function ProjectEnquire({ project }) {
   return (
-    <section className="project-enquire" id="enquire" aria-labelledby="enquire-title">
-      <div className="project-enquire__copy">
-        <p className="project-kicker is-light">Visit us</p>
-        <h2 id="enquire-title" className="project-heading is-light">
-          Enquire about {project.brand ?? project.short}
-        </h2>
-        <p className="project-enquire__text">
-          Speak with the Dayim team for availability, payment plans, and a
-          private viewing of {project.title}.
-        </p>
-      </div>
+    <div className="project-stack project-stack--enquire">
+      <section
+        className="project-enquire"
+        id="enquire"
+        aria-labelledby="enquire-title"
+      >
+        <img
+          className="project-enquire__mark"
+          src={project.mark ?? dsMark}
+          alt=""
+          aria-hidden="true"
+          draggable="false"
+        />
+        <div className="project-enquire__copy">
+          <p className="project-kicker is-light">Visit us</p>
+          <h2 id="enquire-title" className="project-heading is-light">
+            Enquire about {project.brand ?? project.short}
+          </h2>
+          <p className="project-enquire__text">
+            Speak with the Dayim team for availability, payment plans, and a
+            private viewing of {project.title}.
+          </p>
+        </div>
 
-      <ul className="project-enquire__contacts">
-        <li>
-          <span>Call</span>
-          <a href={SITE_CONTACT.phone.href}>{SITE_CONTACT.phone.display}</a>
-        </li>
-        <li>
-          <span>Email</span>
-          <a href={SITE_CONTACT.email.href}>{SITE_CONTACT.email.display}</a>
-        </li>
-        <li>
-          <span>Address</span>
-          <address>
-            {SITE_CONTACT.address.lines.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </address>
-        </li>
-        {project.mapsUrl ? (
+        <ul className="project-enquire__contacts">
           <li>
-            <span>Location</span>
-            <a href={project.mapsUrl} target="_blank" rel="noopener noreferrer">
-              View on Google Maps
-            </a>
+            <span>Call</span>
+            <a href={SITE_CONTACT.phone.href}>{SITE_CONTACT.phone.display}</a>
           </li>
-        ) : null}
-      </ul>
-    </section>
+          <li>
+            <span>Email</span>
+            <a href={SITE_CONTACT.email.href}>{SITE_CONTACT.email.display}</a>
+          </li>
+          <li>
+            <span>Address</span>
+            <address>
+              {(project.address ?? SITE_CONTACT.address.lines).map((line) => (
+                <span key={line}>{line}</span>
+              ))}
+            </address>
+          </li>
+          {project.mapsUrl ? (
+            <li>
+              <span>Location</span>
+              <a href={project.mapsUrl} target="_blank" rel="noopener noreferrer">
+                View on Google Maps
+              </a>
+            </li>
+          ) : null}
+        </ul>
+      </section>
+      <div className="project-stack__spacer" aria-hidden="true" />
+    </div>
   )
 }

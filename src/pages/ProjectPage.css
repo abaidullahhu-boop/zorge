@@ -10,12 +10,13 @@
   z-index: 300;
   height: 100%;
   max-height: 100svh;
-  overflow-x: hidden;
+  /* clip (not hidden) so position:sticky children can pin while scrolling */
+  overflow-x: clip;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
   color: var(--color-ink);
-  background: #fff;
+  background: #000;
   overscroll-behavior: contain;
   transform: translate3d(100%, 0, 0);
   animation: project-page-in 1.45s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
@@ -41,7 +42,8 @@
 }
 
 .project-page .site-footer {
-  z-index: auto;
+  position: relative;
+  z-index: 14;
 }
 
 .project-page #overview,
@@ -55,19 +57,24 @@
   scroll-margin-top: var(--project-nav-h);
 }
 
-/* Neutralize homepage overlay stacking so sections sit in sequence. */
+/*
+ * Stacked scroll: each block pins under the next so the lower
+ * section slides over the upper one (visible height compresses).
+ */
 .project-page .time-section,
 .project-page .fitness-section,
 .project-page .architecture-section,
 .project-page .services-section {
-  margin-top: 0;
-  z-index: auto;
   pointer-events: auto;
 }
 
 .project-page .time-section {
+  position: relative;
+  z-index: 10;
   height: auto;
+  margin-top: -100svh;
   background: #000;
+  isolation: isolate;
 }
 
 .project-page .fitness-section {
@@ -82,8 +89,12 @@
 }
 
 .project-page .architecture-section {
-  background: #fff;
+  position: relative;
+  z-index: 11;
+  margin-top: -100svh;
+  background: #000;
   overflow: visible;
+  isolation: isolate;
 }
 
 .project-page .architecture-section--project .architecture-slide {
@@ -91,12 +102,66 @@
   overflow: visible;
 }
 
+/* Premium Materials slides over floor plans, then holds for Interiors */
+.project-page .architecture-materials-stack {
+  position: relative;
+  z-index: 2;
+  margin-top: -100svh;
+  isolation: isolate;
+}
+
+.project-page .architecture-materials {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 100svh;
+  min-height: 100svh;
+  padding:
+    calc(var(--project-nav-h, 72px) + clamp(16px, 2vw, 28px))
+    0
+    clamp(24px, 4vw, 48px);
+  overflow: hidden;
+  background: #000;
+}
+
+.project-page .architecture-section--project .architecture-subhead-row {
+  flex-shrink: 0;
+  margin-top: 0;
+  margin-bottom: clamp(8px, 1.5vw, 20px);
+}
+
+.project-page .architecture-decor-row {
+  flex: 0 1 auto;
+  display: flex;
+  align-items: center;
+  min-height: 0;
+}
+
+.project-page .architecture-decor {
+  width: min(100%, 1200px);
+  margin-inline: auto;
+}
+
+.project-page .architecture-stack-spacer {
+  height: 100svh;
+  pointer-events: none;
+  visibility: hidden;
+}
+
 .project-page .services-section {
   --services-handoff: 0;
   --penthouses-handoff: 0;
+  position: relative;
+  z-index: 12;
+  margin-top: -100svh;
   height: calc(
     var(--services-image-h, 70svh) + (100svh * (var(--item-count) - 1))
   );
+  isolation: isolate;
 }
 
 .project-kicker {
@@ -117,6 +182,11 @@
 
 .project-heading {
   margin: 0;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
   font: 600 clamp(28px, 4.2vw, 52px) / 0.98 var(--font-sans);
   letter-spacing: -0.04em;
   text-transform: uppercase;
@@ -163,7 +233,15 @@
   padding: 0 var(--project-pad);
 }
 
+.project-nav__start {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
 .project-nav__back,
+.project-nav__home,
 .project-nav__link,
 .project-nav__cta {
   margin: 0;
@@ -173,7 +251,8 @@
   cursor: pointer;
 }
 
-.project-nav__back {
+.project-nav__back,
+.project-nav__home {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -184,6 +263,23 @@
   opacity: 0.86;
 }
 
+.project-nav__home {
+  position: relative;
+  padding-left: 14px;
+}
+
+.project-nav__home::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 1px;
+  height: 12px;
+  background: currentColor;
+  opacity: 0.28;
+  transform: translateY(-50%);
+}
+
 .project-nav__back svg {
   width: 22px;
   height: auto;
@@ -191,12 +287,15 @@
 
 .project-nav__back:hover,
 .project-nav__back:focus-visible,
+.project-nav__home:hover,
+.project-nav__home:focus-visible,
 .project-nav__link:hover,
 .project-nav__link:focus-visible {
   opacity: 1;
 }
 
 .project-nav__back:focus-visible,
+.project-nav__home:focus-visible,
 .project-nav__link:focus-visible,
 .project-nav__cta:focus-visible {
   outline: 2px solid linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
@@ -260,16 +359,54 @@
   background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
 }
 
-/* Hero */
-.project-hero {
+/* Stack frames: parent taller than sticky panel = pin travel distance */
+.project-stack {
   position: relative;
+}
+
+.project-stack--hero {
+  z-index: 1;
+  /* 100svh sticky panel + 100svh while overview covers it */
+  height: 200svh;
+  margin-top: calc(var(--project-nav-h) * -1);
+}
+
+.project-stack--overview {
+  z-index: 2;
+  /* Pull up so covering starts as soon as user scrolls */
+  margin-top: -100svh;
+  isolation: isolate;
+}
+
+.project-stack--enquire {
+  z-index: 13;
+  margin-top: 0;
+}
+
+.project-stack--enquire .project-stack__spacer {
+  display: none;
+}
+
+/* Extends the stack so sticky panels hold while the next section covers */
+.project-stack__spacer {
+  height: 100svh;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+/* Hero — stays put while overview slides over it */
+.project-hero {
+  position: sticky;
+  top: 0;
   z-index: 0;
   display: flex;
+  width: 100%;
   height: 100svh;
-  margin-top: calc(var(--project-nav-h) * -1);
   color: #fff;
   background: #0c0c0c;
   overflow: hidden;
+  will-change: transform;
+  transform-origin: center bottom;
 }
 
 .project-hero__media,
@@ -323,6 +460,11 @@
   font: 600 clamp(40px, 7vw, 88px) / 0.92 var(--font-sans);
   letter-spacing: -0.045em;
   text-transform: uppercase;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .project-hero__location {
@@ -374,13 +516,42 @@
   outline-offset: 3px;
 }
 
-/* Overview */
+/* Overview — slides over hero, then sticks while journey covers it */
 .project-overview {
+  position: sticky;
+  top: 0;
+  z-index: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  min-height: 100svh;
   padding:
     clamp(72px, 9vw, 128px)
     var(--project-pad)
     clamp(56px, 7vw, 96px);
-  background: var(--color-paper);
+  background: #000;
+  color: #fff;
+  will-change: transform;
+  transform-origin: center bottom;
+}
+
+.project-overview__mark {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.14;
+  mix-blend-mode: screen;
+}
+
+.project-overview__grid,
+.project-overview .project-facts {
+  position: relative;
+  z-index: 1;
 }
 
 .project-overview__grid {
@@ -401,7 +572,7 @@
 .project-overview__text {
   margin: 0;
   font: 400 clamp(16px, 1.15vw, 19px) / 1.65 var(--font-sans);
-  color: rgb(25 27 25 / 78%);
+  color: white
 }
 
 .project-overview__highlights {
@@ -418,13 +589,13 @@
   gap: 14px;
   align-items: start;
   font: 400 15px / 1.5 var(--font-sans);
-  color: rgb(25 27 25 / 82%);
+  color: white;
 }
 
 .project-overview__index {
   font: 600 12px / 1.4 var(--font-sans);
   letter-spacing: 0.08em;
-  color: var(--color-ink);
+  color: white;
 }
 
 .project-facts {
@@ -448,10 +619,14 @@
 
 .project-facts dt {
   margin: 0;
-  font: 600 11px / 1 var(--font-sans);
+  font: 800 14px / 1 var(--font-sans);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgb(25 27 25 / 48%);
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .project-facts dd {
@@ -1259,16 +1434,43 @@
   box-shadow: 0 16px 32px rgb(25 27 25 / 8%);
 }
 
-/* Enquire */
+/* Enquire — compact contact block before footer */
 .project-enquire {
+  position: relative;
+  z-index: 0;
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
   gap: clamp(32px, 5vw, 80px);
+  align-content: start;
+  align-items: start;
+  box-sizing: border-box;
+  min-height: 0;
   padding:
-    clamp(72px, 8vw, 120px)
+    clamp(40px, 4.5vw, 64px)
     var(--project-pad);
   color: #fff;
   background: #111;
+  overflow: hidden;
+}
+
+.project-enquire__mark {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.14;
+  mix-blend-mode: screen;
+}
+
+.project-enquire__copy,
+.project-enquire__contacts {
+  position: relative;
+  z-index: 1;
 }
 
 .project-enquire__text {
@@ -1280,15 +1482,16 @@
 
 .project-enquire__contacts {
   display: grid;
-  gap: 22px;
-  margin: 8px 0 0;
+  gap: 12px;
+  margin: 0;
   padding: 0;
   list-style: none;
+  align-content: start;
 }
 
 .project-enquire__contacts li {
   display: grid;
-  gap: 8px;
+  gap: 4px;
 }
 
 .project-enquire__contacts span {
@@ -1301,7 +1504,7 @@
 .project-enquire__contacts a,
 .project-enquire__contacts address {
   margin: 0;
-  font: 400 17px / 1.45 var(--font-sans);
+  font: 400 16px / 1.35 var(--font-sans);
   font-style: normal;
   color: #fff;
   text-decoration: none;
@@ -1354,13 +1557,25 @@
     display: none;
   }
 
-  .project-nav__back {
+  .project-nav__start {
     flex: 0 0 auto;
+    gap: 2px;
+  }
+
+  .project-nav__back {
     padding: 8px 4px 8px 0;
   }
 
   .project-nav__back span {
     display: none;
+  }
+
+  .project-nav__home {
+    padding: 8px 6px 8px 12px;
+  }
+
+  .project-nav__home::before {
+    height: 10px;
   }
 
   .project-nav__links {
@@ -1440,6 +1655,11 @@
     grid-template-columns: 1fr;
   }
 
+  .project-overview__mark,
+  .project-enquire__mark {
+    opacity: 0.1;
+  }
+
   .project-overview__highlights {
     margin-top: 8px;
   }
@@ -1512,9 +1732,50 @@
 
 @media (prefers-reduced-motion: reduce) {
   .project-page,
+  .project-page.is-settled:not(.is-leaving),
   .project-page.is-leaving {
     animation: none;
     transform: none;
+  }
+
+  .project-stack--hero {
+    height: 100svh;
+  }
+
+  .project-stack--overview,
+  .project-stack--enquire {
+    margin-top: 0;
+  }
+
+  .project-stack__spacer {
+    display: none;
+  }
+
+  .project-page .architecture-stack-spacer {
+    display: none;
+  }
+
+  .project-page .architecture-materials-stack {
+    margin-top: 0;
+  }
+
+  .project-page .architecture-materials {
+    position: relative;
+    min-height: 0;
+    padding-top: 0;
+  }
+
+  .project-page .time-section,
+  .project-page .architecture-section,
+  .project-page .services-section {
+    margin-top: 0;
+  }
+
+  .project-hero,
+  .project-overview,
+  .project-enquire {
+    position: relative;
+    min-height: 0;
   }
 
   .inventory-card,

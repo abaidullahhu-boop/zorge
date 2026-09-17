@@ -5,6 +5,7 @@ import g2 from '../../assets/images/g2.jpeg'
 import g3 from '../../assets/images/g3.jpeg'
 import g4 from '../../assets/images/g4.jpeg'
 import g5 from '../../assets/images/g5.jpeg'
+import dsMark from '../../assets/images/dsmark.png'
 import '../../assets/styles/TimeSection.css'
 
 const defaultJourneyGallery = [
@@ -251,6 +252,13 @@ function TimeSection({
 
       <div className="time-gallery-pin" ref={galleryPinRef}>
         <div className="time-gallery-sticky" ref={galleryStickyRef}>
+          <img
+            className="time-section__mark"
+            src={project?.mark ?? dsMark}
+            alt=""
+            aria-hidden="true"
+            draggable="false"
+          />
           <div className="time-gallery-row">
             <div className="time-gallery-copy">
               <div className="time-gallery-intro">

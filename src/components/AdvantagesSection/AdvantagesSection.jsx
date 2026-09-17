@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from '../../lib/gsap'
-import our1 from '../../assets/images/our1.png'
+import our1 from '../../assets/images/trusted.png'
 import our2 from '../../assets/images/our2.png'
 import our3 from '../../assets/images/our3.png'
-import our4 from '../../assets/images/our4.png'
+import our4 from '../../assets/images/our1.png'
 import our5 from '../../assets/images/our5.png'
 import our6 from '../../assets/images/our6.png'
 import our7 from '../../assets/images/our7.png'
@@ -38,7 +38,7 @@ const ADVANTAGES = [
   },
   {
     id: 'delivery',
-    titleLines: ['On-Time', 'Delivery'],
+    titleLines: ['Project', 'Delivered'],
     image: our4,
     width: 1024,
     height: 1024,

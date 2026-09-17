@@ -40,7 +40,6 @@
   left: 0;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   box-sizing: border-box;
   height: var(--map-top);
   margin: 0;

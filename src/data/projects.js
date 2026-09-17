@@ -1,6 +1,9 @@
 import dsaImage from '../assets/images/dayim-signature.png'
 import livingImage from '../assets/images/dayim-living.png'
 import zindagiImage from '../assets/images/dayim-zindagi.png'
+import dsaMark from '../assets/images/dsmark.png'
+import livingMark from '../assets/images/dlmask.png'
+import zindagiMark from '../assets/images/dzmask.png'
 import livingExcavation1 from '../assets/images/l1.jpg'
 import livingExcavation2 from '../assets/images/l4.jpg'
 import livingExcavation3 from '../assets/images/l5.jpg'
@@ -10,6 +13,16 @@ import livingPcc3 from '../assets/images/l6.jpg'
 import livingGround1 from '../assets/images/f1.jpg'
 import livingGround2 from '../assets/images/f2.jpg'
 import livingGround3 from '../assets/images/f3.jpg'
+import livingStudioDeluxeRoom from '../assets/images/03.jpg'
+import livingStudioDeluxeLiving from '../assets/images/04.jpg'
+import livingStudioDeluxeBath from '../assets/images/011.jpg'
+import livingExecutiveStudioRoom from '../assets/images/05.jpg'
+import livingExecutiveStudioLiving from '../assets/images/06.jpg'
+import livingExecutiveStudioBath from '../assets/images/08.jpg'
+
+function mapsSearch(query) {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
+}
 
 const signaturePlanFiles = import.meta.glob(
   '../assets/images/Signature floor plans/FLOOR PLANS/Floor Plans/*.png',
@@ -287,17 +300,6 @@ const dsaOfficeImages = signatureInteriorPicks(
     { file: '10', label: 'Cabin' },
   ],
 )
-const dsaRooftopImages = signatureInteriorPicks(
-  '/6- Rooftop/',
-  'Dayim Signature rooftop lounge',
-  [
-    { file: 'IMG_4568', label: 'Bar' },
-    { file: 'IMG_4567', label: 'Lounge' },
-    { file: 'IMG_4570', label: 'Seating' },
-    { file: 'IMG_4575', label: 'View' },
-  ],
-)
-
 const dsaFloors = [
   {
     id: 'lower-ground',
@@ -410,6 +412,42 @@ const livingResidentialImages = dlInventoryImages(
   'Dayim Living 1st to 5th floor',
 )
 
+const livingStudioDeluxeImages = [
+  {
+    src: livingStudioDeluxeRoom,
+    label: 'Room',
+    alt: 'Dayim Living Studio Deluxe — room',
+  },
+  {
+    src: livingStudioDeluxeLiving,
+    label: 'Living',
+    alt: 'Dayim Living Studio Deluxe — living',
+  },
+  {
+    src: livingStudioDeluxeBath,
+    label: 'Bathroom',
+    alt: 'Dayim Living Studio Deluxe — bathroom',
+  },
+]
+
+const livingExecutiveStudioImages = [
+  {
+    src: livingExecutiveStudioRoom,
+    label: 'Room',
+    alt: 'Dayim Living Executive Studio — room',
+  },
+  {
+    src: livingExecutiveStudioLiving,
+    label: 'Living',
+    alt: 'Dayim Living Executive Studio — living',
+  },
+  {
+    src: livingExecutiveStudioBath,
+    label: 'Bathroom',
+    alt: 'Dayim Living Executive Studio — bathroom',
+  },
+]
+
 const livingFloors = [
   {
     id: 'lower-ground',
@@ -503,11 +541,18 @@ export const projects = [
   {
     id: 'dsa',
     title: 'Dayim Signature Apartments',
-    short: 'A Signature Address. A Smarter Way to Live',
+    short: 'A Signature Address',
     brand: 'DSA',
     subtitle: 'Broadway Commercial · Al-Kabir Town Phase 2, Lahore.',
     image: dsaImage,
-    mapsUrl: 'https://share.google/1Z56ADgZS5XvUwBgB',
+    mark: dsaMark,
+    address: [
+      'Dayim Signature Apartments',
+      'Broadway Commercial, Al-Kabir Town Phase 2, Opposite Lake City, Raiwind Road, Lahore, Pakistan.',
+    ],
+    mapsUrl: mapsSearch(
+      'Dayim Signature Apartments, Broadway Commercial, Al-Kabir Town Phase 2, Lahore',
+    ),
     x: 43,
     y: 69,
     mobile: { x: 42.5, y: 66.8 },
@@ -517,8 +562,8 @@ export const projects = [
         'Dayim Signature Apartments brings together contemporary design, premium amenities, and a prime location opposite Lake City. A professionally planned high-rise residential development offering lifestyle and investment value on Broadway Commercial.',
       highlights: [
         'Prime Location',
-        'Temporary High-rise Residential',
-        'On Ground Delivered Project ( Possession Harded Over )',
+        'Contemporary High-rise Residential',
+        'On Ground Delivered Project ( Possession Handed Over )',
         'Premium Amenities',
         'Construction Commenced April 2024',
       ],
@@ -528,9 +573,27 @@ export const projects = [
     },
     units: [
       {
+        id: 'shop',
+        label: 'Commercial Shop',
+        type: 'Commercial Shop',
+        area: 'Lower Ground',
+        beds: null,
+        status: 'Available',
+        images: dsaShopImages,
+      },
+      {
+        id: 'office',
+        label: 'Commercial Office',
+        type: 'Commercial Office',
+        area: 'Ground & First Floor',
+        beds: null,
+        status: 'Available',
+        images: dsaOfficeImages,
+      },
+      {
         id: 'studio',
         label: 'Studio',
-        type: 'Studio',
+        type: 'Studio Apartment',
         area: '360–410 sq ft',
         beds: 0,
         status: 'Available',
@@ -539,7 +602,7 @@ export const projects = [
       {
         id: 'one-bed',
         label: 'One Bed',
-        type: 'One Bedroom',
+        type: 'One Bedroom Apartment',
         area: '573–625 sq ft',
         beds: 1,
         status: 'Available',
@@ -547,39 +610,12 @@ export const projects = [
       },
       {
         id: 'two-bed',
-        label: 'Two Bed',
-        type: 'Two Bedroom',
+        label: 'Two Bed Apartments',
+        type: 'Two Bedroom Apartment',
         area: '959 sq ft',
         beds: 2,
         status: 'Available',
         images: dsaTwoBedImages,
-      },
-      {
-        id: 'shop',
-        label: 'Shop',
-        type: 'Retail Shop',
-        area: 'Lower Ground',
-        beds: null,
-        status: 'Available',
-        images: dsaShopImages,
-      },
-      {
-        id: 'office',
-        label: 'Office',
-        type: 'Office / Commercial Hall',
-        area: 'Ground & First Floor',
-        beds: null,
-        status: 'Available',
-        images: dsaOfficeImages,
-      },
-      {
-        id: 'rooftop',
-        label: 'Rooftop',
-        type: 'Rooftop Lounge',
-        area: 'Shared amenity',
-        beds: null,
-        status: 'Included',
-        images: dsaRooftopImages,
       },
     ],
   },
@@ -590,7 +626,14 @@ export const projects = [
     brand: 'Living',
     subtitle: 'Block C Commercial · Al-Kabir Town Phase 2, Lahore.',
     image: livingImage,
-    mapsUrl: 'https://share.google/uQuucywNcsJaxM1TJ',
+    mark: livingMark,
+    address: [
+      'Dayim Living',
+      'Block C Commercial, Al-Kabir Town Phase 2, Raiwind Road, Lahore, Pakistan.',
+    ],
+    mapsUrl: mapsSearch(
+      'Dayim Living, Block C Commercial, Al-Kabir Town Phase 2, Lahore',
+    ),
     x: 50,
     y: 71,
     mobile: { x: 50, y: 71 },
@@ -604,7 +647,7 @@ export const projects = [
       highlights: [
         'Hotel Service Studio Apartments',
         'Investment Potential',
-        'Hotel Service Living',
+        'Construction In Progress',
         'High Rental',
       ],
       typologies: 'Studio (Executive & Deluxe)',
@@ -726,10 +769,7 @@ export const projects = [
           {
             id: 'living-studio-deluxe',
             title: 'Studio Deluxe',
-            images: [
-              { src: livingResidentialImages[0].src, label: '268 Sq.Ft.' },
-              { src: livingResidentialImages[1].src, label: '354 Sq.Ft.' },
-            ],
+            images: livingStudioDeluxeImages,
             width: 1024,
             height: 768,
             text: 'Compact hotel-service studios planned for efficient city living.',
@@ -737,7 +777,7 @@ export const projects = [
           {
             id: 'living-executive-studio',
             title: 'Executive Studio',
-            images: [{ src: livingResidentialImages[2].src, label: '425 Sq.Ft.' }],
+            images: livingExecutiveStudioImages,
             width: 1024,
             height: 768,
             text: 'Larger studio layouts with more room for daily routines and guests.',
@@ -756,10 +796,7 @@ export const projects = [
         area: '268–354 Sq.Ft.',
         beds: 0,
         status: 'Available',
-        images: [
-          { src: livingResidentialImages[0].src, label: '268 Sq.Ft.', alt: livingResidentialImages[0].alt },
-          { src: livingResidentialImages[1].src, label: '354 Sq.Ft.', alt: livingResidentialImages[1].alt },
-        ],
+        images: livingStudioDeluxeImages,
       },
       {
         id: 'executive-studio',
@@ -768,9 +805,7 @@ export const projects = [
         area: '425 Sq.Ft.',
         beds: 0,
         status: 'Available',
-        images: [
-          { src: livingResidentialImages[2].src, label: 'Residence', alt: livingResidentialImages[2].alt },
-        ],
+        images: livingExecutiveStudioImages,
       },
     ],
   },
@@ -781,7 +816,14 @@ export const projects = [
     brand: 'Zindagi',
     subtitle: 'Business Bay Commercial · Al-Kabir Town Phase 2, Lahore.',
     image: zindagiImage,
-    mapsUrl: 'https://share.google/ntyEvG8FmQl5EgXMT',
+    mark: zindagiMark,
+    address: [
+      'Dayim Zindagi',
+      'Business Bay Commercial, Al-Kabir Town Phase 2, Main Raiwind Road, Lahore, Pakistan.',
+    ],
+    mapsUrl: mapsSearch(
+      'Dayim Zindagi, Business Bay Commercial, Al-Kabir Town Phase 2, Lahore',
+    ),
     x: 44,
     y: 59,
     mobile: { x: 44.5, y: 59 },
@@ -857,7 +899,7 @@ export const projects = [
         },
       ],
       interiors: {
-        brandLines: ['ZINDAGI', 'INTERIORS'],
+        brandLines: [ 'INTERIORS'],
         services: [
           {
             id: 'zindagi-shop',

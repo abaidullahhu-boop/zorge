@@ -10,8 +10,9 @@
 
 .architecture-section--project {
   margin-top: 0;
-  z-index: auto;
-  background: #fff;
+  z-index: 11;
+  color: #fff;
+  background: #000;
   overflow: visible;
 }
 
@@ -22,6 +23,10 @@
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
+}
+
+.architecture-section--project .architecture-slide {
+  background: #000;
 }
 
 .architecture-sr-only {
@@ -39,7 +44,6 @@
 .architecture-intro-row {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   box-sizing: border-box;
   height: calc(clamp(20px, 3vw, 40px) + clamp(58px, 6vw, 96px));
   margin-bottom: 0;
@@ -396,9 +400,41 @@
 
 .architecture-section--project .architecture-gallery-sticky {
   padding-top: var(--project-nav-h, 72px);
+  overflow: hidden;
+  isolation: isolate;
+  background: #000;
+  color: #fff;
+}
+
+.architecture-section__mark {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 0;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  object-position: left bottom;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.14;
+  mix-blend-mode: screen;
+}
+
+.architecture-materials {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.architecture-materials > :not(.architecture-section__mark) {
+  position: relative;
+  z-index: 1;
 }
 
 .architecture-gallery-row {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   align-items: center;
@@ -454,6 +490,10 @@
   white-space: nowrap;
 }
 
+.architecture-section--project .architecture-gallery-caption {
+  color: #fff;
+}
+
 .architecture-gallery-plan-detail {
   margin: 0;
   max-width: none;
@@ -461,6 +501,10 @@
   letter-spacing: .04em;
   text-transform: uppercase;
   color: rgb(0 0 0 / 70%);
+}
+
+.architecture-section--project .architecture-gallery-plan-detail {
+  color: rgb(255 255 255 / 70%);
 }
 
 .architecture-gallery-meta {
@@ -483,9 +527,18 @@
   color: #000;
 }
 
+.architecture-section--project .architecture-gallery-counter-current {
+  color: #fff;
+}
+
 .architecture-gallery-counter-sep,
 .architecture-gallery-counter-total {
   color: rgb(0 0 0 / 35%);
+}
+
+.architecture-section--project .architecture-gallery-counter-sep,
+.architecture-section--project .architecture-gallery-counter-total {
+  color: rgb(255 255 255 / 40%);
 }
 
 .architecture-gallery-progress {
@@ -513,6 +566,18 @@
   background: black;
 }
 
+.architecture-section--project .architecture-gallery-progress-dot {
+  background: rgb(255 255 255 / 18%);
+}
+
+.architecture-section--project .architecture-gallery-progress-dot.is-done {
+  background: rgb(255 255 255 / 40%);
+}
+
+.architecture-section--project .architecture-gallery-progress-dot.is-active {
+  background: #fff;
+}
+
 .architecture-gallery-right {
   grid-column: 6 / 13;
   position: relative;
@@ -537,7 +602,6 @@
   max-height: 100%;
   aspect-ratio: 1600 / 1370;
   overflow: hidden;
-  background: #111;
   box-sizing: border-box;
   padding: clamp(12px, 2cqi, 28px);
 }

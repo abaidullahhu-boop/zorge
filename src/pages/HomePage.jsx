@@ -150,15 +150,20 @@ function HomePage() {
       const handleScrollTop = () => {
         window.scrollTo({ top: 0, behavior: 'auto' })
       }
+      const handleGoHome = () => {
+        window.scrollTo({ top: 0, behavior: 'auto' })
+      }
       const handleScrollTo = (event) => {
         const el = event.detail?.el
         if (!(el instanceof Element)) return
         el.scrollIntoView({ behavior: 'auto', block: 'start' })
       }
       window.addEventListener('dayim:scroll-top', handleScrollTop)
+      window.addEventListener('dayim:home', handleGoHome)
       window.addEventListener('dayim:scroll-to', handleScrollTo)
       return () => {
         window.removeEventListener('dayim:scroll-top', handleScrollTop)
+        window.removeEventListener('dayim:home', handleGoHome)
         window.removeEventListener('dayim:scroll-to', handleScrollTo)
       }
     }
@@ -368,6 +373,18 @@ function HomePage() {
       })
     }
 
+    const handleGoHome = () => {
+      isSnapping = true
+      lenis.scrollTo(0, {
+        immediate: true,
+        onComplete: () => {
+          window.setTimeout(() => {
+            isSnapping = false
+          }, 80)
+        },
+      })
+    }
+
     const handleScrollTo = (event) => {
       const el = event.detail?.el
       if (!(el instanceof Element)) return
@@ -385,6 +402,7 @@ function HomePage() {
     }
 
     window.addEventListener('dayim:scroll-top', handleScrollTop)
+    window.addEventListener('dayim:home', handleGoHome)
     window.addEventListener('dayim:scroll-to', handleScrollTo)
 
     const lenisTicker = (time) => {
@@ -399,6 +417,7 @@ function HomePage() {
     return () => {
       window.clearTimeout(snapTimeout)
       window.removeEventListener('dayim:scroll-top', handleScrollTop)
+      window.removeEventListener('dayim:home', handleGoHome)
       window.removeEventListener('dayim:scroll-to', handleScrollTo)
       lenis.off('scroll', ScrollTrigger.update)
       lenis.off('virtual-scroll', snapSections)
@@ -415,15 +434,22 @@ function HomePage() {
     <main className="dayim-page" id="top">
       <ScrollIndicator />
       <HeroSection introReady />
-      <div className="about-wordmark-rail" aria-hidden="true">
-        <div className="about-wordmark">
-          <p className="about-wordmark-layer">
+      <div className="about-wordmark-rail">
+        <button
+          type="button"
+          className="about-wordmark"
+          aria-label="Scroll to top of the page"
+          onClick={() => {
+            window.dispatchEvent(new CustomEvent('dayim:scroll-top'))
+          }}
+        >
+          <span className="about-wordmark-layer" aria-hidden="true">
             <span>DAYIM DEVELOPERS</span>
-          </p>
-          <p className="about-wordmark-layer about-wordmark-layer--dark">
+          </span>
+          <span className="about-wordmark-layer about-wordmark-layer--dark" aria-hidden="true">
             <span>DAYIM DEVELOPERS</span>
-          </p>
-        </div>
+          </span>
+        </button>
       </div>
       <div className="about-location-flow">
         <AboutSection />

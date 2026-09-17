@@ -30,7 +30,7 @@
   height: calc(
     var(--services-image-h) + (100svh * (var(--item-count) - 1))
   );
-  z-index: auto;
+  z-index: 12;
 }
 
 .services-sticky {

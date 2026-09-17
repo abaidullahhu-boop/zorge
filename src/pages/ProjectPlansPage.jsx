@@ -22,6 +22,7 @@ function ProjectPlansPage() {
   const project = getProjectById(projectId)
   const pageRef = useRef(null)
   const leavingRef = useRef(false)
+  const leaveTargetRef = useRef('project')
   const closeRef = useRef(() => {})
   const [motion, setMotion] = useState(() => ({
     projectId,
@@ -45,12 +46,25 @@ function ProjectPlansPage() {
     })
   }
 
-  const closeToProject = () => {
+  const revealHomeLanding = () => {
+    window.setTimeout(() => {
+      window.__dayimLenis?.start?.()
+      window.dispatchEvent(new CustomEvent('dayim:home'))
+    }, 0)
+  }
+
+  const leavePlans = (target = 'project') => {
     if (leavingRef.current) return
     leavingRef.current = true
+    leaveTargetRef.current = target
 
     if (prefersReducedMotion()) {
-      goToProject()
+      if (target === 'home') {
+        navigate('/')
+        revealHomeLanding()
+      } else {
+        goToProject()
+      }
       return
     }
 
@@ -60,6 +74,9 @@ function ProjectPlansPage() {
       settled: false,
     }))
   }
+
+  const closeToProject = () => leavePlans('project')
+  const closeToHome = () => leavePlans('home')
 
   useEffect(() => {
     closeRef.current = closeToProject
@@ -117,7 +134,12 @@ function ProjectPlansPage() {
     if (event.target !== pageRef.current) return
 
     if (leavingRef.current) {
-      goToProject()
+      if (leaveTargetRef.current === 'home') {
+        navigate('/')
+        revealHomeLanding()
+      } else {
+        goToProject()
+      }
       return
     }
 
@@ -168,6 +190,7 @@ function ProjectPlansPage() {
         project={project}
         scrollRootRef={pageRef}
         onBack={closeToProject}
+        onHome={closeToHome}
         onNavigate={handleNavigate}
         activeId="plans"
         backLabel="Back to project"

@@ -11,6 +11,7 @@ import groundFloorPlan from '../../assets/images/gfloor.jpeg'
 import lowerGroundFloorPlan from '../../assets/images/lfloor.jpeg'
 import firstFloorPlan from '../../assets/images/1floor.jpeg'
 import secondFloorPlan from '../../assets/images/2floor.jpeg'
+import dsMark from '../../assets/images/dsmark.png'
 import '../../assets/styles/ArchitectureSection.css'
 
 const defaultFloorPlanGallery = [
@@ -256,6 +257,13 @@ function ProjectStorySection({ scrollContainerRef = null, project = null }) {
       <div className="architecture-slide">
         <div className="architecture-gallery-pin" ref={galleryPinRef}>
           <div className="architecture-gallery-sticky" ref={galleryStickyRef}>
+            <img
+              className="architecture-section__mark"
+              src={project?.mark ?? dsMark}
+              alt=""
+              aria-hidden="true"
+              draggable="false"
+            />
             <div className="architecture-gallery-row">
               <div className="architecture-gallery-copy" aria-live="polite">
                 <p className="architecture-gallery-kicker">Floor plans</p>
@@ -320,18 +328,31 @@ function ProjectStorySection({ scrollContainerRef = null, project = null }) {
           </div>
         </div>
 
-        <div className="architecture-subhead-row">
-          <h2 id="story-title" className="architecture-subhead">
-          Premium Materials
-          </h2>
-        </div>
+        <div className="architecture-materials-stack">
+          <div className="architecture-materials">
+            <img
+              className="architecture-section__mark"
+              src={project?.mark ?? dsMark}
+              alt=""
+              aria-hidden="true"
+              draggable="false"
+            />
+            <div className="architecture-subhead-row">
+              <h2 id="story-title" className="architecture-subhead">
+                Premium Materials
+              </h2>
+            </div>
 
-        <div className="architecture-decor-row">
-          <div className="architecture-decor">
-            {decorLayers.map((layer) => (
-              <DecorLayer key={layer.src} {...layer} />
-            ))}
+            <div className="architecture-decor-row">
+              <div className="architecture-decor">
+                {decorLayers.map((layer) => (
+                  <DecorLayer key={layer.src} {...layer} />
+                ))}
+              </div>
+            </div>
           </div>
+          {/* Stick travel: holds materials while Interiors slides over */}
+          <div className="architecture-stack-spacer" aria-hidden="true" />
         </div>
       </div>
     </section>

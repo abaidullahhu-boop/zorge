@@ -59,7 +59,7 @@ const DEFAULT_SERVICES = [
   },
 ].filter((item) => item.images.length > 0)
 
-const DEFAULT_BRAND_LINES = ['SIGNATURE', 'INTERIORS']
+const DEFAULT_BRAND_LINES = [ 'INTERIORS']
 
 const CLIP_HIDDEN = 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
 const CLIP_VISIBLE = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'

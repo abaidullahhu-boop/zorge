@@ -42,11 +42,17 @@
   position: relative;
   width: max-content;
   margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
   font: 600 clamp(22px, 3.2vw, 44px)/1 'Gilroy', sans-serif;
   letter-spacing: .12em;
   white-space: nowrap;
   text-transform: uppercase;
   overflow: visible;
+  pointer-events: auto;
+  cursor: pointer;
+  appearance: none;
 }
 
 .about-wordmark-layer {

@@ -10,7 +10,7 @@
 
 .time-section--project {
   margin-top: 0;
-  z-index: auto;
+  z-index: 10;
   pointer-events: auto;
   background: #000;
 }
@@ -40,11 +40,30 @@
   box-sizing: border-box;
   height: var(--gallery-sticky-h);
   padding-top: var(--project-nav-h, 72px);
+  overflow: hidden;
+  isolation: isolate;
   background: #000;
   color: #fff;
 }
 
+.time-section__mark {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 0;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  object-position: left bottom;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.14;
+  mix-blend-mode: screen;
+}
+
 .time-gallery-row {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   align-items: center;
@@ -100,7 +119,11 @@
   margin: 0;
   font: 600 clamp(24px, 2.2vw, 36px) / 1.1 'Gilroy', sans-serif;
   letter-spacing: -.035em;
-  color: #fff;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .time-gallery-intro-body {
@@ -150,7 +173,11 @@
   text-transform: uppercase;
   text-align: left;
   white-space: nowrap;
-  color: #fff;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .time-gallery-plan-detail {

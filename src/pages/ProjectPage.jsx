@@ -11,7 +11,7 @@ import TimeSection from '../components/TimeSection/TimeSection'
 import ServicesSection from '../components/ServicesSection/ServicesSection'
 import Footer from '../components/Footer/Footer'
 import { getProjectById, getProjectInventoryPath } from '../data/projects'
-import { ScrollTrigger } from '../lib/gsap'
+import { gsap, ScrollTrigger } from '../lib/gsap'
 import '../assets/styles/ProjectsSection.css'
 import './ProjectPage.css'
 
@@ -29,6 +29,7 @@ function ProjectPage() {
   const project = getProjectById(projectId)
   const pageRef = useRef(null)
   const leavingRef = useRef(false)
+  const leaveTargetRef = useRef('projects')
   const closeRef = useRef(() => {})
   const pendingScrollRef = useRef(location.state?.scrollTo ?? null)
   const [motion, setMotion] = useState(() => ({
@@ -57,13 +58,22 @@ function ProjectPage() {
     })
   }
 
-  const closeToProjects = () => {
+  const revealHomeLanding = () => {
+    window.setTimeout(() => {
+      window.__dayimLenis?.start?.()
+      window.dispatchEvent(new CustomEvent('dayim:home'))
+    }, 0)
+  }
+
+  const leaveProject = (target = 'projects') => {
     if (leavingRef.current) return
     leavingRef.current = true
+    leaveTargetRef.current = target
 
     if (prefersReducedMotion()) {
       navigate('/')
-      openProjectsOverlay()
+      if (target === 'projects') openProjectsOverlay()
+      else revealHomeLanding()
       return
     }
 
@@ -73,6 +83,9 @@ function ProjectPage() {
       settled: false,
     }))
   }
+
+  const closeToProjects = () => leaveProject('projects')
+  const closeToHome = () => leaveProject('home')
 
   useEffect(() => {
     closeRef.current = closeToProjects
@@ -117,6 +130,44 @@ function ProjectPage() {
 
     return () => window.cancelAnimationFrame(frame)
   }, [settled, project])
+
+  // Back panels drift up slightly while the next section slides over them.
+  useEffect(() => {
+    if (!settled || !project || prefersReducedMotion()) return undefined
+
+    const scroller = pageRef.current
+    if (!scroller) return undefined
+
+    const pairs = [
+      ['.project-stack--hero', '.project-hero'],
+      ['.project-stack--overview', '.project-overview'],
+      ['.architecture-materials-stack', '.architecture-materials'],
+    ]
+
+    const ctx = gsap.context(() => {
+      pairs.forEach(([frameSel, panelSel]) => {
+        const frame = scroller.querySelector(frameSel)
+        const panel = scroller.querySelector(panelSel)
+        if (!frame || !panel) return
+
+        gsap.to(panel, {
+          y: () => -window.innerHeight * 0.14,
+          ease: 'none',
+          force3D: true,
+          scrollTrigger: {
+            scroller,
+            trigger: frame,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        })
+      })
+    }, scroller)
+
+    return () => ctx.revert()
+  }, [settled, project, projectId])
 
   useEffect(() => {
     if (!project) return undefined
@@ -175,7 +226,8 @@ function ProjectPage() {
 
     if (leavingRef.current) {
       navigate('/')
-      openProjectsOverlay()
+      if (leaveTargetRef.current === 'projects') openProjectsOverlay()
+      else revealHomeLanding()
       return
     }
 
@@ -222,6 +274,7 @@ function ProjectPage() {
         project={project}
         scrollRootRef={pageRef}
         onBack={closeToProjects}
+        onHome={closeToHome}
         onNavigate={handleNavigate}
       />
       <ProjectHero project={project} onNavigate={handleNavigate} />

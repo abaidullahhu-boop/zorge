@@ -12,51 +12,8 @@
   border-top: 1px solid var(--footer-line);
 }
 
-.site-footer-top {
-  display: flex;
-  justify-content: center;
-  margin-bottom: clamp(20px, 2.5vw, 28px);
-}
 
-.site-footer-scroll {
-  display: inline-flex;
-  color: rgb(255 255 255 / 72%);
-  text-decoration: none;
-  transition: color 0.25s ease;
-}
 
-.site-footer-scroll:hover,
-.site-footer-scroll:focus-visible {
-  color: #fff;
-}
-
-.site-footer-scroll-icons {
-  position: relative;
-  display: block;
-  width: 14px;
-  height: 31px;
-}
-
-.site-footer-scroll-icons .footer-icon--arrow {
-  display: block;
-}
-
-.site-footer-scroll-icons .footer-icon--arrow path {
-  stroke-dasharray: 100 100;
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 1.1s linear;
-}
-
-.site-footer-scroll:hover .footer-icon--arrow path,
-.site-footer-scroll:focus-visible .footer-icon--arrow path {
-  stroke-dashoffset: -200;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .site-footer-scroll-icons .footer-icon--arrow path {
-    transition: none;
-  }
-}
 
 .site-footer-main {
   display: grid;
@@ -127,6 +84,10 @@
   color: rgb(255 255 255 / 72%);
   font: 400 13px / 1.45 'Gilroy', sans-serif;
   font-style: normal;
+}
+
+.site-footer-brand {
+  font-weight: 700;
 }
 
 .site-footer-link {
