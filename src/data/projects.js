@@ -1,6 +1,15 @@
 import dsaImage from '../assets/images/dayim-signature.png'
 import livingImage from '../assets/images/dayim-living.png'
 import zindagiImage from '../assets/images/dayim-zindagi.png'
+import livingExcavation1 from '../assets/images/l1.jpg'
+import livingExcavation2 from '../assets/images/l4.jpg'
+import livingExcavation3 from '../assets/images/l5.jpg'
+import livingPcc1 from '../assets/images/l2.jpg'
+import livingPcc2 from '../assets/images/l3.jpg'
+import livingPcc3 from '../assets/images/l6.jpg'
+import livingGround1 from '../assets/images/f1.jpg'
+import livingGround2 from '../assets/images/f2.jpg'
+import livingGround3 from '../assets/images/f3.jpg'
 
 const signaturePlanFiles = import.meta.glob(
   '../assets/images/Signature floor plans/FLOOR PLANS/Floor Plans/*.png',
@@ -602,34 +611,90 @@ export const projects = [
     story: {
       journey: {
         title: 'Construction Underway',
-        body: 'Construction of Dayim Living is already in progress. We have successfully completed key foundation-stage milestones.',
+        body: 'Our goal is not simply to complete the project within the committed timeline. We aim to deliver before time wherever possible, continuing our track record of efficient project execution.',
         tagline: 'Hotel Service Living. High Rental.',
         items: [
           {
-            id: 'living-vision',
-            src: livingImage,
-            alt: 'Dayim Living project vision',
-            label: 'Raft work completed',
+            id: 'living-excavation-1',
+            phase: 'excavation',
+            src: livingExcavation1,
+            alt: 'Dayim Living excavation and site development progress',
+            label: 'Excavation & Site Development',
             detail:
-              'The raft work has been completed, which is the foundation of the building. This is a critical step in the construction process as it provides a stable base for the building to stand on.',
+              'Excavation work at Dayim Living has been successfully completed, marking the beginning of our construction journey. The site has progressed rapidly from excavation toward the structural development phase.',
           },
           {
-            id: 'living-site',
-            src: livingImage,
-            alt: 'Dayim Living site progress',
-            label: 'Retaining walls completed',
+            id: 'living-excavation-2',
+            phase: 'excavation',
+            src: livingExcavation2,
+            alt: 'Dayim Living excavation and site development progress',
+            label: 'Excavation & Site Development',
             detail:
-              'The retaining walls have been completed, which are the walls that hold the soil back. This is a critical step in the construction process as it provides a stable base for the building to stand on.',
+              'Excavation work at Dayim Living has been successfully completed, marking the beginning of our construction journey. The site has progressed rapidly from excavation toward the structural development phase.',
           },
           {
-            id: 'living-value',
-            src: livingImage,
-            alt: 'Dayim Living investment potential',
-            label: 'Lower Ground Slab Completed',
+            id: 'living-excavation-3',
+            phase: 'excavation',
+            src: livingExcavation3,
+            alt: 'Dayim Living excavation and site development progress',
+            label: 'Excavation & Site Development',
             detail:
-              'The lower ground slab has been completed, which is the foundation of the building. This is a critical step in the construction process as it provides a stable base for the building to stand on.',
+              'Excavation work at Dayim Living has been successfully completed, marking the beginning of our construction journey. The site has progressed rapidly from excavation toward the structural development phase.',
           },
-         
+          {
+            id: 'living-pcc-1',
+            phase: 'pcc',
+            src: livingPcc1,
+            alt: 'Dayim Living PCC and raft foundation progress',
+            label: 'PCC & Raft Foundation',
+            detail:
+              'Following excavation, PCC (Plain Cement Concrete) work was completed to prepare the foundation base. The raft foundation work has now been successfully completed, providing a strong structural foundation and moving the project forward toward the Lower Ground and Ground Floor stages.',
+          },
+          {
+            id: 'living-pcc-2',
+            phase: 'pcc',
+            src: livingPcc2,
+            alt: 'Dayim Living PCC and raft foundation progress',
+            label: 'PCC & Raft Foundation',
+            detail:
+              'Following excavation, PCC (Plain Cement Concrete) work was completed to prepare the foundation base. The raft foundation work has now been successfully completed, providing a strong structural foundation and moving the project forward toward the Lower Ground and Ground Floor stages.',
+          },
+          {
+            id: 'living-pcc-3',
+            phase: 'pcc',
+            src: livingPcc3,
+            alt: 'Dayim Living PCC and raft foundation progress',
+            label: 'PCC & Raft Foundation',
+            detail:
+              'Following excavation, PCC (Plain Cement Concrete) work was completed to prepare the foundation base. The raft foundation work has now been successfully completed, providing a strong structural foundation and moving the project forward toward the Lower Ground and Ground Floor stages.',
+          },
+          {
+            id: 'living-ground-1',
+            phase: 'ground',
+            src: livingGround1,
+            alt: 'Dayim Living ground floor column and lift steel binding',
+            label: 'Ground Floor – Column & Lift Steel Binding',
+            detail:
+              'Construction is progressing rapidly toward the Ground Floor. Steel binding work for the columns and lift structure is currently underway, forming the reinforcement required for the next stage of structural development.',
+          },
+          {
+            id: 'living-ground-2',
+            phase: 'ground',
+            src: livingGround2,
+            alt: 'Dayim Living ground floor column and lift steel binding',
+            label: 'Ground Floor – Column & Lift Steel Binding',
+            detail:
+              'Construction is progressing rapidly toward the Ground Floor. Steel binding work for the columns and lift structure is currently underway, forming the reinforcement required for the next stage of structural development.',
+          },
+          {
+            id: 'living-ground-3',
+            phase: 'ground',
+            src: livingGround3,
+            alt: 'Dayim Living ground floor column and lift steel binding',
+            label: 'Ground Floor – Column & Lift Steel Binding',
+            detail:
+              'Construction is progressing rapidly toward the Ground Floor. Steel binding work for the columns and lift structure is currently underway, forming the reinforcement required for the next stage of structural development.',
+          },
         ],
       },
       floorPlans: [

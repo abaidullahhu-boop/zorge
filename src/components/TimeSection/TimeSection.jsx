@@ -78,7 +78,31 @@ function TimeSection({
     }),
     [journey],
   )
+  const journeyPhases = useMemo(() => {
+    const phases = []
+    const phaseIndexBySlide = []
+
+    journeyGallery.forEach((item) => {
+      const phaseKey = item.phase ?? item.id
+      let phaseIndex = phases.findIndex((phase) => phase.key === phaseKey)
+
+      if (phaseIndex === -1) {
+        phaseIndex = phases.length
+        phases.push({
+          key: phaseKey,
+          id: item.id,
+          label: item.label,
+          detail: item.detail,
+        })
+      }
+
+      phaseIndexBySlide.push(phaseIndex)
+    })
+
+    return { phases, phaseIndexBySlide }
+  }, [journeyGallery])
   const planCount = journeyGallery.length
+  const phaseCount = journeyPhases.phases.length
   const [isVisible, setIsVisible] = useState(false)
   const [activePlanIndex, setActivePlanIndex] = useState(0)
   const sectionRef = useRef(null)
@@ -86,7 +110,10 @@ function TimeSection({
   const galleryStickyRef = useRef(null)
   const activeIndexRef = useRef(0)
   const setActiveFromScrollRef = useRef(null)
-  const activePlan = journeyGallery[activePlanIndex] ?? journeyGallery[0]
+  const activePhaseIndex =
+    journeyPhases.phaseIndexBySlide[activePlanIndex] ?? 0
+  const activePhase =
+    journeyPhases.phases[activePhaseIndex] ?? journeyPhases.phases[0]
 
   setActiveFromScrollRef.current = (nextIndex) => {
     if (nextIndex === activeIndexRef.current) return
@@ -230,34 +257,32 @@ function TimeSection({
                   {journeyCopy.title}
                 </h3>
                 <p className="time-gallery-intro-body">{journeyCopy.body}</p>
-                <p className="time-gallery-intro-tagline">
-                  {journeyCopy.tagline}
-                </p>
+               
               </div>
 
               <div className="time-gallery-stage" aria-live="polite">
-                <div key={activePlan.id} className="time-gallery-plan-text">
+                <div key={activePhase?.id} className="time-gallery-plan-text">
                   <div className="time-gallery-stage-head">
-                    <p className="time-gallery-caption">{activePlan.label}</p>
+                    <p className="time-gallery-caption">{activePhase?.label}</p>
                     <p className="time-gallery-counter" aria-hidden="true">
                       <span className="time-gallery-counter-current">
-                        {String(activePlanIndex + 1).padStart(2, '0')}
+                        {String(activePhaseIndex + 1).padStart(2, '0')}
                       </span>
                       <span className="time-gallery-counter-sep">/</span>
                       <span className="time-gallery-counter-total">
-                        {String(planCount).padStart(2, '0')}
+                        {String(phaseCount).padStart(2, '0')}
                       </span>
                     </p>
                   </div>
-                  <p className="time-gallery-plan-detail">{activePlan.detail}</p>
+                  <p className="time-gallery-plan-detail">{activePhase?.detail}</p>
                 </div>
                 <div className="time-gallery-progress" role="presentation">
-                  {journeyGallery.map((plan, index) => (
+                  {journeyPhases.phases.map((phase, index) => (
                     <span
-                      key={plan.id}
+                      key={phase.key}
                       className={`time-gallery-progress-dot${
-                        index === activePlanIndex ? ' is-active' : ''
-                      }${index < activePlanIndex ? ' is-done' : ''}`}
+                        index === activePhaseIndex ? ' is-active' : ''
+                      }${index < activePhaseIndex ? ' is-done' : ''}`}
                     />
                   ))}
                 </div>
