@@ -134,7 +134,9 @@ function TimeSection({
       ([entry]) => {
         if (entry.isIntersecting) setIsVisible(true)
       },
-      { threshold: 0.12 },
+      // Tall pin sections (many slides) can never reach a high ratio in one
+      // viewport — any intersection is enough to reveal the sticky content.
+      { threshold: 0 },
     )
 
     observer.observe(section)

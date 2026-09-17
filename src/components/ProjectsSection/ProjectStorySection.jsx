@@ -110,7 +110,7 @@ function ProjectStorySection({ scrollContainerRef = null, project = null }) {
       ([entry]) => {
         if (entry.isIntersecting) setIsVisible(true)
       },
-      { threshold: 0.12 },
+      { threshold: 0 },
     )
 
     observer.observe(section)
