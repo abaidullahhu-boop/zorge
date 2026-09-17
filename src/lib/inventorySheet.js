@@ -106,6 +106,36 @@ function formatSqft(raw) {
   return amount ? `${amount[1]} Sq.Ft.` : value
 }
 
+function unitNumber(label) {
+  const match = String(label ?? '').match(/(\d+)/)
+  return match ? Number.parseInt(match[1], 10) : null
+}
+
+function areaNumber(area) {
+  const match = String(area ?? '').match(/(\d[\d,]*)/)
+  return match ? Number.parseInt(match[1].replace(/,/g, ''), 10) : null
+}
+
+function titleFromSheetUnit(label) {
+  const match = String(label ?? '').match(/^(.+?)\s*#/i)
+  if (!match) return null
+  const prefix = match[1].trim()
+  if (/^shop$/i.test(prefix)) return 'Shop'
+  if (/^hall$/i.test(prefix)) return 'Commercial Hall'
+  if (/^office$/i.test(prefix)) return 'Office'
+  return null
+}
+
+function splitOverrideKey(key) {
+  const parts = String(key).split('|')
+  if (parts.length < 3) return null
+  return {
+    projectId: parts[0],
+    floorId: parts[1],
+    unit: parts.slice(2).join('|'),
+  }
+}
+
 export function parseInventorySheetCsv(text) {
   const rows = parseCsv(text)
   if (rows.length < 2) return new Map()
@@ -138,12 +168,18 @@ export function parseInventorySheetCsv(text) {
     )
     const area = sqftIdx === -1 ? null : formatSqft(row[sqftIdx])
 
-    const patch = {}
+    const patch = {
+      // Sheet unit column is the display name on the site.
+      unitLabel: unit,
+    }
     if (status) patch.status = status
     if (buyerIdx !== -1) patch.buyer = buyer
     if (area) patch.area = area
     if (status === 'available') patch.buyer = null
     else if ((status === 'sold' || status === 'reserved') && buyer) patch.buyer = buyer
+
+    const derivedTitle = titleFromSheetUnit(unit)
+    if (derivedTitle) patch.title = derivedTitle
 
     overrides.set(inventoryUnitKey(projectId, floorId, unit), patch)
   }
@@ -204,13 +240,54 @@ export async function fetchInventoryOverrides(csvUrl, { signal } = {}) {
   return parseInventorySheetCsv(text)
 }
 
+function findOverridePatch(unit, projectId, overrides, usedKeys) {
+  const exactKey = inventoryUnitKey(projectId, unit.floorId, unit.unitLabel)
+  if (overrides.has(exactKey) && !usedKeys.has(exactKey)) {
+    usedKeys.add(exactKey)
+    return overrides.get(exactKey)
+  }
+
+  const projectKey = normalizeKeyPart(projectId)
+  const floorKey = normalizeKeyPart(unit.floorId)
+  const num = unitNumber(unit.unitLabel)
+  const area = areaNumber(unit.area)
+
+  if (num != null) {
+    for (const [key, patch] of overrides) {
+      if (usedKeys.has(key)) continue
+      const parts = splitOverrideKey(key)
+      if (!parts) continue
+      if (parts.projectId !== projectKey || parts.floorId !== floorKey) continue
+      if (unitNumber(parts.unit) === num) {
+        usedKeys.add(key)
+        return patch
+      }
+    }
+  }
+
+  if (area != null) {
+    for (const [key, patch] of overrides) {
+      if (usedKeys.has(key)) continue
+      const parts = splitOverrideKey(key)
+      if (!parts) continue
+      if (parts.projectId !== projectKey || parts.floorId !== floorKey) continue
+      if (areaNumber(patch.area) === area) {
+        usedKeys.add(key)
+        return patch
+      }
+    }
+  }
+
+  return null
+}
+
 export function applyInventoryOverrides(units, projectId, overrides) {
   if (!overrides?.size) return units
 
+  const usedKeys = new Set()
+
   return units.map((unit) => {
-    const patch = overrides.get(
-      inventoryUnitKey(projectId, unit.floorId, unit.unitLabel),
-    )
+    const patch = findOverridePatch(unit, projectId, overrides, usedKeys)
     if (!patch) return unit
 
     const next = { ...unit, ...patch }

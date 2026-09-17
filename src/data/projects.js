@@ -80,8 +80,9 @@ function parseDsaInventoryMeta(fileName) {
     title = 'Commercial Hall'
     code = `Hall # ${hallMatch[1].padStart(2, '0')}`
   } else if (officeMatch) {
-    title = 'Office'
-    code = `Office # ${officeMatch[1].padStart(2, '0')}`
+    // DSA first-floor files are named "Commercial Office" but sold as shops.
+    title = 'Shop'
+    code = `Shop # ${officeMatch[1].padStart(2, '0')}`
   } else if (aptMatch) {
     title = aptMatch[1].replace(/\s+/g, ' ')
   }
