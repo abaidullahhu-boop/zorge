@@ -239,7 +239,7 @@
 
 .project-nav__link.is-active {
   opacity: 1;
-  color: var(--project-accent);
+  color: black;
 }
 
 .project-nav:not(.is-scrolled) .project-nav__link.is-active {
