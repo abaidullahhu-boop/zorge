@@ -138,10 +138,6 @@ function HeroSection({ introReady = false }) {
             <source src={aboutVideo} type="video/mp4" />
           </video>
         </div>
-        <div className="building" aria-hidden="true">
-          <div className="building__layer building__layer--primary" />
-          <div className="building__layer building__layer--alt" />
-        </div>
         <header className="hero-header">
           <h1 id="hero-title">
             <span className="hero-title-line">
@@ -151,8 +147,6 @@ function HeroSection({ introReady = false }) {
               <span>Creating Reality.</span>
             </span>
           </h1>
-
-         
         </header>
 
         <p className="intro__logo" aria-label="Dayim Developers">

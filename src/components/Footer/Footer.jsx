@@ -123,7 +123,7 @@ function Footer({ onScrollTop }) {
                 {SITE_CONTACT.address.lines.map((line) => (
                   <span key={line}>
                     {line.trim() === 'Dayim Developers' ? (
-                      <strong className="site-footer-brand">{line}</strong>
+                      <strong className="site-footer-brand">{line.trim()}</strong>
                     ) : (
                       line
                     )}

@@ -1,7 +1,7 @@
 export const SITE_CONTACT = {
   address: {
     lines: [
-      'Dayim Developers ',
+      'Dayim Developers',
       '45,46,47-A side, Broadway Commercial, Al- Kabir Town, Phase 2, Opposite Lake City, Raiwind Road, Lahore, Pakistan.',
     ],
     mapsUrl:

@@ -90,6 +90,12 @@
   font-weight: 700;
 }
 
+.site-footer-address .site-footer-brand {
+  color: #fff;
+  font-weight: 700;
+  font-synthesis: weight;
+}
+
 .site-footer-link {
   display: inline-flex;
   align-items: center;

@@ -132,41 +132,57 @@ function ProjectPage() {
   }, [settled, project])
 
   // Back panels drift up slightly while the next section slides over them.
+  // Desktop only — stacked scroll is disabled below 981px.
   useEffect(() => {
     if (!settled || !project || prefersReducedMotion()) return undefined
 
     const scroller = pageRef.current
     if (!scroller) return undefined
 
+    const mq = window.matchMedia('(min-width: 981px)')
     const pairs = [
       ['.project-stack--hero', '.project-hero'],
       ['.project-stack--overview', '.project-overview'],
       ['.architecture-materials-stack', '.architecture-materials'],
     ]
 
-    const ctx = gsap.context(() => {
-      pairs.forEach(([frameSel, panelSel]) => {
-        const frame = scroller.querySelector(frameSel)
-        const panel = scroller.querySelector(panelSel)
-        if (!frame || !panel) return
+    let ctx = null
 
-        gsap.to(panel, {
-          y: () => -window.innerHeight * 0.14,
-          ease: 'none',
-          force3D: true,
-          scrollTrigger: {
-            scroller,
-            trigger: frame,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true,
-            invalidateOnRefresh: true,
-          },
+    const setup = () => {
+      ctx?.revert()
+      ctx = null
+      if (!mq.matches) return
+
+      ctx = gsap.context(() => {
+        pairs.forEach(([frameSel, panelSel]) => {
+          const frame = scroller.querySelector(frameSel)
+          const panel = scroller.querySelector(panelSel)
+          if (!frame || !panel) return
+
+          gsap.to(panel, {
+            y: () => -window.innerHeight * 0.14,
+            ease: 'none',
+            force3D: true,
+            scrollTrigger: {
+              scroller,
+              trigger: frame,
+              start: 'top top',
+              end: 'bottom top',
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          })
         })
-      })
-    }, scroller)
+      }, scroller)
+    }
 
-    return () => ctx.revert()
+    setup()
+    mq.addEventListener('change', setup)
+
+    return () => {
+      mq.removeEventListener('change', setup)
+      ctx?.revert()
+    }
   }, [settled, project, projectId])
 
   useEffect(() => {

@@ -8,8 +8,11 @@
   position: fixed;
   inset: 0;
   z-index: 300;
+  width: 100%;
   height: 100%;
-  max-height: 100svh;
+  height: 100dvh;
+  min-height: 100%;
+  min-height: 100dvh;
   /* clip (not hidden) so position:sticky children can pin while scrolling */
   overflow-x: clip;
   overflow-y: auto;
@@ -1546,6 +1549,62 @@
     --project-pad: 20px;
   }
 
+  /*
+   * Stacked scroll is desktop-only (≥981px).
+   * Flatten to normal document flow on smaller screens.
+   * Add nav-h back: base margin-top is -nav, so bare 100svh
+   * left a bottom gap where the projects overlay peeked through.
+   */
+  .project-stack--hero {
+    height: calc(100dvh + var(--project-nav-h));
+  }
+
+  .project-hero {
+    height: calc(100dvh + var(--project-nav-h));
+    min-height: calc(100dvh + var(--project-nav-h));
+  }
+
+  .project-stack--overview,
+  .project-stack--enquire,
+  .project-page .architecture-materials-stack {
+    margin-top: 0;
+  }
+
+  .project-stack__spacer,
+  .project-page .architecture-stack-spacer {
+    display: none;
+  }
+
+  .project-page .time-section,
+  .project-page .architecture-section,
+  .project-page .services-section {
+    margin-top: 0;
+    z-index: auto;
+    isolation: auto;
+  }
+
+  .project-page .site-footer {
+    z-index: auto;
+  }
+
+  .project-hero,
+  .project-overview {
+    position: relative;
+    will-change: auto;
+  }
+
+  .project-overview {
+    min-height: 0;
+  }
+
+  .project-page .architecture-materials {
+    position: relative;
+    height: auto;
+    min-height: 0;
+    padding-top: clamp(28px, 5vw, 48px);
+    padding-bottom: clamp(28px, 5vw, 48px);
+  }
+
   .project-nav__bar {
     display: flex;
     align-items: center;
@@ -1739,7 +1798,12 @@
   }
 
   .project-stack--hero {
-    height: 100svh;
+    height: calc(100svh + var(--project-nav-h));
+  }
+
+  .project-hero {
+    height: calc(100svh + var(--project-nav-h));
+    min-height: calc(100svh + var(--project-nav-h));
   }
 
   .project-stack--overview,

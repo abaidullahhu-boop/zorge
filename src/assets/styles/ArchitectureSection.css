@@ -351,7 +351,6 @@
 .architecture-section--project .architecture-subhead-row {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   margin-top: clamp(48px, 5vw, 88px);
   margin-bottom: clamp(20px, 2.4vw, 36px);
 }
