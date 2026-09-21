@@ -448,6 +448,11 @@ const livingExecutiveStudioImages = [
   },
 ]
 
+const livingResidentialOverview = dlOverviewImage(
+  '1st-5th.png',
+  'Dayim Living 1st to 5th floor studio apartments layout',
+)
+
 const livingFloors = [
   {
     id: 'lower-ground',
@@ -470,26 +475,31 @@ const livingFloors = [
   {
     id: 'first',
     label: '1st Floor',
+    overview: livingResidentialOverview,
     images: livingResidentialImages,
   },
   {
     id: 'second',
     label: '2nd Floor',
+    overview: livingResidentialOverview,
     images: livingResidentialImages,
   },
   {
     id: 'third',
     label: '3rd Floor',
+    overview: livingResidentialOverview,
     images: livingResidentialImages,
   },
   {
     id: 'fourth',
     label: '4th Floor',
+    overview: livingResidentialOverview,
     images: livingResidentialImages,
   },
   {
     id: 'fifth',
     label: '5th Floor',
+    overview: livingResidentialOverview,
     images: livingResidentialImages,
   },
 ]
@@ -760,6 +770,13 @@ export const projects = [
           ),
           label: 'Ground Floor',
           detail: 'Commercial hall with lobby & service core',
+          orientation: 'portrait',
+        },
+        {
+          id: 'living-1st-5th',
+          ...livingResidentialOverview,
+          label: '1st – 5th Floor',
+          detail: 'Studio apartments with lobby, lift & balconies',
           orientation: 'portrait',
         },
       ],
