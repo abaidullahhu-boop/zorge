@@ -134,11 +134,28 @@
   width: 50%;
   height: 100%;
   padding: var(--services-pad);
+  overflow: hidden;
+  isolation: isolate;
   opacity: 0;
   transform: translateY(28px);
   transition:
     opacity .85s ease .1s,
     transform .95s cubic-bezier(.2, .75, .15, 1) .1s;
+}
+
+.services-section__mark {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  object-position: right bottom;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.14;
+  mix-blend-mode: screen;
 }
 
 .services-section--project .services-right {
@@ -175,6 +192,7 @@
 
 .services-content {
   position: relative;
+  z-index: 1;
   flex: 1;
   display: flex;
   align-items: stretch;

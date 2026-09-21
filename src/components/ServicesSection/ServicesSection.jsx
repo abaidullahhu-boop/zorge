@@ -9,6 +9,7 @@ import oneBedImage2 from '../../assets/images/onebed-2.png'
 import oneBedImage3 from '../../assets/images/onebed-3.png'
 import shopImage1 from '../../assets/images/shop-1.png'
 import shopImage2 from '../../assets/images/shop-2.png'
+import dsMark from '../../assets/images/dsmark.png'
 import '../../assets/styles/ServicesSection.css'
 
 const DEFAULT_SERVICES = [
@@ -292,6 +293,14 @@ function ServicesSection({
           </div>
 
           <div className="services-right">
+            <img
+              className="services-section__mark"
+              src={project?.mark ?? dsMark}
+              alt=""
+              aria-hidden="true"
+              draggable="false"
+            />
+
             <p className="services-section-title" aria-hidden="true">
               {brandLines.map((line) => (
                 <span key={line}>{line}</span>
