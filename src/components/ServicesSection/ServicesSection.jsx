@@ -81,6 +81,7 @@ function ServicesSection({
   variant = 'default',
   scrollContainerRef = null,
   project = null,
+  children = null,
 }) {
   const isProjectVariant = variant === 'project'
   const interiors = project?.story?.interiors
@@ -325,7 +326,15 @@ function ServicesSection({
             </div>
           </div>
         </div>
+
+        {isProjectVariant && children ? (
+          <div className="services-enquire">{children}</div>
+        ) : null}
       </div>
+
+      {isProjectVariant ? (
+        <div className="services-pin-spacer" aria-hidden="true" />
+      ) : null}
 
       <div className="services-mobile">
         <p className="services-section-title">

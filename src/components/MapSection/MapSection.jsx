@@ -99,7 +99,7 @@ const PROJECT_INFO = {
     address: 'Broadway Commercial, Opposite Lake City, Lahore',
     note: 'High-rise residential on Broadway Commercial',
   },
-  living: {
+  'dayim-living': {
     tag: 'PROJECT',
     address: 'Plot 22, Block C, Al-Kabir Town Phase 2, Lahore',
     note: 'Residential development in Al-Kabir Town',

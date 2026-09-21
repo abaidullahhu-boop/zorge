@@ -17,20 +17,25 @@
 
 .services-section--project {
   /* Match interior renders (1024×768) so cover fills without cropping. */
+  --services-panel-h: calc(100svh - var(--project-nav-h, 72px));
   --services-image-ratio: 4 / 3;
-  --services-image-w: min(
-    54vw,
-    calc((100svh - var(--project-nav-h, 72px)) * 4 / 3)
+  --services-image-h: min(
+    var(--services-panel-h),
+    calc(54vw * 3 / 4)
   );
-  --services-image-h: calc(var(--services-image-w) * 3 / 4);
+  --services-image-w: calc(var(--services-image-h) * 4 / 3);
   --services-handoff: 0;
   --penthouses-handoff: 0;
   margin-top: 0;
-  /* Panel height + one viewport per slide transition (not an extra empty screen). */
-  height: calc(
-    var(--services-image-h) + (100svh * (var(--item-count) - 1))
-  );
+  /* Sticky panel (image + Visit Us) + scrub spacer. */
+  height: auto;
   z-index: 12;
+}
+
+.services-section--project .services-pin-spacer {
+  height: calc(100svh * (var(--item-count) - 1));
+  pointer-events: none;
+  visibility: hidden;
 }
 
 .services-sticky {
@@ -40,11 +45,34 @@
   overflow: hidden;
 }
 
-/* Only as tall as the image row — no leftover black under the panel. */
+/*
+ * Image + Visit Us share one sticky panel. No max-height/overflow clip —
+ * images must render full height; Visit Us sits under them.
+ */
 .services-section--project .services-sticky {
   top: var(--project-nav-h, 72px);
+  display: flex;
+  flex-direction: column;
   height: auto;
+  max-height: none;
+  min-height: 0;
+  overflow: visible;
   background: #000;
+}
+
+.services-section--project .services-enquire {
+  flex: 0 0 auto;
+  z-index: 1;
+}
+
+.services-section--project .services-enquire .project-stack--enquire {
+  margin-top: 0;
+}
+
+.services-section--project .services-enquire .project-enquire {
+  position: relative;
+  top: auto;
+  padding-block: clamp(20px, 2.4vw, 36px);
 }
 
 .services-slide {
@@ -57,6 +85,7 @@
 }
 
 .services-section--project .services-slide {
+  flex: 0 0 auto;
   height: auto;
   width: 100%;
   align-items: stretch;
@@ -285,13 +314,34 @@
     --penthouses-handoff: 0px;
     margin-top: 0;
     height: auto;
+    display: flex;
+    flex-direction: column;
   }
 
   .services-sticky {
     display: none;
   }
 
+  /* Keep Visit Us visible after the mobile gallery (slide stays desktop-only). */
+  .services-section--project .services-sticky {
+    display: flex;
+    position: relative;
+    top: auto;
+    max-height: none;
+    overflow: visible;
+    order: 3;
+  }
+
+  .services-section--project .services-sticky .services-slide {
+    display: none;
+  }
+
+  .services-section--project .services-pin-spacer {
+    display: none;
+  }
+
   .services-mobile {
+    order: 2;
     display: block;
     background: #000;
   }

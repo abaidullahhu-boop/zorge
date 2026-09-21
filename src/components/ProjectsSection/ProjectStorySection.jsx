@@ -351,8 +351,6 @@ function ProjectStorySection({ scrollContainerRef = null, project = null }) {
               </div>
             </div>
           </div>
-          {/* Stick travel: holds materials while Interiors slides over */}
-          <div className="architecture-stack-spacer" aria-hidden="true" />
         </div>
       </div>
     </section>

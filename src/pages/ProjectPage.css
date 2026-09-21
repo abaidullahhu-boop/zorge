@@ -105,7 +105,17 @@
   overflow: visible;
 }
 
-/* Premium Materials slides over floor plans, then holds for Interiors */
+/*
+ * Gallery pins need plan-count viewports for slide transitions, plus one
+ * extra for the next section's -100svh cover. Without the +1, materials /
+ * floor-plans start sliding over during the last counter step.
+ */
+.project-page .time-gallery-pin,
+.project-page .architecture-gallery-pin {
+  height: calc(var(--gallery-sticky-h) * (var(--plan-count) + 1));
+}
+
+/* Premium Materials slides over floor plans, then scrolls away with the page. */
 .project-page .architecture-materials-stack {
   position: relative;
   z-index: 2;
@@ -114,8 +124,7 @@
 }
 
 .project-page .architecture-materials {
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 0;
   display: flex;
   flex-direction: column;
@@ -150,9 +159,7 @@
 }
 
 .project-page .architecture-stack-spacer {
-  height: 100svh;
-  pointer-events: none;
-  visibility: hidden;
+  display: none;
 }
 
 .project-page .services-section {
@@ -160,10 +167,8 @@
   --penthouses-handoff: 0;
   position: relative;
   z-index: 12;
-  margin-top: -100svh;
-  height: calc(
-    var(--services-image-h, 70svh) + (100svh * (var(--item-count) - 1))
-  );
+  margin-top: 0;
+  height: auto;
   isolation: isolate;
 }
 
@@ -524,6 +529,8 @@
   position: sticky;
   top: 0;
   z-index: 0;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   box-sizing: border-box;
   min-height: 100svh;
@@ -563,6 +570,12 @@
   gap: clamp(32px, 5vw, 80px);
   align-items: start;
   margin-bottom: clamp(40px, 5vw, 64px);
+}
+
+/* Keep facts on the lower edge so they don't float mid-viewport on tall/lg screens */
+.project-overview .project-facts {
+  width: 100%;
+  margin-top: auto;
 }
 
 .project-overview__copy {
@@ -1581,6 +1594,12 @@
     margin-top: 0;
     z-index: auto;
     isolation: auto;
+  }
+
+  /* No stacked cover on mobile — drop the desktop handoff viewport. */
+  .project-page .time-gallery-pin,
+  .project-page .architecture-gallery-pin {
+    height: calc(var(--gallery-sticky-h) * var(--plan-count));
   }
 
   .project-page .site-footer {

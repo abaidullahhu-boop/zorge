@@ -143,7 +143,6 @@ function ProjectPage() {
     const pairs = [
       ['.project-stack--hero', '.project-hero'],
       ['.project-stack--overview', '.project-overview'],
-      ['.architecture-materials-stack', '.architecture-materials'],
     ]
 
     let ctx = null
@@ -306,9 +305,9 @@ function ProjectPage() {
         variant="project"
         project={project}
         scrollContainerRef={pageRef}
-      />
-
-      <ProjectEnquire project={project} />
+      >
+        <ProjectEnquire project={project} />
+      </ServicesSection>
       <Footer onScrollTop={scrollToTop} />
     </main>
   )

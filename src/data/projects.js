@@ -620,10 +620,10 @@ export const projects = [
     ],
   },
   {
-    id: 'living',
+    id: 'dayim-living',
     title: 'Dayim Living',
     short: 'Smart Living',
-    brand: 'Living',
+    brand: 'Dayim Living',
     subtitle: 'Block C Commercial · Al-Kabir Town Phase 2, Lahore.',
     image: livingImage,
     mark: livingMark,
