@@ -300,8 +300,11 @@ function ProjectStorySection({ scrollContainerRef = null, project = null }) {
                 <div
                   className={[
                     'architecture-gallery-frame',
-                    floorPlanGallery.some((plan) => plan.orientation === 'portrait')
+                    activePlan?.orientation === 'portrait'
                       ? 'architecture-gallery-frame--portrait'
+                      : '',
+                    activePlan?.orientation === 'landscape'
+                      ? 'architecture-gallery-frame--landscape'
                       : '',
                   ]
                     .filter(Boolean)

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import {
+  ProjectEnquire,
   ProjectNav,
 } from '../components/ProjectsSection/ProjectDetail'
 import ProjectInventoryBoard from '../components/ProjectsSection/ProjectInventoryBoard'
@@ -155,6 +156,26 @@ function ProjectPlansPage() {
       return
     }
 
+    if (id === 'enquire') {
+      const root = pageRef.current
+      const target = root?.querySelector('#enquire')
+      if (root && target) {
+        const nav = root.querySelector('.project-nav')
+        const offset =
+          nav instanceof HTMLElement ? nav.getBoundingClientRect().height : 0
+        const nextTop =
+          target.getBoundingClientRect().top -
+          root.getBoundingClientRect().top +
+          root.scrollTop -
+          offset
+        root.scrollTo({
+          top: Math.max(0, nextTop),
+          behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+        })
+        return
+      }
+    }
+
     goToProject(id)
   }
 
@@ -197,6 +218,8 @@ function ProjectPlansPage() {
       />
 
       <ProjectInventoryBoard key={`inventory-${project.id}`} project={project} />
+
+      <ProjectEnquire project={project} />
 
       <Footer onScrollTop={scrollToTop} />
     </main>

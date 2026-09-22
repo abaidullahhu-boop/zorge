@@ -337,7 +337,7 @@ function ServicesSection({
         </div>
 
         {isProjectVariant && children ? (
-          <div className="services-enquire">{children}</div>
+          <div className="services-enquire mt-12">{children}</div>
         ) : null}
       </div>
 

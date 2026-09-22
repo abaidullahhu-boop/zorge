@@ -379,11 +379,10 @@
 }
 
 .architecture-gallery-pin {
-  --plan-count: 4;
   --gallery-sticky-h: 100svh;
   --gallery-pad: var(--project-pad, clamp(20px, 4.2vw, 80px));
 
-  height: calc(var(--gallery-sticky-h) * var(--plan-count));
+  height: calc(var(--gallery-sticky-h) * var(--plan-count, 4));
 }
 
 .architecture-gallery-sticky {
@@ -610,6 +609,12 @@
   padding: clamp(8px, 1.4cqi, 16px);
 }
 
+/* Dayim Zindagi overview plans are 8185×5787 (~√2 landscape). */
+.architecture-gallery-frame--landscape {
+  aspect-ratio: 8185 / 5787;
+  padding: clamp(8px, 1.4cqi, 16px);
+}
+
 @supports (width: min(1cqi, 1cqh)) {
   .architecture-gallery-frame {
     /* Fit inside the column while keeping the floor-plan aspect ratio,
@@ -619,6 +624,10 @@
 
   .architecture-gallery-frame--portrait {
     width: min(100cqi, calc(100cqh * 1 / 2));
+  }
+
+  .architecture-gallery-frame--landscape {
+    width: min(100cqi, calc(100cqh * 8185 / 5787));
   }
 }
 

@@ -39,6 +39,11 @@ const dlInventoryFiles = import.meta.glob(
   { eager: true, import: 'default' },
 )
 
+const dzInventoryFiles = import.meta.glob(
+  '../assets/images/dz-inventory/**/*.{png,jpg,jpeg,PNG,JPG,JPEG}',
+  { eager: true, import: 'default' },
+)
+
 const signatureInteriorFiles = import.meta.glob(
   '../assets/images/Signature-Interior-Images/**/*.{png,jpg,jpeg,JPG,JPEG,PNG}',
   { eager: true, import: 'default' },
@@ -200,6 +205,185 @@ function dlOverviewImage(fileName, alt) {
     buyer: null,
     status: 'available',
   }
+}
+
+function normalizeDzFileName(fileName) {
+  return fileName
+    .replace(/\.[^.]+$/, '')
+    .replace(/_+$/g, '')
+    .replace(/Apartmenr/gi, 'Apartment')
+    .replace(/\bObe\b/gi, 'One')
+    .replace(/Commercia(?=\s+Outlet)/gi, 'Commercial')
+    .replace(/Studioapartment/gi, 'Studio Apartment')
+    .replace(/Twin\s+treat/gi, 'Twin Treat')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function dzFileQuality(fileName) {
+  let score = 0
+  if (/apartmenr/i.test(fileName)) score += 10
+  if (/\bobe\b/i.test(fileName)) score += 10
+  if (/commercia\s+outlet/i.test(fileName)) score += 10
+  if (/studioapartment/i.test(fileName)) score += 10
+  if (/apartment-\s/i.test(fileName)) score += 2
+  if (/ {2,}/.test(fileName)) score += 1
+  return score
+}
+
+function parseDzInventoryMeta(fileName) {
+  const base = normalizeDzFileName(fileName)
+
+  const areaMatch = base.match(/(\d[\d,]*)\s*Sq\.?\s*ft/i)
+  const area = areaMatch ? `${areaMatch[1].replace(/,/g, '')} Sq.Ft.` : null
+
+  const outletMatch = base.match(/Commercial\s+Outlet\s*0*(\d+)/i)
+  const twinMatch = base.match(/Twin\s+Treat/i)
+  const studioMatch = base.match(/Studio\s+Apartment\s*[-–—]?\s*(Elite|Royale)/i)
+  const oneBedMatch = base.match(
+    /One\s+Bed\s+Apartment\s*[-–—]?\s*(Elite|Royale|Blue\s*View)/i,
+  )
+
+  let title = base
+  let code = null
+
+  if (outletMatch) {
+    title = 'Commercial Outlet'
+    code = `Outlet # ${outletMatch[1].padStart(2, '0')}`
+  } else if (twinMatch) {
+    title = 'Twin Treat 2 Bed'
+  } else if (studioMatch) {
+    title = `Studio ${studioMatch[1]}`
+  } else if (oneBedMatch) {
+    title = `One Bed ${oneBedMatch[1].replace(/\s+/g, ' ')}`
+  }
+
+  return {
+    title,
+    area,
+    code,
+    buyer: null,
+    status: 'available',
+  }
+}
+
+function dzInventoryImages(folderHint, altPrefix) {
+  const typeOrder = [
+    'Commercial Outlet',
+    'Twin Treat 2 Bed',
+    'Studio Elite',
+    'Studio Royale',
+    'One Bed Elite',
+    'One Bed Royale',
+    'One Bed Blue View',
+  ]
+
+  const seen = new Map()
+  const images = Object.entries(dzInventoryFiles)
+    .filter(([key]) => key.includes(folderHint) && !key.includes('00- Main Page'))
+    .map(([key, src]) => {
+      const fileName = key.split('/').pop()
+      const meta = parseDzInventoryMeta(fileName)
+      return { key, src, fileName, meta, quality: dzFileQuality(fileName) }
+    })
+    .sort((a, b) => {
+      if (a.quality !== b.quality) return a.quality - b.quality
+
+      const aCodeNum = Number.parseInt(a.meta.code?.match(/\d+/)?.[0] ?? '', 10)
+      const bCodeNum = Number.parseInt(b.meta.code?.match(/\d+/)?.[0] ?? '', 10)
+      if (!Number.isNaN(aCodeNum) && !Number.isNaN(bCodeNum) && aCodeNum !== bCodeNum) {
+        return aCodeNum - bCodeNum
+      }
+
+      const aType = typeOrder.indexOf(a.meta.title)
+      const bType = typeOrder.indexOf(b.meta.title)
+      if (aType !== bType) {
+        return (aType === -1 ? 99 : aType) - (bType === -1 ? 99 : bType)
+      }
+
+      const aArea = Number.parseInt(a.meta.area ?? '', 10) || 0
+      const bArea = Number.parseInt(b.meta.area ?? '', 10) || 0
+      if (aArea !== bArea) return aArea - bArea
+
+      return a.key.localeCompare(b.key, undefined, {
+        numeric: true,
+        sensitivity: 'base',
+      })
+    })
+    .filter((entry) => {
+      const dedupeKey = `${entry.meta.title}|${entry.meta.area ?? ''}|${entry.meta.code ?? ''}`
+        .toLowerCase()
+      if (seen.has(dedupeKey)) return false
+      seen.set(dedupeKey, true)
+      return true
+    })
+    .sort((a, b) => {
+      const aCodeNum = Number.parseInt(a.meta.code?.match(/\d+/)?.[0] ?? '', 10)
+      const bCodeNum = Number.parseInt(b.meta.code?.match(/\d+/)?.[0] ?? '', 10)
+      if (!Number.isNaN(aCodeNum) && !Number.isNaN(bCodeNum) && aCodeNum !== bCodeNum) {
+        return aCodeNum - bCodeNum
+      }
+
+      const aType = typeOrder.indexOf(a.meta.title)
+      const bType = typeOrder.indexOf(b.meta.title)
+      if (aType !== bType) {
+        return (aType === -1 ? 99 : aType) - (bType === -1 ? 99 : bType)
+      }
+
+      const aArea = Number.parseInt(a.meta.area ?? '', 10) || 0
+      const bArea = Number.parseInt(b.meta.area ?? '', 10) || 0
+      if (aArea !== bArea) return aArea - bArea
+
+      return a.key.localeCompare(b.key, undefined, {
+        numeric: true,
+        sensitivity: 'base',
+      })
+    })
+    .map(({ src, meta }, index) => {
+      const code = meta.code ?? `Apartment # ${index + 1}`
+      return {
+        src,
+        label: meta.title,
+        alt: `${altPrefix} — ${meta.title}${meta.area ? ` (${meta.area})` : ''}`,
+        ...meta,
+        code,
+      }
+    })
+
+  if (!images.length) {
+    throw new Error(`Missing DZ inventory images: ${folderHint}`)
+  }
+
+  return images
+}
+
+function dzOverviewImage(fileName, alt) {
+  const needle = fileName.toLowerCase()
+  const entry = Object.entries(dzInventoryFiles).find(([key]) => {
+    const name = key.split('/').pop()?.toLowerCase()
+    return name === needle
+  })
+  if (!entry) {
+    throw new Error(`Missing DZ floor plan: ${fileName}`)
+  }
+  return {
+    src: entry[1],
+    label: 'Floor layout',
+    alt,
+    title: 'Floor layout',
+    area: null,
+    code: null,
+    buyer: null,
+    status: 'available',
+  }
+}
+
+function dzPickImage(folderHint, titleMatch) {
+  const images = dzInventoryImages(folderHint, 'Dayim Zindagi')
+  const match = images.find((image) =>
+    String(image.title).toLowerCase().includes(titleMatch.toLowerCase()),
+  )
+  return match ?? images[0]
 }
 
 export function getProjectInventory(project) {
@@ -501,6 +685,129 @@ const livingFloors = [
     label: '5th Floor',
     overview: livingResidentialOverview,
     images: livingResidentialImages,
+  },
+]
+
+const zindagiLowerGroundOverview = dzOverviewImage(
+  'lower ground.png',
+  'Dayim Zindagi lower ground floor layout',
+)
+const zindagiGroundOverview = dzOverviewImage(
+  'ground.png',
+  'Dayim Zindagi ground floor layout',
+)
+const zindagiFirstSecondOverview = dzOverviewImage(
+  '1-2 floor.jpg',
+  'Dayim Zindagi 1st to 2nd floor layout',
+)
+const zindagiThirdFifthOverview = dzOverviewImage(
+  '3-5 floor.png',
+  'Dayim Zindagi 3rd to 5th floor layout',
+)
+const zindagiSixthSeventhOverview = dzOverviewImage(
+  '6-7 floor.jpg',
+  'Dayim Zindagi 6th to 7th floor layout',
+)
+
+const zindagiLowerGroundImages = dzInventoryImages(
+  '01- Lower Ground',
+  'Dayim Zindagi lower ground',
+)
+const zindagiGroundImages = dzInventoryImages(
+  '02- Ground Floor',
+  'Dayim Zindagi ground floor',
+)
+const zindagiFirstImages = dzInventoryImages(
+  '03- First Floor',
+  'Dayim Zindagi first floor',
+)
+const zindagiSecondImages = dzInventoryImages(
+  '04- Second Floor',
+  'Dayim Zindagi second floor',
+)
+const zindagiThirdImages = dzInventoryImages(
+  '05- Third Floor',
+  'Dayim Zindagi third floor',
+)
+const zindagiFourthImages = dzInventoryImages(
+  '06- Fourth Floor',
+  'Dayim Zindagi fourth floor',
+)
+const zindagiFifthImages = dzInventoryImages(
+  '07- Fifth Floor',
+  'Dayim Zindagi fifth floor',
+)
+const zindagiSixthImages = dzInventoryImages(
+  '08- Sixth Floor',
+  'Dayim Zindagi sixth floor',
+)
+const zindagiSeventhImages = dzInventoryImages(
+  '09- Seventh Floor',
+  'Dayim Zindagi seventh floor',
+)
+
+const zindagiOutletPlan = dzPickImage('02- Ground Floor', 'Commercial Outlet')
+const zindagiTwinTreatPlan = dzPickImage('01- Lower Ground', 'Twin Treat')
+const zindagiStudioElitePlan = dzPickImage('03- First Floor', 'Studio Elite')
+const zindagiStudioRoyalePlan = dzPickImage('03- First Floor', 'Studio Royale')
+const zindagiOneBedElitePlan = dzPickImage('05- Third Floor', 'One Bed Elite')
+const zindagiOneBedRoyalePlan = dzPickImage('05- Third Floor', 'One Bed Royale')
+const zindagiOneBedBlueViewPlan = dzPickImage('08- Sixth Floor', 'Blue View')
+
+const zindagiFloors = [
+  {
+    id: 'lower-ground',
+    label: 'Lower Ground',
+    overview: zindagiLowerGroundOverview,
+    images: zindagiLowerGroundImages,
+  },
+  {
+    id: 'ground',
+    label: 'Ground Floor',
+    overview: zindagiGroundOverview,
+    images: zindagiGroundImages,
+  },
+  {
+    id: 'first',
+    label: '1st Floor',
+    overview: zindagiFirstSecondOverview,
+    images: zindagiFirstImages,
+  },
+  {
+    id: 'second',
+    label: '2nd Floor',
+    overview: zindagiFirstSecondOverview,
+    images: zindagiSecondImages,
+  },
+  {
+    id: 'third',
+    label: '3rd Floor',
+    overview: zindagiThirdFifthOverview,
+    images: zindagiThirdImages,
+  },
+  {
+    id: 'fourth',
+    label: '4th Floor',
+    overview: zindagiThirdFifthOverview,
+    images: zindagiFourthImages,
+  },
+  {
+    id: 'fifth',
+    label: '5th Floor',
+    overview: zindagiThirdFifthOverview,
+    images: zindagiFifthImages,
+  },
+  {
+    id: 'sixth',
+    label: '6th Floor',
+    overview: zindagiSixthSeventhOverview,
+    images: zindagiSixthImages,
+  },
+  {
+    id: 'seventh',
+    label: '7th Floor',
+    overview: zindagiSixthSeventhOverview,
+    images: zindagiSeventhImages,
   },
 ]
 
@@ -827,10 +1134,10 @@ export const projects = [
     ],
   },
   {
-    id: 'zindagi',
+    id: 'dayim-zindagi',
     title: 'Dayim Zindagi',
     short: 'Zindagi Elevated',
-    brand: 'Zindagi',
+    brand: 'Dayim Zindagi',
     subtitle: 'Business Bay Commercial · Al-Kabir Town Phase 2, Lahore.',
     image: zindagiImage,
     mark: zindagiMark,
@@ -894,76 +1201,165 @@ export const projects = [
       },
       floorPlans: [
         {
-          id: 'zindagi-shop-plan',
-          src: zindagiImage,
-          alt: 'Dayim Zindagi commercial shop typology',
-          label: 'Shop',
-          detail: '350 sq ft retail units for high-visibility business',
+          id: 'zindagi-lower-ground',
+          ...zindagiLowerGroundOverview,
+          label: 'Lower Ground',
+          detail: 'Twin Treat 2 bed apartments',
+          orientation: 'landscape',
         },
         {
-          id: 'zindagi-office-plan',
-          src: zindagiImage,
-          alt: 'Dayim Zindagi office typology',
-          label: 'Office',
-          detail: '800 sq ft workspaces for growing teams',
+          id: 'zindagi-ground',
+          ...zindagiGroundOverview,
+          label: 'Ground Floor',
+          detail: 'Commercial outlets with street presence',
+          orientation: 'landscape',
         },
         {
-          id: 'zindagi-2bed-plan',
-          src: zindagiImage,
-          alt: 'Dayim Zindagi 2 bedroom typology',
-          label: '2 Bed',
-          detail: '950 sq ft apartments for elevated city living',
+          id: 'zindagi-1-2',
+          ...zindagiFirstSecondOverview,
+          label: '1st – 2nd Floor',
+          detail: 'Studio Elite & Royale apartments',
+          orientation: 'landscape',
+        },
+        {
+          id: 'zindagi-3-5',
+          ...zindagiThirdFifthOverview,
+          label: '3rd – 5th Floor',
+          detail: 'One bed Elite & Royale apartments',
+          orientation: 'landscape',
+        },
+        {
+          id: 'zindagi-6-7',
+          ...zindagiSixthSeventhOverview,
+          label: '6th – 7th Floor',
+          detail: 'One bed Elite, Royale & Blue View',
+          orientation: 'landscape',
         },
       ],
       interiors: {
-        brandLines: [ 'INTERIORS'],
+        brandLines: ['INTERIORS'],
         services: [
           {
-            id: 'zindagi-shop',
-            title: 'Commercial Shops',
-            images: [{ src: zindagiImage, label: 'Retail' }],
+            id: 'zindagi-outlet',
+            title: 'Commercial Outlets',
+            images: [{ src: zindagiOutletPlan.src, label: 'Outlet' }],
             width: 1024,
             height: 768,
-            text: '350 sq ft retail units positioned for foot traffic and brand presence.',
+            text: 'Ground-floor commercial outlets planned for visibility and foot traffic.',
           },
           {
-            id: 'zindagi-office',
-            title: 'Office Spaces',
-            images: [{ src: zindagiImage, label: 'Workspace' }],
+            id: 'zindagi-twin',
+            title: 'Twin Treat 2 Bed',
+            images: [{ src: zindagiTwinTreatPlan.src, label: 'Residence' }],
             width: 1024,
             height: 768,
-            text: '800 sq ft offices planned for focus, meetings, and professional growth.',
+            text: 'Lower-ground twin treat apartments designed for spacious city living.',
           },
           {
-            id: 'zindagi-2bed',
-            title: '2 Bedroom Apartments',
-            images: [{ src: zindagiImage, label: 'Residence' }],
+            id: 'zindagi-studio',
+            title: 'Studio Apartments',
+            images: [
+              { src: zindagiStudioElitePlan.src, label: 'Elite' },
+              { src: zindagiStudioRoyalePlan.src, label: 'Royale' },
+            ],
             width: 1024,
             height: 768,
-            text: '950 sq ft homes designed for comfort above Business Bay.',
+            text: 'Studio Elite and Royale layouts for efficient elevated living.',
+          },
+          {
+            id: 'zindagi-onebed',
+            title: 'One Bed Apartments',
+            images: [
+              { src: zindagiOneBedElitePlan.src, label: 'Elite' },
+              { src: zindagiOneBedRoyalePlan.src, label: 'Royale' },
+              { src: zindagiOneBedBlueViewPlan.src, label: 'Blue View' },
+            ],
+            width: 1024,
+            height: 768,
+            text: 'One bed Elite, Royale, and Blue View homes above Business Bay.',
           },
         ],
       },
     },
     plan: {
-      floors: [
-        typologyInventoryFloor({
-          id: 'zindagi-units',
-          label: 'Typologies',
-          image: zindagiImage,
-          alt: 'Dayim Zindagi project overview',
-          units: [
-            { id: 'zindagi-shop', label: 'Shop', type: 'Commercial Shop', area: '350 sq ft', beds: null, status: 'Available' },
-            { id: 'zindagi-office', label: 'Office', type: 'Office Space', area: '800 sq ft', beds: null, status: 'Available' },
-            { id: 'zindagi-2bed', label: '2 Bed', type: '2 Bedroom Apartment', area: '950 sq ft', beds: 2, status: 'Limited' },
-          ],
-        }),
-      ],
+      floors: zindagiFloors,
     },
     units: [
-      { id: 'zindagi-shop', label: 'Shop', type: 'Commercial Shop', area: '350 sq ft', beds: null, status: 'Available', images: [{ src: zindagiImage, label: 'Retail', alt: 'Dayim Zindagi shop' }] },
-      { id: 'zindagi-office', label: 'Office', type: 'Office Space', area: '800 sq ft', beds: null, status: 'Available', images: [{ src: zindagiImage, label: 'Workspace', alt: 'Dayim Zindagi office' }] },
-      { id: 'zindagi-2bed', label: '2 Bed', type: '2 Bedroom Apartment', area: '950 sq ft', beds: 2, status: 'Limited', images: [{ src: zindagiImage, label: 'Residence', alt: 'Dayim Zindagi 2 bedroom' }] },
+      {
+        id: 'zindagi-outlet',
+        label: 'Outlet',
+        type: 'Commercial Outlet',
+        area: '1,229–1,382 Sq.Ft.',
+        beds: null,
+        status: 'Available',
+        images: [
+          {
+            src: zindagiOutletPlan.src,
+            label: 'Outlet',
+            alt: 'Dayim Zindagi commercial outlet',
+          },
+        ],
+      },
+      {
+        id: 'zindagi-twin',
+        label: 'Twin Treat',
+        type: '2 Bedroom Apartment',
+        area: '664–813 Sq.Ft.',
+        beds: 2,
+        status: 'Available',
+        images: [
+          {
+            src: zindagiTwinTreatPlan.src,
+            label: 'Residence',
+            alt: 'Dayim Zindagi Twin Treat 2 bedroom',
+          },
+        ],
+      },
+      {
+        id: 'zindagi-studio',
+        label: 'Studio',
+        type: 'Studio Apartment',
+        area: '357–434 Sq.Ft.',
+        beds: 0,
+        status: 'Available',
+        images: [
+          {
+            src: zindagiStudioElitePlan.src,
+            label: 'Elite',
+            alt: 'Dayim Zindagi Studio Elite',
+          },
+          {
+            src: zindagiStudioRoyalePlan.src,
+            label: 'Royale',
+            alt: 'Dayim Zindagi Studio Royale',
+          },
+        ],
+      },
+      {
+        id: 'zindagi-onebed',
+        label: 'One Bed',
+        type: 'One Bedroom Apartment',
+        area: '444–778 Sq.Ft.',
+        beds: 1,
+        status: 'Available',
+        images: [
+          {
+            src: zindagiOneBedElitePlan.src,
+            label: 'Elite',
+            alt: 'Dayim Zindagi One Bed Elite',
+          },
+          {
+            src: zindagiOneBedRoyalePlan.src,
+            label: 'Royale',
+            alt: 'Dayim Zindagi One Bed Royale',
+          },
+          {
+            src: zindagiOneBedBlueViewPlan.src,
+            label: 'Blue View',
+            alt: 'Dayim Zindagi One Bed Blue View',
+          },
+        ],
+      },
     ],
   },
 ]

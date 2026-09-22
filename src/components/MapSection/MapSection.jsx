@@ -104,7 +104,7 @@ const PROJECT_INFO = {
     address: 'Plot 22, Block C, Al-Kabir Town Phase 2, Lahore',
     note: 'Residential development in Al-Kabir Town',
   },
-  zindagi: {
+  'dayim-zindagi': {
     tag: 'PROJECT',
     address: 'Business Bay, Main Raiwind Road, Lahore',
     note: 'Landmark address on Main Raiwind Road',
