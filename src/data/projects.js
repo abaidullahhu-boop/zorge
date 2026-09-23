@@ -278,7 +278,6 @@ function dzInventoryImages(folderHint, altPrefix) {
     'One Bed Blue View',
   ]
 
-  const seen = new Map()
   const images = Object.entries(dzInventoryFiles)
     .filter(([key]) => key.includes(folderHint) && !key.includes('00- Main Page'))
     .map(([key, src]) => {
@@ -289,35 +288,6 @@ function dzInventoryImages(folderHint, altPrefix) {
     .sort((a, b) => {
       if (a.quality !== b.quality) return a.quality - b.quality
 
-      const aCodeNum = Number.parseInt(a.meta.code?.match(/\d+/)?.[0] ?? '', 10)
-      const bCodeNum = Number.parseInt(b.meta.code?.match(/\d+/)?.[0] ?? '', 10)
-      if (!Number.isNaN(aCodeNum) && !Number.isNaN(bCodeNum) && aCodeNum !== bCodeNum) {
-        return aCodeNum - bCodeNum
-      }
-
-      const aType = typeOrder.indexOf(a.meta.title)
-      const bType = typeOrder.indexOf(b.meta.title)
-      if (aType !== bType) {
-        return (aType === -1 ? 99 : aType) - (bType === -1 ? 99 : bType)
-      }
-
-      const aArea = Number.parseInt(a.meta.area ?? '', 10) || 0
-      const bArea = Number.parseInt(b.meta.area ?? '', 10) || 0
-      if (aArea !== bArea) return aArea - bArea
-
-      return a.key.localeCompare(b.key, undefined, {
-        numeric: true,
-        sensitivity: 'base',
-      })
-    })
-    .filter((entry) => {
-      const dedupeKey = `${entry.meta.title}|${entry.meta.area ?? ''}|${entry.meta.code ?? ''}`
-        .toLowerCase()
-      if (seen.has(dedupeKey)) return false
-      seen.set(dedupeKey, true)
-      return true
-    })
-    .sort((a, b) => {
       const aCodeNum = Number.parseInt(a.meta.code?.match(/\d+/)?.[0] ?? '', 10)
       const bCodeNum = Number.parseInt(b.meta.code?.match(/\d+/)?.[0] ?? '', 10)
       if (!Number.isNaN(aCodeNum) && !Number.isNaN(bCodeNum) && aCodeNum !== bCodeNum) {
