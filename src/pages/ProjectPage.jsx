@@ -52,10 +52,20 @@ function ProjectPage() {
 
   const { leaving, settled } = motion
 
-  const openProjectsOverlay = () => {
-    window.requestAnimationFrame(() => {
-      window.dispatchEvent(new CustomEvent('dayim:projects'))
-    })
+  const openProjectsOverlay = (instant = false) => {
+    const dispatch = () => {
+      window.dispatchEvent(
+        new CustomEvent('dayim:projects', { detail: { instant } }),
+      )
+    }
+
+    // Instant prepare must win the same frame as leave — no home flash.
+    if (instant) {
+      dispatch()
+      return
+    }
+
+    window.requestAnimationFrame(dispatch)
   }
 
   const revealHomeLanding = () => {
@@ -70,9 +80,14 @@ function ProjectPage() {
     leavingRef.current = true
     leaveTargetRef.current = target
 
+    // Prepare the destination under the sheet before it slides away,
+    // so Home never flashes between project → all projects.
+    if (target === 'home') revealHomeLanding()
+    if (target === 'projects') openProjectsOverlay(true)
+
     if (prefersReducedMotion()) {
       navigate('/')
-      if (target === 'projects') openProjectsOverlay()
+      if (target === 'projects') openProjectsOverlay(true)
       else revealHomeLanding()
       return
     }
@@ -109,6 +124,8 @@ function ProjectPage() {
     window.__dayimLenis?.stop?.()
 
     return () => {
+      // All-projects is already open under the sheet — don't unlock scroll.
+      if (leaveTargetRef.current === 'projects' && leavingRef.current) return
       document.body.style.overflow = previousOverflow
       window.__dayimLenis?.start?.()
     }
@@ -226,6 +243,13 @@ function ProjectPage() {
     }
 
     const frame = window.requestAnimationFrame(() => {
+      if (scrollTo === 'hero') {
+        pageRef.current?.scrollTo({
+          top: 0,
+          behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+        })
+        return
+      }
       scrollToId(scrollTo)
     })
     return () => window.cancelAnimationFrame(frame)
@@ -240,12 +264,20 @@ function ProjectPage() {
 
     if (leavingRef.current) {
       navigate('/')
-      if (leaveTargetRef.current === 'projects') openProjectsOverlay()
+      // Keep/restore all-projects under the sheet (already prepared on leave).
+      if (leaveTargetRef.current === 'projects') openProjectsOverlay(true)
       else revealHomeLanding()
       return
     }
 
     setMotion((current) => ({ ...current, settled: true }))
+  }
+
+  const scrollToTop = () => {
+    pageRef.current?.scrollTo({
+      top: 0,
+      behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+    })
   }
 
   const handleNavigate = (id) => {
@@ -254,14 +286,12 @@ function ProjectPage() {
       return
     }
 
-    scrollToId(id)
-  }
+    if (id === 'hero') {
+      scrollToTop()
+      return
+    }
 
-  const scrollToTop = () => {
-    pageRef.current?.scrollTo({
-      top: 0,
-      behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-    })
+    scrollToId(id)
   }
 
   return (

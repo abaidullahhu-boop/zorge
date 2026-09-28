@@ -59,6 +59,9 @@ function ProjectPlansPage() {
     leavingRef.current = true
     leaveTargetRef.current = target
 
+    // Prepare the home layer under the sheet before it slides away.
+    if (target === 'home') revealHomeLanding()
+
     if (prefersReducedMotion()) {
       if (target === 'home') {
         navigate('/')
@@ -153,6 +156,11 @@ function ProjectPlansPage() {
         top: 0,
         behavior: prefersReducedMotion() ? 'auto' : 'smooth',
       })
+      return
+    }
+
+    if (id === 'hero') {
+      goToProject('hero')
       return
     }
 

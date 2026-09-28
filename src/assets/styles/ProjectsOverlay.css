@@ -23,6 +23,17 @@
     visibility 0s;
 }
 
+/* Snap open under the leaving project sheet — no home flash. */
+.projects-overlay.is-open.is-instant {
+  transition: none;
+}
+
+.projects-overlay.is-open.is-instant .projects-overlay__card {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
 .projects-overlay__panel {
   display: flex;
   flex-direction: column;

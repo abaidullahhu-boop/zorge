@@ -64,6 +64,7 @@ const ABOUT_LEADERSHIP = [
     name: 'Ubaid Ullah',
     role: 'Director',
     image: directorUbaid,
+    imagePosition: 'center 22%',
     socials: [
       {
         label: 'LinkedIn',
@@ -172,7 +173,7 @@ function AboutSection() {
           </div>
 
           <ul className="about-leadership" aria-label="Leadership">
-            {ABOUT_LEADERSHIP.map(({ name, role, image, socials }) => (
+            {ABOUT_LEADERSHIP.map(({ name, role, image, imagePosition, socials }) => (
               <li key={name} className="about-leader">
                 <img
                   className="about-leader-avatar"
@@ -181,6 +182,7 @@ function AboutSection() {
                   width={52}
                   height={52}
                   draggable="false"
+                  style={imagePosition ? { objectPosition: imagePosition } : undefined}
                 />
                 <span className="about-leader-copy">
                   <strong className="about-leader-name">{name}</strong>

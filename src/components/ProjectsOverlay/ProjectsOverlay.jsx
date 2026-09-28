@@ -5,7 +5,7 @@ import '../../assets/styles/ProjectsOverlay.css'
 
 const ICONS = '/assets/images/icons.svg'
 
-function ProjectsOverlay({ open, onClose }) {
+function ProjectsOverlay({ open, instant = false, onClose }) {
   const { pathname } = useLocation()
   const coveredByProjectRef = useRef(pathname.startsWith('/projects/'))
   coveredByProjectRef.current = pathname.startsWith('/projects/')
@@ -30,7 +30,13 @@ function ProjectsOverlay({ open, onClose }) {
 
   return (
     <div
-      className={`projects-overlay${open ? ' is-open' : ''}`}
+      className={[
+        'projects-overlay',
+        open ? 'is-open' : '',
+        open && instant ? 'is-instant' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       role="dialog"
       aria-modal="true"
       aria-label="Our Projects"

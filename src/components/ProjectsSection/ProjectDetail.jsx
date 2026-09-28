@@ -148,7 +148,14 @@ export function ProjectNav({
           ) : null}
         </div>
 
-        <p className="project-nav__brand">{project.brand ?? project.short}</p>
+        <button
+          type="button"
+          className="project-nav__brand"
+          onClick={() => onNavigate('hero')}
+          aria-label={`${project.brand ?? project.short} hero`}
+        >
+          {project.brand ?? project.short}
+        </button>
 
         <div className="project-nav__links" role="list">
           {navItems.map((item) => (
@@ -248,7 +255,7 @@ export function ProjectHero({ project, onNavigate, playReveal = true }) {
 
   return (
     <div className="project-stack project-stack--hero">
-      <header className="project-hero">
+      <header className="project-hero" id="hero">
         <div className="project-hero__media">
           <img
             className="project-hero__poster"

@@ -316,9 +316,24 @@
 
 .project-nav__brand {
   margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
   font: 600 13px / 1 var(--font-sans);
   letter-spacing: 0.16em;
   text-transform: uppercase;
+  cursor: pointer;
+}
+
+.project-nav__brand:hover,
+.project-nav__brand:focus-visible {
+  opacity: 0.72;
+}
+
+.project-nav__brand:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
 }
 
 .project-nav__links {

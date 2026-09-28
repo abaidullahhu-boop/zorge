@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import aboutVideo from '../../assets/images/about.mp4'
 import MenuOverlay from '../MenuOverlay/MenuOverlay'
 import ProjectsOverlay from '../ProjectsOverlay/ProjectsOverlay'
@@ -7,17 +8,41 @@ import { gsap } from '../../lib/gsap'
 import '../../assets/styles/HeroSection.css'
 
 function HeroSection({ introReady = false }) {
+  const { pathname } = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
   const [projectsOpen, setProjectsOpen] = useState(false)
-  const closeProjects = useCallback(() => setProjectsOpen(false), [])
+  const [projectsInstant, setProjectsInstant] = useState(false)
+  const closeProjects = useCallback(() => {
+    setProjectsOpen(false)
+    setProjectsInstant(false)
+  }, [])
   const frameRef = useRef(null)
   const heroRef = useRef(null)
+  const prevPathRef = useRef(pathname)
   const closeMenu = useCallback(() => setMenuOpen(false), [])
 
+  // Close only when entering a project route — leave-to-projects may
+  // already have the overlay open under the sheet.
   useEffect(() => {
-    const handleOpenProjects = () => setProjectsOpen(true)
+    const wasProject = prevPathRef.current.startsWith('/projects/')
+    const isProject = pathname.startsWith('/projects/')
+    prevPathRef.current = pathname
+
+    if (isProject && !wasProject) {
+      setProjectsOpen(false)
+      setProjectsInstant(false)
+      setMenuOpen(false)
+    }
+  }, [pathname])
+
+  useEffect(() => {
+    const handleOpenProjects = (event) => {
+      setProjectsInstant(Boolean(event.detail?.instant))
+      setProjectsOpen(true)
+    }
     const handleGoHome = () => {
       setProjectsOpen(false)
+      setProjectsInstant(false)
       setMenuOpen(false)
     }
     window.addEventListener('dayim:projects', handleOpenProjects)
@@ -178,7 +203,10 @@ function HeroSection({ introReady = false }) {
           <button
             className="hero-project-btn hero-project-btn--projects"
             type="button"
-            onClick={() => setProjectsOpen(true)}
+            onClick={() => {
+              setProjectsInstant(false)
+              setProjectsOpen(true)
+            }}
           >
             <span className="hero-project-btn__label">
               <span>Our Projects</span>
@@ -199,7 +227,11 @@ function HeroSection({ introReady = false }) {
         </button>
       </div>
       <MenuOverlay open={menuOpen} onClose={closeMenu} />
-      <ProjectsOverlay open={projectsOpen} onClose={closeProjects} />
+      <ProjectsOverlay
+        open={projectsOpen}
+        instant={projectsInstant}
+        onClose={closeProjects}
+      />
     </>
   )
 }
