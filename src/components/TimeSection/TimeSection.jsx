@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { gsap } from '../../lib/gsap'
 import g1 from '../../assets/images/g1.jpeg'
-import g2 from '../../assets/images/g2.jpeg'
 import g3 from '../../assets/images/g3.jpeg'
 import g4 from '../../assets/images/g4.jpeg'
 import g5 from '../../assets/images/g5.jpeg'
+import dsaFinishing from '../../assets/images/dsafinsing.png'
 import dsMark from '../../assets/images/dsmark.png'
 import '../../assets/styles/TimeSection.css'
 
@@ -43,11 +43,11 @@ const defaultJourneyGallery = [
   },
   {
     id: 'g2',
-    src: g2,
-    alt: 'Dayim Signature Apartments exterior scaffolding during finishing works',
+    src: dsaFinishing,
+    alt: 'Dayim Signature Apartments completed facade with Dayim Developers head office branding',
     label: 'Finishing',
     detail:
-      'Exterior scaffolding wraps the facade as finishing works advance across Dayim Signature Apartments.',
+      'Finishing complete — Dayim Signature Apartments stands finished, branded, and ready as Dayim Developers head office.',
   },
 ]
 

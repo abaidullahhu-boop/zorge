@@ -149,6 +149,7 @@
   object-position: center top;
   transform: scale(1.05);
   transition: transform 0.9s cubic-bezier(0.2, 0.75, 0.2, 1);
+  pointer-events: none;
 }
 
 .projects-overlay__card:hover .projects-overlay__card-img {

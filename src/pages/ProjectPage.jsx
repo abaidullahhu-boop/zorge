@@ -140,10 +140,9 @@ function ProjectPage() {
     if (!scroller) return undefined
 
     const mq = window.matchMedia('(min-width: 981px)')
-    const pairs = [
-      ['.project-stack--hero', '.project-hero'],
-      ['.project-stack--overview', '.project-overview'],
-    ]
+    // Hero only — overview keeps its bottom facts bar readable while pinned.
+    // Translating overview up with overflow:hidden clips that white strip early.
+    const pairs = [['.project-stack--hero', '.project-hero']]
 
     let ctx = null
 

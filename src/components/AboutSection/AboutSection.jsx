@@ -1,16 +1,86 @@
 import dayimLogo from '../../assets/images/dayim-logo.png'
+import ceoWaleed from '../../assets/images/ceo-waleed.png'
+import directorUbaid from '../../assets/images/director-ubaid.png'
 import '../../assets/styles/AboutSection.css'
+
+const SocialLinkedInIcon = (
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path
+      d="M6.5 9.5H9v9H6.5v-9ZM7.75 5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM11 9.5h2.4v1.23h.03c.33-.63 1.15-1.3 2.37-1.3 2.54 0 3.01 1.67 3.01 3.84V18.5H16.4v-4.2c0-1-.02-2.28-1.39-2.28-1.39 0-1.6 1.09-1.6 2.21V18.5H11v-9Z"
+      fill="currentColor"
+    />
+  </svg>
+)
+
+const SocialFacebookIcon = (
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path
+      d="M14 8.5h2V6h-2c-2.2 0-4 1.8-4 4v2H8v2.5h2V21h2.5v-6.5H15L15.5 12H12.5v-1.5c0-.83.67-1.5 1.5-1.5Z"
+      fill="currentColor"
+    />
+  </svg>
+)
+
+const SocialInstagramIcon = (
+  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <rect
+      x="4.5"
+      y="4.5"
+      width="15"
+      height="15"
+      rx="4"
+      stroke="currentColor"
+      strokeWidth="1.6"
+    />
+    <circle cx="12" cy="12" r="3.4" stroke="currentColor" strokeWidth="1.6" />
+    <circle cx="16.4" cy="7.6" r="1" fill="currentColor" />
+  </svg>
+)
 
 const ABOUT_LEADERSHIP = [
   {
     name: 'Waleed Ahmad',
     role: 'CEO',
-    initials: 'WA',
+    image: ceoWaleed,
+    socials: [
+      {
+        label: 'LinkedIn',
+        href: 'https://www.linkedin.com/in/ceo-dayimmarketing',
+        icon: SocialLinkedInIcon,
+      },
+      {
+        label: 'Facebook',
+        href: 'https://www.facebook.com/ceodayimdevelopers',
+        icon: SocialFacebookIcon,
+      },
+      {
+        label: 'Instagram',
+        href: 'https://www.instagram.com/iwaleed_ahmad/',
+        icon: SocialInstagramIcon,
+      },
+    ],
   },
   {
     name: 'Ubaid Ullah',
     role: 'Director',
-    initials: 'UU',
+    image: directorUbaid,
+    socials: [
+      {
+        label: 'LinkedIn',
+        href: 'https://www.linkedin.com/in/sheikh-ubaid-36364a254/',
+        icon: SocialLinkedInIcon,
+      },
+      {
+        label: 'Facebook',
+        href: 'https://www.facebook.com/sheikh.ubaid.589',
+        icon: SocialFacebookIcon,
+      },
+      {
+        label: 'Instagram',
+        href: 'https://www.instagram.com/sheikh_ubaid111/',
+        icon: SocialInstagramIcon,
+      },
+    ],
   },
 ]
 
@@ -102,14 +172,35 @@ function AboutSection() {
           </div>
 
           <ul className="about-leadership" aria-label="Leadership">
-            {ABOUT_LEADERSHIP.map(({ name, role, initials }) => (
+            {ABOUT_LEADERSHIP.map(({ name, role, image, socials }) => (
               <li key={name} className="about-leader">
-                <span className="about-leader-avatar" aria-hidden="true">
-                  {initials}
-                </span>
+                <img
+                  className="about-leader-avatar"
+                  src={image}
+                  alt=""
+                  width={52}
+                  height={52}
+                  draggable="false"
+                />
                 <span className="about-leader-copy">
                   <strong className="about-leader-name">{name}</strong>
                   <span className="about-leader-role">{role}</span>
+                  {socials?.length > 0 ? (
+                    <span className="about-leader-socials">
+                      {socials.map(({ label, href, icon }) => (
+                        <a
+                          key={label}
+                          className="about-leader-social"
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`${name} on ${label}`}
+                        >
+                          {icon}
+                        </a>
+                      ))}
+                    </span>
+                  ) : null}
                 </span>
               </li>
             ))}

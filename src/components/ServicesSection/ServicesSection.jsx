@@ -37,7 +37,7 @@ const DEFAULT_SERVICES = [
   },
   {
     id: 'studio',
-    title: 'Studio Apartments',
+    title: 'Studio Apartment',
     images: [
       { src: studioImage1, label: 'Room' },
       { src: studioImage2, label: 'Living' },
@@ -48,7 +48,7 @@ const DEFAULT_SERVICES = [
   },
   {
     id: 'one-bed',
-    title: 'One Bedroom Apartments',
+    title: 'One Bed Apartment',
     images: [
       { src: oneBedImage1, label: 'Living' },
       { src: oneBedImage2, label: 'Bedroom' },
@@ -112,6 +112,45 @@ function ServicesSection({
     if (nextIndex === activeSlideIndexRef.current) return
     activeSlideIndexRef.current = nextIndex
     setActiveSlideIndex(nextIndex)
+  }
+
+  const scrollToService = (serviceIndex) => {
+    if (slideCount < 2 || serviceIndex === activeServiceIndex) return
+
+    const targetSlideIndex = slides.findIndex(
+      (slide) => slide.serviceIndex === serviceIndex,
+    )
+    if (targetSlideIndex < 0) return
+
+    const section = sectionRef.current
+    if (!section) return
+
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+    const behavior = reduceMotion ? 'auto' : 'smooth'
+    // Matches ScrollTrigger end: +=innerHeight * (slideCount - 1)
+    const slideOffset = targetSlideIndex * window.innerHeight
+    const scroller = scrollContainerRef?.current
+
+    if (scroller) {
+      const nextTop =
+        section.getBoundingClientRect().top -
+        scroller.getBoundingClientRect().top +
+        scroller.scrollTop +
+        slideOffset
+      scroller.scrollTo({ top: Math.max(0, nextTop), behavior })
+      return
+    }
+
+    const nextTop =
+      section.getBoundingClientRect().top + window.scrollY + slideOffset
+    const lenis = window.__dayimLenis
+    if (lenis) {
+      lenis.scrollTo(nextTop, { immediate: reduceMotion })
+      return
+    }
+    window.scrollTo({ top: Math.max(0, nextTop), behavior })
   }
 
   useEffect(() => {
@@ -321,15 +360,21 @@ function ServicesSection({
                 }}
               >
                 {services.map((item, index) => (
-                  <article
+                  <button
                     key={item.id}
+                    type="button"
                     className={`services-card${
                       index === activeServiceIndex ? ' is-active' : ''
                     }`}
+                    aria-current={
+                      index === activeServiceIndex ? 'true' : undefined
+                    }
+                    aria-label={`View ${item.title}`}
+                    onClick={() => scrollToService(index)}
                   >
-                    <p className="services-card-title">{item.title}</p>
-                    <p className="services-card-text">{item.text}</p>
-                  </article>
+                    <span className="services-card-title">{item.title}</span>
+                    <span className="services-card-text">{item.text}</span>
+                  </button>
                 ))}
               </div>
             </div>

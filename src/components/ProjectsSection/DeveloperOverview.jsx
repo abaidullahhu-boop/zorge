@@ -31,13 +31,27 @@ function ProjectCard({ project }) {
         onPointerEnter={moveCta}
         onPointerLeave={hideCta}
       >
-        <img
-          className="projects-parallax-image"
-          src={project.image}
-          alt=""
-          draggable="false"
-          loading="lazy"
-        />
+        {project.video ? (
+          <video
+            className="projects-parallax-image"
+            src={project.video}
+            poster={project.image}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-hidden="true"
+          />
+        ) : (
+          <img
+            className="projects-parallax-image"
+            src={project.image}
+            alt=""
+            draggable="false"
+            loading="lazy"
+          />
+        )}
         <span
           className="projects-card-cta"
           aria-hidden="true"

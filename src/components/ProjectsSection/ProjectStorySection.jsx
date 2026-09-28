@@ -45,9 +45,6 @@ const defaultFloorPlanGallery = [
   },
 ]
 
-const CLIP_HIDDEN = 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
-const CLIP_VISIBLE = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)'
-
 const decorLayers = [
   { src: collection1, vmin: 2, isBase: true, zIndex: 1 },
   { src: collection2, vmin: 4, zIndex: 2 },
@@ -132,9 +129,8 @@ function ProjectStorySection({ scrollContainerRef = null, project = null }) {
       images.forEach((image, index) => {
         gsap.set(image, {
           zIndex: index + 1,
-          clipPath: CLIP_VISIBLE,
           y: 0,
-          clearProps: reduceMotion ? 'clipPath,transform' : undefined,
+          clearProps: reduceMotion ? 'transform' : undefined,
         })
       })
       return undefined
@@ -142,13 +138,14 @@ function ProjectStorySection({ scrollContainerRef = null, project = null }) {
 
     const scroller = scrollContainerRef?.current ?? undefined
     const scrollTriggerBase = scroller ? { scroller } : {}
+    const segments = planCount - 1
 
     const ctx = gsap.context(() => {
+      // Stacked cover: each next plan scrolls up over the one beneath it.
       images.forEach((image, index) => {
         gsap.set(image, {
-          zIndex: index === 0 ? 1 : 0,
-          clipPath: index === 0 ? CLIP_VISIBLE : CLIP_HIDDEN,
-          y: index === 0 ? '0%' : '5%',
+          zIndex: index + 1,
+          y: index === 0 ? '0%' : '100%',
         })
       })
 
@@ -160,14 +157,15 @@ function ProjectStorySection({ scrollContainerRef = null, project = null }) {
           ...scrollTriggerBase,
           trigger: pin,
           start: 'top top',
-          end: () => `+=${getStickyH() * (planCount - 1)}`,
+          end: () => `+=${getStickyH() * segments}`,
           scrub: true,
+          snap: segments > 0 ? 1 / segments : false,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            const segments = planCount - 1
             const raw = self.progress * segments
             const base = Math.min(planCount - 1, Math.floor(raw))
             const local = raw - Math.floor(raw)
+            // Flip copy once the incoming plan is halfway over the previous.
             const nextIndex =
               raw >= segments
                 ? planCount - 1
@@ -179,24 +177,17 @@ function ProjectStorySection({ scrollContainerRef = null, project = null }) {
         },
       })
 
-      for (let i = 0; i < planCount - 1; i += 1) {
+      for (let i = 0; i < segments; i += 1) {
         const next = i + 1
-        const position = i
-        const prevImage = images[i]
         const nextImage = images[next]
 
         if (nextImage) {
-          gsap.set(nextImage, { zIndex: next + 1 })
           tl.fromTo(
             nextImage,
-            { clipPath: CLIP_HIDDEN, y: '5%' },
-            { clipPath: CLIP_VISIBLE, y: '0%', duration: 1 },
-            position,
+            { y: '100%' },
+            { y: '0%', duration: 1 },
+            i,
           )
-        }
-
-        if (prevImage) {
-          tl.to(prevImage, { y: '-8%', duration: 1 }, position)
         }
       }
     }, pin)

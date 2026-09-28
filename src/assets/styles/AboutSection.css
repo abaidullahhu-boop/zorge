@@ -242,7 +242,7 @@
   margin: 0;
   width: fit-content;
   padding-bottom: clamp(10px, 1.2vh, 14px);
-  border-bottom: 2px solid var(--panorama-accent);
+  border-bottom: 2px solid var(--about-accent);
   font: 700 clamp(34px, 4.2vw, 54px)/1 'Gilroy', sans-serif;
   letter-spacing: .04em;
   text-transform: uppercase;
@@ -288,14 +288,11 @@
 
 .about-leader-avatar {
   flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  width: clamp(44px, 4vw, 52px);
-  height: clamp(44px, 4vw, 52px);
+  width: clamp(52px, 5vw, 64px);
+  height: clamp(52px, 5vw, 64px);
   border: 1px solid var(--about-accent);
-  color: var(--about-accent);
-  font: 600 clamp(12px, 0.95vw, 14px)/1 'Gilroy', sans-serif;
-  letter-spacing: .06em;
+  object-fit: cover;
+  object-position: center top;
 }
 
 .about-leader-copy {
@@ -315,6 +312,36 @@
   letter-spacing: .14em;
   text-transform: uppercase;
   color: var(--about-accent);
+}
+
+.about-leader-socials {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.about-leader-social {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  color: var(--about-muted);
+  border: 1px solid rgb(255 255 255 / 18%);
+  transition: color .2s ease, border-color .2s ease, background-color .2s ease;
+}
+
+.about-leader-social svg {
+  width: 14px;
+  height: 14px;
+}
+
+.about-leader-social:hover,
+.about-leader-social:focus-visible {
+  color: var(--about-accent);
+  border-color: var(--about-accent);
+  background: rgb(245 200 66 / 8%);
+  outline: none;
 }
 
 .about-divider {

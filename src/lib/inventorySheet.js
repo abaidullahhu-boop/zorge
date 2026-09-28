@@ -14,6 +14,18 @@ export function inventoryUnitKey(projectId, floorId, unit) {
   return [projectId, floorId, unit].map(normalizeKeyPart).join('|')
 }
 
+/** Old sheet project_id values still accepted after URL slug renames. */
+const PROJECT_ID_ALIASES = {
+  'dayim-signature-apartments': ['dsa'],
+  'dayim-zindagi': ['zindagi'],
+}
+
+function projectIdKeys(projectId) {
+  const primary = normalizeKeyPart(projectId)
+  const aliases = (PROJECT_ID_ALIASES[primary] ?? []).map(normalizeKeyPart)
+  return new Set([primary, ...aliases])
+}
+
 function parseCsv(text) {
   const rows = []
   let row = []
@@ -241,13 +253,16 @@ export async function fetchInventoryOverrides(csvUrl, { signal } = {}) {
 }
 
 function findOverridePatch(unit, projectId, overrides, usedKeys) {
-  const exactKey = inventoryUnitKey(projectId, unit.floorId, unit.unitLabel)
-  if (overrides.has(exactKey) && !usedKeys.has(exactKey)) {
-    usedKeys.add(exactKey)
-    return overrides.get(exactKey)
+  const projectKeys = projectIdKeys(projectId)
+
+  for (const key of projectKeys) {
+    const exactKey = inventoryUnitKey(key, unit.floorId, unit.unitLabel)
+    if (overrides.has(exactKey) && !usedKeys.has(exactKey)) {
+      usedKeys.add(exactKey)
+      return overrides.get(exactKey)
+    }
   }
 
-  const projectKey = normalizeKeyPart(projectId)
   const floorKey = normalizeKeyPart(unit.floorId)
   const num = unitNumber(unit.unitLabel)
   const area = areaNumber(unit.area)
@@ -257,7 +272,7 @@ function findOverridePatch(unit, projectId, overrides, usedKeys) {
       if (usedKeys.has(key)) continue
       const parts = splitOverrideKey(key)
       if (!parts) continue
-      if (parts.projectId !== projectKey || parts.floorId !== floorKey) continue
+      if (!projectKeys.has(parts.projectId) || parts.floorId !== floorKey) continue
       if (unitNumber(parts.unit) === num) {
         usedKeys.add(key)
         return patch
@@ -270,7 +285,7 @@ function findOverridePatch(unit, projectId, overrides, usedKeys) {
       if (usedKeys.has(key)) continue
       const parts = splitOverrideKey(key)
       if (!parts) continue
-      if (parts.projectId !== projectKey || parts.floorId !== floorKey) continue
+      if (!projectKeys.has(parts.projectId) || parts.floorId !== floorKey) continue
       if (areaNumber(patch.area) === area) {
         usedKeys.add(key)
         return patch

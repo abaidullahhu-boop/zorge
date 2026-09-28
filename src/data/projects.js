@@ -1,6 +1,9 @@
 import dsaImage from '../assets/images/dayim-signature.png'
 import livingImage from '../assets/images/dayim-living.png'
 import zindagiImage from '../assets/images/dayim-zindagi.png'
+import dsaVideo from '../assets/images/ds.mp4'
+import livingVideo from '../assets/images/dl.mp4'
+import zindagiVideo from '../assets/images/dz.mp4'
 import dsaMark from '../assets/images/dsmark.png'
 import livingMark from '../assets/images/dlmask.png'
 import zindagiMark from '../assets/images/dzmask.png'
@@ -13,6 +16,9 @@ import livingPcc3 from '../assets/images/l6.jpg'
 import livingGround1 from '../assets/images/f1.jpg'
 import livingGround2 from '../assets/images/f2.jpg'
 import livingGround3 from '../assets/images/f3.jpg'
+import livingSlab1 from '../assets/images/living-slab-1.jpg'
+import livingSlab2 from '../assets/images/living-slab-2.jpg'
+import livingSlab3 from '../assets/images/living-slab-3.jpg'
 import livingStudioDeluxeRoom from '../assets/images/03.jpg'
 import livingStudioDeluxeLiving from '../assets/images/04.jpg'
 import livingStudioDeluxeBath from '../assets/images/011.jpg'
@@ -826,12 +832,14 @@ function typologyInventoryFloor({ id, label, image, alt, units }) {
 
 export const projects = [
   {
-    id: 'dsa',
+    id: 'dayim-signature-apartments',
     title: 'Dayim Signature Apartments',
     short: 'A Signature Address',
-    brand: 'DSA',
+    brand: 'Dayim Signature Apartments',
     subtitle: 'Broadway Commercial · Al-Kabir Town Phase 2, Lahore.',
+    status: 'Delivered',
     image: dsaImage,
+    video: dsaVideo,
     mark: dsaMark,
     address: [
       'Dayim Signature Apartments',
@@ -848,10 +856,15 @@ export const projects = [
       description:
         'Dayim Signature Apartments brings together contemporary design, premium amenities, and a prime location opposite Lake City. A professionally planned high-rise residential development offering lifestyle and investment value on Broadway Commercial.',
       highlights: [
+        'Premium High-Rise Living',
+        'Contemporary Architectural Design',
+        'Thoughtfully Planned Apartments',
+        'Modern Lifestyle Amenities',
+        'Secure & Comfortable Environment',
         'Prime Location',
-        'Contemporary High-rise Residential',
-        'On Ground Delivered Project ( Possession Handed Over )',
-        'Premium Amenities',
+        'Quality Construction',
+        'Strong Investment Potential',
+        'Professional Project Management',
         'Construction Commenced April 2024',
       ],
     },
@@ -880,7 +893,7 @@ export const projects = [
       {
         id: 'studio',
         label: 'Studio',
-        type: 'Studio Apartment',
+        type: 'Studio Apartments',
         area: '360–410 sq ft',
         beds: 0,
         status: 'Available',
@@ -897,7 +910,7 @@ export const projects = [
       },
       {
         id: 'two-bed',
-        label: 'Two Bed Apartments',
+        label: 'Two Bed',
         type: 'Two Bedroom Apartment',
         area: '959 sq ft',
         beds: 2,
@@ -912,7 +925,9 @@ export const projects = [
     short: 'Smart Living',
     brand: 'Dayim Living',
     subtitle: 'Block C Commercial · Al-Kabir Town Phase 2, Lahore.',
+    status: 'Under Construction',
     image: livingImage,
+    video: livingVideo,
     mark: livingMark,
     address: [
       'Dayim Living',
@@ -932,12 +947,15 @@ export const projects = [
         'With a structured 3-year payment plan and possession planned within 2 years, Dayim Living is designed to provide our clients with a practical path toward property ownership and income generation.',
       ],
       highlights: [
-        'Hotel Service Studio Apartments',
-        'Investment Potential',
-        'Construction In Progress',
-        'High Rental',
+        'Designed for Rental Income',
+        'Hotel-Service Living',
+        'Smart Investment Opportunity',
+        'Comfort Meets Convenience',
+        'Professionally Managed Living',
+        'Designed for Modern Lifestyles',
+        'A Location with Potential',
       ],
-      typologies: 'Studio (Executive & Deluxe)',
+      typologies: 'Commercial Outlet & Studio Apartments (Executive & Deluxe)',
     },
     story: {
       journey: {
@@ -1026,6 +1044,33 @@ export const projects = [
             detail:
               'Construction is progressing rapidly toward the Ground Floor. Steel binding work for the columns and lift structure is currently underway, forming the reinforcement required for the next stage of structural development.',
           },
+          {
+            id: 'living-slab-1',
+            phase: 'slab',
+            src: livingSlab1,
+            alt: 'Dayim Living ground floor slab shuttering',
+            label: 'Ground Floor – Slab Shuttering',
+            detail:
+              'Concrete pouring for the ground-floor columns and lift structure has been successfully completed. Meanwhile, slab shuttering work is progressing rapidly, with the site actively preparing for the ground-floor slab pouring in the coming week.',
+          },
+          {
+            id: 'living-slab-2',
+            phase: 'slab',
+            src: livingSlab2,
+            alt: 'Dayim Living ground floor slab shuttering',
+            label: 'Ground Floor – Slab Shuttering',
+            detail:
+              'Concrete pouring for the ground-floor columns and lift structure has been successfully completed. Meanwhile, slab shuttering work is progressing rapidly, with the site actively preparing for the ground-floor slab pouring in the coming week.',
+          },
+          {
+            id: 'living-slab-3',
+            phase: 'slab',
+            src: livingSlab3,
+            alt: 'Dayim Living ground floor slab shuttering',
+            label: 'Ground Floor – Slab Shuttering',
+            detail:
+              'Concrete pouring for the ground-floor columns and lift structure has been successfully completed. Meanwhile, slab shuttering work is progressing rapidly, with the site actively preparing for the ground-floor slab pouring in the coming week.',
+          },
         ],
       },
       floorPlans: [
@@ -1110,6 +1155,7 @@ export const projects = [
     brand: 'Dayim Zindagi',
     subtitle: 'Business Bay Commercial · Al-Kabir Town Phase 2, Lahore.',
     image: zindagiImage,
+    video: zindagiVideo,
     mark: zindagiMark,
     address: [
       'Dayim Zindagi',
@@ -1135,8 +1181,9 @@ export const projects = [
     },
     story: {
       journey: {
-        title: 'Zindagi Rising',
-        body: 'A Business Bay landmark on Main Raiwind Road—commercial energy below, elevated living above.',
+        title: 'Homes Designed Around Your Lifestyle',
+        body: 'Dayim Zindagi offers a range of apartment options designed to suit different lifestyles, needs, and investment goals.',
+
         tagline: 'Premium lifestyle. City presence.',
         items: [
           {

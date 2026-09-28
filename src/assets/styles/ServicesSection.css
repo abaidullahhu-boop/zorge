@@ -259,7 +259,13 @@
   margin: 0;
   padding: clamp(22px, 2vw, 36px) clamp(18px, 1.6vw, 28px);
   border: 1px solid rgb(255 255 255 / 18%);
+  background: transparent;
   color: rgb(255 255 255 / 28%);
+  text-align: left;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
   transition:
     color .35s ease,
     border-color .35s ease;
@@ -268,9 +274,16 @@
 .services-card.is-active {
   border-color: #fff;
   color: #fff;
+  cursor: default;
+}
+
+.services-card:focus-visible {
+  outline: 1px solid #fff;
+  outline-offset: 3px;
 }
 
 .services-card-title {
+  display: block;
   margin: 0;
   font: 600 clamp(11px, 1vw, 13px) / 1.2 'Gilroy', sans-serif;
   letter-spacing: .03em;
@@ -279,6 +292,7 @@
 }
 
 .services-card-text {
+  display: block;
   margin: 0;
   font: 600 clamp(10px, 1vw, 10px) / 1.35 'Gilroy', sans-serif;
   letter-spacing: .03em;

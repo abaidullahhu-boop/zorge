@@ -94,7 +94,7 @@ function copyText(text) {
 }
 
 const PROJECT_INFO = {
-  dsa: {
+  'dayim-signature-apartments': {
     tag: 'PROJECT',
     address: 'Broadway Commercial, Opposite Lake City, Lahore',
     note: 'High-rise residential on Broadway Commercial',

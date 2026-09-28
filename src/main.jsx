@@ -21,6 +21,9 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       { index: true, element: null },
+      { path: 'projects/dsa/inventory', element: <Navigate to="/projects/dayim-signature-apartments/inventory" replace /> },
+      { path: 'projects/dsa/plans', element: <Navigate to="/projects/dayim-signature-apartments/inventory" replace /> },
+      { path: 'projects/dsa', element: <Navigate to="/projects/dayim-signature-apartments" replace /> },
       { path: 'projects/zindagi/inventory', element: <Navigate to="/projects/dayim-zindagi/inventory" replace /> },
       { path: 'projects/zindagi/plans', element: <Navigate to="/projects/dayim-zindagi/inventory" replace /> },
       { path: 'projects/zindagi', element: <Navigate to="/projects/dayim-zindagi" replace /> },

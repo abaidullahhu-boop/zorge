@@ -235,7 +235,7 @@ export function ProjectOverview({ project }) {
         project.about.typologies ??
         project.units.map((unit) => unit.label ?? unit.type).join(' · '),
     },
-    { label: 'Status', value: 'Available' },
+    { label: 'Status', value: project.status ?? 'Available' },
   ].filter(Boolean)
   const overviewCopy = Array.isArray(project.about.description)
     ? project.about.description
@@ -259,7 +259,7 @@ export function ProjectOverview({ project }) {
           <div className="project-overview__intro">
             <p className="project-kicker">The project</p>
             <h2 id="overview-title" className="project-heading">
-              A landmark address, planned with care
+              WHERE MODERN LIVING FINDS IT’S PLACE.
             </h2>
             <div className="project-overview__copy">
               {overviewCopy.map((paragraph) => (

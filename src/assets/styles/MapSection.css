@@ -33,23 +33,25 @@
 }
 
 .map-heading {
+  --map-heading-accent: #f5c842;
+
   position: absolute;
   z-index: 4;
   top: 0;
-  right: 0;
-  left: 0;
+  right: auto;
+  left: clamp(20px, 1.55vw, 30px);
   display: flex;
   align-items: center;
   box-sizing: border-box;
+  width: fit-content;
   height: var(--map-top);
   margin: 0;
   padding-top: var(--map-top-pad);
-  padding-inline: clamp(20px, 1.55vw, 30px);
-  color: #000;
-  background: #fff;
+  padding-bottom: clamp(10px, 1.2vh, 14px);
+  border-bottom: 2px solid var(--map-heading-accent);
   font: 600 clamp(65px, 2.1vw, 96px) / 1 'Gilroy', sans-serif;
   letter-spacing: 0.01em;
-  text-align: right;
+  text-align: left;
   text-transform: uppercase;
   pointer-events: none;
   background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);

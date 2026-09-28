@@ -9,7 +9,7 @@ import our6 from '../../assets/images/our6.png'
 import our7 from '../../assets/images/our7.png'
 import '../../assets/styles/AdvantagesSection.css'
 
-const SECTION_HEADING = 'Why Choose Dayim Developer'
+const SECTION_HEADING = 'Why Choose Dayim Developers?'
 
 const ADVANTAGES = [
   {
