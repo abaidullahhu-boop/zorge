@@ -1530,6 +1530,21 @@
   box-shadow: 0 16px 32px rgb(25 27 25 / 8%);
 }
 
+/* Facilities banner above Visit Us (project-specific) */
+.project-enquire-banner {
+  margin: 0 auto;
+  padding: clamp(24px, 3vw, 40px) var(--project-pad) 0;
+  max-width: min(900px, 100%);
+  background: #000;
+  line-height: 0;
+}
+
+.project-enquire-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 /* Enquire — compact contact block before footer */
 .project-enquire {
   position: relative;

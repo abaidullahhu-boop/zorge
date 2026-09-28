@@ -716,6 +716,18 @@ export function ProjectInventory({
 export function ProjectEnquire({ project }) {
   return (
     <div className="project-stack project-stack--enquire">
+      {project.enquireImage ? (
+        <figure className="project-enquire-banner">
+          <img
+            src={project.enquireImage}
+            alt={`${project.brand ?? project.title} facilities and amenities`}
+            width={1024}
+            height={682}
+            draggable="false"
+            loading="lazy"
+          />
+        </figure>
+      ) : null}
       <section
         className="project-enquire"
         id="enquire"

@@ -12,6 +12,7 @@ import livingVideo from '../assets/images/dl.mp4'
 import zindagiVideo from '../assets/images/dz.mp4'
 import dsaMark from '../assets/images/dsmark.png'
 import livingMark from '../assets/images/dlmask.png'
+import livingEnquireImage from '../assets/images/living-facilities.jpg'
 import zindagiMark from '../assets/images/dzmask.png'
 import livingExcavation1 from '../assets/images/l1.jpg'
 import livingExcavation2 from '../assets/images/l4.jpg'
@@ -947,6 +948,7 @@ export const projects = [
     video: livingVideo,
     videoPoster: livingVideoPoster,
     mark: livingMark,
+    enquireImage: livingEnquireImage,
     address: [
       'Dayim Living',
       'Block C Commercial, Al-Kabir Town Phase 2, Raiwind Road, Lahore, Pakistan.',
