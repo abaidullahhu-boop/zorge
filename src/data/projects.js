@@ -856,6 +856,7 @@ export const projects = [
     video: dsaVideo,
     videoPoster: dsaVideoPoster,
     mark: dsaMark,
+    enquireImage: livingEnquireImage,
     address: [
       'Dayim Signature Apartments',
       'Broadway Commercial, Al-Kabir Town Phase 2, Opposite Lake City, Raiwind Road, Lahore, Pakistan.',
