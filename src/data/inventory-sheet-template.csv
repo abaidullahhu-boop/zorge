@@ -1,68 +1,68 @@
 project_id,floor_id,unit,status,buyer,sqft
-dayim-signature-apartments,lower-ground,Shop # 01,sold,,202
-dayim-signature-apartments,lower-ground,Shop # 02,sold,,202
-dayim-signature-apartments,lower-ground,Shop # 03,sold,,292
-dayim-signature-apartments,lower-ground,Shop # 04,sold,,315
+dayim-signature-apartments,lower-ground,Shop # 01,sold,Ms. Farah Hafeez,202
+dayim-signature-apartments,lower-ground,Shop # 02,sold,Mr. Muhammad Faizan Ansari,202
+dayim-signature-apartments,lower-ground,Shop # 03,sold,Mr. Muhammad Afzaal - Ms. Tabassum Afzaal,292
+dayim-signature-apartments,lower-ground,Shop # 04,sold,Mr. Sahil Yashib,315
 dayim-signature-apartments,lower-ground,Shop # 05,available,,309
 dayim-signature-apartments,lower-ground,Shop # 06,available,,360
-dayim-signature-apartments,lower-ground,Shop # 07,sold,,454
+dayim-signature-apartments,lower-ground,Shop # 07,sold,Mr. Imran Liaqat,454
 dayim-signature-apartments,lower-ground,Shop # 08,available,,542
-dayim-signature-apartments,ground,Hall # 01,sold,,683
-dayim-signature-apartments,ground,Hall # 02,sold,,734
-dayim-signature-apartments,ground,Hall # 03,sold,,813
-dayim-signature-apartments,first,Shop # 01,sold,,284
-dayim-signature-apartments,first,Shop # 02,sold,,306
-dayim-signature-apartments,first,Shop # 03,sold,,310
-dayim-signature-apartments,first,Shop # 04,sold,,330
-dayim-signature-apartments,first,Shop # 05,sold,,490
+dayim-signature-apartments,ground,Hall # 01,sold,Mr. Junaid Akhtar,683
+dayim-signature-apartments,ground,Hall # 02,sold,Mr. Zahir Ul Haq,734
+dayim-signature-apartments,ground,Hall # 03,sold,Mr. Muhammad Sadiq,813
+dayim-signature-apartments,first,Shop # 01,sold,Mr. Zeeshan Yousaf,284
+dayim-signature-apartments,first,Shop # 02,sold,Mr. Ali Usman,306
+dayim-signature-apartments,first,Shop # 03,sold,Mr. Faryad Ali,310
+dayim-signature-apartments,first,Shop # 04,sold,Ms. Ghazala Shaheen,330
+dayim-signature-apartments,first,Shop # 05,sold,Mr. Zohaib Ejaz,490
 dayim-signature-apartments,first,Shop # 06,available,,516
-dayim-signature-apartments,first,Shop # 07,reserved,,631
-dayim-signature-apartments,second,Apartment # 1,available,,360
-dayim-signature-apartments,second,Apartment # 2,reserved,,387
+dayim-signature-apartments,first,Shop # 07,available,,631
+dayim-signature-apartments,second,Apartment # 1,sold,Mr. Ali Imran,360
+dayim-signature-apartments,second,Apartment # 2,sold,Mr. Muhammad Sadiq,387
 dayim-signature-apartments,second,Apartment # 3,available,,410
-dayim-signature-apartments,second,Apartment # 4,available,,573
-dayim-signature-apartments,second,Apartment # 5,available,,595
-dayim-signature-apartments,second,Apartment # 6,available,,625
-dayim-signature-apartments,third,Apartment # 1,available,,360
-dayim-signature-apartments,third,Apartment # 2,available,,387
-dayim-signature-apartments,third,Apartment # 3,available,,410
-dayim-signature-apartments,third,Apartment # 4,available,,573
-dayim-signature-apartments,third,Apartment # 5,available,,595
-dayim-signature-apartments,third,Apartment # 6,available,,625
-dayim-signature-apartments,fourth,Apartment # 1,available,,360
-dayim-signature-apartments,fourth,Apartment # 2,available,,387
-dayim-signature-apartments,fourth,Apartment # 3,available,,410
-dayim-signature-apartments,fourth,Apartment # 4,available,,573
-dayim-signature-apartments,fourth,Apartment # 5,available,,595
-dayim-signature-apartments,fourth,Apartment # 6,available,,625
-dayim-signature-apartments,fifth,Apartment # 1,available,,360
-dayim-signature-apartments,fifth,Apartment # 2,available,,387
+dayim-signature-apartments,second,Apartment # 4,sold,Mr. Muhammad Sadiq,573
+dayim-signature-apartments,second,Apartment # 5,sold,Mr. Shahbaz Tariq,595
+dayim-signature-apartments,second,Apartment # 6,sold,Mr. Mujahid Farooqi,625
+dayim-signature-apartments,third,Apartment # 1,sold,Mr. Imran Bin Ali,360
+dayim-signature-apartments,third,Apartment # 2,sold,Mr. Muhammad Saqib Rafique,387
+dayim-signature-apartments,third,Apartment # 3,sold,Mr. Muhammad Bilal Javed,410
+dayim-signature-apartments,third,Apartment # 4,sold,Mr. Inam Ul Haq,573
+dayim-signature-apartments,third,Apartment # 5,sold,Mr. Ahmed Bilal,595
+dayim-signature-apartments,third,Apartment # 6,sold,Mr. Muhammad Bilal Javed,625
+dayim-signature-apartments,fourth,Apartment # 1,sold,Mr. Ghulam Rasool,360
+dayim-signature-apartments,fourth,Apartment # 2,sold,Mr. Imran Younas,387
+dayim-signature-apartments,fourth,Apartment # 3,sold,Ms. Nabila Hammad,410
+dayim-signature-apartments,fourth,Apartment # 4,sold,Mr. Nouman Tabassum,573
+dayim-signature-apartments,fourth,Apartment # 5,sold,Mr. Muhammad Imran,595
+dayim-signature-apartments,fourth,Apartment # 6,sold,Mr. Muhammad Anwar Qureshi,625
+dayim-signature-apartments,fifth,Apartment # 1,sold,Mr. Ghulam Rasool,360
+dayim-signature-apartments,fifth,Apartment # 2,sold,Mr. Adv Muhammad Yousuf,387
 dayim-signature-apartments,fifth,Apartment # 3,available,,410
-dayim-signature-apartments,fifth,Apartment # 4,available,,573
+dayim-signature-apartments,fifth,Apartment # 4,sold,Ms. Saima Shahzadi,573
 dayim-signature-apartments,fifth,Apartment # 5,available,,595
-dayim-signature-apartments,fifth,Apartment # 6,available,,625
-dayim-signature-apartments,sixth,Apartment # 1,available,,360
-dayim-signature-apartments,sixth,Apartment # 2,available,,387
-dayim-signature-apartments,sixth,Apartment # 3,available,,573
-dayim-signature-apartments,sixth,Apartment # 4,available,,595
-dayim-signature-apartments,sixth,Apartment # 5,available,,1035
+dayim-signature-apartments,fifth,Apartment # 6,sold,Mr. Adeel Ayub,625
+dayim-signature-apartments,sixth,Apartment # 1,sold,Mr. Muhammad Maisam,360
+dayim-signature-apartments,sixth,Apartment # 2,sold,Mr. Rashid Ali,387
+dayim-signature-apartments,sixth,Apartment # 3,sold,Ms. Maria Ehsaan,573
+dayim-signature-apartments,sixth,Apartment # 4,sold,Mr. Muhammad Zaheer,595
+dayim-signature-apartments,sixth,Apartment # 5,sold,Mr. Kashid Iqbal,1035
 dayim-living,lower-ground,Hall # 01,available,,720
 dayim-living,ground,Hall # 02,available,,784
-dayim-living,first,Apartment # 1,available,,425
-dayim-living,first,Apartment # 2,available,,268
-dayim-living,first,Apartment # 3,available,,354
-dayim-living,second,Apartment # 1,available,,425
-dayim-living,second,Apartment # 2,available,,268
-dayim-living,second,Apartment # 3,available,,354
-dayim-living,third,Apartment # 1,available,,425
-dayim-living,third,Apartment # 2,available,,268
-dayim-living,third,Apartment # 3,available,,354
-dayim-living,fourth,Apartment # 1,available,,425
-dayim-living,fourth,Apartment # 2,available,,268
-dayim-living,fourth,Apartment # 3,available,,354
-dayim-living,fifth,Apartment # 1,available,,425
-dayim-living,fifth,Apartment # 2,available,,268
-dayim-living,fifth,Apartment # 3,available,,354
+dayim-living,first,Apartment # 1,sold,Muhammad Azeem,268
+dayim-living,first,Apartment # 2,sold,Hafiz Muhammad Awais Maqsood,354
+dayim-living,first,Apartment # 3,sold,Sumbal Rashid,425
+dayim-living,second,Apartment # 1,sold,Mazhar Mubarak,268
+dayim-living,second,Apartment # 2,sold,Sidra Tul Muntaha,354
+dayim-living,second,Apartment # 3,sold,Tayyab Ijaz,425
+dayim-living,third,Apartment # 1,available,,268
+dayim-living,third,Apartment # 2,sold,Muhammad Yasir Pervaiz Ahmad,354
+dayim-living,third,Apartment # 3,available,,425
+dayim-living,fourth,Apartment # 1,sold,Azam Ali,268
+dayim-living,fourth,Apartment # 2,sold,Malik Zia Ul Haq,354
+dayim-living,fourth,Apartment # 3,sold,Muhammad Azhar Gul,425
+dayim-living,fifth,Apartment # 1,sold,Qasim Ali,268
+dayim-living,fifth,Apartment # 2,sold,Muhammad Salman Shakeel,354
+dayim-living,fifth,Apartment # 3,available,,425
 dayim-zindagi,lower-ground,Apartment # 1,available,,664
 dayim-zindagi,lower-ground,Apartment # 2,available,,746
 dayim-zindagi,lower-ground,Apartment # 3,available,,773

@@ -17,6 +17,7 @@ export function inventoryUnitKey(projectId, floorId, unit) {
 /** Old sheet project_id values still accepted after URL slug renames. */
 const PROJECT_ID_ALIASES = {
   'dayim-signature-apartments': ['dsa'],
+  'dayim-living': ['living'],
   'dayim-zindagi': ['zindagi'],
 }
 

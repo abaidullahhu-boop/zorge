@@ -128,8 +128,8 @@ function parseDsaInventoryMeta(fileName) {
 function inventoryImagesFrom(files, folderHint, altPrefix, missingLabel) {
   const typeOrder = [
     'Studio Executive',
-    'Executive Studio',
     'Studio Deluxe',
+    'Executive Studio',
     'One Bed Executive',
     'One Bed Deluxe',
     '2 Bed Executive',
