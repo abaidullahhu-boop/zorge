@@ -422,8 +422,8 @@
     gap: 14px;
   }
 
-  .hero-project-btn--projects {
-    display: none;
+  .hero-project-btn {
+    font-size: clamp(11px, 1.4vw, 13px);
   }
 
   .menu-button {
@@ -454,6 +454,10 @@
   .hero-header h1 {
     max-width: min(72vw, 268px);
     font-size: clamp(17px, 4.7vw, 23px);
+  }
+
+  .hero-project-btn--projects {
+    display: none;
   }
 
   .intro__logo {

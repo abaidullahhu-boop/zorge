@@ -319,7 +319,11 @@ export function ProjectHero({ project, onNavigate, playReveal = true }) {
 export function ProjectOverview({ project }) {
   const floors = project.plan.floors ?? []
   const facts = [
-    { label: 'Location', value: project.subtitle },
+    {
+      label: 'Location',
+      value: project.subtitle,
+      href: project.mapsUrl || null,
+    },
     floors.length
       ? { label: 'Floors', value: `${floors.length} levels` }
       : null,
@@ -365,10 +369,10 @@ export function ProjectOverview({ project }) {
           </div>
 
           <ul className="project-overview__highlights">
-            {project.about.highlights.map((item, index) => (
+            {project.about.highlights.map((item) => (
               <li key={item}>
-                <span className="project-overview__index">
-                  {String(index + 1).padStart(2, '0')}
+                <span className="project-overview__index" aria-hidden="true">
+                  •
                 </span>
                 <span>{item}</span>
               </li>
@@ -380,7 +384,20 @@ export function ProjectOverview({ project }) {
           {facts.map((fact) => (
             <div key={fact.label}>
               <dt>{fact.label}</dt>
-              <dd>{fact.value}</dd>
+              <dd>
+                {fact.href ? (
+                  <a
+                    className="project-facts__link"
+                    href={fact.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {fact.value}
+                  </a>
+                ) : (
+                  fact.value
+                )}
+              </dd>
             </div>
           ))}
         </dl>

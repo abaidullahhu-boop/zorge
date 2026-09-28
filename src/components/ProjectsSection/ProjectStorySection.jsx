@@ -40,7 +40,7 @@ const defaultFloorPlanGallery = [
     id: 'second',
     src: secondFloorPlan,
     alt: '2nd to 6th Floor studio and one bed apartments layout',
-    label: '2 - 6 Floor',
+    label: '2nd to 6th Floor',
     detail: 'Studio & one-bed apartments with balconies',
   },
 ]

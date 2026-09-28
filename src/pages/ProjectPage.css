@@ -689,8 +689,8 @@
 }
 
 .project-overview__index {
-  font: 600 12px / 1.4 var(--font-sans);
-  letter-spacing: 0.08em;
+  font: 600 14px / 1.4 var(--font-sans);
+  letter-spacing: 0;
   color: white;
 }
 
@@ -729,6 +729,17 @@
   margin: 0;
   font: 400 15px / 1.4 var(--font-sans);
   color: var(--color-ink);
+}
+
+.project-facts__link {
+  color: inherit;
+  text-decoration: none;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.project-facts__link:hover,
+.project-facts__link:focus-visible {
+  text-decoration-color: var(--color-ink);
 }
 
 /* Inventory page — dark shell to match unit artwork */
@@ -1862,7 +1873,7 @@
   }
 
   .project-facts {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .project-page .services-section {
@@ -1901,6 +1912,10 @@
 @media (max-width: 480px) {
   .project-page {
     --project-pad: 16px;
+  }
+
+  .project-facts {
+    grid-template-columns: 1fr;
   }
 
   .inventory-grid {

@@ -32,6 +32,24 @@ import livingStudioDeluxeBath from '../assets/images/011.jpg'
 import livingExecutiveStudioRoom from '../assets/images/05.jpg'
 import livingExecutiveStudioLiving from '../assets/images/06.jpg'
 import livingExecutiveStudioBath from '../assets/images/08.jpg'
+import zindagiStudio1 from '../assets/images/z1.png'
+import zindagiStudio2 from '../assets/images/z2.png'
+import zindagiStudio3 from '../assets/images/z3.png'
+import zindagiStudio4 from '../assets/images/z4.png'
+import zindagiOneBed1 from '../assets/images/zone1.png'
+import zindagiOneBed2 from '../assets/images/zone2.png'
+import zindagiOneBed3 from '../assets/images/zone3.png'
+import zindagiOneBed4 from '../assets/images/zone4.png'
+import zindagiOneBed5 from '../assets/images/zone5.png'
+import zindagiTwoBed1 from '../assets/images/ztwo.png'
+import zindagiTwoBed2 from '../assets/images/ztwo2.png'
+import zindagiTwoBed3 from '../assets/images/ztwo3.png'
+import zindagiTwoBed4 from '../assets/images/ztow4.png'
+import zindagiTwoBed5 from '../assets/images/ztow5.png'
+import zindagiTwoBed6 from '../assets/images/ztwo6.png'
+import zindagiRooftop1 from '../assets/images/rooftop.jpg'
+import zindagiRooftop2 from '../assets/images/rooftop2.jpg'
+import zindagiRooftop3 from '../assets/images/rooftop3.jpg'
 
 function mapsSearch(query) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
@@ -735,13 +753,107 @@ const zindagiSeventhImages = dzInventoryImages(
   'Dayim Zindagi seventh floor',
 )
 
-const zindagiOutletPlan = dzPickImage('02- Ground Floor', 'Commercial Outlet')
-const zindagiTwinTreatPlan = dzPickImage('01- Lower Ground', 'Twin Treat')
-const zindagiStudioElitePlan = dzPickImage('03- First Floor', 'Studio Elite')
-const zindagiStudioRoyalePlan = dzPickImage('03- First Floor', 'Studio Royale')
-const zindagiOneBedElitePlan = dzPickImage('05- Third Floor', 'One Bed Elite')
-const zindagiOneBedRoyalePlan = dzPickImage('05- Third Floor', 'One Bed Royale')
-const zindagiOneBedBlueViewPlan = dzPickImage('08- Sixth Floor', 'Blue View')
+const zindagiStudioInteriorImages = [
+  {
+    src: zindagiStudio1,
+    label: 'Living',
+    alt: 'Dayim Zindagi Studio Apartment — living',
+  },
+  {
+    src: zindagiStudio2,
+    label: 'Kitchen',
+    alt: 'Dayim Zindagi Studio Apartment — kitchen',
+  },
+  {
+    src: zindagiStudio3,
+    label: 'Bedroom',
+    alt: 'Dayim Zindagi Studio Apartment — bedroom',
+  },
+  {
+    src: zindagiStudio4,
+    label: 'Interior',
+    alt: 'Dayim Zindagi Studio Apartment — interior',
+  },
+]
+
+const zindagiOneBedInteriorImages = [
+  {
+    src: zindagiOneBed1,
+    label: 'Living',
+    alt: 'Dayim Zindagi One Bedroom Apartment — living',
+  },
+  {
+    src: zindagiOneBed2,
+    label: 'Bedroom',
+    alt: 'Dayim Zindagi One Bedroom Apartment — bedroom',
+  },
+  {
+    src: zindagiOneBed3,
+    label: 'Kitchen',
+    alt: 'Dayim Zindagi One Bedroom Apartment — kitchen',
+  },
+  {
+    src: zindagiOneBed5,
+    label: 'Balcony',
+    alt: 'Dayim Zindagi One Bedroom Apartment — balcony',
+  },
+  {
+    src: zindagiOneBed4,
+    label: 'Interior',
+    alt: 'Dayim Zindagi One Bedroom Apartment — interior',
+  },
+]
+
+const zindagiTwoBedInteriorImages = [
+  {
+    src: zindagiTwoBed1,
+    label: 'Living',
+    alt: 'Dayim Zindagi Two Bedroom Apartment — living',
+  },
+  {
+    src: zindagiTwoBed2,
+    label: 'Bedroom',
+    alt: 'Dayim Zindagi Two Bedroom Apartment — bedroom',
+  },
+  {
+    src: zindagiTwoBed3,
+    label: 'Kitchen',
+    alt: 'Dayim Zindagi Two Bedroom Apartment — kitchen',
+  },
+  {
+    src: zindagiTwoBed4,
+    label: 'Dining',
+    alt: 'Dayim Zindagi Two Bedroom Apartment — dining',
+  },
+  {
+    src: zindagiTwoBed5,
+    label: 'Bathroom',
+    alt: 'Dayim Zindagi Two Bedroom Apartment — bathroom',
+  },
+  {
+    src: zindagiTwoBed6,
+    label: 'Interior',
+    alt: 'Dayim Zindagi Two Bedroom Apartment — interior',
+  },
+]
+
+const zindagiRooftopImages = [
+  {
+    src: zindagiRooftop1,
+    label: 'Bar',
+    alt: 'Dayim Zindagi Rooftop Garden — bar lounge',
+  },
+  {
+    src: zindagiRooftop2,
+    label: 'Overview',
+    alt: 'Dayim Zindagi Rooftop Garden — aerial overview',
+  },
+  {
+    src: zindagiRooftop3,
+    label: 'Lounge',
+    alt: 'Dayim Zindagi Rooftop Garden — lounge seating',
+  },
+]
 
 const zindagiFloors = [
   {
@@ -1172,6 +1284,7 @@ export const projects = [
     short: 'Zindagi Elevated',
     brand: 'Dayim Zindagi',
     subtitle: 'Business Bay Commercial, Al-Kabir Town Phase 2, Lahore.',
+    status: 'Construction Starting Soon',
     image: zindagiImage,
     cover: zindagiCover,
     video: zindagiVideo,
@@ -1189,21 +1302,31 @@ export const projects = [
     mobile: { x: 44.5, y: 59 },
     kind: 'photo',
     about: {
-      description:
-        'Dayim Zindagi is positioned in Business Bay along Main Raiwind Road—a landmark address combining commercial potential with modern living. Designed for investors and residents seeking long-term value.',
-      highlights: [
-        'Luxury Living Experience',
-        'Premium Lifestyle Above The City',
-        'Construction Starting Soon',
-        'Premium Amenities',
-        'Construction Commenced April 2024',
+      headline: 'ELEVATED THE WAY YOU LIVE WITH A NEW STANDARD OF LUXURY',
+      description: [
+        'Introducing Dayim Zindagi, our newly launched project created for those who believe that a home should be more than a place to live—it should be an experience.',
+        'Located in Business Bay Commercial, Al-Kabir Town Phase 2, one of the prominent commercial destinations of Al-Kabir Developers, Dayim Zindagi is a corner building designed to bring together modern architecture, premium amenities, convenience, and an elevated lifestyle.',
+        'With thoughtfully designed residential options and a flexible 4-year payment plan, Dayim Zindagi offers an opportunity to own a modern home in a prime commercial location, with possession planned within 3 years.',
       ],
+      highlights: [
+        'Modern & Luxury Design',
+        'Luxury One-Bedroom Residences',
+        'Private Balcony',
+        'Resort-Inspired Living',
+        'Rooftop Garden',
+        'Panoramic City Views',
+        'Prime Location',
+        'Secure Investment',
+        'Family-Friendly Environment',
+        'Premium Lifestyle',
+        'High-Quality Construction',
+      ],
+      typologies: 'Studio, One Bed, Two Bed Apartments',
     },
     story: {
       journey: {
-        title: 'Homes Designed Around Your Lifestyle',
-        body: 'Dayim Zindagi offers a range of apartment options designed to suit different lifestyles, needs, and investment goals.',
-
+        title: 'Premium Lifestyle. City Presence.',
+        body: 'A corner landmark in Business Bay Commercial—planned for visibility, mixed-use living, and long-term value.',
         tagline: 'Premium lifestyle. City presence.',
         items: [
           {
@@ -1275,45 +1398,40 @@ export const projects = [
       ],
       interiors: {
         brandLines: ['INTERIORS'],
+        title: 'Homes Designed Around Your Lifestyle',
+        body: 'Dayim Zindagi offers a range of apartment options designed to suit different lifestyles, needs, and investment goals.',
         services: [
-          {
-            id: 'zindagi-outlet',
-            title: 'Commercial Outlets',
-            images: [{ src: zindagiOutletPlan.src, label: 'Outlet' }],
-            width: 1024,
-            height: 768,
-            text: 'Ground-floor commercial outlets planned for visibility and foot traffic.',
-          },
-          {
-            id: 'zindagi-twin',
-            title: 'Twin Treat 2 Bed',
-            images: [{ src: zindagiTwinTreatPlan.src, label: 'Residence' }],
-            width: 1024,
-            height: 768,
-            text: 'Lower-ground twin treat apartments designed for spacious city living.',
-          },
           {
             id: 'zindagi-studio',
             title: 'Studio Apartments',
-            images: [
-              { src: zindagiStudioElitePlan.src, label: 'Elite' },
-              { src: zindagiStudioRoyalePlan.src, label: 'Royale' },
-            ],
+            images: zindagiStudioInteriorImages,
             width: 1024,
             height: 768,
-            text: 'Studio Elite and Royale layouts for efficient elevated living.',
+            text: 'Smartly planned studio residences designed for modern individuals seeking comfort, convenience, and efficient use of space.',
           },
           {
             id: 'zindagi-onebed',
-            title: 'One Bed Apartments',
-            images: [
-              { src: zindagiOneBedElitePlan.src, label: 'Elite' },
-              { src: zindagiOneBedRoyalePlan.src, label: 'Royale' },
-              { src: zindagiOneBedBlueViewPlan.src, label: 'Blue View' },
-            ],
+            title: 'Luxury One-Bedroom Apartments with Private Pool',
+            images: zindagiOneBedInteriorImages,
             width: 1024,
             height: 768,
-            text: 'One bed Elite, Royale, and Blue View homes above Business Bay.',
+            text: 'Experience a truly distinctive lifestyle with our luxury one-bedroom apartments featuring a private pool on the balcony—a premium concept designed for those who want privacy, exclusivity, and resort-style living at home.',
+          },
+          {
+            id: 'zindagi-twin',
+            title: 'Two-Bedroom Apartments',
+            images: zindagiTwoBedInteriorImages,
+            width: 1024,
+            height: 768,
+            text: 'Spacious two-bedroom residences designed for families who want additional space without compromising on style and convenience.',
+          },
+          {
+            id: 'zindagi-rooftop',
+            title: 'Rooftop Garden',
+            images: zindagiRooftopImages,
+            width: 1024,
+            height: 768,
+            text: 'A beautifully planned elevated space with city views. Dedicated BBQ spaces designed for gatherings, celebrations, and memorable evenings. Enjoy an open perspective of the surrounding area from the rooftop.',
           },
         ],
       },
@@ -1323,34 +1441,13 @@ export const projects = [
     },
     units: [
       {
-        id: 'zindagi-outlet',
-        label: 'Outlet',
-        type: 'Commercial Outlet',
-        area: '1,229–1,382 Sq.Ft.',
-        beds: null,
-        status: 'Available',
-        images: [
-          {
-            src: zindagiOutletPlan.src,
-            label: 'Outlet',
-            alt: 'Dayim Zindagi commercial outlet',
-          },
-        ],
-      },
-      {
         id: 'zindagi-twin',
         label: 'Twin Treat',
         type: '2 Bedroom Apartment',
         area: '664–813 Sq.Ft.',
         beds: 2,
         status: 'Available',
-        images: [
-          {
-            src: zindagiTwinTreatPlan.src,
-            label: 'Residence',
-            alt: 'Dayim Zindagi Twin Treat 2 bedroom',
-          },
-        ],
+        images: zindagiTwoBedInteriorImages,
       },
       {
         id: 'zindagi-studio',
@@ -1359,18 +1456,7 @@ export const projects = [
         area: '357–434 Sq.Ft.',
         beds: 0,
         status: 'Available',
-        images: [
-          {
-            src: zindagiStudioElitePlan.src,
-            label: 'Elite',
-            alt: 'Dayim Zindagi Studio Elite',
-          },
-          {
-            src: zindagiStudioRoyalePlan.src,
-            label: 'Royale',
-            alt: 'Dayim Zindagi Studio Royale',
-          },
-        ],
+        images: zindagiStudioInteriorImages,
       },
       {
         id: 'zindagi-onebed',
@@ -1379,23 +1465,7 @@ export const projects = [
         area: '444–778 Sq.Ft.',
         beds: 1,
         status: 'Available',
-        images: [
-          {
-            src: zindagiOneBedElitePlan.src,
-            label: 'Elite',
-            alt: 'Dayim Zindagi One Bed Elite',
-          },
-          {
-            src: zindagiOneBedRoyalePlan.src,
-            label: 'Royale',
-            alt: 'Dayim Zindagi One Bed Royale',
-          },
-          {
-            src: zindagiOneBedBlueViewPlan.src,
-            label: 'Blue View',
-            alt: 'Dayim Zindagi One Bed Blue View',
-          },
-        ],
+        images: zindagiOneBedInteriorImages,
       },
     ],
   },

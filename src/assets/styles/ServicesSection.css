@@ -171,6 +171,34 @@
   transform: translateY(0);
 }
 
+.services-section--has-intro .services-right {
+  gap: clamp(16px, 1.6vw, 24px);
+}
+
+.services-intro {
+  position: relative;
+  z-index: 2;
+  flex: 0 0 auto;
+  width: calc(100vw / 12 * 2.9);
+  max-width: 100%;
+  pointer-events: none;
+}
+
+.services-intro-title {
+  margin: 0;
+  font: 600 clamp(18px, 1.7vw, 28px) / 1.15 'Gilroy', sans-serif;
+  letter-spacing: -.02em;
+  color: #fff;
+}
+
+.services-intro-body {
+  margin: clamp(8px, .8vw, 12px) 0 0;
+  max-width: 36ch;
+  font: 400 clamp(12px, .95vw, 14px) / 1.5 'Gilroy', sans-serif;
+  letter-spacing: .01em;
+  color: rgb(255 255 255 / 55%);
+}
+
 .services-section-title {
   position: absolute;
   z-index: 2;
@@ -236,6 +264,26 @@
   );
 }
 
+/* Intro sits above the white card — pin list to top of remaining space. */
+.services-section--has-intro .services-list {
+  top: 0;
+  transform: translate3d(
+    0,
+    calc(
+      (var(--active-index) * (var(--services-card-h) + var(--services-card-gap)) * -1) +
+        var(--last-nudge)
+    ),
+    0
+  );
+}
+
+.services-section--project.services-section--has-intro .services-list {
+  --services-card-h: min(
+    clamp(240px, 36svh, 420px),
+    calc(var(--services-image-h) - 2 * var(--services-pad) - 7.5rem)
+  );
+}
+
 /* Drop last card to the bottom — kill empty space below it. */
 .services-list.is-last-active {
   --last-nudge: calc(50svh - var(--services-pad) - var(--services-card-h) / 2);
@@ -245,6 +293,14 @@
   --last-nudge: calc(
     var(--services-image-h) / 2 - var(--services-pad) - var(--services-card-h) / 2
   );
+}
+
+.services-section--has-intro .services-list.is-last-active {
+  --last-nudge: 0px;
+}
+
+.services-section--project.services-section--has-intro .services-list.is-last-active {
+  --last-nudge: 0px;
 }
 
 .services-card {
@@ -405,6 +461,22 @@
     text-align: left;
     transform: none;
     pointer-events: auto;
+  }
+
+  .services-intro--mobile {
+    width: auto;
+    max-width: none;
+    padding: 0 20px 24px;
+    pointer-events: auto;
+  }
+
+  .services-intro--mobile .services-intro-title {
+    font-size: clamp(22px, 6vw, 30px);
+  }
+
+  .services-intro--mobile .services-intro-body {
+    max-width: none;
+    font-size: clamp(13px, 3.6vw, 15px);
   }
 
   .services-mobile-card {

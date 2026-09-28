@@ -94,10 +94,13 @@ function ServicesSection({
     [interiors],
   )
   const brandLines = interiors?.brandLines ?? DEFAULT_BRAND_LINES
+  const introTitle = interiors?.title ?? null
+  const introBody = interiors?.body ?? null
+  const hasIntro = Boolean(introTitle || introBody)
   const slides = useMemo(() => buildSlides(services), [services])
   const serviceCount = services.length
   const slideCount = slides.length
-  const interiorsTitle = brandLines.join(' ')
+  const interiorsTitle = introTitle || brandLines.join(' ')
 
   const [isVisible, setIsVisible] = useState(isProjectVariant)
   const [activeSlideIndex, setActiveSlideIndex] = useState(0)
@@ -299,6 +302,7 @@ function ServicesSection({
       className={[
         'services-section',
         isProjectVariant ? 'services-section--project' : '',
+        hasIntro ? 'services-section--has-intro' : '',
         isVisible ? 'is-visible' : '',
       ]
         .filter(Boolean)
@@ -345,6 +349,19 @@ function ServicesSection({
                 <span key={line}>{line}</span>
               ))}
             </p>
+
+            {hasIntro ? (
+              <div className="services-intro">
+                {introTitle ? (
+                  <p className="services-intro-title" aria-hidden="true">
+                    {introTitle}
+                  </p>
+                ) : null}
+                {introBody ? (
+                  <p className="services-intro-body">{introBody}</p>
+                ) : null}
+              </div>
+            ) : null}
 
             <div className="services-content">
               <div
@@ -403,6 +420,16 @@ function ServicesSection({
             <span key={line}>{line}</span>
           ))}
         </p>
+        {hasIntro ? (
+          <div className="services-intro services-intro--mobile">
+            {introTitle ? (
+              <p className="services-intro-title">{introTitle}</p>
+            ) : null}
+            {introBody ? (
+              <p className="services-intro-body">{introBody}</p>
+            ) : null}
+          </div>
+        ) : null}
         {services.map((item, index) => (
           <article key={item.id} className="services-mobile-card">
             <div className="services-mobile-content">
