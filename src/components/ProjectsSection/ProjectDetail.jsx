@@ -320,7 +320,7 @@ export function ProjectOverview({ project }) {
       label: 'Typologies',
       value:
         project.about.typologies ??
-        project.units.map((unit) => unit.label ?? unit.type).join(' · '),
+        project.units.map((unit) => unit.label ?? unit.type).join(', '),
     },
     { label: 'Status', value: project.status ?? 'Available' },
   ].filter(Boolean)

@@ -848,8 +848,8 @@ export const projects = [
     title: 'Dayim Signature Apartments',
     short: 'A Signature Address',
     brand: 'Dayim Signature Apartments',
-    subtitle: 'Broadway Commercial · Al-Kabir Town Phase 2, Lahore.',
-    status: 'Delivered',
+    subtitle: 'Broadway Commercial, Al-Kabir Town Phase 2, Lahore.',
+    status: 'Delivered ( Possession Handed Over )',
     image: dsaImage,
     cover: dsaCover,
     video: dsaVideo,
@@ -867,8 +867,10 @@ export const projects = [
     mobile: { x: 42.5, y: 66.8 },
     kind: 'photo',
     about: {
-      description:
-        'Dayim Signature Apartments is a thoughtfully designed high-rise residential, created for those who value modern living, quality construction, convenience, and long-term investment potential.Designed to bring together contemporary architecture, comfortable living spaces, and essential lifestyle amenities, Dayim Signature Apartments offers residents an elevated urban living experience in a location designed for accessibility and convenience.',
+      description: [
+        'Dayim Signature Apartments is a thoughtfully designed high-rise residential, created for those who value modern living, quality construction, convenience, and long-term investment potential.',
+        'Designed to bring together contemporary architecture, comfortable living spaces, and essential lifestyle amenities, Dayim Signature Apartments offers residents an elevated urban living experience in a location designed for accessibility and convenience.',
+      ],
       highlights: [
         'Premium High-Rise Living',
         'Contemporary Architectural Design',
@@ -938,7 +940,7 @@ export const projects = [
     title: 'Dayim Living',
     short: 'Smart Living',
     brand: 'Dayim Living',
-    subtitle: 'Block C Commercial · Al-Kabir Town Phase 2, Lahore.',
+    subtitle: 'Block C Commercial, Al-Kabir Town Phase 2, Lahore.',
     status: 'Under Construction',
     image: livingImage,
     cover: livingCover,
@@ -975,7 +977,7 @@ export const projects = [
         'Your Property, Your Income',
         'Live Well. Invest Smart.',
       ],
-      typologies: 'Commercial Outlet & Studio Apartments (Executive & Deluxe)',
+      typologies: 'Commercial Outlet, Studio Apartment (Executive & Deluxe)',
     },
     story: {
       journey: {
@@ -1166,7 +1168,7 @@ export const projects = [
     title: 'Dayim Zindagi',
     short: 'Zindagi Elevated',
     brand: 'Dayim Zindagi',
-    subtitle: 'Business Bay Commercial · Al-Kabir Town Phase 2, Lahore.',
+    subtitle: 'Business Bay Commercial, Al-Kabir Town Phase 2, Lahore.',
     image: zindagiImage,
     cover: zindagiCover,
     video: zindagiVideo,

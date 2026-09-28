@@ -10,7 +10,7 @@ import collection8 from '../../assets/images/collection8.png'
 import groundFloorPlan from '../../assets/images/gfloor.jpeg'
 import lowerGroundFloorPlan from '../../assets/images/lfloor.jpeg'
 import firstFloorPlan from '../../assets/images/1floor.jpeg'
-import secondFloorPlan from '../../assets/images/2floor.jpeg'
+import secondFloorPlan from '../../assets/images/2-6.png'
 import dsMark from '../../assets/images/dsmark.png'
 import '../../assets/styles/ArchitectureSection.css'
 

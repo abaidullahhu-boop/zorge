@@ -384,6 +384,12 @@
   /* Pull up so covering starts as soon as user scrolls */
   margin-top: -100svh;
   isolation: isolate;
+  /*
+   * Hold overview (incl. facts bar) fully on screen before Journey's
+   * -100svh cover begins. Without this, the white facts strip is the
+   * first thing the next section eats.
+   */
+  --overview-hold: 70svh;
 }
 
 .project-stack--enquire {
@@ -400,6 +406,10 @@
   height: 100svh;
   pointer-events: none;
   visibility: hidden;
+}
+
+.project-stack--overview .project-stack__spacer {
+  height: calc(100svh + var(--overview-hold, 0svh));
 }
 
 /* Hero — stays put while overview slides over it */
@@ -580,10 +590,14 @@
   flex-direction: column;
   overflow: hidden;
   box-sizing: border-box;
+  /* Fixed viewport panel so the facts bar cannot fall below the fold */
+  height: 100svh;
+  min-height: 100svh;
+  max-height: 100svh;
   padding:
-    clamp(72px, 9vw, 128px)
+    clamp(72px, 8vw, 112px)
     var(--project-pad)
-    clamp(56px, 7vw, 96px);
+    clamp(20px, 3vw, 36px);
   background: #000;
   color: #fff;
   will-change: transform;
@@ -612,35 +626,40 @@
 
 .project-overview__grid {
   display: grid;
+  flex: 1 1 auto;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  gap: clamp(32px, 5vw, 80px);
+  gap: clamp(24px, 4vw, 64px);
   align-items: start;
-  margin-bottom: clamp(40px, 5vw, 64px);
+  align-content: start;
+  min-height: 0;
+  margin-bottom: clamp(20px, 3vw, 40px);
+  overflow: hidden;
 }
 
-/* Keep facts on the lower edge so they don't float mid-viewport on tall/lg screens */
+/* Facts stay pinned to the panel bottom — always fully readable */
 .project-overview .project-facts {
+  flex: 0 0 auto;
   width: 100%;
   margin-top: auto;
 }
 
 .project-overview__copy {
   display: grid;
-  gap: 16px;
+  gap: 12px;
   max-width: 62ch;
-  margin: 22px 0 0;
+  margin: 18px 0 0;
 }
 
 .project-overview__text {
   margin: 0;
-  font: 400 clamp(16px, 1.15vw, 19px) / 1.65 var(--font-sans);
+  font: 400 clamp(15px, 1.1vw, 18px) / 1.55 var(--font-sans);
   color: white;
 }
 
 .project-overview__highlights {
   display: grid;
-  gap: 18px;
-  margin: 34px 0 0;
+  gap: clamp(8px, 1.2vh, 16px);
+  margin: clamp(12px, 2vh, 28px) 0 0;
   padding: 0;
   list-style: none;
 }
@@ -650,7 +669,7 @@
   grid-template-columns: 42px minmax(0, 1fr);
   gap: 14px;
   align-items: start;
-  font: 400 15px / 1.5 var(--font-sans);
+  font: 400 clamp(13px, 1.4vh, 15px) / 1.4 var(--font-sans);
   color: white;
 }
 
@@ -673,9 +692,9 @@
 .project-facts div {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   min-width: 0;
-  padding: 22px 20px;
+  padding: clamp(14px, 2vh, 22px) clamp(14px, 1.5vw, 20px);
   background: #fff;
 }
 
@@ -1671,7 +1690,19 @@
   }
 
   .project-overview {
+    height: auto;
     min-height: 0;
+    max-height: none;
+    padding:
+      clamp(56px, 10vw, 88px)
+      var(--project-pad)
+      clamp(28px, 6vw, 48px);
+  }
+
+  .project-overview__grid {
+    flex: none;
+    overflow: visible;
+    margin-bottom: clamp(24px, 5vw, 40px);
   }
 
   .project-page .architecture-materials {
