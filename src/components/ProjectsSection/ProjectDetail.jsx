@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { SITE_CONTACT } from '../../data/siteContact'
 import dsMark from '../../assets/images/dsmark.png'
 
@@ -176,16 +176,103 @@ export function ProjectNav({
   )
 }
 
-export function ProjectHero({ project, onNavigate }) {
+export function ProjectHero({ project, onNavigate, playReveal = true }) {
+  const videoRef = useRef(null)
+  // pending → playing → done (only "done" shows the final still)
+  const [phase, setPhase] = useState(project.video ? 'pending' : 'done')
+
+  useEffect(() => {
+    const reduceMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    const video = videoRef.current
+
+    if (!project.video || reduceMotion) {
+      setPhase('done')
+      return undefined
+    }
+
+    if (!video || !playReveal) {
+      setPhase('pending')
+      return undefined
+    }
+
+    let cancelled = false
+    setPhase('pending')
+
+    const tryPlay = () => {
+      if (cancelled) return
+      video.muted = true
+      try {
+        video.currentTime = 0
+      } catch {
+        // ignore seek errors before ready
+      }
+      const playPromise = video.play()
+      if (playPromise?.then) {
+        playPromise
+          .then(() => {
+            if (!cancelled) setPhase('playing')
+          })
+          .catch(() => {
+            if (!cancelled) setPhase('done')
+          })
+      } else {
+        setPhase('playing')
+      }
+    }
+
+    const onEnded = () => {
+      if (!cancelled) setPhase('done')
+    }
+
+    video.addEventListener('ended', onEnded)
+    video.addEventListener('loadeddata', tryPlay)
+
+    if (video.readyState >= 2) tryPlay()
+    else video.load()
+
+    return () => {
+      cancelled = true
+      video.removeEventListener('ended', onEnded)
+      video.removeEventListener('loadeddata', tryPlay)
+      video.pause()
+    }
+  }, [project.id, project.video, playReveal])
+
+  const startSrc = project.videoPoster || project.image
+  const endSrc = project.cover || project.image
+  const stillSrc = phase === 'done' ? endSrc : startSrc
+  const videoVisible = Boolean(project.video) && phase !== 'done'
+
   return (
     <div className="project-stack project-stack--hero">
       <header className="project-hero">
         <div className="project-hero__media">
-          <img src={project.image} alt="" draggable="false" />
+          <img
+            className="project-hero__poster"
+            src={stillSrc}
+            alt=""
+            draggable="false"
+          />
+          {project.video ? (
+            <video
+              key={project.id}
+              ref={videoRef}
+              className={`project-hero__video${videoVisible ? ' is-active' : ''}`}
+              src={project.video}
+              poster={startSrc}
+              muted
+              playsInline
+              preload="auto"
+              aria-hidden="true"
+            />
+          ) : null}
         </div>
         <div className="project-hero__veil" />
 
-        <div className="project-hero__content">
+        <div className="project-hero__content" key={project.id}>
           <p className="project-hero__kicker">A PROJECT BY DAYIM DEVELOPERS</p>
           <h1 className="project-hero__title">{project.title}</h1>
           <p className="project-hero__location">{project.subtitle}</p>
@@ -259,7 +346,7 @@ export function ProjectOverview({ project }) {
           <div className="project-overview__intro">
             <p className="project-kicker">The project</p>
             <h2 id="overview-title" className="project-heading">
-              WHERE MODERN LIVING FINDS IT’S PLACE.
+              {project.about.headline ?? 'A landmark address, planned with care'}
             </h2>
             <div className="project-overview__copy">
               {overviewCopy.map((paragraph) => (

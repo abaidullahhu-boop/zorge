@@ -1,6 +1,12 @@
 import dsaImage from '../assets/images/dayim-signature.png'
 import livingImage from '../assets/images/dayim-living.png'
 import zindagiImage from '../assets/images/dayim-zindagi.png'
+import dsaCover from '../assets/images/dayim-signature-cover.jpg'
+import livingCover from '../assets/images/dayim-living-cover.jpg'
+import zindagiCover from '../assets/images/dayim-zindagi-cover.jpg'
+import dsaVideoPoster from '../assets/images/dayim-signature-start.jpg'
+import livingVideoPoster from '../assets/images/dayim-living-start.jpg'
+import zindagiVideoPoster from '../assets/images/dayim-zindagi-start.jpg'
 import dsaVideo from '../assets/images/ds.mp4'
 import livingVideo from '../assets/images/dl.mp4'
 import zindagiVideo from '../assets/images/dz.mp4'
@@ -576,36 +582,42 @@ const livingStudioDeluxeImages = [
   {
     src: livingStudioDeluxeRoom,
     label: 'Room',
-    alt: 'Dayim Living Studio Deluxe — room',
+    alt: 'Dayim Living Studio Apartment (Deluxe) — room',
   },
   {
     src: livingStudioDeluxeLiving,
     label: 'Living',
-    alt: 'Dayim Living Studio Deluxe — living',
+    alt: 'Dayim Living Studio Apartment (Deluxe) — living',
   },
-  {
-    src: livingStudioDeluxeBath,
-    label: 'Bathroom',
-    alt: 'Dayim Living Studio Deluxe — bathroom',
-  },
+  
 ]
 
 const livingExecutiveStudioImages = [
   {
     src: livingExecutiveStudioRoom,
     label: 'Room',
-    alt: 'Dayim Living Executive Studio — room',
+    alt: 'Dayim Living Studio Apartment (Executive) — room',
   },
   {
     src: livingExecutiveStudioLiving,
     label: 'Living',
-    alt: 'Dayim Living Executive Studio — living',
+    alt: 'Dayim Living Studio Apartment (Executive) — living',
   },
   {
     src: livingExecutiveStudioBath,
     label: 'Bathroom',
-    alt: 'Dayim Living Executive Studio — bathroom',
+    alt: 'Dayim Living Studio Apartment (Executive) — bathroom',
   },
+  {
+    src: livingStudioDeluxeBath,
+    label: 'Bathroom',
+    alt: 'Dayim Living Studio Apartment (Deluxe) — bathroom',
+  },
+]
+
+const livingStudioApartmentImages = [
+  ...livingStudioDeluxeImages,
+  ...livingExecutiveStudioImages,
 ]
 
 const livingResidentialOverview = dlOverviewImage(
@@ -839,7 +851,9 @@ export const projects = [
     subtitle: 'Broadway Commercial · Al-Kabir Town Phase 2, Lahore.',
     status: 'Delivered',
     image: dsaImage,
+    cover: dsaCover,
     video: dsaVideo,
+    videoPoster: dsaVideoPoster,
     mark: dsaMark,
     address: [
       'Dayim Signature Apartments',
@@ -854,7 +868,7 @@ export const projects = [
     kind: 'photo',
     about: {
       description:
-        'Dayim Signature Apartments brings together contemporary design, premium amenities, and a prime location opposite Lake City. A professionally planned high-rise residential development offering lifestyle and investment value on Broadway Commercial.',
+        'Dayim Signature Apartments is a thoughtfully designed high-rise residential, created for those who value modern living, quality construction, convenience, and long-term investment potential.Designed to bring together contemporary architecture, comfortable living spaces, and essential lifestyle amenities, Dayim Signature Apartments offers residents an elevated urban living experience in a location designed for accessibility and convenience.',
       highlights: [
         'Premium High-Rise Living',
         'Contemporary Architectural Design',
@@ -927,7 +941,9 @@ export const projects = [
     subtitle: 'Block C Commercial · Al-Kabir Town Phase 2, Lahore.',
     status: 'Under Construction',
     image: livingImage,
+    cover: livingCover,
     video: livingVideo,
+    videoPoster: livingVideoPoster,
     mark: livingMark,
     address: [
       'Dayim Living',
@@ -941,6 +957,7 @@ export const projects = [
     mobile: { x: 50, y: 71 },
     kind: 'photo',
     about: {
+      headline: 'WHERE MODERN LIVING FINDS IT’S PLACE.',
       description: [
         'Introducing Dayim Living, our second development by Dayim Developers, located in the prime surroundings of Al-Kabir Town Phase 2.',
         'Designed as a hotel-service studio apartment building, Dayim Living is created for clients who want more than a conventional apartment. It offers a modern, managed living experience with amenities designed to make every stay comfortable while creating an attractive opportunity for rental income.',
@@ -954,6 +971,9 @@ export const projects = [
         'Professionally Managed Living',
         'Designed for Modern Lifestyles',
         'A Location with Potential',
+        'Built for Long-Term Value',
+        'Your Property, Your Income',
+        'Live Well. Invest Smart.',
       ],
       typologies: 'Commercial Outlet & Studio Apartments (Executive & Deluxe)',
     },
@@ -1106,20 +1126,13 @@ export const projects = [
         brandLines: [ 'INTERIORS'],
         services: [
           {
-            id: 'living-studio-deluxe',
-            title: 'Studio Deluxe',
-            images: livingStudioDeluxeImages,
+            id: 'living-studio-apartment',
+            title: 'Studio Apartment',
+            subtitle: '(Executive or Deluxe)',
+            images: livingStudioApartmentImages,
             width: 1024,
             height: 768,
             text: 'Compact hotel-service studios planned for efficient city living.',
-          },
-          {
-            id: 'living-executive-studio',
-            title: 'Executive Studio',
-            images: livingExecutiveStudioImages,
-            width: 1024,
-            height: 768,
-            text: 'Larger studio layouts with more room for daily routines and guests.',
           },
         ],
       },
@@ -1155,7 +1168,9 @@ export const projects = [
     brand: 'Dayim Zindagi',
     subtitle: 'Business Bay Commercial · Al-Kabir Town Phase 2, Lahore.',
     image: zindagiImage,
+    cover: zindagiCover,
     video: zindagiVideo,
+    videoPoster: zindagiVideoPoster,
     mark: zindagiMark,
     address: [
       'Dayim Zindagi',

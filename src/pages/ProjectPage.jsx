@@ -291,7 +291,11 @@ function ProjectPage() {
         onHome={closeToHome}
         onNavigate={handleNavigate}
       />
-      <ProjectHero project={project} onNavigate={handleNavigate} />
+      <ProjectHero
+        project={project}
+        onNavigate={handleNavigate}
+        playReveal={!leaving}
+      />
       <ProjectOverview project={project} />
 
       <TimeSection

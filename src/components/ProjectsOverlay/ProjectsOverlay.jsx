@@ -7,7 +7,6 @@ const ICONS = '/assets/images/icons.svg'
 
 function ProjectsOverlay({ open, onClose }) {
   const { pathname } = useLocation()
-  const panelRef = useRef(null)
   const coveredByProjectRef = useRef(pathname.startsWith('/projects/'))
   coveredByProjectRef.current = pathname.startsWith('/projects/')
 
@@ -29,21 +28,6 @@ function ProjectsOverlay({ open, onClose }) {
     }
   }, [open, onClose])
 
-  useEffect(() => {
-    const panel = panelRef.current
-    if (!panel) return
-
-    const videos = panel.querySelectorAll('video')
-    videos.forEach((video) => {
-      if (open) {
-        video.currentTime = 0
-        video.play().catch(() => {})
-      } else {
-        video.pause()
-      }
-    })
-  }, [open])
-
   return (
     <div
       className={`projects-overlay${open ? ' is-open' : ''}`}
@@ -54,7 +38,6 @@ function ProjectsOverlay({ open, onClose }) {
       onClick={onClose}
     >
       <div
-        ref={panelRef}
         className="projects-overlay__panel"
         onClick={(e) => e.stopPropagation()}
       >
@@ -86,26 +69,13 @@ function ProjectsOverlay({ open, onClose }) {
               style={{ '--delay': `${i * 0.08}s` }}
             >
               <span className="projects-overlay__card-img-wrap">
-                {project.video ? (
-                  <video
-                    className="projects-overlay__card-img"
-                    src={project.video}
-                    poster={project.image}
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    aria-hidden="true"
-                  />
-                ) : (
-                  <img
-                    className="projects-overlay__card-img"
-                    src={project.image}
-                    alt=""
-                    draggable="false"
-                    loading="lazy"
-                  />
-                )}
+                <img
+                  className="projects-overlay__card-img"
+                  src={project.image}
+                  alt=""
+                  draggable="false"
+                  loading="lazy"
+                />
               </span>
               <span className="projects-overlay__card-body">
                 <span className="projects-overlay__card-short">{project.short}</span>

@@ -40,7 +40,7 @@ const SocialInstagramIcon = (
 const ABOUT_LEADERSHIP = [
   {
     name: 'Waleed Ahmad',
-    role: 'CEO',
+    role: 'Founder - CEO',
     image: ceoWaleed,
     socials: [
       {

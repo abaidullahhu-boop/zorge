@@ -83,7 +83,7 @@ function TimeSection({
     const phases = []
     const phaseIndexBySlide = []
 
-    journeyGallery.forEach((item) => {
+    journeyGallery.forEach((item, slideIndex) => {
       const phaseKey = item.phase ?? item.id
       let phaseIndex = phases.findIndex((phase) => phase.key === phaseKey)
 
@@ -94,6 +94,7 @@ function TimeSection({
           id: item.id,
           label: item.label,
           detail: item.detail,
+          firstSlideIndex: slideIndex,
         })
       }
 
@@ -120,6 +121,52 @@ function TimeSection({
     if (nextIndex === activeIndexRef.current) return
     activeIndexRef.current = nextIndex
     setActivePlanIndex(nextIndex)
+  }
+
+  const scrollToPhase = (phaseIndex) => {
+    if (phaseCount < 2 || phaseIndex === activePhaseIndex) return
+
+    const phase = journeyPhases.phases[phaseIndex]
+    if (!phase) return
+
+    const targetSlideIndex = phase.firstSlideIndex ?? 0
+    const pin = galleryPinRef.current
+    const sticky = galleryStickyRef.current
+    if (!pin || !sticky) return
+
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+
+    if (reduceMotion || planCount < 2) {
+      activeIndexRef.current = targetSlideIndex
+      setActivePlanIndex(targetSlideIndex)
+      return
+    }
+
+    const stickyH = sticky.offsetHeight || window.innerHeight
+    const slideOffset = targetSlideIndex * stickyH
+    const behavior = 'smooth'
+    const scroller = scrollContainerRef?.current
+
+    if (scroller) {
+      const nextTop =
+        pin.getBoundingClientRect().top -
+        scroller.getBoundingClientRect().top +
+        scroller.scrollTop +
+        slideOffset
+      scroller.scrollTo({ top: Math.max(0, nextTop), behavior })
+      return
+    }
+
+    const nextTop =
+      pin.getBoundingClientRect().top + window.scrollY + slideOffset
+    const lenis = window.__dayimLenis
+    if (lenis) {
+      lenis.scrollTo(nextTop, { immediate: false })
+      return
+    }
+    window.scrollTo({ top: Math.max(0, nextTop), behavior })
   }
 
   useEffect(() => {
@@ -286,13 +333,23 @@ function TimeSection({
                   </div>
                   <p className="time-gallery-plan-detail">{activePhase?.detail}</p>
                 </div>
-                <div className="time-gallery-progress" role="presentation">
+                <div
+                  className="time-gallery-progress"
+                  role="group"
+                  aria-label="Journey phase progress"
+                >
                   {journeyPhases.phases.map((phase, index) => (
-                    <span
+                    <button
                       key={phase.key}
+                      type="button"
                       className={`time-gallery-progress-dot${
                         index === activePhaseIndex ? ' is-active' : ''
                       }${index < activePhaseIndex ? ' is-done' : ''}`}
+                      aria-current={
+                        index === activePhaseIndex ? 'true' : undefined
+                      }
+                      aria-label={`Go to phase ${index + 1}: ${phase.label}`}
+                      onClick={() => scrollToPhase(index)}
                     />
                   ))}
                 </div>

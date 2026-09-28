@@ -372,7 +372,14 @@ function ServicesSection({
                     aria-label={`View ${item.title}`}
                     onClick={() => scrollToService(index)}
                   >
-                    <span className="services-card-title">{item.title}</span>
+                    <span className="services-card-heading">
+                      <span className="services-card-title">{item.title}</span>
+                      {item.subtitle ? (
+                        <span className="services-card-subtitle">
+                          {item.subtitle}
+                        </span>
+                      ) : null}
+                    </span>
                     <span className="services-card-text">{item.text}</span>
                   </button>
                 ))}
@@ -400,7 +407,12 @@ function ServicesSection({
           <article key={item.id} className="services-mobile-card">
             <div className="services-mobile-content">
               <div className="services-mobile-head">
-                <p className="services-mobile-title">{item.title}</p>
+                <div className="services-mobile-heading">
+                  <p className="services-mobile-title">{item.title}</p>
+                  {item.subtitle ? (
+                    <p className="services-mobile-subtitle">{item.subtitle}</p>
+                  ) : null}
+                </div>
                 <div className="services-counter">
                   <span className="services-counter-current">{index + 1}</span>
                   <span className="services-counter-line" aria-hidden="true" />

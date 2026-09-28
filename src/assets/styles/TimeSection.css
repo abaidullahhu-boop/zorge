@@ -216,13 +216,30 @@
 }
 
 .time-gallery-progress-dot {
+  appearance: none;
+  position: relative;
+  border: 0;
+  padding: 0;
   display: block;
   width: 28px;
   height: 2px;
   background: rgb(255 255 255 / 18%);
+  cursor: pointer;
   transition:
     background .35s ease,
     width .35s cubic-bezier(.2, .75, .15, 1);
+}
+
+.time-gallery-progress-dot::before {
+  content: '';
+  position: absolute;
+  inset: -12px 0;
+}
+
+.time-gallery-progress-dot:hover,
+.time-gallery-progress-dot:focus-visible {
+  background: rgb(255 255 255 / 45%);
+  outline: none;
 }
 
 .time-gallery-progress-dot.is-done {
@@ -231,7 +248,9 @@
 
 .time-gallery-progress-dot.is-active {
   width: 44px;
-  background:white;
+  background: #fff;
+  cursor: default;
+  pointer-events: none;
 }
 
 .time-gallery-right {

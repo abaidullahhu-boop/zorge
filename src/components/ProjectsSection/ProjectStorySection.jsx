@@ -159,7 +159,6 @@ function ProjectStorySection({ scrollContainerRef = null, project = null }) {
           start: 'top top',
           end: () => `+=${getStickyH() * segments}`,
           scrub: true,
-          snap: segments > 0 ? 1 / segments : false,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             const raw = self.progress * segments
