@@ -35,6 +35,7 @@ import livingExecutiveStudioBath from '../assets/images/08.jpg'
 import dsaStudio1 from '../assets/images/sstudio.png'
 import dsaStudio2 from '../assets/images/sstudio2.png'
 import dsaStudio3 from '../assets/images/sstudio3.png'
+import dsaStudio4 from '../assets/images/5.png'
 import zindagiStudio1 from '../assets/images/z1.png'
 import zindagiStudio2 from '../assets/images/z2.png'
 import zindagiStudio3 from '../assets/images/z3.png'
@@ -440,6 +441,11 @@ function signatureInteriorPicks(folderPart, altPrefix, picks) {
 
 const dsaStudioImages = [
   {
+    src: dsaStudio3,
+    label: 'Bedroom',
+    alt: 'Dayim Signature studio apartment — bedroom',
+  },
+  {
     src: dsaStudio1,
     label: 'Kitchen',
     alt: 'Dayim Signature studio apartment — kitchen',
@@ -450,9 +456,9 @@ const dsaStudioImages = [
     alt: 'Dayim Signature studio apartment — bathroom',
   },
   {
-    src: dsaStudio3,
-    label: 'Bedroom',
-    alt: 'Dayim Signature studio apartment — bedroom',
+    src: dsaStudio4,
+    label: 'Living',
+    alt: 'Dayim Signature studio apartment — living',
   },
 ]
 const dsaOneBedImages = signatureInteriorPicks(
@@ -986,10 +992,19 @@ export const projects = [
     mapsUrl: mapsSearch(
       'Dayim Signature Apartments, Broadway Commercial, Al-Kabir Town Phase 2, Lahore',
     ),
+    downloads: {
+      catalog: '/downloads/dayim-signature-apartments-catalog.pdf',
+      paymentPlan: '/downloads/dayim-signature-apartments-payment-plan.pdf',
+    },
     x: 43,
     y: 69,
     mobile: { x: 42.5, y: 66.8 },
     kind: 'photo',
+    cardHighlights: [
+      'Premium High-Rise Living',
+      'Contemporary Architectural Design',
+      'Thoughtfully Planned Apartments',
+    ],
     about: {
       description: [
         'Dayim Signature Apartments is a thoughtfully designed high-rise residential, created for those who value modern living, quality construction, convenience, and long-term investment potential.',
@@ -1079,10 +1094,19 @@ export const projects = [
     mapsUrl: mapsSearch(
       'Dayim Living, Block C Commercial, Al-Kabir Town Phase 2, Lahore',
     ),
+    downloads: {
+      catalog: '/downloads/dayim-living-catalog.pdf',
+      paymentPlan: '/downloads/dayim-living-payment-plan.pdf',
+    },
     x: 50,
     y: 71,
     mobile: { x: 50, y: 71 },
     kind: 'photo',
+    cardHighlights: [
+      'Designed for Rental Income',
+      'Hotel-Service Living',
+      'Smart Investment Opportunity',
+    ],
     about: {
       headline: 'WHERE MODERN LIVING FINDS IT’S PLACE.',
       description: [
@@ -1307,10 +1331,19 @@ export const projects = [
     mapsUrl: mapsSearch(
       'Dayim Zindagi, Business Bay Commercial, Al-Kabir Town Phase 2, Lahore',
     ),
+    downloads: {
+      catalog: '/downloads/dayim-zindagi-catalog.pdf',
+      paymentPlan: '/downloads/dayim-zindagi-payment-plan.pdf',
+    },
     x: 44,
     y: 59,
     mobile: { x: 44.5, y: 59 },
     kind: 'photo',
+    cardHighlights: [
+      'Luxury Living Experience',
+      'Premium Lifestyle Above The City',
+      'Construction Starting Soon',
+    ],
     about: {
       headline: 'ELEVATED THE WAY YOU LIVE WITH A NEW STANDARD OF LUXURY',
       description: [
@@ -1447,19 +1480,20 @@ export const projects = [
             detail:
               'Ambient seating and a rooftop bar designed for evening gatherings under the city sky.',
           },
-          {
-            id: 'zindagi-rooftop-overview',
-            ...zindagiRooftopImages[1],
-            label: 'Garden Overview',
-            detail:
-              'An elevated garden with panoramic views across Business Bay and the surrounding skyline.',
-          },
+          
           {
             id: 'zindagi-rooftop-lounge',
             ...zindagiRooftopImages[2],
             label: 'Lounge Seating',
             detail:
               'Dedicated lounge and BBQ spaces planned for celebrations and memorable evenings above the city.',
+          },
+          {
+            id: 'zindagi-rooftop-overview',
+            ...zindagiRooftopImages[1],
+            label: 'Garden Overview',
+            detail:
+              'An elevated garden with panoramic views across Business Bay and the surrounding skyline.',
           },
         ],
       },

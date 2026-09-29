@@ -343,6 +343,22 @@ export function ProjectOverview({ project }) {
   const overviewCopy = Array.isArray(project.about.description)
     ? project.about.description
     : [project.about.description]
+  const downloads = [
+    project.downloads?.catalog
+      ? {
+          id: 'catalog',
+          label: 'Catalog',
+          href: project.downloads.catalog,
+        }
+      : null,
+    project.downloads?.paymentPlan
+      ? {
+          id: 'payment-plan',
+          label: 'Payment Plan',
+          href: project.downloads.paymentPlan,
+        }
+      : null,
+  ].filter(Boolean)
 
   return (
     <div className="project-stack project-stack--overview">
@@ -373,6 +389,28 @@ export function ProjectOverview({ project }) {
                   {paragraph}
                 </p>
               ))}
+
+              {downloads.length ? (
+                <div className="project-overview__downloads">
+                  {downloads.map((item) => (
+                    <a
+                      key={item.id}
+                      className="project-overview__download-btn"
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span>{item.label}</span>
+                      <span
+                        className="project-overview__download-icon"
+                        aria-hidden="true"
+                      >
+                        ↗
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              ) : null}
             </div>
 
             <ul className="project-overview__highlights">

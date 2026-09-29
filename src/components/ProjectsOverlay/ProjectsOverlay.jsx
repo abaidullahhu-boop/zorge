@@ -87,9 +87,9 @@ function ProjectsOverlay({ open, instant = false, onClose }) {
                 <span className="projects-overlay__card-short">{project.short}</span>
                 <span className="projects-overlay__card-title">{project.title}</span>
                 <span className="projects-overlay__card-subtitle">{project.subtitle}</span>
-                {project.about?.highlights?.length > 0 && (
+                {project.cardHighlights?.length > 0 && (
                   <ul className="projects-overlay__card-highlights">
-                    {project.about.highlights.slice(0, 3).map((h) => (
+                    {project.cardHighlights.map((h) => (
                       <li key={h}>{h}</li>
                     ))}
                   </ul>

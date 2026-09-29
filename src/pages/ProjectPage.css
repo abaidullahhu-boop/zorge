@@ -623,14 +623,14 @@
   flex-direction: column;
   overflow: hidden;
   box-sizing: border-box;
-  /* Fixed viewport panel so the facts bar cannot fall below the fold */
+  /* Fixed viewport panel so the facts bar stays fully on screen */
   height: 100svh;
   min-height: 100svh;
   max-height: 100svh;
   padding:
-    clamp(72px, 8vw, 112px)
+    clamp(56px, 6.5vh, 96px)
     var(--project-pad)
-    clamp(20px, 3vw, 36px);
+    clamp(28px, 3.5vh, 48px);
   background: #000;
   color: #fff;
   will-change: transform;
@@ -660,67 +660,121 @@
 
 .project-overview__grid {
   display: flex;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   flex-direction: column;
-  gap: 18px;
+  gap: clamp(8px, 1.2vh, 16px);
   align-content: start;
   min-height: 0;
-  margin-bottom: clamp(20px, 3vw, 40px);
+  margin-bottom: clamp(6px, 1vh, 12px);
   overflow: hidden;
 }
 
 .project-overview__intro {
+  flex: 0 0 auto;
   max-width: min(62ch, 58%);
+}
+
+.project-overview__intro .project-heading {
+  font-size: clamp(22px, 3.4vw, 48px);
+  line-height: 0.98;
 }
 
 .project-overview__body {
   display: grid;
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-  gap: clamp(24px, 4vw, 64px);
+  gap: clamp(20px, 3vw, 56px);
   align-items: start;
   min-height: 0;
+  overflow: hidden;
 }
 
-/* Facts stay pinned to the panel bottom — always fully readable */
+/* Facts near bottom; larger bottom padding eats the top gap */
 .project-overview .project-facts {
   flex: 0 0 auto;
+  flex-shrink: 0;
   width: 100%;
   margin-top: auto;
 }
 
+.project-overview__downloads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.project-overview__download-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 10px 16px;
+  border: 1px solid rgb(220 159 39 / 55%);
+  background: rgb(220 159 39 / 10%);
+  font: 600 12px / 1 var(--font-sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #fcfa7f;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.project-overview__download-btn:hover,
+.project-overview__download-btn:focus-visible {
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  border-color: transparent;
+  color: #111;
+}
+
+.project-overview__download-btn:focus-visible {
+  outline: 2px solid #fcfa7f;
+  outline-offset: 3px;
+}
+
+.project-overview__download-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
 .project-overview__copy {
   display: grid;
-  gap: 12px;
+  gap: clamp(6px, 1vh, 12px);
   max-width: 62ch;
   margin: 0;
+  align-content: start;
 }
 
 .project-overview__text {
   margin: 0;
-  font: 400 clamp(15px, 1.1vw, 18px) / 1.55 var(--font-sans);
+  font: 400 clamp(13px, 1.05vw, 17px) / 1.45 var(--font-sans);
   color: white;
 }
 
 .project-overview__highlights {
   display: grid;
-  gap: clamp(8px, 1.2vh, 16px);
+  gap: clamp(4px, 0.85vh, 12px);
   margin: 0;
   padding: 0;
   list-style: none;
+  align-content: start;
 }
 
 .project-overview__highlights li {
   display: grid;
-  grid-template-columns: 42px minmax(0, 1fr);
-  gap: 14px;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 10px;
   align-items: start;
-  font: 400 clamp(13px, 1.4vh, 15px) / 1.4 var(--font-sans);
+  font: 400 clamp(12px, 1.25vh, 14px) / 1.3 var(--font-sans);
   color: white;
 }
 
 .project-overview__index {
-  font: 600 14px / 1.4 var(--font-sans);
+  font: 600 13px / 1.3 var(--font-sans);
   letter-spacing: 0;
   color: white;
 }
@@ -738,9 +792,9 @@
 .project-facts div {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   min-width: 0;
-  padding: clamp(14px, 2vh, 22px) clamp(14px, 1.5vw, 20px);
+  padding: clamp(10px, 1.4vh, 18px) clamp(12px, 1.4vw, 20px);
   background: #fff;
 }
 
@@ -758,7 +812,7 @@
 
 .project-facts dd {
   margin: 0;
-  font: 400 15px / 1.4 var(--font-sans);
+  font: 400 14px / 1.35 var(--font-sans);
   color: var(--color-ink);
 }
 
@@ -1915,6 +1969,16 @@
     margin-top: 8px;
   }
 
+  .project-overview__downloads {
+    gap: 8px;
+  }
+
+  .project-overview__download-btn {
+    flex: 1 1 calc(50% - 4px);
+    min-width: 0;
+    padding: 12px 14px;
+  }
+
   .project-facts {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1959,6 +2023,10 @@
 
   .project-facts {
     grid-template-columns: 1fr;
+  }
+
+  .project-overview__download-btn {
+    flex: 1 1 100%;
   }
 
   .inventory-grid {

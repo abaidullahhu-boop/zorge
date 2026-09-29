@@ -33,7 +33,9 @@
 }
 
 .services-section--project .services-pin-spacer {
-  height: calc(100svh * (var(--item-count) - 1));
+  /* One viewport per slide transition, plus one hold so the last image
+     stays fully open before the following section enters. */
+  height: calc(100svh * var(--item-count));
   pointer-events: none;
   visibility: hidden;
 }
@@ -46,16 +48,18 @@
 }
 
 /*
- * Image + Visit Us share one sticky panel. No max-height/overflow clip —
- * images must render full height; Visit Us sits under them.
+ * Match architecture galleries: sticky fills 100svh under the nav so the
+ * next section cannot peek/scroll in until every clip reveal finishes.
  */
 .services-section--project .services-sticky {
-  top: var(--project-nav-h, 72px);
+  top: 0;
   display: flex;
   flex-direction: column;
-  height: auto;
-  max-height: none;
-  min-height: 0;
+  box-sizing: border-box;
+  height: 100svh;
+  max-height: 100svh;
+  min-height: 100svh;
+  padding-top: var(--project-nav-h, 72px);
   overflow: hidden;
   background: #000;
 }
@@ -431,7 +435,10 @@
     display: flex;
     position: relative;
     top: auto;
+    height: auto;
     max-height: none;
+    min-height: 0;
+    padding-top: 0;
     overflow: visible;
     order: 3;
   }

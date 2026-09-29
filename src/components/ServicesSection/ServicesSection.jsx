@@ -2,8 +2,10 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { gsap } from '../../lib/gsap'
 import officeImage1 from '../../assets/images/11.jpg'
 import officeImage2 from '../../assets/images/13.jpg'
-import studioImage1 from '../../assets/images/studio-1.png'
-import studioImage2 from '../../assets/images/studio-2.png'
+import studioImage1 from '../../assets/images/sstudio.png'
+import studioImage2 from '../../assets/images/sstudio2.png'
+import studioImage3 from '../../assets/images/sstudio3.png'
+import studioImage4 from '../../assets/images/5.png'
 import oneBedImage1 from '../../assets/images/onebed-1.png'
 import oneBedImage2 from '../../assets/images/onebed-2.png'
 import oneBedImage3 from '../../assets/images/onebed-3.png'
@@ -26,7 +28,7 @@ const DEFAULT_SERVICES = [
   },
   {
     id: 'shop',
-    title: 'Shops',
+    title: 'Commercial Shops',
     images: [
       { src: shopImage1, label: 'Corridor' },
       { src: shopImage2, label: 'Arcade' },
@@ -39,8 +41,10 @@ const DEFAULT_SERVICES = [
     id: 'studio',
     title: 'Studio Apartment',
     images: [
-      { src: studioImage1, label: 'Room' },
-      { src: studioImage2, label: 'Living' },
+      { src: studioImage3, label: 'Bedroom' },
+      { src: studioImage4, label: 'Living' },
+      { src: studioImage1, label: 'Kitchen' },
+      { src: studioImage2, label: 'Bathroom' },
     ],
     width: 1024,
     height: 768,
@@ -132,8 +136,10 @@ function ServicesSection({
       '(prefers-reduced-motion: reduce)',
     ).matches
     const behavior = reduceMotion ? 'auto' : 'smooth'
-    // Matches ScrollTrigger end: +=innerHeight * (slideCount - 1)
-    const slideOffset = targetSlideIndex * window.innerHeight
+    // Matches ScrollTrigger end: +=stickyH * (slideCount - 1)
+    const sticky = section.querySelector('.services-sticky')
+    const stickyH = sticky?.offsetHeight || window.innerHeight
+    const slideOffset = targetSlideIndex * stickyH
     const scroller = scrollContainerRef?.current
 
     if (scroller) {
@@ -249,22 +255,28 @@ function ServicesSection({
 
       if (slideCount < 2) return
 
+      const segments = slideCount - 1
+      const sticky = section.querySelector('.services-sticky')
+      const getStickyH = () => sticky?.offsetHeight || window.innerHeight
+      // Pin travel is stickyH * slideCount: (slideCount - 1) reveals + 1 hold
+      // so the last image stays fully open before the next section enters.
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: {
           ...scrollTriggerBase,
           trigger: section,
           start: 'top top',
-          end: () => `+=${window.innerHeight * (slideCount - 1)}`,
+          end: () => `+=${getStickyH() * slideCount}`,
           scrub: true,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            const segments = slideCount - 1
-            const raw = self.progress * segments
+            // Map progress across transitions only (final 1/slideCount is hold).
+            const scrubProgress = Math.min(1, self.progress * (slideCount / segments))
+            const raw = scrubProgress * segments
             const base = Math.min(slideCount - 1, Math.floor(raw))
             const local = raw - Math.floor(raw)
             const nextIndex =
-              raw >= segments
+              scrubProgress >= 1
                 ? slideCount - 1
                 : local >= 0.5
                   ? Math.min(slideCount - 1, base + 1)
@@ -274,9 +286,8 @@ function ServicesSection({
         },
       })
 
-      for (let i = 0; i < slideCount - 1; i += 1) {
+      for (let i = 0; i < segments; i += 1) {
         const next = i + 1
-        const position = i
         const nextImage = images[next]
 
         if (nextImage) {
@@ -285,10 +296,13 @@ function ServicesSection({
             nextImage,
             { clipPath: CLIP_HIDDEN },
             { clipPath: CLIP_VISIBLE, duration: 1 },
-            position,
+            i,
           )
         }
       }
+
+      // Hold the final fully-open frame for one sticky viewport of scroll.
+      tl.to({}, { duration: 1 }, segments)
     }, section)
 
     return () => ctx.revert()
