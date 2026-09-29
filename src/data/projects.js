@@ -1385,9 +1385,9 @@ export const projects = [
             phase: 'construction',
             src: zindagiConstruction1,
             alt: 'Dayim Zindagi construction progress on site',
-            label: 'Construction Progress',
+            label: 'Geotechnical Testing',
             detail:
-              'Work is underway at Dayim Zindagi with Dayim supervision—building forward with the quality and pace our clients expect.',
+              'This crucial step helps determine the strength, composition, and bearing capacity of the soil. It allows our technical team to plan a secure, stable, and strong foundation for the project. ',
           },
           {
             id: 'zindagi-construction-2',
