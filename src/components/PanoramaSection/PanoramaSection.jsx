@@ -144,7 +144,6 @@ function PanoramaSection() {
         <div className="panorama-shade" aria-hidden="true" />
 
         <div className="panorama-content">
-          <hr className="panorama-rule" />
 
           <div className="panorama-text mt-24">
             <h2 id="panorama-title" className="panorama-title">
