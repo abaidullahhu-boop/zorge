@@ -5,10 +5,11 @@ import officeImage2 from '../../assets/images/13.jpg'
 import studioImage1 from '../../assets/images/sstudio.png'
 import studioImage2 from '../../assets/images/sstudio2.png'
 import studioImage3 from '../../assets/images/sstudio3.png'
-import studioImage4 from '../../assets/images/5.png'
 import oneBedImage1 from '../../assets/images/onebed-1.png'
 import oneBedImage2 from '../../assets/images/onebed-2.png'
 import oneBedImage3 from '../../assets/images/onebed-3.png'
+import oneBedImage4 from '../../assets/images/sroom.jpg'
+import oneBedImage5 from '../../assets/images/bath2.jpg'
 import shopImage1 from '../../assets/images/shop-1.png'
 import shopImage2 from '../../assets/images/shop-2.png'
 import dsMark from '../../assets/images/dsmark.png'
@@ -42,7 +43,6 @@ const DEFAULT_SERVICES = [
     title: 'Studio Apartment',
     images: [
       { src: studioImage3, label: 'Bedroom' },
-      { src: studioImage4, label: 'Living' },
       { src: studioImage1, label: 'Kitchen' },
       { src: studioImage2, label: 'Bathroom' },
     ],
@@ -55,8 +55,15 @@ const DEFAULT_SERVICES = [
     title: 'One Bed Apartment',
     images: [
       { src: oneBedImage1, label: 'Living' },
-      { src: oneBedImage2, label: 'Bedroom' },
       { src: oneBedImage3, label: 'Kitchen' },
+      { src: oneBedImage4, label: 'Room' },
+      {
+        src: oneBedImage5,
+        label: 'Bathroom',
+        orientation: 'portrait',
+        width: 2443,
+        height: 2780,
+      },
     ],
     width: 1024,
     height: 768,
@@ -76,8 +83,9 @@ function buildSlides(services) {
       serviceId: item.id,
       serviceIndex,
       image,
-      width: item.width,
-      height: item.height,
+      width: image.width ?? item.width,
+      height: image.height ?? item.height,
+      orientation: image.orientation ?? item.orientation ?? 'landscape',
     })),
   )
 }
@@ -335,7 +343,14 @@ function ServicesSection({
             {slides.map((slide, index) => (
               <div
                 key={slide.id}
-                className="services-image-item"
+                className={[
+                  'services-image-item',
+                  slide.orientation === 'portrait'
+                    ? 'services-image-item--portrait'
+                    : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
                 aria-hidden={index !== activeSlideIndex}
               >
                 <img
@@ -411,6 +426,15 @@ function ServicesSection({
                         </span>
                       ) : null}
                     </span>
+                    {item.plan ? (
+                      <span className="services-card-plan" aria-hidden="true">
+                        <img
+                          src={item.plan}
+                          alt=""
+                          draggable="false"
+                        />
+                      </span>
+                    ) : null}
                     <span className="services-card-text">{item.text}</span>
                   </button>
                 ))}
@@ -460,19 +484,31 @@ function ServicesSection({
                   <span className="services-counter-total">{serviceCount}</span>
                 </div>
               </div>
+              {item.plan ? (
+                <div className="services-mobile-plan" aria-hidden="true">
+                  <img src={item.plan} alt="" draggable="false" loading="lazy" />
+                </div>
+              ) : null}
               <p className="services-mobile-copy">{item.text}</p>
             </div>
             <div className="services-mobile-images">
               {item.images.map((image, imageIndex) => (
                 <div
                   key={`${item.id}-mobile-${imageIndex}`}
-                  className="services-mobile-image"
+                  className={[
+                    'services-mobile-image',
+                    image.orientation === 'portrait'
+                      ? 'services-mobile-image--portrait'
+                      : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
                 >
                   <img
                     src={image.src}
                     alt=""
-                    width={item.width}
-                    height={item.height}
+                    width={image.width ?? item.width}
+                    height={image.height ?? item.height}
                     draggable="false"
                     loading="lazy"
                   />

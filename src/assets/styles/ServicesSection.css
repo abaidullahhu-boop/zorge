@@ -129,6 +129,11 @@
   pointer-events: none;
 }
 
+.services-image-item--portrait img {
+  object-fit: contain;
+  background: #000;
+}
+
 .services-right {
   position: relative;
   z-index: 1;
@@ -283,8 +288,8 @@
 
 .services-section--project.services-section--has-intro .services-list {
   --services-card-h: min(
-    clamp(240px, 36svh, 420px),
-    calc(var(--services-image-h) - 2 * var(--services-pad) - 7.5rem)
+    clamp(280px, 44svh, 520px),
+    calc(var(--services-image-h) - 2 * var(--services-pad) - 5.5rem)
   );
 }
 
@@ -313,11 +318,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 24px;
+  gap: 12px;
   width: 100%;
   height: var(--services-card-h);
   margin: 0;
-  padding: clamp(22px, 2vw, 36px) clamp(18px, 1.6vw, 28px);
+  padding: clamp(16px, 1.4vw, 24px) clamp(14px, 1.2vw, 22px);
   border: 1px solid rgb(255 255 255 / 18%);
   background: transparent;
   color: rgb(255 255 255 / 28%);
@@ -346,6 +351,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  flex: 0 0 auto;
 }
 
 .services-card-title {
@@ -367,8 +373,39 @@
   opacity: .72;
 }
 
+.services-card-plan {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  width: calc(100% + 20px);
+  margin: 0 -10px;
+  overflow: visible;
+  pointer-events: none;
+  opacity: .28;
+  transition: opacity .35s ease;
+}
+
+.services-card.is-active .services-card-plan {
+  opacity: 1;
+}
+
+.services-card-plan img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  object-fit: contain;
+  object-position: center;
+  user-select: none;
+  transform: scale(1.18);
+  transform-origin: center;
+}
+
 .services-card-text {
   display: block;
+  flex: 0 0 auto;
   margin: 0;
   font: 600 clamp(10px, 1vw, 10px) / 1.35 'Gilroy', sans-serif;
   letter-spacing: .03em;
@@ -523,6 +560,17 @@
     pointer-events: none;
   }
 
+  .services-mobile-image--portrait {
+    height: auto;
+    aspect-ratio: 2443 / 2780;
+    min-height: 0;
+    background: #000;
+  }
+
+  .services-mobile-image--portrait img {
+    object-fit: contain;
+  }
+
   .services-mobile-content {
     display: flex;
     flex-direction: column;
@@ -580,6 +628,24 @@
     font: 600 clamp(13px, 3.5vw, 15px) / 1.45 'Gilroy', sans-serif;
     letter-spacing: .03em;
     text-transform: uppercase;
+  }
+
+  .services-mobile-plan {
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  .services-mobile-plan img {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    margin-inline: auto;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
+    pointer-events: none;
+    transform: scale(1.08);
+    transform-origin: center;
   }
 }
 

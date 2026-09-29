@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { SITE_CONTACT } from '../../data/siteContact'
 import dsMark from '../../assets/images/dsmark.png'
+import { ScrollTrigger } from '../../lib/gsap'
 
 const MOBILE_MQ = '(max-width: 980px)'
 
@@ -322,6 +323,7 @@ export function ProjectHero({ project, onNavigate, playReveal = true }) {
 }
 
 export function ProjectOverview({ project }) {
+  const overviewRef = useRef(null)
   const floors = project.plan.floors ?? []
   const facts = [
     {
@@ -347,7 +349,7 @@ export function ProjectOverview({ project }) {
     project.downloads?.catalog
       ? {
           id: 'catalog',
-          label: 'Catalog',
+          label: 'Catalogues',
           href: project.downloads.catalog,
         }
       : null,
@@ -360,9 +362,60 @@ export function ProjectOverview({ project }) {
       : null,
   ].filter(Boolean)
 
+  // Keep overview pinned for its full height so Journey can slide over it
+  // without the overview panel scrolling away mid-cover.
+  useEffect(() => {
+    const overview = overviewRef.current
+    if (!overview) return undefined
+
+    const page = overview.closest('.project-page')
+    if (!(page instanceof HTMLElement)) return undefined
+
+    const mq = window.matchMedia(MOBILE_MQ)
+    let frame = 0
+    let lastHold = ''
+
+    const syncHold = () => {
+      window.cancelAnimationFrame(frame)
+      frame = window.requestAnimationFrame(() => {
+        if (mq.matches) {
+          if (lastHold) {
+            page.style.removeProperty('--overview-hold')
+            lastHold = ''
+            ScrollTrigger.refresh()
+          }
+          return
+        }
+
+        const height = Math.ceil(overview.getBoundingClientRect().height)
+        if (height <= 0) return
+
+        const nextHold = `${height}px`
+        if (nextHold === lastHold) return
+
+        page.style.setProperty('--overview-hold', nextHold)
+        lastHold = nextHold
+        ScrollTrigger.refresh()
+      })
+    }
+
+    syncHold()
+    const ro = new ResizeObserver(syncHold)
+    ro.observe(overview)
+    mq.addEventListener('change', syncHold)
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+      ro.disconnect()
+      mq.removeEventListener('change', syncHold)
+      page.style.removeProperty('--overview-hold')
+    }
+  }, [project.id])
+
   return (
     <div className="project-stack project-stack--overview">
       <section
+        ref={overviewRef}
         className="project-overview"
         id="overview"
         aria-labelledby="overview-title"

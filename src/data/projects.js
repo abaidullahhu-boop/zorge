@@ -35,25 +35,37 @@ import livingExecutiveStudioBath from '../assets/images/08.jpg'
 import dsaStudio1 from '../assets/images/sstudio.png'
 import dsaStudio2 from '../assets/images/sstudio2.png'
 import dsaStudio3 from '../assets/images/sstudio3.png'
-import dsaStudio4 from '../assets/images/5.png'
+import dsaOneBedRoom from '../assets/images/sroom.jpg'
+import dsaOneBedBath from '../assets/images/bath2.jpg'
 import zindagiStudio1 from '../assets/images/z1.png'
 import zindagiStudio2 from '../assets/images/z2.png'
 import zindagiStudio3 from '../assets/images/z3.png'
 import zindagiStudio4 from '../assets/images/z4.png'
+import zindagiStudioPlan from '../assets/images/zstudio.png'
 import zindagiOneBed1 from '../assets/images/zone1.png'
 import zindagiOneBed2 from '../assets/images/zone2.png'
 import zindagiOneBed3 from '../assets/images/zone3.png'
 import zindagiOneBed4 from '../assets/images/zone4.png'
 import zindagiOneBed5 from '../assets/images/zone5.png'
+import zindagiOneBedPlan from '../assets/images/z1bed.png'
 import zindagiTwoBed1 from '../assets/images/ztwo.png'
 import zindagiTwoBed2 from '../assets/images/ztwo2.png'
 import zindagiTwoBed3 from '../assets/images/ztwo3.png'
 import zindagiTwoBed4 from '../assets/images/ztow4.png'
 import zindagiTwoBed5 from '../assets/images/ztow5.png'
 import zindagiTwoBed6 from '../assets/images/ztwo6.png'
+import zindagiTwoBed7 from '../assets/images/zindagi1.png'
+import zindagiTwoBedPlan from '../assets/images/z2bed.png'
 import zindagiRooftop1 from '../assets/images/rooftop.jpg'
 import zindagiRooftop2 from '../assets/images/rooftop2.jpg'
 import zindagiRooftop3 from '../assets/images/rooftop3.jpg'
+import zindagiLowerGroundPlan from '../assets/images/lowerground.png'
+import zindagiGroundPlan from '../assets/images/ground.png'
+import zindagiFirstSecondPlan from '../assets/images/1-2floor.png'
+import zindagiThirdFifthPlan from '../assets/images/3-5floor.png'
+import zindagiSixthSeventhPlan from '../assets/images/6-7floor.png'
+import zindagiConstruction1 from '../assets/images/zcon.jpeg'
+import zindagiConstruction2 from '../assets/images/zcon2.jpeg'
 
 function mapsSearch(query) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
@@ -362,35 +374,6 @@ function dzInventoryImages(folderHint, altPrefix) {
   return images
 }
 
-function dzOverviewImage(fileName, alt) {
-  const needle = fileName.toLowerCase()
-  const entry = Object.entries(dzInventoryFiles).find(([key]) => {
-    const name = key.split('/').pop()?.toLowerCase()
-    return name === needle
-  })
-  if (!entry) {
-    throw new Error(`Missing DZ floor plan: ${fileName}`)
-  }
-  return {
-    src: entry[1],
-    label: 'Floor layout',
-    alt,
-    title: 'Floor layout',
-    area: null,
-    code: null,
-    buyer: null,
-    status: 'available',
-  }
-}
-
-function dzPickImage(folderHint, titleMatch) {
-  const images = dzInventoryImages(folderHint, 'Dayim Zindagi')
-  const match = images.find((image) =>
-    String(image.title).toLowerCase().includes(titleMatch.toLowerCase()),
-  )
-  return match ?? images[0]
-}
-
 export function getProjectInventory(project) {
   const floors = project?.plan?.floors
   if (!floors?.length) return []
@@ -455,22 +438,32 @@ const dsaStudioImages = [
     label: 'Bathroom',
     alt: 'Dayim Signature studio apartment — bathroom',
   },
+]
+const dsaOneBedImages = [
+  ...signatureInteriorPicks(
+    'One Bed Apartment Red Theme',
+    'Dayim Signature one bedroom apartment',
+    [
+      { file: '2', label: 'Room' },
+      { file: '9', label: 'Kitchen' },
+      { file: '12', label: 'Bathroom' },
+      { file: '1', label: 'Living' },
+    ],
+  ),
   {
-    src: dsaStudio4,
-    label: 'Living',
-    alt: 'Dayim Signature studio apartment — living',
+    src: dsaOneBedRoom,
+    label: 'Bedroom',
+    alt: 'Dayim Signature one bedroom apartment — bedroom',
+  },
+  {
+    src: dsaOneBedBath,
+    label: 'Bath',
+    alt: 'Dayim Signature one bedroom apartment — bathroom',
+    orientation: 'portrait',
+    width: 2443,
+    height: 2780,
   },
 ]
-const dsaOneBedImages = signatureInteriorPicks(
-  'One Bed Apartment Red Theme',
-  'Dayim Signature one bedroom apartment',
-  [
-    { file: '2', label: 'Room' },
-    { file: '9', label: 'Kitchen' },
-    { file: '12', label: 'Bathroom' },
-    { file: '1', label: 'Living' },
-  ],
-)
 const dsaTwoBedImages = signatureInteriorPicks(
   '2 Bed Apartment White Gold Theme',
   'Dayim Signature two bedroom apartment',
@@ -711,24 +704,37 @@ const livingFloors = [
   },
 ]
 
-const zindagiLowerGroundOverview = dzOverviewImage(
-  'lower ground.png',
+function zindagiFloorOverview(src, alt) {
+  return {
+    src,
+    label: 'Floor layout',
+    alt,
+    title: 'Floor layout',
+    area: null,
+    code: null,
+    buyer: null,
+    status: 'available',
+  }
+}
+
+const zindagiLowerGroundOverview = zindagiFloorOverview(
+  zindagiLowerGroundPlan,
   'Dayim Zindagi lower ground floor layout',
 )
-const zindagiGroundOverview = dzOverviewImage(
-  'ground.png',
+const zindagiGroundOverview = zindagiFloorOverview(
+  zindagiGroundPlan,
   'Dayim Zindagi ground floor layout',
 )
-const zindagiFirstSecondOverview = dzOverviewImage(
-  '1-2 floor.jpg',
+const zindagiFirstSecondOverview = zindagiFloorOverview(
+  zindagiFirstSecondPlan,
   'Dayim Zindagi 1st to 2nd floor layout',
 )
-const zindagiThirdFifthOverview = dzOverviewImage(
-  '3-5 floor.png',
+const zindagiThirdFifthOverview = zindagiFloorOverview(
+  zindagiThirdFifthPlan,
   'Dayim Zindagi 3rd to 5th floor layout',
 )
-const zindagiSixthSeventhOverview = dzOverviewImage(
-  '6-7 floor.jpg',
+const zindagiSixthSeventhOverview = zindagiFloorOverview(
+  zindagiSixthSeventhPlan,
   'Dayim Zindagi 6th to 7th floor layout',
 )
 
@@ -822,15 +828,22 @@ const zindagiOneBedInteriorImages = [
 
 const zindagiTwoBedInteriorImages = [
   {
+    src: zindagiTwoBed6,
+    label: 'Interior',
+    alt: 'Dayim Zindagi Two Bedroom Apartment — interior',
+  },
+  {
+    src: zindagiTwoBed5,
+    label: 'Bathroom',
+    alt: 'Dayim Zindagi Two Bedroom Apartment — bathroom',
+  },
+  
+  {
     src: zindagiTwoBed1,
     label: 'Living',
     alt: 'Dayim Zindagi Two Bedroom Apartment — living',
   },
-  {
-    src: zindagiTwoBed2,
-    label: 'Bedroom',
-    alt: 'Dayim Zindagi Two Bedroom Apartment — bedroom',
-  },
+  
   {
     src: zindagiTwoBed3,
     label: 'Kitchen',
@@ -842,14 +855,9 @@ const zindagiTwoBedInteriorImages = [
     alt: 'Dayim Zindagi Two Bedroom Apartment — dining',
   },
   {
-    src: zindagiTwoBed5,
+    src: zindagiTwoBed7,
     label: 'Bathroom',
     alt: 'Dayim Zindagi Two Bedroom Apartment — bathroom',
-  },
-  {
-    src: zindagiTwoBed6,
-    label: 'Interior',
-    alt: 'Dayim Zindagi Two Bedroom Apartment — interior',
   },
 ]
 
@@ -1368,37 +1376,27 @@ export const projects = [
     },
     story: {
       journey: {
-        title: 'Premium Lifestyle. City Presence.',
-        body: 'A corner landmark in Business Bay Commercial—planned for visibility, mixed-use living, and long-term value.',
+        title: 'Construction Underway',
+        body: 'The journey of Dayim Zindagi has officially begun. With work commencing earlier than anticipated, we are moving forward with our commitment to build with precision, quality, and purpose.',
         tagline: 'Premium lifestyle. City presence.',
         items: [
           {
-            id: 'zindagi-address',
-            src: zindagiImage,
-            alt: 'Dayim Zindagi landmark address',
-            label: 'Address',
-            detail: 'Business Bay Commercial on Main Raiwind Road—built for visibility and long-term value.',
+            id: 'zindagi-construction-1',
+            phase: 'construction',
+            src: zindagiConstruction1,
+            alt: 'Dayim Zindagi construction progress on site',
+            label: 'Construction Progress',
+            detail:
+              'Work is underway at Dayim Zindagi with Dayim supervision—building forward with the quality and pace our clients expect.',
           },
           {
-            id: 'zindagi-mix',
-            src: zindagiImage,
-            alt: 'Dayim Zindagi mixed-use vision',
-            label: 'Mix',
-            detail: 'Shops, offices, and residences planned together for a complete urban lifestyle.',
-          },
-          {
-            id: 'zindagi-launch',
-            src: zindagiImage,
-            alt: 'Dayim Zindagi construction launch',
-            label: 'Launch',
-            detail: 'Construction starting soon, with Dayim planning and supervision from day one.',
-          },
-          {
-            id: 'zindagi-lifestyle',
-            src: zindagiImage,
-            alt: 'Dayim Zindagi premium lifestyle',
-            label: 'Lifestyle',
-            detail: 'Premium amenities and elevated living designed for residents above the city.',
+            id: 'zindagi-construction-2',
+            phase: 'construction',
+            src: zindagiConstruction2,
+            alt: 'Dayim Zindagi construction progress on site',
+            label: 'Construction Progress',
+            detail:
+              'Work is underway at Dayim Zindagi with Dayim supervision—building forward with the quality and pace our clients expect.',
           },
         ],
       },
@@ -1448,6 +1446,7 @@ export const projects = [
             id: 'zindagi-studio',
             title: 'Studio Apartments',
             images: zindagiStudioInteriorImages,
+            plan: zindagiStudioPlan,
             width: 1024,
             height: 768,
             text: 'Smartly planned studio residences designed for modern individuals seeking comfort, convenience, and efficient use of space.',
@@ -1456,6 +1455,7 @@ export const projects = [
             id: 'zindagi-onebed',
             title: 'Luxury One-Bedroom Apartments with Private Pool',
             images: zindagiOneBedInteriorImages,
+            plan: zindagiOneBedPlan,
             width: 1024,
             height: 768,
             text: 'Experience a truly distinctive lifestyle with our luxury one-bedroom apartments featuring a private pool on the balcony—a premium concept designed for those who want privacy, exclusivity, and resort-style living at home.',
@@ -1464,6 +1464,7 @@ export const projects = [
             id: 'zindagi-twin',
             title: 'Two-Bedroom Apartments',
             images: zindagiTwoBedInteriorImages,
+            plan: zindagiTwoBedPlan,
             width: 1024,
             height: 768,
             text: 'Spacious two-bedroom residences designed for families who want additional space without compromising on style and convenience.',
