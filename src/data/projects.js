@@ -1435,13 +1435,31 @@ export const projects = [
             height: 768,
             text: 'Spacious two-bedroom residences designed for families who want additional space without compromising on style and convenience.',
           },
+        ],
+      },
+      rooftop: {
+        kicker: 'Rooftop Garden',
+        images: [
           {
-            id: 'zindagi-rooftop',
-            title: 'Rooftop Garden',
-            images: zindagiRooftopImages,
-            width: 1024,
-            height: 768,
-            text: 'A beautifully planned elevated space with city views. Dedicated BBQ spaces designed for gatherings, celebrations, and memorable evenings. Enjoy an open perspective of the surrounding area from the rooftop.',
+            id: 'zindagi-rooftop-bar',
+            ...zindagiRooftopImages[0],
+            label: 'Bar Lounge',
+            detail:
+              'Ambient seating and a rooftop bar designed for evening gatherings under the city sky.',
+          },
+          {
+            id: 'zindagi-rooftop-overview',
+            ...zindagiRooftopImages[1],
+            label: 'Garden Overview',
+            detail:
+              'An elevated garden with panoramic views across Business Bay and the surrounding skyline.',
+          },
+          {
+            id: 'zindagi-rooftop-lounge',
+            ...zindagiRooftopImages[2],
+            label: 'Lounge Seating',
+            detail:
+              'Dedicated lounge and BBQ spaces planned for celebrations and memorable evenings above the city.',
           },
         ],
       },

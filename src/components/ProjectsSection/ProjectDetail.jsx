@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { SITE_CONTACT } from '../../data/siteContact'
 import dsMark from '../../assets/images/dsmark.png'
 
@@ -9,6 +9,7 @@ const PROJECT_NAV = [
   { id: 'daily-schedule', label: 'Journey' },
   { id: 'story', label: 'Floor Plan' },
   { id: 'services', label: 'Interiors' },
+  { id: 'rooftop', label: 'Rooftop' },
   { id: 'plans', label: 'Inventory' },
 ]
 
@@ -67,7 +68,11 @@ export function ProjectNav({
 }) {
   const [scrolled, setScrolled] = useState(false)
   const [activeId, setActiveId] = useState(activeIdProp ?? 'overview')
-  const navItems = PROJECT_NAV
+  const navItems = useMemo(() => {
+    const hasRooftop = Boolean(project?.story?.rooftop?.images?.length)
+    if (hasRooftop) return PROJECT_NAV
+    return PROJECT_NAV.filter((item) => item.id !== 'rooftop')
+  }, [project])
   const lockActive = activeIdProp != null
 
   useEffect(() => {

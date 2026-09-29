@@ -16,6 +16,38 @@
   overflow: visible;
 }
 
+.architecture-section--rooftop {
+  z-index: 12;
+}
+
+/* Rooftop photos: full-bleed right panel (not a small letterboxed plan frame). */
+.architecture-section--rooftop .architecture-gallery-copy {
+  grid-column: 1 / 5;
+}
+
+.architecture-section--rooftop .architecture-gallery-right {
+  grid-column: 5 / 13;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.architecture-section--rooftop .architecture-gallery-frame--media {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  aspect-ratio: auto;
+  padding: 0;
+}
+
+.architecture-section--rooftop .architecture-gallery-stack {
+  overflow: hidden;
+}
+
+.architecture-section--rooftop .architecture-gallery-stack-item img {
+  object-fit: cover;
+}
+
 .architecture-slide {
   position: relative;
   padding: 0;
@@ -620,6 +652,21 @@
   padding: clamp(8px, 1.4cqi, 16px);
 }
 
+/* Photo galleries (e.g. rooftop) fill the frame instead of letterboxing. */
+.architecture-gallery-frame--media {
+  aspect-ratio: 4 / 3;
+  padding: 0;
+}
+
+.architecture-gallery-frame--media.architecture-gallery-frame--landscape {
+  aspect-ratio: 4 / 3;
+  padding: 0;
+}
+
+.architecture-gallery-frame--media .architecture-gallery-stack-item img {
+  object-fit: cover;
+}
+
 @supports (width: min(1cqi, 1cqh)) {
   .architecture-gallery-frame {
     /* Fit inside the column while keeping the floor-plan aspect ratio,
@@ -633,6 +680,10 @@
 
   .architecture-gallery-frame--landscape {
     width: min(100cqi, calc(100cqh * 8185 / 5787));
+  }
+
+  .architecture-section--rooftop .architecture-gallery-frame--media {
+    width: 100%;
   }
 }
 

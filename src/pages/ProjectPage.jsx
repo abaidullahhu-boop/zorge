@@ -7,6 +7,7 @@ import {
   ProjectOverview,
 } from '../components/ProjectsSection/ProjectDetail'
 import ProjectStorySection from '../components/ProjectsSection/ProjectStorySection'
+import ProjectRooftopSection from '../components/ProjectsSection/ProjectRooftopSection'
 import TimeSection from '../components/TimeSection/TimeSection'
 import ServicesSection from '../components/ServicesSection/ServicesSection'
 import Footer from '../components/Footer/Footer'
@@ -338,9 +339,9 @@ function ProjectPage() {
         variant="project"
         project={project}
         scrollContainerRef={pageRef}
-      >
-        <ProjectEnquire project={project} />
-      </ServicesSection>
+      />
+      <ProjectRooftopSection project={project} scrollContainerRef={pageRef} />
+      <ProjectEnquire project={project} />
       <Footer onScrollTop={scrollToTop} />
     </main>
   )

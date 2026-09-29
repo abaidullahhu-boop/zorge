@@ -172,6 +172,24 @@
   isolation: isolate;
 }
 
+/*
+ * Rooftop follows Lifestyle in normal flow — do NOT inherit the
+ * architecture -100svh cover pull, or Lifestyle peeks through and the
+ * rooftop scrub jumps ahead mid-entry.
+ */
+.project-page .architecture-section--rooftop {
+  z-index: 13;
+  margin-top: 0;
+}
+
+.project-page .architecture-section--rooftop .architecture-gallery-pin {
+  height: calc(var(--gallery-sticky-h) * var(--plan-count, 3));
+}
+
+.project-page .architecture-section--rooftop .architecture-slide {
+  padding-top: 0;
+}
+
 .project-kicker {
   margin: 0 0 12px;
   font: 600 12px / 1 var(--font-sans);
