@@ -227,7 +227,7 @@ function ProjectPlansPage() {
 
       <ProjectInventoryBoard key={`inventory-${project.id}`} project={project} />
 
-      <ProjectEnquire project={project} />
+      <ProjectEnquire project={project} showFacilitiesBanner={false} />
 
       <Footer onScrollTop={scrollToTop} />
     </main>

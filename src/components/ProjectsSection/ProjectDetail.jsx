@@ -359,6 +359,9 @@ export function ProjectOverview({ project }) {
             <h2 id="overview-title" className="project-heading">
               {project.about.headline ?? 'A landmark address, planned with care'}
             </h2>
+          </div>
+
+          <div className="project-overview__body">
             <div className="project-overview__copy">
               {overviewCopy.map((paragraph) => (
                 <p key={paragraph} className="project-overview__text">
@@ -366,18 +369,18 @@ export function ProjectOverview({ project }) {
                 </p>
               ))}
             </div>
-          </div>
 
-          <ul className="project-overview__highlights">
-            {project.about.highlights.map((item) => (
-              <li key={item}>
-                <span className="project-overview__index" aria-hidden="true">
-                  •
-                </span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
+            <ul className="project-overview__highlights">
+              {project.about.highlights.map((item) => (
+                <li key={item}>
+                  <span className="project-overview__index" aria-hidden="true">
+                    •
+                  </span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <dl className="project-facts">
@@ -730,10 +733,10 @@ export function ProjectInventory({
   )
 }
 
-export function ProjectEnquire({ project }) {
+export function ProjectEnquire({ project, showFacilitiesBanner = true }) {
   return (
     <div className="project-stack project-stack--enquire">
-      {project.enquireImage ? (
+      {showFacilitiesBanner && project.enquireImage ? (
         <figure className="project-enquire-banner">
           <img
             src={project.enquireImage}

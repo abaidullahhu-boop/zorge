@@ -32,6 +32,9 @@ import livingStudioDeluxeBath from '../assets/images/011.jpg'
 import livingExecutiveStudioRoom from '../assets/images/05.jpg'
 import livingExecutiveStudioLiving from '../assets/images/06.jpg'
 import livingExecutiveStudioBath from '../assets/images/08.jpg'
+import dsaStudio1 from '../assets/images/sstudio.png'
+import dsaStudio2 from '../assets/images/sstudio2.png'
+import dsaStudio3 from '../assets/images/sstudio3.png'
 import zindagiStudio1 from '../assets/images/z1.png'
 import zindagiStudio2 from '../assets/images/z2.png'
 import zindagiStudio3 from '../assets/images/z3.png'
@@ -435,16 +438,23 @@ function signatureInteriorPicks(folderPart, altPrefix, picks) {
   })
 }
 
-const dsaStudioImages = signatureInteriorPicks(
-  'Studio Apartment Light Blue Theme',
-  'Dayim Signature studio apartment',
-  [
-    { file: '1', label: 'Room' },
-    { file: '3', label: 'Kitchen' },
-    { file: '8', label: 'Bathroom' },
-    { file: '5', label: 'Living' },
-  ],
-)
+const dsaStudioImages = [
+  {
+    src: dsaStudio1,
+    label: 'Kitchen',
+    alt: 'Dayim Signature studio apartment — kitchen',
+  },
+  {
+    src: dsaStudio2,
+    label: 'Bathroom',
+    alt: 'Dayim Signature studio apartment — bathroom',
+  },
+  {
+    src: dsaStudio3,
+    label: 'Bedroom',
+    alt: 'Dayim Signature studio apartment — bedroom',
+  },
+]
 const dsaOneBedImages = signatureInteriorPicks(
   'One Bed Apartment Red Theme',
   'Dayim Signature one bedroom apartment',
@@ -1321,7 +1331,7 @@ export const projects = [
         'Premium Lifestyle',
         'High-Quality Construction',
       ],
-      typologies: 'Studio, One Bed, Two Bed Apartments',
+      typologies: 'Commercial Outlet, Studio, One Bed, Two Bed Apartments',
     },
     story: {
       journey: {
