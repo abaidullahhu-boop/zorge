@@ -1814,6 +1814,14 @@
       );
   }
 
+  /* Landscape hero video: keep the building centered in the portrait crop. */
+  .project-hero__media img,
+  .project-hero__media video,
+  .project-hero__poster,
+  .project-hero__video {
+    object-position: 55% center;
+  }
+
   .project-hero__content {
     padding:
       calc(var(--project-nav-h) + 20px)
