@@ -310,34 +310,81 @@
   }
 }
 
-/* ── Phone: compact horizontal cards ─────────── */
+/* ── Phone: stacked cards, full-width text ───── */
 @media (max-width: 640px) {
+  .projects-overlay__header {
+    padding: 14px 16px;
+    padding-top: max(14px, env(safe-area-inset-top, 0px));
+  }
+
+  .projects-overlay__kicker {
+    font-size: 12px;
+    letter-spacing: 0.16em;
+  }
+
+  .projects-overlay__close {
+    width: 44px;
+    height: 44px;
+  }
+
   .projects-overlay__grid {
-    padding: 16px 14px;
-    gap: 12px;
+    justify-content: flex-start;
+    padding: 16px 16px max(24px, env(safe-area-inset-bottom, 0px) + 16px);
+    gap: 14px;
   }
 
   .projects-overlay__card {
-    flex-direction: row;
+    flex-direction: column;
     flex: 0 0 auto;
+    min-width: 0;
+    border-radius: 12px;
   }
 
   .projects-overlay__card-img-wrap {
-    flex: 0 0 36%;
-    max-width: 132px;
-    min-height: 148px;
+    flex: none;
+    width: 100%;
+    max-width: none;
+    aspect-ratio: 16 / 10;
+    min-height: 0;
     height: auto;
-    align-self: stretch;
-    border-radius: 10px 0 0 10px;
+    align-self: auto;
+    border-radius: 12px 12px 0 0;
   }
 
   .projects-overlay__card-body {
-    flex: 1 1 auto;
+    flex: 0 0 auto;
     min-width: 0;
-    padding: 14px 14px 16px;
+    gap: 6px;
+    padding: 16px 16px 18px;
+  }
+
+  .projects-overlay__card-short {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+  }
+
+  .projects-overlay__card-title {
+    font-size: clamp(18px, 5.2vw, 22px);
+    line-height: 1.15;
+  }
+
+  .projects-overlay__card-subtitle {
+    font-size: 13px;
+    line-height: 1.45;
   }
 
   .projects-overlay__card-highlights {
     display: none;
+  }
+
+  .projects-overlay__card-cta {
+    color: rgb(255 255 255 / 70%);
+    padding-top: 14px;
+    font-size: 12px;
+  }
+
+  .projects-overlay__card-cta svg {
+    opacity: 1;
+    transform: none;
   }
 }
