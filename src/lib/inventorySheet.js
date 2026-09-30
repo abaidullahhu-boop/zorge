@@ -157,7 +157,17 @@ export function parseInventorySheetCsv(text) {
   const projectIdx = headerIndex(headers, ['project_id', 'project', 'projectid'])
   const floorIdx = headerIndex(headers, ['floor_id', 'floor', 'floorid'])
   const unitIdx = headerIndex(headers, ['unit', 'unit_label', 'unitlabel', 'code'])
+  const typeIdx = headerIndex(headers, [
+    'type',
+    'title',
+    'unit_type',
+    'unittype',
+    'apartment_type',
+    'apartmenttype',
+  ])
   const statusIdx = headerIndex(headers, ['status'])
+  // Older sheets used a separate "sold" column instead of / alongside status.
+  const soldIdx = headerIndex(headers, ['sold'])
   const buyerIdx = headerIndex(headers, ['buyer', 'purchased_by', 'purchasedby', 'owner'])
   const sqftIdx = headerIndex(headers, ['sqft', 'sq_ft', 'area', 'size'])
 
@@ -175,14 +185,24 @@ export function parseInventorySheetCsv(text) {
 
     const buyerRaw = buyerIdx === -1 ? '' : (row[buyerIdx] ?? '').trim()
     const buyer = buyerRaw || null
-    const status = normalizeStatus(
+    const soldRaw = soldIdx === -1 ? '' : (row[soldIdx] ?? '').trim()
+    let status = normalizeStatus(
       statusIdx === -1 ? '' : row[statusIdx],
       buyer,
     )
+    if (!status && soldRaw) {
+      const soldNorm = normalizeKeyPart(soldRaw)
+      if (['no', 'n', 'false', '0', 'available', 'open'].includes(soldNorm)) {
+        status = 'available'
+      } else {
+        status = normalizeStatus(soldRaw, buyer) || 'sold'
+      }
+    }
     const area = sqftIdx === -1 ? null : formatSqft(row[sqftIdx])
+    const typeRaw = typeIdx === -1 ? '' : (row[typeIdx] ?? '').trim()
 
     const patch = {
-      // Sheet unit column is the display name on the site.
+      // Sheet unit column is the booking/code label (e.g. Apartment # 1).
       unitLabel: unit,
     }
     if (status) patch.status = status
@@ -191,8 +211,12 @@ export function parseInventorySheetCsv(text) {
     if (status === 'available') patch.buyer = null
     else if ((status === 'sold' || status === 'reserved') && buyer) patch.buyer = buyer
 
-    const derivedTitle = titleFromSheetUnit(unit)
-    if (derivedTitle) patch.title = derivedTitle
+    // Card title: explicit type column, else Shop/Hall/Office from unit name.
+    if (typeRaw) patch.title = typeRaw
+    else {
+      const derivedTitle = titleFromSheetUnit(unit)
+      if (derivedTitle) patch.title = derivedTitle
+    }
 
     overrides.set(inventoryUnitKey(projectId, floorId, unit), patch)
   }

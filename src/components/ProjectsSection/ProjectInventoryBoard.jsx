@@ -4,11 +4,7 @@ import InventoryBookingModal from './InventoryBookingModal'
 
 function InventoryCard({ unit, onBook }) {
   const status = unitStatus(unit)
-  const heading = unit.unitLabel || unit.title
-  const typeLabel =
-    unit.unitLabel && unit.title && unit.title !== unit.unitLabel
-      ? unit.title
-      : null
+  const heading = unit.title || unit.unitLabel
 
   return (
     <article className={`inventory-card is-${status}`}>
@@ -22,9 +18,9 @@ function InventoryCard({ unit, onBook }) {
       <div className="inventory-card__body">
         <div className="inventory-card__copy">
           <h3 className="inventory-card__title">{heading}</h3>
-          <p className="inventory-card__floor">
-            {[typeLabel, unit.floorLabel].filter(Boolean).join(' · ')}
-          </p>
+          {unit.floorLabel ? (
+            <p className="inventory-card__floor">{unit.floorLabel}</p>
+          ) : null}
           {unit.area ? (
             <p className="inventory-card__meta">{unit.area}</p>
           ) : null}

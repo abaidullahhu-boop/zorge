@@ -345,6 +345,11 @@
   letter-spacing: 0.16em;
   text-transform: uppercase;
   cursor: pointer;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .project-nav__brand:hover,
@@ -878,17 +883,17 @@
 }
 
 .project-plans-page .project-inventory__lead {
-  color: rgb(243 239 232 / 62%);
+  color: white;
 }
 
 .project-plans-page .inventory-summary__item dt,
 .project-plans-page .inventory-summary__label {
-  color: rgb(243 239 232 / 48%);
+  color: white;
 }
 
 .project-plans-page .inventory-summary__item dd,
 .project-plans-page .inventory-summary__value {
-  color: #f3efe8;
+  color: white;
 }
 
 .project-plans-page .inventory-summary__item.is-available {
