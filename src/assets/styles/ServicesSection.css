@@ -197,7 +197,10 @@
   margin: 0;
   font: 600 clamp(18px, 1.7vw, 28px) / 1.15 'Gilroy', sans-serif;
   letter-spacing: -.02em;
-  color: #fff;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .services-intro-body {
@@ -205,7 +208,7 @@
   max-width: 36ch;
   font: 400 clamp(12px, .95vw, 14px) / 1.5 'Gilroy', sans-serif;
   letter-spacing: .01em;
-  color: rgb(255 255 255 / 55%);
+  color: white;
 }
 
 .services-section-title {
