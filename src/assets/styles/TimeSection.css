@@ -131,7 +131,7 @@
   max-width: 32ch;
   font: 400 clamp(13px, 1vw, 15px) / 1.55 'Gilroy', sans-serif;
   letter-spacing: .01em;
-  color: rgb(255 255 255 / 55%);
+  color: white;
 }
 
 .time-gallery-intro-tagline {
@@ -186,7 +186,7 @@
   font: 400 clamp(12px, .95vw, 14px) / 1.45 'Gilroy', sans-serif;
   letter-spacing: .02em;
   text-transform: none;
-  color: rgb(255 255 255 / 45%);
+  color: white;
 }
 
 .time-gallery-counter {

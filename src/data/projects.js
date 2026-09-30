@@ -66,10 +66,6 @@ import zindagiThirdFifthPlan from '../assets/images/3-5floor.png'
 import zindagiSixthSeventhPlan from '../assets/images/6-7floor.png'
 import zindagiConstruction1 from '../assets/images/zcon.jpeg'
 import zindagiConstruction2 from '../assets/images/zcon2.jpeg'
-import signaturePaymentPlan from '../assets/images/Payment Plan/signature.pdf'
-import livingPaymentPlan from '../assets/images/Payment Plan/living.pdf'
-import zindagiPaymentPlan from '../assets/images/Payment Plan/zindagip.pdf'
-import zindagiCatalog from '../assets/images/catalogue/zindagi.pdf'
 
 function mapsSearch(query) {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
@@ -1006,7 +1002,7 @@ export const projects = [
     ),
     downloads: {
       catalog: '/downloads/dayim-signature-apartments-catalog.pdf',
-      paymentPlan: signaturePaymentPlan,
+      paymentPlan: '/downloads/signature-payment-plan.pdf',
     },
     x: 43,
     y: 69,
@@ -1108,7 +1104,7 @@ export const projects = [
     ),
     downloads: {
       catalog: '/downloads/dayim-living-catalog.pdf',
-      paymentPlan: livingPaymentPlan,
+      paymentPlan: '/downloads/living-payment-plan.pdf',
     },
     x: 50,
     y: 71,
@@ -1344,8 +1340,8 @@ export const projects = [
       'Dayim Zindagi, Business Bay Commercial, Al-Kabir Town Phase 2, Lahore',
     ),
     downloads: {
-      catalog: zindagiCatalog,
-      paymentPlan: zindagiPaymentPlan,
+      catalog: '/downloads/zindagi-catalogue.pdf',
+      paymentPlan: '/downloads/zindagi-payment-plan.pdf',
     },
     x: 44,
     y: 59,

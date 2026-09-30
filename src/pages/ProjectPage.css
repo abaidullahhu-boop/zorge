@@ -567,7 +567,7 @@
 .project-hero__location {
   margin: 0 0 28px;
   font: 400 clamp(15px, 1.2vw, 18px) / 1.5 var(--font-sans);
-  color: rgb(255 255 255 / 78%);
+  color:white;
 }
 
 .project-hero__actions {
@@ -701,6 +701,29 @@
   .project-overview__copy {
     max-width: none;
   }
+  .project-overview__download-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 10px 16px;
+  background:linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  font: 600 12px / 1 var(--font-sans);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: black;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.project-overview__download-btn:hover {
+  transform: scale(1.05);
+}
 
   .project-overview__highlights {
     justify-self: end;
@@ -723,42 +746,8 @@
   margin-top: 6px;
 }
 
-.project-overview__download-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  min-height: 40px;
-  padding: 10px 16px;
-  border: 1px solid rgb(220 159 39 / 55%);
-  background: rgb(220 159 39 / 10%);
-  font: 600 12px / 1 var(--font-sans);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #fcfa7f;
-  transition:
-    background 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
-}
 
-.project-overview__download-btn:hover,
-.project-overview__download-btn:focus-visible {
-  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
-  border-color: transparent;
-  color: #111;
-}
 
-.project-overview__download-btn:focus-visible {
-  outline: 2px solid #fcfa7f;
-  outline-offset: 3px;
-}
-
-.project-overview__download-icon {
-  font-size: 14px;
-  line-height: 1;
-}
 
 .project-overview__copy {
   display: grid;
@@ -1703,7 +1692,7 @@
   max-width: 46ch;
   margin: 18px 0 0;
   font: 400 16px / 1.6 var(--font-sans);
-  color: rgb(255 255 255 / 72%);
+  color: white;
 }
 
 .project-enquire__contacts {
@@ -1718,13 +1707,18 @@
 .project-enquire__contacts li {
   display: grid;
   gap: 4px;
+  
 }
 
-.project-enquire__contacts span {
+.project-enquire__contacts > li > span {
   font: 600 11px / 1 var(--font-sans);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgb(255 255 255 / 42%);
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .project-enquire__contacts a,

@@ -6,7 +6,7 @@ import { ScrollTrigger } from '../../lib/gsap'
 const MOBILE_MQ = '(max-width: 980px)'
 
 const PROJECT_NAV = [
-  { id: 'overview', label: 'Overview' },
+  { id: 'hero', label: 'Overview' },
   { id: 'daily-schedule', label: 'Journey' },
   { id: 'story', label: 'Floor Plan' },
   { id: 'services', label: 'Interiors' },
@@ -68,7 +68,7 @@ export function ProjectNav({
   homeLabel = 'Home',
 }) {
   const [scrolled, setScrolled] = useState(false)
-  const [activeId, setActiveId] = useState(activeIdProp ?? 'overview')
+  const [activeId, setActiveId] = useState(activeIdProp ?? 'hero')
   const navItems = useMemo(() => {
     const hasRooftop = Boolean(project?.story?.rooftop?.images?.length)
     if (hasRooftop) return PROJECT_NAV

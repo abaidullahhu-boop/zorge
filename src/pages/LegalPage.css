@@ -16,7 +16,7 @@
   align-items: center;
   gap: 8px;
   margin-bottom: clamp(32px, 4vw, 48px);
-  color: rgb(255 255 255 / 72%);
+  color: white;
   font: 600 12px / 1 'Gilroy', sans-serif;
   letter-spacing: 0.08em;
   text-decoration: none;
@@ -26,7 +26,7 @@
 
 .legal-page__back:hover,
 .legal-page__back:focus-visible {
-  color: #fff;
+  color: white;
 }
 
 .legal-page__title {
@@ -43,26 +43,26 @@
 
 .legal-page__subtitle {
   margin: -12px 0 clamp(12px, 1.5vw, 16px);
-  color: rgb(255 255 255 / 72%);
+  color: white;
   font: 500 16px / 1.4 'Gilroy', sans-serif;
 }
 
 .legal-page__updated {
   margin: 0 0 clamp(28px, 3vw, 40px);
-  color: rgb(255 255 255 / 55%);
+  color: white;
   font: 500 13px / 1.5 'Gilroy', sans-serif;
 }
 
 .legal-page__content {
   display: grid;
   gap: clamp(20px, 2.4vw, 28px);
-  color: rgb(255 255 255 / 82%);
+  color: white;
   font: 400 15px / 1.7 'Gilroy', sans-serif;
 }
 
 .legal-page__content h2 {
   margin: clamp(8px, 1vw, 12px) 0 0;
-  color: #fff;
+  color: white;
   font: 600 13px / 1.4 'Gilroy', sans-serif;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -94,7 +94,7 @@
 
 .legal-page__notice {
   padding: clamp(16px, 2vw, 20px);
-  color: rgb(255 255 255 / 68%);
+  color: white;
   font-size: 14px;
   background: rgb(255 255 255 / 4%);
 }

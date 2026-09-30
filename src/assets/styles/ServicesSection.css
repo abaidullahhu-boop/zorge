@@ -222,9 +222,12 @@
   letter-spacing: 0;
   text-align: right;
   text-transform: uppercase;
-  color: #fff;
   transform: translateY(-50%);
   pointer-events: none;
+  background:linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .services-content {
@@ -360,7 +363,10 @@
   font: 600 clamp(11px, 1vw, 13px) / 1.2 'Gilroy', sans-serif;
   letter-spacing: .03em;
   text-transform: uppercase;
-  color: inherit;
+  background:linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .services-card-subtitle {
@@ -369,8 +375,7 @@
   font: 500 clamp(10px, .95vw, 12px) / 1.3 'Gilroy', sans-serif;
   letter-spacing: .02em;
   text-transform: none;
-  color: inherit;
-  opacity: .72;
+  color: white;
 }
 
 .services-card-plan {
@@ -615,7 +620,7 @@
     font: 500 clamp(14px, 3.8vw, 18px) / 1.25 'Gilroy', sans-serif;
     letter-spacing: .01em;
     text-transform: none;
-    color: rgb(255 255 255 / 72%);
+    color: white;
   }
 
   .services-mobile .services-counter {

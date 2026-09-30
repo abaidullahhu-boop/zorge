@@ -526,7 +526,10 @@
 }
 
 .architecture-section--project .architecture-gallery-caption {
-  color: #fff;
+  background:linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .architecture-gallery-plan-detail {
@@ -539,7 +542,7 @@
 }
 
 .architecture-section--project .architecture-gallery-plan-detail {
-  color: rgb(255 255 255 / 70%);
+  color: white;
 }
 
 .architecture-gallery-meta {

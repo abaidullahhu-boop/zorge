@@ -215,23 +215,46 @@ function ProjectPage() {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [project])
 
+  // Nav jumps skip pinned galleries. Smooth scroll would scrub every image
+  // frame in the sections between here and the target before arriving.
+  const jumpScrollerTo = (top) => {
+    const root = pageRef.current
+    if (!root) return
+    root.scrollTop = Math.max(0, top)
+    ScrollTrigger.update()
+  }
+
   const scrollToId = (id) => {
     const root = pageRef.current
     const target = root?.querySelector(`#${CSS.escape(id)}`)
     if (!root || !target) return
 
-    const nav = root.querySelector('.project-nav')
-    const offset = nav instanceof HTMLElement ? nav.getBoundingClientRect().height : 0
-    const nextTop =
-      target.getBoundingClientRect().top -
-      root.getBoundingClientRect().top +
-      root.scrollTop -
-      offset
+    // Sticky panels report their stuck visual box via getBoundingClientRect,
+    // so jumping back to Overview (and similar) from further down barely moves.
+    // offsetTop is the in-flow layout position — where the section first pins.
+    const frame =
+      target.closest('.project-stack') ||
+      target.closest('.time-section') ||
+      target.closest('.architecture-section') ||
+      target.closest('.services-section') ||
+      target
 
-    root.scrollTo({
-      top: Math.max(0, nextTop),
-      behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-    })
+    let top = 0
+    let node = frame
+    while (node && node !== root) {
+      top += node.offsetTop
+      node = node.offsetParent
+    }
+
+    if (node !== root) {
+      top =
+        frame.getBoundingClientRect().top -
+        root.getBoundingClientRect().top +
+        root.scrollTop
+    }
+
+    // Panels stick at top:0 and already pad under the fixed nav.
+    jumpScrollerTo(top)
   }
 
   useEffect(() => {
@@ -245,10 +268,9 @@ function ProjectPage() {
 
     const frame = window.requestAnimationFrame(() => {
       if (scrollTo === 'hero') {
-        pageRef.current?.scrollTo({
-          top: 0,
-          behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-        })
+        const root = pageRef.current
+        if (root) root.scrollTop = 0
+        ScrollTrigger.update()
         return
       }
       scrollToId(scrollTo)
@@ -288,7 +310,7 @@ function ProjectPage() {
     }
 
     if (id === 'hero') {
-      scrollToTop()
+      jumpScrollerTo(0)
       return
     }
 
