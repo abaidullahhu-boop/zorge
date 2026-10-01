@@ -32,3 +32,5 @@ hero-mobile-preview.png
 *.njsproj
 *.sln
 *.sw?
+public/downloads/livingcatalogue.pdf
+public/downloads/signaturecatalogue.pdf

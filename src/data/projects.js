@@ -1001,7 +1001,7 @@ export const projects = [
       'Dayim Signature Apartments, Broadway Commercial, Al-Kabir Town Phase 2, Lahore',
     ),
     downloads: {
-      catalog: '/downloads/dayim-signature-apartments-catalog.pdf',
+      catalog: '/downloads/signaturecatalogue.pdf',
       paymentPlan: '/downloads/signature-payment-plan.pdf',
     },
     x: 43,
@@ -1103,7 +1103,7 @@ export const projects = [
       'Dayim Living, Block C Commercial, Al-Kabir Town Phase 2, Lahore',
     ),
     downloads: {
-      catalog: '/downloads/dayim-living-catalog.pdf',
+      catalog: '/downloads/livingcatalogue.pdf',
       paymentPlan: '/downloads/living-payment-plan.pdf',
     },
     x: 50,
