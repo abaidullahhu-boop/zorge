@@ -367,18 +367,22 @@ function ProjectPage() {
         scrollContainerRef={pageRef}
       />
       <ProjectRooftopSection project={project} scrollContainerRef={pageRef} />
-      {projectGallery ? (
-        <GallerySection
-          previewImages={projectGallery.previewImages}
-          photoCount={projectGallery.photoCount}
-          modalItems={projectGallery.modalItems}
-          sectionId={`${project.id}-gallery`}
-          modalId={`${project.id}-gallery-modal`}
-          className="gallery-section--project"
-          scrollContainerRef={pageRef}
-        />
-      ) : null}
-      <ProjectEnquire project={project} />
+      <ProjectEnquire
+        project={project}
+        afterFacilities={
+          projectGallery ? (
+            <GallerySection
+              previewImages={projectGallery.previewImages}
+              photoCount={projectGallery.photoCount}
+              modalItems={projectGallery.modalItems}
+              sectionId={`${project.id}-gallery`}
+              modalId={`${project.id}-gallery-modal`}
+              className="gallery-section--project"
+              scrollContainerRef={pageRef}
+            />
+          ) : null
+        }
+      />
       <Footer onScrollTop={scrollToTop} />
     </main>
   )

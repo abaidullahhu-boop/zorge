@@ -429,6 +429,14 @@
   background: #000;
 }
 
+.project-stack--enquire .gallery-section--project {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
+  pointer-events: auto;
+  isolation: isolate;
+}
+
 .project-page .gallery-section--project {
   position: relative;
   z-index: 14;

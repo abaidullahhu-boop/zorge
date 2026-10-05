@@ -829,7 +829,11 @@ export function ProjectInventory({
   )
 }
 
-export function ProjectEnquire({ project, showFacilitiesBanner = true }) {
+export function ProjectEnquire({
+  project,
+  showFacilitiesBanner = true,
+  afterFacilities = null,
+}) {
   return (
     <div className="project-stack project-stack--enquire">
       {showFacilitiesBanner && project.enquireImage ? (
@@ -844,6 +848,7 @@ export function ProjectEnquire({ project, showFacilitiesBanner = true }) {
           />
         </figure>
       ) : null}
+      {afterFacilities}
       <section
         className="project-enquire"
         id="enquire"

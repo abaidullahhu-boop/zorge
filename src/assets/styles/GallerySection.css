@@ -118,6 +118,11 @@
   font: 600 clamp(36px, 5.2vw, 72px)/1.05 'Gilroy', sans-serif;
   letter-spacing: 0;
   text-transform: uppercase;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .gallery-title-count {
@@ -125,7 +130,7 @@
   font: 600 clamp(11px, .78vw, 14px)/1.2 'Gilroy', sans-serif;
   letter-spacing: .03em;
   text-transform: uppercase;
-  color: rgb(255 255 255 / 50%);
+  color: rgb(253 213 92 / 65%);
 }
 
 .gallery-link {
