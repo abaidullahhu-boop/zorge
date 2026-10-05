@@ -1,0 +1,97 @@
+const PREVIEW_LAYOUT = [
+  { id: 1, moveFactor: 0.75, width: 480, height: 640, desktopOnly: false },
+  { id: 2, moveFactor: 0.7, width: 480, height: 640, desktopOnly: false },
+  { id: 3, moveFactor: 1, width: 720, height: 900, desktopOnly: false },
+  { id: 4, moveFactor: 0.75, width: 480, height: 640, desktopOnly: false },
+  { id: 5, moveFactor: 0.7, width: 480, height: 640, desktopOnly: false },
+]
+
+function previewImagesFromSources(sources) {
+  const picks = PREVIEW_LAYOUT.map((layout, index) => {
+    const src =
+      sources[index] ??
+      sources[index % Math.max(sources.length, 1)] ??
+      sources[0]
+    return {
+      ...layout,
+      src,
+    }
+  })
+  return picks
+}
+
+function modalItemsFromSources(
+  sources,
+  { width = 2456, height = 1426, lastHeight = height } = {},
+) {
+  return sources.map((src, index) => ({
+    id: index + 1,
+    width,
+    height: index === sources.length - 1 && lastHeight !== height ? lastHeight : height,
+    xs: src,
+    md: src,
+    xxl: src,
+  }))
+}
+
+function sortedGlobSources(globResult) {
+  return Object.entries(globResult)
+    .sort(([a], [b]) =>
+      a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }),
+    )
+    .map(([, src]) => src)
+}
+
+const homeGalleryFiles = import.meta.glob(
+  '../assets/images/dayimgallery/*.{jpg,JPG,jpeg,png,PNG,webp}',
+  { eager: true, import: 'default' },
+)
+
+const dsaGalleryFiles = import.meta.glob(
+  '../assets/images/dsa/*.{jpg,JPG,jpeg,png,PNG,webp}',
+  { eager: true, import: 'default' },
+)
+
+const livingGalleryFiles = import.meta.glob(
+  '../assets/images/livinggallery/*.{jpg,JPG,jpeg,png,PNG,webp}',
+  { eager: true, import: 'default' },
+)
+
+const zindagiVisualFiles = import.meta.glob(
+  '../assets/images/{z,zone,ztwo,rooftop,zcon,zindagi}*.{jpg,jpeg,png,JPG}',
+  { eager: true, import: 'default' },
+)
+
+const homeGallerySources = sortedGlobSources(homeGalleryFiles)
+const dsaGallerySources = sortedGlobSources(dsaGalleryFiles)
+const livingGallerySources = sortedGlobSources(livingGalleryFiles)
+
+export const HOME_GALLERY = {
+  photoCount: homeGallerySources.length,
+  previewImages: previewImagesFromSources(homeGallerySources),
+  modalItems: modalItemsFromSources(homeGallerySources),
+}
+
+const zindagiModalSources = sortedGlobSources(zindagiVisualFiles).slice(0, 11)
+
+const PROJECT_GALLERIES = {
+  'dayim-signature-apartments': {
+    photoCount: dsaGallerySources.length,
+    previewImages: previewImagesFromSources(dsaGallerySources),
+    modalItems: modalItemsFromSources(dsaGallerySources),
+  },
+  'dayim-living': {
+    photoCount: livingGallerySources.length,
+    previewImages: previewImagesFromSources(livingGallerySources),
+    modalItems: modalItemsFromSources(livingGallerySources),
+  },
+  'dayim-zindagi': {
+    photoCount: zindagiModalSources.length,
+    previewImages: previewImagesFromSources(zindagiModalSources),
+    modalItems: modalItemsFromSources(zindagiModalSources),
+  },
+}
+
+export function getProjectGallery(projectId) {
+  return PROJECT_GALLERIES[projectId] ?? null
+}

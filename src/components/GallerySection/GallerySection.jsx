@@ -1,68 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { gsap } from '../../lib/gsap'
 import GalleryModal from '../GalleryModal/GalleryModal'
-import galleryBg1 from '../../assets/images/gallery-bg-1.png'
-import galleryBg2 from '../../assets/images/gallery-bg-2.png'
-import galleryBg3 from '../../assets/images/gallery-bg-3.png'
-import galleryBg4 from '../../assets/images/gallery-bg-4.png'
-import galleryBg5 from '../../assets/images/gallery-bg-5.png'
-import galleryBg6 from '../../assets/images/gallery-bg-6.png'
+import { HOME_GALLERY } from '../../data/galleries'
 import '../../assets/styles/GallerySection.css'
 
-const PHOTO_COUNT = 11
-
-const galleryImages = [
-  {
-    id: 1,
-    moveFactor: 0.8,
-    src: galleryBg1,
-    width: 504,
-    height: 672,
-    desktopOnly: false,
-  },
-  {
-    id: 2,
-    moveFactor: 0.9,
-    src: galleryBg2,
-    width: 672,
-    height: 448,
-    desktopOnly: false,
-  },
-  {
-    id: 3,
-    moveFactor: 0.6,
-    src: galleryBg3,
-    width: 420,
-    height: 504,
-    desktopOnly: true,
-  },
-  {
-    id: 4,
-    moveFactor: 1,
-    src: galleryBg4,
-    width: 672,
-    height: 672,
-    desktopOnly: false,
-  },
-  {
-    id: 5,
-    moveFactor: 0.7,
-    src: galleryBg5,
-    width: 504,
-    height: 420,
-    desktopOnly: false,
-  },
-  {
-    id: 6,
-    moveFactor: 0.8,
-    src: galleryBg6,
-    width: 504,
-    height: 672,
-    desktopOnly: false,
-  },
-]
-
-function GallerySection() {
+function GallerySection({
+  previewImages = HOME_GALLERY.previewImages,
+  photoCount = HOME_GALLERY.photoCount,
+  modalItems = HOME_GALLERY.modalItems,
+  sectionId = 'gallery',
+  modalId = 'gallery-modal',
+  className = '',
+  scrollContainerRef = null,
+}) {
+  const collageImages = previewImages.slice(0, 5)
   const [isVisible, setIsVisible] = useState(false)
   const [galleryOpen, setGalleryOpen] = useState(false)
   const sectionRef = useRef(null)
@@ -115,6 +66,8 @@ function GallerySection() {
       return undefined
     }
 
+    const scroller = scrollContainerRef?.current ?? undefined
+
     const ctx = gsap.context(() => {
       const getLift = () => Math.min(window.innerHeight * 0.2, 180)
 
@@ -130,6 +83,7 @@ function GallerySection() {
           force3D: true,
           scrollTrigger: {
             trigger: section,
+            scroller,
             start: 'top bottom',
             end: 'top top',
             scrub: true,
@@ -149,6 +103,7 @@ function GallerySection() {
             force3D: true,
             scrollTrigger: {
               trigger: section,
+              scroller,
               start: 'top bottom',
               end: 'bottom top',
               scrub: true,
@@ -160,7 +115,7 @@ function GallerySection() {
     }, section)
 
     return () => ctx.revert()
-  }, [])
+  }, [scrollContainerRef])
 
   useEffect(() => {
     const section = sectionRef.current
@@ -242,61 +197,80 @@ function GallerySection() {
     <>
       <section
         ref={sectionRef}
-        className={`gallery-section ${isVisible ? 'is-visible' : ''}`}
-        id="gallery"
-        aria-labelledby="gallery-title"
+        className={[
+          'gallery-section',
+          isVisible ? 'is-visible' : '',
+          className,
+        ]
+          .filter(Boolean)
+          .join(' ')}
+        id={sectionId}
+        aria-labelledby={`${sectionId}-title`}
       >
         <div className="gallery-slide" ref={slideRef}>
           <div className="gallery-background" aria-hidden="true">
             <div className="gallery-parallax" ref={parallaxRef}>
-              <div className="gallery-row gallery-row--top">
-                {galleryImages.slice(0, 4).map((image) => (
-                  <div
-                    key={image.id}
-                    className={[
-                      `gallery-image gallery-image--${image.id}`,
-                      image.desktopOnly ? 'gallery-image--desktop' : '',
-                    ]
-                      .filter(Boolean)
-                      .join(' ')}
-                  >
-                    <img
-                      data-move-factor={image.moveFactor}
-                      src={image.src}
-                      alt=""
-                      width={image.width}
-                      height={image.height}
-                      draggable="false"
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="gallery-row gallery-row--bottom">
-                {galleryImages.slice(4).map((image) => (
-                  <div
-                    key={image.id}
-                    className={`gallery-image gallery-image--${image.id}`}
-                  >
-                    <img
-                      data-move-factor={image.moveFactor}
-                      src={image.src}
-                      alt=""
-                      width={image.width}
-                      height={image.height}
-                      draggable="false"
-                    />
-                  </div>
-                ))}
+              <div className="gallery-stage">
+                <div className="gallery-col gallery-col--left">
+                  {collageImages.slice(0, 2).map((image) => (
+                    <div
+                      key={image.id}
+                      className="gallery-image gallery-image--side"
+                    >
+                      <img
+                        data-move-factor={image.moveFactor}
+                        src={image.src}
+                        alt=""
+                        width={image.width}
+                        height={image.height}
+                        draggable="false"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                <div className="gallery-col gallery-col--center">
+                  {collageImages[2] ? (
+                    <div className="gallery-image gallery-image--center">
+                      <img
+                        data-move-factor={collageImages[2].moveFactor}
+                        src={collageImages[2].src}
+                        alt=""
+                        width={collageImages[2].width}
+                        height={collageImages[2].height}
+                        draggable="false"
+                      />
+                    </div>
+                  ) : null}
+                </div>
+
+                <div className="gallery-col gallery-col--right">
+                  {collageImages.slice(3, 5).map((image) => (
+                    <div
+                      key={image.id}
+                      className="gallery-image gallery-image--side"
+                    >
+                      <img
+                        data-move-factor={image.moveFactor}
+                        src={image.src}
+                        alt=""
+                        width={image.width}
+                        height={image.height}
+                        draggable="false"
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
           <div className="gallery-title">
             <div className="gallery-title-line">
-              <h2 id="gallery-title" className="gallery-title-text">
+              <h2 id={`${sectionId}-title`} className="gallery-title-text">
                 Gallery
               </h2>
-              <p className="gallery-title-count">/{PHOTO_COUNT} photos</p>
+              <p className="gallery-title-count">/{photoCount} photos</p>
             </div>
 
             <button
@@ -306,7 +280,7 @@ function GallerySection() {
               aria-label="View gallery"
               aria-haspopup="dialog"
               aria-expanded={galleryOpen}
-              aria-controls="gallery-modal"
+              aria-controls={modalId}
             >
               <span className="gallery-view-btn gallery-view-btn--fallback">
                 <span className="gallery-view-btn__text">View</span>
@@ -344,7 +318,12 @@ function GallerySection() {
         </div>
       </section>
 
-      <GalleryModal open={galleryOpen} onClose={closeGallery} />
+      <GalleryModal
+        open={galleryOpen}
+        onClose={closeGallery}
+        items={modalItems}
+        modalId={modalId}
+      />
     </>
   )
 }

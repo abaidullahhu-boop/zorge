@@ -429,8 +429,16 @@
   background: #000;
 }
 
+.project-page .gallery-section--project {
+  position: relative;
+  z-index: 14;
+  margin-top: 0;
+  pointer-events: auto;
+  isolation: isolate;
+}
+
 .project-stack--enquire {
-  z-index: 13;
+  z-index: 15;
   margin-top: 0;
 }
 

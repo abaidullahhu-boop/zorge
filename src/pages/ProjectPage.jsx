@@ -11,6 +11,8 @@ import ProjectRooftopSection from '../components/ProjectsSection/ProjectRooftopS
 import TimeSection from '../components/TimeSection/TimeSection'
 import ServicesSection from '../components/ServicesSection/ServicesSection'
 import Footer from '../components/Footer/Footer'
+import GallerySection from '../components/GallerySection/GallerySection'
+import { getProjectGallery } from '../data/galleries'
 import { getProjectById, getProjectInventoryPath } from '../data/projects'
 import { gsap, ScrollTrigger } from '../lib/gsap'
 import '../assets/styles/ProjectsSection.css'
@@ -28,6 +30,7 @@ function ProjectPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const project = getProjectById(projectId)
+  const projectGallery = project ? getProjectGallery(project.id) : null
   const pageRef = useRef(null)
   const leavingRef = useRef(false)
   const leaveTargetRef = useRef('projects')
@@ -207,6 +210,7 @@ function ProjectPage() {
     const onKeyDown = (event) => {
       if (event.key !== 'Escape') return
       if (pageRef.current?.querySelector('.projects-lightbox')) return
+      if (document.querySelector('.gallery-modal.is-open')) return
       event.preventDefault()
       closeRef.current()
     }
@@ -363,6 +367,17 @@ function ProjectPage() {
         scrollContainerRef={pageRef}
       />
       <ProjectRooftopSection project={project} scrollContainerRef={pageRef} />
+      {projectGallery ? (
+        <GallerySection
+          previewImages={projectGallery.previewImages}
+          photoCount={projectGallery.photoCount}
+          modalItems={projectGallery.modalItems}
+          sectionId={`${project.id}-gallery`}
+          modalId={`${project.id}-gallery-modal`}
+          className="gallery-section--project"
+          scrollContainerRef={pageRef}
+        />
+      ) : null}
       <ProjectEnquire project={project} />
       <Footer onScrollTop={scrollToTop} />
     </main>

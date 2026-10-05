@@ -1,134 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import gallery1Xs from '../../assets/images/gallery-modal/1-xs.webp'
-import gallery1Md from '../../assets/images/gallery-modal/1-md.webp'
-import gallery1Xxl from '../../assets/images/gallery-modal/1-xxl.webp'
-import gallery2Xs from '../../assets/images/gallery-modal/2-xs.webp'
-import gallery2Md from '../../assets/images/gallery-modal/2-md.webp'
-import gallery2Xxl from '../../assets/images/gallery-modal/2-xxl.webp'
-import gallery3Xs from '../../assets/images/gallery-modal/3-xs.webp'
-import gallery3Md from '../../assets/images/gallery-modal/3-md.webp'
-import gallery3Xxl from '../../assets/images/gallery-modal/3-xxl.webp'
-import gallery4Xs from '../../assets/images/gallery-modal/4-xs.webp'
-import gallery4Md from '../../assets/images/gallery-modal/4-md.webp'
-import gallery4Xxl from '../../assets/images/gallery-modal/4-xxl.webp'
-import gallery5Xs from '../../assets/images/gallery-modal/5-xs.webp'
-import gallery5Md from '../../assets/images/gallery-modal/5-md.webp'
-import gallery5Xxl from '../../assets/images/gallery-modal/5-xxl.webp'
-import gallery6Xs from '../../assets/images/gallery-modal/6-xs.webp'
-import gallery6Md from '../../assets/images/gallery-modal/6-md.webp'
-import gallery6Xxl from '../../assets/images/gallery-modal/6-xxl.webp'
-import gallery7Xs from '../../assets/images/gallery-modal/7-xs.webp'
-import gallery7Md from '../../assets/images/gallery-modal/7-md.webp'
-import gallery7Xxl from '../../assets/images/gallery-modal/7-xxl.webp'
-import gallery8Xs from '../../assets/images/gallery-modal/8-xs.webp'
-import gallery8Md from '../../assets/images/gallery-modal/8-md.webp'
-import gallery8Xxl from '../../assets/images/gallery-modal/8-xxl.webp'
-import gallery9Xs from '../../assets/images/gallery-modal/9-xs.webp'
-import gallery9Md from '../../assets/images/gallery-modal/9-md.webp'
-import gallery9Xxl from '../../assets/images/gallery-modal/9-xxl.webp'
-import gallery10Xs from '../../assets/images/gallery-modal/10-xs.webp'
-import gallery10Md from '../../assets/images/gallery-modal/10-md.webp'
-import gallery10Xxl from '../../assets/images/gallery-modal/10-xxl.webp'
-import gallery11Xs from '../../assets/images/gallery-modal/11-xs.webp'
-import gallery11Md from '../../assets/images/gallery-modal/11-md.webp'
-import gallery11Xxl from '../../assets/images/gallery-modal/11-xxl.webp'
+import { HOME_GALLERY } from '../../data/galleries'
 import '../../assets/styles/GalleryModal.css'
 
 const ICONS = '/assets/images/icons.svg'
 
-const GALLERY_ITEMS = [
-  {
-    id: 1,
-    width: 2456,
-    height: 1426,
-    xs: gallery1Xs,
-    md: gallery1Md,
-    xxl: gallery1Xxl,
-  },
-  {
-    id: 2,
-    width: 2456,
-    height: 1426,
-    xs: gallery2Xs,
-    md: gallery2Md,
-    xxl: gallery2Xxl,
-  },
-  {
-    id: 3,
-    width: 2456,
-    height: 1426,
-    xs: gallery3Xs,
-    md: gallery3Md,
-    xxl: gallery3Xxl,
-  },
-  {
-    id: 4,
-    width: 2456,
-    height: 1426,
-    xs: gallery4Xs,
-    md: gallery4Md,
-    xxl: gallery4Xxl,
-  },
-  {
-    id: 5,
-    width: 2456,
-    height: 1426,
-    xs: gallery5Xs,
-    md: gallery5Md,
-    xxl: gallery5Xxl,
-  },
-  {
-    id: 6,
-    width: 2456,
-    height: 1426,
-    xs: gallery6Xs,
-    md: gallery6Md,
-    xxl: gallery6Xxl,
-  },
-  {
-    id: 7,
-    width: 2456,
-    height: 1426,
-    xs: gallery7Xs,
-    md: gallery7Md,
-    xxl: gallery7Xxl,
-  },
-  {
-    id: 8,
-    width: 2456,
-    height: 1426,
-    xs: gallery8Xs,
-    md: gallery8Md,
-    xxl: gallery8Xxl,
-  },
-  {
-    id: 9,
-    width: 2456,
-    height: 1426,
-    xs: gallery9Xs,
-    md: gallery9Md,
-    xxl: gallery9Xxl,
-  },
-  {
-    id: 10,
-    width: 2456,
-    height: 1426,
-    xs: gallery10Xs,
-    md: gallery10Md,
-    xxl: gallery10Xxl,
-  },
-  {
-    id: 11,
-    width: 2456,
-    height: 1637,
-    xs: gallery11Xs,
-    md: gallery11Md,
-    xxl: gallery11Xxl,
-  },
-]
-
-function GalleryModal({ open, onClose }) {
+function GalleryModal({
+  open,
+  onClose,
+  items = HOME_GALLERY.modalItems,
+  modalId = 'gallery-modal',
+}) {
   const [zoomed, setZoomed] = useState(false)
   const [present, setPresent] = useState(false)
   const [entered, setEntered] = useState(false)
@@ -303,7 +185,7 @@ function GalleryModal({ open, onClose }) {
       aria-modal="true"
       aria-label="Gallery"
       aria-hidden={!open}
-      id="gallery-modal"
+      id={modalId}
       tabIndex={-1}
       onTransitionEnd={handleTransitionEnd}
     >
@@ -407,7 +289,7 @@ function GalleryModal({ open, onClose }) {
             </div>
 
             <div className="gallery-modal__list">
-              {GALLERY_ITEMS.map((item) => (
+              {items.map((item) => (
                 <figure key={item.id} className="gallery-modal__item">
                   <picture>
                     <source
