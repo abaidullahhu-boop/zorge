@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { gsap } from '../../lib/gsap'
-import g2 from '../../assets/images/g2.jpeg'
 import dsaFoundation1 from '../../assets/images/dsaconstruction/foundation/IMG_1853.jpg'
 import dsaFoundation2 from '../../assets/images/dsaconstruction/foundation/IMG_2048.jpg'
 import dsaFoundation3 from '../../assets/images/dsaconstruction/foundation/IMG_3347.jpg'
@@ -13,11 +12,15 @@ import dsaStructure4 from '../../assets/images/dsaconstruction/structure/IMG_979
 import dsaStructure5 from '../../assets/images/dsaconstruction/structure/IMG_9911.jpg'
 import dsaBrick1 from '../../assets/images/dsaconstruction/brick/IMG_0215.jpg'
 import dsaBrick2 from '../../assets/images/dsaconstruction/brick/IMG_4914.jpg'
+import dsaBrickExtra from '../../assets/images/dsaconstruction/brick/brick.JPG'
 import dsaBrick3 from '../../assets/images/dsaconstruction/brick/IMG_4996.jpg'
 import dsaBrick4 from '../../assets/images/dsaconstruction/brick/IMG_5229.jpg'
-import dsaFinishing from '../../assets/images/dsafinsing.png'
+import dsaPlaster1 from '../../assets/images/dsaconstruction/plaster/img03.jpeg'
+import dsaFinished1 from '../../assets/images/dsaconstruction/finished/img01.jpg'
+import dsaCeiling1 from '../../assets/images/dsaconstruction/ceiling/img01.jpeg'
+import dsaCeiling2 from '../../assets/images/dsaconstruction/ceiling/img02.jpeg'
+import dsaCeiling3 from '../../assets/images/dsaconstruction/ceiling/img03.jpeg'
 import dsaFlooring from '../../assets/images/Signature-Interior-Images/Interior Images /3- 2 Bed Apartment White Gold Theme /01.jpg'
-import dsaCeilings from '../../assets/images/Signature-Interior-Images/Interior Images /1- Studio Apartment Light Blue Theme/5.png'
 import dsMark from '../../assets/images/dsmark.png'
 import '../../assets/styles/TimeSection.css'
 
@@ -86,6 +89,15 @@ const defaultJourneyGallery = [
       'With the foundation completed, structural work progressed floor by floor. From the lower ground to the sixth floor, the complete eight-floor structure was successfully constructed within approximately eight to nine months.',
   },
   {
+    id: 'dsa-structure-5',
+    phase: 'structure',
+    src: dsaStructure5,
+    alt: 'Dayim Signature Apartments structural construction progress',
+    label: 'Building the Structure',
+    detail:
+      'With the foundation completed, structural work progressed floor by floor. From the lower ground to the sixth floor, the complete eight-floor structure was successfully constructed within approximately eight to nine months.',
+  },
+  {
     id: 'dsa-structure-3',
     phase: 'structure',
     src: dsaStructure3,
@@ -104,13 +116,13 @@ const defaultJourneyGallery = [
       'With the foundation completed, structural work progressed floor by floor. From the lower ground to the sixth floor, the complete eight-floor structure was successfully constructed within approximately eight to nine months.',
   },
   {
-    id: 'dsa-structure-5',
-    phase: 'structure',
-    src: dsaStructure5,
-    alt: 'Dayim Signature Apartments structural construction progress',
-    label: 'Building the Structure',
+    id: 'dsa-brickwork-extra',
+    phase: 'brickwork',
+    src: dsaBrickExtra,
+    alt: 'Dayim Signature Apartments brickwork and internal divisions',
+    label: 'Brickwork & Internal Divisions',
     detail:
-      'With the foundation completed, structural work progressed floor by floor. From the lower ground to the sixth floor, the complete eight-floor structure was successfully constructed within approximately eight to nine months.',
+      'Once the structure was completed, brickwork commenced across the building. Apartment and commercial spaces were divided and defined, with internal and external brickwork completed to establish the final layout.',
   },
   {
     id: 'dsa-brickwork-1',
@@ -121,6 +133,7 @@ const defaultJourneyGallery = [
     detail:
       'Once the structure was completed, brickwork commenced across the building. Apartment and commercial spaces were divided and defined, with internal and external brickwork completed to establish the final layout.',
   },
+ 
   {
     id: 'dsa-brickwork-2',
     phase: 'brickwork',
@@ -150,23 +163,35 @@ const defaultJourneyGallery = [
   },
   {
     id: 'dsa-plastering',
-    src: g2,
+    src: dsaPlaster1,
     alt: 'Dayim Signature Apartments exterior plastering and scaffolding in progress',
     label: 'Plastering & Surface Development',
     detail:
       'The next phase focused on inner and outer plastering, giving the building its finished architectural form. Internal surfaces were prepared for subsequent flooring, ceiling, paint, and finishing works.',
   },
+ 
   {
-    id: 'dsa-flooring',
-    src: dsaFlooring,
-    alt: 'Dayim Signature Apartments finished apartment with flooring and large windows',
-    label: 'Flooring, Grills & Windows',
+    id: 'dsa-ceilings-1',
+    phase: 'ceilings',
+    src: dsaCeiling1,
+    alt: 'Dayim Signature Apartments finished interior with ceilings, lighting, and paint',
+    label: 'Ceilings, Lighting & Paint',
     detail:
-      'Finishing works progressed with the installation of floor tiles, balcony and safety grills, and aluminum-framed glass windows. These elements brought both functionality and a refined appearance to the apartments and commercial spaces.',
+      'False ceiling works, electrical lighting, and painting were carried out as the building moved into its final finishing stage. Each space was progressively prepared to achieve a clean and complete interior finish.',
   },
   {
-    id: 'dsa-ceilings',
-    src: dsaCeilings,
+    id: 'dsa-ceilings-2',
+    phase: 'ceilings',
+    src: dsaCeiling2,
+    alt: 'Dayim Signature Apartments finished interior with ceilings, lighting, and paint',
+    label: 'Ceilings, Lighting & Paint',
+    detail:
+      'False ceiling works, electrical lighting, and painting were carried out as the building moved into its final finishing stage. Each space was progressively prepared to achieve a clean and complete interior finish.',
+  },
+  {
+    id: 'dsa-ceilings-3',
+    phase: 'ceilings',
+    src: dsaCeiling3,
     alt: 'Dayim Signature Apartments finished interior with ceilings, lighting, and paint',
     label: 'Ceilings, Lighting & Paint',
     detail:
@@ -174,7 +199,7 @@ const defaultJourneyGallery = [
   },
   {
     id: 'dsa-delivered',
-    src: dsaFinishing,
+    src: dsaFinished1,
     alt: 'Dayim Signature Apartments completed facade with Dayim Developers head office branding',
     label: 'Finished & Delivered',
     detail:
