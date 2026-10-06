@@ -1,9 +1,20 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { gsap } from '../../lib/gsap'
-import g1 from '../../assets/images/g1.jpeg'
 import g2 from '../../assets/images/g2.jpeg'
-import g4 from '../../assets/images/g4.jpeg'
-import g5 from '../../assets/images/g5.jpeg'
+import dsaFoundation1 from '../../assets/images/dsaconstruction/foundation/IMG_1853.jpg'
+import dsaFoundation2 from '../../assets/images/dsaconstruction/foundation/IMG_2048.jpg'
+import dsaFoundation3 from '../../assets/images/dsaconstruction/foundation/IMG_3347.jpg'
+import dsaFoundation4 from '../../assets/images/dsaconstruction/foundation/IMG_3436.jpg'
+import dsaFoundation5 from '../../assets/images/dsaconstruction/foundation/IMG_3502.jpg'
+import dsaStructure1 from '../../assets/images/dsaconstruction/structure/IMG_0033.jpg'
+import dsaStructure2 from '../../assets/images/dsaconstruction/structure/IMG_0457.jpg'
+import dsaStructure3 from '../../assets/images/dsaconstruction/structure/IMG_2961.jpg'
+import dsaStructure4 from '../../assets/images/dsaconstruction/structure/IMG_9792.jpg'
+import dsaStructure5 from '../../assets/images/dsaconstruction/structure/IMG_9911.jpg'
+import dsaBrick1 from '../../assets/images/dsaconstruction/brick/IMG_0215.jpg'
+import dsaBrick2 from '../../assets/images/dsaconstruction/brick/IMG_4914.jpg'
+import dsaBrick3 from '../../assets/images/dsaconstruction/brick/IMG_4996.jpg'
+import dsaBrick4 from '../../assets/images/dsaconstruction/brick/IMG_5229.jpg'
 import dsaFinishing from '../../assets/images/dsafinsing.png'
 import dsaFlooring from '../../assets/images/Signature-Interior-Images/Interior Images /3- 2 Bed Apartment White Gold Theme /01.jpg'
 import dsaCeilings from '../../assets/images/Signature-Interior-Images/Interior Images /1- Studio Apartment Light Blue Theme/5.png'
@@ -12,25 +23,127 @@ import '../../assets/styles/TimeSection.css'
 
 const defaultJourneyGallery = [
   {
-    id: 'dsa-groundwork',
-    src: g4,
-    alt: 'Dayim Signature Apartments foundation slab with column reinforcement cages',
+    id: 'dsa-groundwork-1',
+    phase: 'groundwork',
+    src: dsaFoundation1,
+    alt: 'Dayim Signature Apartments groundwork and foundation progress',
     label: 'Groundwork & Foundation',
     detail:
       'The journey began with soil testing, site preparation, excavation, and PCC work. This was followed by the raft foundation and retaining wall works, creating a strong base for the structure above.',
   },
   {
-    id: 'dsa-structure',
-    src: g5,
-    alt: 'Dayim Signature Apartments vision board beside rising structure and formwork',
+    id: 'dsa-groundwork-2',
+    phase: 'groundwork',
+    src: dsaFoundation2,
+    alt: 'Dayim Signature Apartments groundwork and foundation progress',
+    label: 'Groundwork & Foundation',
+    detail:
+      'The journey began with soil testing, site preparation, excavation, and PCC work. This was followed by the raft foundation and retaining wall works, creating a strong base for the structure above.',
+  },
+  {
+    id: 'dsa-groundwork-3',
+    phase: 'groundwork',
+    src: dsaFoundation3,
+    alt: 'Dayim Signature Apartments groundwork and foundation progress',
+    label: 'Groundwork & Foundation',
+    detail:
+      'The journey began with soil testing, site preparation, excavation, and PCC work. This was followed by the raft foundation and retaining wall works, creating a strong base for the structure above.',
+  },
+  {
+    id: 'dsa-groundwork-4',
+    phase: 'groundwork',
+    src: dsaFoundation4,
+    alt: 'Dayim Signature Apartments groundwork and foundation progress',
+    label: 'Groundwork & Foundation',
+    detail:
+      'The journey began with soil testing, site preparation, excavation, and PCC work. This was followed by the raft foundation and retaining wall works, creating a strong base for the structure above.',
+  },
+  {
+    id: 'dsa-groundwork-5',
+    phase: 'groundwork',
+    src: dsaFoundation5,
+    alt: 'Dayim Signature Apartments groundwork and foundation progress',
+    label: 'Groundwork & Foundation',
+    detail:
+      'The journey began with soil testing, site preparation, excavation, and PCC work. This was followed by the raft foundation and retaining wall works, creating a strong base for the structure above.',
+  },
+  {
+    id: 'dsa-structure-1',
+    phase: 'structure',
+    src: dsaStructure1,
+    alt: 'Dayim Signature Apartments structural construction progress',
     label: 'Building the Structure',
     detail:
       'With the foundation completed, structural work progressed floor by floor. From the lower ground to the sixth floor, the complete eight-floor structure was successfully constructed within approximately eight to nine months.',
   },
   {
-    id: 'dsa-brickwork',
-    src: g1,
-    alt: 'Dayim Signature Apartments multi-storey concrete frame with early masonry',
+    id: 'dsa-structure-2',
+    phase: 'structure',
+    src: dsaStructure2,
+    alt: 'Dayim Signature Apartments structural construction progress',
+    label: 'Building the Structure',
+    detail:
+      'With the foundation completed, structural work progressed floor by floor. From the lower ground to the sixth floor, the complete eight-floor structure was successfully constructed within approximately eight to nine months.',
+  },
+  {
+    id: 'dsa-structure-3',
+    phase: 'structure',
+    src: dsaStructure3,
+    alt: 'Dayim Signature Apartments structural construction progress',
+    label: 'Building the Structure',
+    detail:
+      'With the foundation completed, structural work progressed floor by floor. From the lower ground to the sixth floor, the complete eight-floor structure was successfully constructed within approximately eight to nine months.',
+  },
+  {
+    id: 'dsa-structure-4',
+    phase: 'structure',
+    src: dsaStructure4,
+    alt: 'Dayim Signature Apartments structural construction progress',
+    label: 'Building the Structure',
+    detail:
+      'With the foundation completed, structural work progressed floor by floor. From the lower ground to the sixth floor, the complete eight-floor structure was successfully constructed within approximately eight to nine months.',
+  },
+  {
+    id: 'dsa-structure-5',
+    phase: 'structure',
+    src: dsaStructure5,
+    alt: 'Dayim Signature Apartments structural construction progress',
+    label: 'Building the Structure',
+    detail:
+      'With the foundation completed, structural work progressed floor by floor. From the lower ground to the sixth floor, the complete eight-floor structure was successfully constructed within approximately eight to nine months.',
+  },
+  {
+    id: 'dsa-brickwork-1',
+    phase: 'brickwork',
+    src: dsaBrick1,
+    alt: 'Dayim Signature Apartments brickwork and internal divisions',
+    label: 'Brickwork & Internal Divisions',
+    detail:
+      'Once the structure was completed, brickwork commenced across the building. Apartment and commercial spaces were divided and defined, with internal and external brickwork completed to establish the final layout.',
+  },
+  {
+    id: 'dsa-brickwork-2',
+    phase: 'brickwork',
+    src: dsaBrick2,
+    alt: 'Dayim Signature Apartments brickwork and internal divisions',
+    label: 'Brickwork & Internal Divisions',
+    detail:
+      'Once the structure was completed, brickwork commenced across the building. Apartment and commercial spaces were divided and defined, with internal and external brickwork completed to establish the final layout.',
+  },
+  {
+    id: 'dsa-brickwork-3',
+    phase: 'brickwork',
+    src: dsaBrick3,
+    alt: 'Dayim Signature Apartments brickwork and internal divisions',
+    label: 'Brickwork & Internal Divisions',
+    detail:
+      'Once the structure was completed, brickwork commenced across the building. Apartment and commercial spaces were divided and defined, with internal and external brickwork completed to establish the final layout.',
+  },
+  {
+    id: 'dsa-brickwork-4',
+    phase: 'brickwork',
+    src: dsaBrick4,
+    alt: 'Dayim Signature Apartments brickwork and internal divisions',
     label: 'Brickwork & Internal Divisions',
     detail:
       'Once the structure was completed, brickwork commenced across the building. Apartment and commercial spaces were divided and defined, with internal and external brickwork completed to establish the final layout.',
