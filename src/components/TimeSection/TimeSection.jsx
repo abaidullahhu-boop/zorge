@@ -15,12 +15,12 @@ import dsaBrick2 from '../../assets/images/dsaconstruction/brick/IMG_4914.jpg'
 import dsaBrickExtra from '../../assets/images/dsaconstruction/brick/brick.JPG'
 import dsaBrick3 from '../../assets/images/dsaconstruction/brick/IMG_4996.jpg'
 import dsaBrick4 from '../../assets/images/dsaconstruction/brick/IMG_5229.jpg'
-import dsaPlaster1 from '../../assets/images/dsaconstruction/plaster/img03.jpeg'
+import dsaPlaster1 from '../../assets/images/dsaconstruction/plaster/img03.jpg'
+import dsaPlaster2 from '../../assets/images/dsaconstruction/plaster/floring.jpeg'
 import dsaFinished1 from '../../assets/images/dsaconstruction/finished/img01.jpg'
 import dsaCeiling1 from '../../assets/images/dsaconstruction/ceiling/img01.jpeg'
 import dsaCeiling2 from '../../assets/images/dsaconstruction/ceiling/img02.jpeg'
 import dsaCeiling3 from '../../assets/images/dsaconstruction/ceiling/img03.jpeg'
-import dsaFlooring from '../../assets/images/Signature-Interior-Images/Interior Images /3- 2 Bed Apartment White Gold Theme /01.jpg'
 import dsMark from '../../assets/images/dsmark.png'
 import '../../assets/styles/TimeSection.css'
 
@@ -119,6 +119,7 @@ const defaultJourneyGallery = [
     id: 'dsa-brickwork-extra',
     phase: 'brickwork',
     src: dsaBrickExtra,
+    fit: 'contain',
     alt: 'Dayim Signature Apartments brickwork and internal divisions',
     label: 'Brickwork & Internal Divisions',
     detail:
@@ -162,8 +163,18 @@ const defaultJourneyGallery = [
       'Once the structure was completed, brickwork commenced across the building. Apartment and commercial spaces were divided and defined, with internal and external brickwork completed to establish the final layout.',
   },
   {
-    id: 'dsa-plastering',
+    id: 'dsa-plastering-1',
+    phase: 'plastering',
     src: dsaPlaster1,
+    alt: 'Dayim Signature Apartments exterior plastering and scaffolding in progress',
+    label: 'Plastering & Surface Development',
+    detail:
+      'The next phase focused on inner and outer plastering, giving the building its finished architectural form. Internal surfaces were prepared for subsequent flooring, ceiling, paint, and finishing works.',
+  },
+  {
+    id: 'dsa-plastering-2',
+    phase: 'plastering',
+    src: dsaPlaster2,
     alt: 'Dayim Signature Apartments exterior plastering and scaffolding in progress',
     label: 'Plastering & Surface Development',
     detail:
@@ -526,7 +537,11 @@ function TimeSection({
                   {journeyGallery.map((plan, index) => (
                     <div
                       key={plan.id}
-                      className="time-gallery-stack-item"
+                      className={`time-gallery-stack-item${
+                        plan.fit === 'contain'
+                          ? ' time-gallery-stack-item--contain'
+                          : ''
+                      }`}
                       aria-hidden={index !== activePlanIndex}
                     >
                       <img

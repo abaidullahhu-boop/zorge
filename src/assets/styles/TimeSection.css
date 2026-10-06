@@ -311,6 +311,10 @@
   pointer-events: none;
 }
 
+.time-gallery-stack-item--contain img {
+  object-fit: contain;
+}
+
 @keyframes time-gallery-plan-in {
   from {
     opacity: 0;
