@@ -57,22 +57,21 @@ const livingGalleryFiles = import.meta.glob(
   { eager: true, import: 'default' },
 )
 
-const zindagiVisualFiles = import.meta.glob(
-  '../assets/images/{z,zone,ztwo,rooftop,zcon,zindagi}*.{jpg,jpeg,png,JPG}',
+const zindagiGalleryFiles = import.meta.glob(
+  '../assets/images/zindagi/*.{jpg,JPG,jpeg,png,PNG,webp}',
   { eager: true, import: 'default' },
 )
 
 const homeGallerySources = sortedGlobSources(homeGalleryFiles)
 const dsaGallerySources = sortedGlobSources(dsaGalleryFiles)
 const livingGallerySources = sortedGlobSources(livingGalleryFiles)
+const zindagiGallerySources = sortedGlobSources(zindagiGalleryFiles)
 
 export const HOME_GALLERY = {
   photoCount: homeGallerySources.length,
   previewImages: previewImagesFromSources(homeGallerySources),
   modalItems: modalItemsFromSources(homeGallerySources),
 }
-
-const zindagiModalSources = sortedGlobSources(zindagiVisualFiles).slice(0, 11)
 
 const PROJECT_GALLERIES = {
   'dayim-signature-apartments': {
@@ -86,9 +85,9 @@ const PROJECT_GALLERIES = {
     modalItems: modalItemsFromSources(livingGallerySources),
   },
   'dayim-zindagi': {
-    photoCount: zindagiModalSources.length,
-    previewImages: previewImagesFromSources(zindagiModalSources),
-    modalItems: modalItemsFromSources(zindagiModalSources),
+    photoCount: zindagiGallerySources.length,
+    previewImages: previewImagesFromSources(zindagiGallerySources),
+    modalItems: modalItemsFromSources(zindagiGallerySources),
   },
 }
 
