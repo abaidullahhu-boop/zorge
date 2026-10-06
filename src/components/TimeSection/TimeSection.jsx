@@ -21,6 +21,7 @@ import dsaFinished1 from '../../assets/images/dsaconstruction/finished/img01.jpg
 import dsaCeiling1 from '../../assets/images/dsaconstruction/ceiling/img01.jpeg'
 import dsaCeiling2 from '../../assets/images/dsaconstruction/ceiling/img02.jpeg'
 import dsaCeiling3 from '../../assets/images/dsaconstruction/ceiling/img03.jpeg'
+import dsaFlooring from '../../assets/images/dsaconstruction/flooring/flooring.png'
 import dsMark from '../../assets/images/dsmark.png'
 import '../../assets/styles/TimeSection.css'
 
@@ -180,7 +181,15 @@ const defaultJourneyGallery = [
     detail:
       'The next phase focused on inner and outer plastering, giving the building its finished architectural form. Internal surfaces were prepared for subsequent flooring, ceiling, paint, and finishing works.',
   },
- 
+  {
+    id: 'dsa-flooring',
+    phase: 'flooring',
+    src: dsaFlooring,
+    alt: 'Dayim Signature Apartments corridor with polished tile flooring and glass partitions',
+    label: 'Flooring, Grills & Windows',
+    detail:
+      'Finishing works progressed with the installation of floor tiles, balcony and safety grills, and aluminum-framed glass windows. These elements brought both functionality and a refined appearance to the apartments and commercial spaces.',
+  },
   {
     id: 'dsa-ceilings-1',
     phase: 'ceilings',
