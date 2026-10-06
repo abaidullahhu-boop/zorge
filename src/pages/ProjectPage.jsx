@@ -12,7 +12,7 @@ import TimeSection from '../components/TimeSection/TimeSection'
 import ServicesSection from '../components/ServicesSection/ServicesSection'
 import Footer from '../components/Footer/Footer'
 import GallerySection from '../components/GallerySection/GallerySection'
-import { getProjectGallery } from '../data/galleries'
+import { getProjectAmenities, getProjectGallery } from '../data/galleries'
 import { getProjectById, getProjectInventoryPath } from '../data/projects'
 import { gsap, ScrollTrigger } from '../lib/gsap'
 import '../assets/styles/ProjectsSection.css'
@@ -31,6 +31,7 @@ function ProjectPage() {
   const location = useLocation()
   const project = getProjectById(projectId)
   const projectGallery = project ? getProjectGallery(project.id) : null
+  const projectAmenities = project ? getProjectAmenities(project.id) : null
   const pageRef = useRef(null)
   const leavingRef = useRef(false)
   const leaveTargetRef = useRef('projects')
@@ -367,6 +368,18 @@ function ProjectPage() {
         scrollContainerRef={pageRef}
       />
       <ProjectRooftopSection project={project} scrollContainerRef={pageRef} />
+      {projectAmenities ? (
+        <GallerySection
+          previewImages={projectAmenities.previewImages}
+          photoCount={projectAmenities.photoCount}
+          title="Amenities"
+          interactive={false}
+          showCount={false}
+          sectionId={`${project.id}-amenities`}
+          className="gallery-section--project gallery-section--amenities"
+          scrollContainerRef={pageRef}
+        />
+      ) : null}
       <ProjectEnquire
         project={project}
         afterFacilities={

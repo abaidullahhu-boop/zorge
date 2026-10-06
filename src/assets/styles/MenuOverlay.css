@@ -83,17 +83,18 @@
   font: 600 11px / 1 'Gilroy', sans-serif;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  color: rgb(255 255 255 / 55%);
 }
 
 .menu-overlay__brand-name {
   font: 600 clamp(18px, 2vw, 28px) / 1.05 'Gilroy', sans-serif;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .menu-overlay__close {
@@ -244,6 +245,11 @@
   color: transparent;
 }
 
+.menu-overlay__link.is-featured .menu-overlay__link-text {
+  font-size: clamp(20px, 5.2vw, 24px);
+  color: #fff;
+}
+
 .menu-overlay__link.is-active .menu-overlay__link-arrow {
   opacity: 1;
   transform: translateX(0);
@@ -305,6 +311,10 @@
   .menu-overlay__link-text {
     font-size: clamp(16px, 4.6vw, 20px);
     letter-spacing: 0.03em;
+  }
+
+  .menu-overlay__link.is-featured .menu-overlay__link-text {
+    font-size: clamp(19px, 5.4vw, 23px);
   }
 
   .menu-overlay__link:hover .menu-overlay__link-text,

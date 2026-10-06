@@ -122,7 +122,7 @@ function MenuOverlay({ open, onClose }) {
               aria-label="Close menu"
               onClick={onClose}
             >
-              <span className="menu-overlay__brand-kicker">Menu</span>
+              <span className="menu-overlay__brand-kicker">Explore</span>
               <span className="menu-overlay__brand-name">Dayim Developers</span>
             </button>
 
@@ -159,7 +159,7 @@ function MenuOverlay({ open, onClose }) {
                     style={{ '--menu-i': index + 1 }}
                   >
                     <a
-                      className={`menu-overlay__link${isActive ? ' is-active' : ''}`}
+                      className={`menu-overlay__link${isActive ? ' is-active' : ''}${action === 'projects' ? ' is-featured' : ''}`}
                       href={to ?? href ?? '#'}
                       aria-current={isActive ? 'true' : undefined}
                       onClick={(event) => {

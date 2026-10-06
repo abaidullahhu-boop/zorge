@@ -10,10 +10,22 @@ function GallerySection({
   modalItems = HOME_GALLERY.modalItems,
   sectionId = 'gallery',
   modalId = 'gallery-modal',
+  title = 'Gallery',
+  interactive = true,
+  showCount = true,
   className = '',
   scrollContainerRef = null,
 }) {
-  const collageImages = previewImages.slice(0, 5)
+  const collageImages = interactive
+    ? previewImages.slice(0, 5)
+    : previewImages
+  const isDenseCollage = collageImages.length > 5
+  const leftCount = isDenseCollage ? 3 : 2
+  const centerCount = isDenseCollage ? 2 : 1
+  const rightStart = leftCount + centerCount
+  const leftImages = collageImages.slice(0, leftCount)
+  const centerImages = collageImages.slice(leftCount, rightStart)
+  const rightImages = collageImages.slice(rightStart)
   const [isVisible, setIsVisible] = useState(false)
   const [galleryOpen, setGalleryOpen] = useState(false)
   const sectionRef = useRef(null)
@@ -25,8 +37,9 @@ function GallerySection({
 
   const openGallery = useCallback((event) => {
     event.preventDefault()
+    if (!interactive) return
     setGalleryOpen(true)
-  }, [])
+  }, [interactive])
 
   const closeGallery = useCallback(() => setGalleryOpen(false), [])
 
@@ -119,8 +132,7 @@ function GallerySection({
 
   useEffect(() => {
     const section = sectionRef.current
-    const cursor = cursorRef.current
-    if (!section || !cursor) return undefined
+    if (!section) return undefined
 
     const reduceMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
@@ -132,6 +144,11 @@ function GallerySection({
       section.classList.add('is-touch')
       return undefined
     }
+
+    if (!interactive) return undefined
+
+    const cursor = cursorRef.current
+    if (!cursor) return undefined
 
     const maxShift = 22
     const imageNodes = section.querySelectorAll('[data-move-factor]')
@@ -191,7 +208,7 @@ function GallerySection({
       section.removeEventListener('pointerleave', onPointerLeave)
       gsap.ticker.remove(tick)
     }
-  }, [])
+  }, [interactive])
 
   return (
     <>
@@ -200,6 +217,7 @@ function GallerySection({
         className={[
           'gallery-section',
           isVisible ? 'is-visible' : '',
+          interactive ? '' : 'gallery-section--static',
           className,
         ]
           .filter(Boolean)
@@ -210,9 +228,16 @@ function GallerySection({
         <div className="gallery-slide" ref={slideRef}>
           <div className="gallery-background" aria-hidden="true">
             <div className="gallery-parallax" ref={parallaxRef}>
-              <div className="gallery-stage">
+              <div
+                className={[
+                  'gallery-stage',
+                  isDenseCollage ? 'gallery-stage--dense' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+              >
                 <div className="gallery-col gallery-col--left">
-                  {collageImages.slice(0, 2).map((image) => (
+                  {leftImages.map((image) => (
                     <div
                       key={image.id}
                       className="gallery-image gallery-image--side"
@@ -230,22 +255,25 @@ function GallerySection({
                 </div>
 
                 <div className="gallery-col gallery-col--center">
-                  {collageImages[2] ? (
-                    <div className="gallery-image gallery-image--center">
+                  {centerImages.map((image) => (
+                    <div
+                      key={image.id}
+                      className="gallery-image gallery-image--center"
+                    >
                       <img
-                        data-move-factor={collageImages[2].moveFactor}
-                        src={collageImages[2].src}
+                        data-move-factor={image.moveFactor}
+                        src={image.src}
                         alt=""
-                        width={collageImages[2].width}
-                        height={collageImages[2].height}
+                        width={image.width}
+                        height={image.height}
                         draggable="false"
                       />
                     </div>
-                  ) : null}
+                  ))}
                 </div>
 
                 <div className="gallery-col gallery-col--right">
-                  {collageImages.slice(3, 5).map((image) => (
+                  {rightImages.map((image) => (
                     <div
                       key={image.id}
                       className="gallery-image gallery-image--side"
@@ -268,62 +296,70 @@ function GallerySection({
           <div className="gallery-title">
             <div className="gallery-title-line">
               <h2 id={`${sectionId}-title`} className="gallery-title-text">
-                Gallery
+                {title}
               </h2>
-              <p className="gallery-title-count">/{photoCount} photos</p>
+              {showCount ? (
+                <p className="gallery-title-count">/{photoCount} photos</p>
+              ) : null}
             </div>
 
-            <button
-              type="button"
-              className="gallery-link"
-              onClick={openGallery}
-              aria-label="View gallery"
-              aria-haspopup="dialog"
-              aria-expanded={galleryOpen}
-              aria-controls={modalId}
-            >
-              <span className="gallery-view-btn gallery-view-btn--fallback">
-                <span className="gallery-view-btn__text">View</span>
-                <span className="gallery-view-btn__icon" aria-hidden="true">
-                  <svg width="7" height="12" viewBox="0 0 7 12" fill="none">
-                    <path
-                      d="M1 1l4.5 5L1 11"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
-                </span>
-              </span>
-            </button>
+            {interactive ? (
+              <>
+                <button
+                  type="button"
+                  className="gallery-link"
+                  onClick={openGallery}
+                  aria-label={`View ${title.toLowerCase()}`}
+                  aria-haspopup="dialog"
+                  aria-expanded={galleryOpen}
+                  aria-controls={modalId}
+                >
+                  <span className="gallery-view-btn gallery-view-btn--fallback">
+                    <span className="gallery-view-btn__text">View</span>
+                    <span className="gallery-view-btn__icon" aria-hidden="true">
+                      <svg width="7" height="12" viewBox="0 0 7 12" fill="none">
+                        <path
+                          d="M1 1l4.5 5L1 11"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                </button>
 
-            <div
-              className="gallery-cursor"
-              ref={cursorRef}
-              aria-hidden="true"
-            >
-              <span className="gallery-view-btn">
-                <span className="gallery-view-btn__text">View</span>
-                <span className="gallery-view-btn__icon">
-                  <svg width="7" height="12" viewBox="0 0 7 12" fill="none">
-                    <path
-                      d="M1 1l4.5 5L1 11"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
-                </span>
-              </span>
-            </div>
+                <div
+                  className="gallery-cursor"
+                  ref={cursorRef}
+                  aria-hidden="true"
+                >
+                  <span className="gallery-view-btn">
+                    <span className="gallery-view-btn__text">View</span>
+                    <span className="gallery-view-btn__icon">
+                      <svg width="7" height="12" viewBox="0 0 7 12" fill="none">
+                        <path
+                          d="M1 1l4.5 5L1 11"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                        />
+                      </svg>
+                    </span>
+                  </span>
+                </div>
+              </>
+            ) : null}
           </div>
         </div>
       </section>
 
-      <GalleryModal
-        open={galleryOpen}
-        onClose={closeGallery}
-        items={modalItems}
-        modalId={modalId}
-      />
+      {interactive ? (
+        <GalleryModal
+          open={galleryOpen}
+          onClose={closeGallery}
+          items={modalItems}
+          modalId={modalId}
+        />
+      ) : null}
     </>
   )
 }

@@ -20,6 +20,21 @@ function previewImagesFromSources(sources) {
   return picks
 }
 
+function collageImagesFromSources(sources) {
+  const factors = [0.75, 0.7, 0.8, 1, 1, 0.8, 0.7, 0.75]
+  return sources.map((src, index) => {
+    const isCenter = index === 3 || index === 4
+    return {
+      id: index + 1,
+      moveFactor: factors[index] ?? 0.7,
+      width: isCenter ? 560 : 360,
+      height: isCenter ? 560 : 360,
+      desktopOnly: false,
+      src,
+    }
+  })
+}
+
 function modalItemsFromSources(
   sources,
   { width = 2456, height = 1426, lastHeight = height } = {},
@@ -34,11 +49,27 @@ function modalItemsFromSources(
   }))
 }
 
-function sortedGlobSources(globResult) {
+function dayimGalleryIndex(path) {
+  const match = path.match(/\/dayim(\d+)\./i)
+  return match ? Number(match[1]) : null
+}
+
+function sortedGlobSources(globResult, { prioritizeDayim = false } = {}) {
   return Object.entries(globResult)
-    .sort(([a], [b]) =>
-      a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }),
-    )
+    .sort(([a], [b]) => {
+      if (prioritizeDayim) {
+        const aIndex = dayimGalleryIndex(a)
+        const bIndex = dayimGalleryIndex(b)
+        if (aIndex != null && bIndex != null) return aIndex - bIndex
+        if (aIndex != null) return -1
+        if (bIndex != null) return 1
+      }
+
+      return a.localeCompare(b, undefined, {
+        numeric: true,
+        sensitivity: 'base',
+      })
+    })
     .map(([, src]) => src)
 }
 
@@ -62,10 +93,18 @@ const zindagiGalleryFiles = import.meta.glob(
   { eager: true, import: 'default' },
 )
 
-const homeGallerySources = sortedGlobSources(homeGalleryFiles)
+const zindagiAmenitiesFiles = import.meta.glob(
+  '../assets/images/zindagiameni/*.{jpg,JPG,jpeg,png,PNG,webp}',
+  { eager: true, import: 'default' },
+)
+
+const homeGallerySources = sortedGlobSources(homeGalleryFiles, {
+  prioritizeDayim: true,
+})
 const dsaGallerySources = sortedGlobSources(dsaGalleryFiles)
 const livingGallerySources = sortedGlobSources(livingGalleryFiles)
 const zindagiGallerySources = sortedGlobSources(zindagiGalleryFiles)
+const zindagiAmenitiesSources = sortedGlobSources(zindagiAmenitiesFiles)
 
 export const HOME_GALLERY = {
   photoCount: homeGallerySources.length,
@@ -93,4 +132,15 @@ const PROJECT_GALLERIES = {
 
 export function getProjectGallery(projectId) {
   return PROJECT_GALLERIES[projectId] ?? null
+}
+
+const PROJECT_AMENITIES = {
+  'dayim-zindagi': {
+    photoCount: zindagiAmenitiesSources.length,
+    previewImages: collageImagesFromSources(zindagiAmenitiesSources),
+  },
+}
+
+export function getProjectAmenities(projectId) {
+  return PROJECT_AMENITIES[projectId] ?? null
 }

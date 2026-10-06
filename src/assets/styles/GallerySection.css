@@ -228,6 +228,50 @@
   transform: translateY(0);
 }
 
+.gallery-section--static .gallery-slide {
+  cursor: auto;
+}
+
+.gallery-section--static .gallery-title {
+  pointer-events: none;
+}
+
+.gallery-section--amenities .gallery-background {
+  opacity: 0.85;
+}
+
+.gallery-section--amenities .gallery-stage,
+.gallery-stage--dense {
+  width: min(100%, 760px);
+  gap: clamp(8px, 1.1vw, 14px);
+  padding-inline: clamp(16px, 3vw, 32px);
+}
+
+.gallery-section--amenities .gallery-col,
+.gallery-stage--dense .gallery-col {
+  gap: clamp(8px, 1.1vh, 14px);
+}
+
+.gallery-section--amenities .gallery-image--side,
+.gallery-stage--dense .gallery-image--side {
+  aspect-ratio: 1 / 1;
+}
+
+.gallery-section--amenities .gallery-image--center,
+.gallery-stage--dense .gallery-image--center {
+  aspect-ratio: 1 / 1;
+  transform: scale(1.02);
+  box-shadow: 0 10px 28px rgb(0 0 0 / 35%);
+}
+
+.gallery-section--amenities .gallery-title-text {
+  font-size: clamp(28px, 3.6vw, 48px);
+}
+
+.gallery-section--amenities .gallery-title-count {
+  font-size: clamp(10px, 0.7vw, 12px);
+}
+
 @media (max-width: 980px) {
   .gallery-section {
     margin-top: 0;
@@ -276,6 +320,28 @@
     display: none;
   }
 
+  .gallery-section--amenities .gallery-stage,
+  .gallery-stage--dense {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    width: 100%;
+  }
+
+  .gallery-section--amenities .gallery-col--left,
+  .gallery-section--amenities .gallery-col--right,
+  .gallery-section--amenities .gallery-col--center,
+  .gallery-stage--dense .gallery-col--left,
+  .gallery-stage--dense .gallery-col--right,
+  .gallery-stage--dense .gallery-col--center {
+    display: contents;
+  }
+
+  .gallery-section--amenities .gallery-image--center,
+  .gallery-stage--dense .gallery-image--center {
+    transform: none;
+    box-shadow: none;
+  }
+
   .gallery-image--side {
     aspect-ratio: 1 / 1;
     width: 100%;
@@ -301,6 +367,10 @@
 
   .gallery-title-line {
     display: none;
+  }
+
+  .gallery-section--static .gallery-title-line {
+    display: flex;
   }
 
   .gallery-link,
