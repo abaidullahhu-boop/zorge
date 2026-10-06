@@ -168,11 +168,10 @@
 .time-gallery-caption {
   margin: 0;
   min-width: 0;
-  font: 600 clamp(18px, 1.65vw, 28px) / 1 'Gilroy', sans-serif;
+  font: 600 clamp(16px, 1.45vw, 26px) / 1.1 'Gilroy', sans-serif;
   letter-spacing: -.04em;
   text-transform: uppercase;
   text-align: left;
-  white-space: nowrap;
   background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -182,7 +181,7 @@
 
 .time-gallery-plan-detail {
   margin: 0;
-  max-width: 30ch;
+  max-width: 42ch;
   font: 400 clamp(12px, .95vw, 14px) / 1.45 'Gilroy', sans-serif;
   letter-spacing: .02em;
   text-transform: none;

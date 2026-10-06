@@ -1228,27 +1228,27 @@ export const projects = [
             phase: 'slab',
             src: livingSlab1,
             alt: 'Dayim Living ground floor slab shuttering',
-            label: 'Ground Floor – Slab Shuttering',
+            label: 'Ground Floor – Slab Shuttering, Rebar & Concrete Pouring',
             detail:
-              'Concrete pouring for the ground-floor columns and lift structure has been successfully completed. Meanwhile, slab shuttering work is progressing rapidly, with the site actively preparing for the ground-floor slab pouring in the coming week.',
+              'Following the completion of the Lower Ground Floor slab, the project has progressed rapidly into the ground-floor structural phase. Slab shuttering and rebar work have been successfully completed, followed by the successful concrete pouring of the Ground Floor slab.',
           },
           {
             id: 'living-slab-2',
             phase: 'slab',
             src: livingSlab2,
             alt: 'Dayim Living ground floor slab shuttering',
-            label: 'Ground Floor – Slab Shuttering',
+            label: 'Ground Floor – Slab Shuttering, Rebar & Concrete Pouring',
             detail:
-              'Concrete pouring for the ground-floor columns and lift structure has been successfully completed. Meanwhile, slab shuttering work is progressing rapidly, with the site actively preparing for the ground-floor slab pouring in the coming week.',
+              'Following the completion of the Lower Ground Floor slab, the project has progressed rapidly into the ground-floor structural phase. Slab shuttering and rebar work have been successfully completed, followed by the successful concrete pouring of the Ground Floor slab.',
           },
           {
             id: 'living-slab-3',
             phase: 'slab',
             src: livingSlab3,
             alt: 'Dayim Living ground floor slab shuttering',
-            label: 'Ground Floor – Slab Shuttering',
+            label: 'Ground Floor – Slab Shuttering, Rebar & Concrete Pouring',
             detail:
-              'Concrete pouring for the ground-floor columns and lift structure has been successfully completed. Meanwhile, slab shuttering work is progressing rapidly, with the site actively preparing for the ground-floor slab pouring in the coming week.',
+              'Following the completion of the Lower Ground Floor slab, the project has progressed rapidly into the ground-floor structural phase. Slab shuttering and rebar work have been successfully completed, followed by the successful concrete pouring of the Ground Floor slab.',
           },
         ],
       },

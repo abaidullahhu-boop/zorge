@@ -1,60 +1,79 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { gsap } from '../../lib/gsap'
 import g1 from '../../assets/images/g1.jpeg'
-import g3 from '../../assets/images/g3.jpeg'
+import g2 from '../../assets/images/g2.jpeg'
 import g4 from '../../assets/images/g4.jpeg'
 import g5 from '../../assets/images/g5.jpeg'
 import dsaFinishing from '../../assets/images/dsafinsing.png'
+import dsaFlooring from '../../assets/images/Signature-Interior-Images/Interior Images /3- 2 Bed Apartment White Gold Theme /01.jpg'
+import dsaCeilings from '../../assets/images/Signature-Interior-Images/Interior Images /1- Studio Apartment Light Blue Theme/5.png'
 import dsMark from '../../assets/images/dsmark.png'
 import '../../assets/styles/TimeSection.css'
 
 const defaultJourneyGallery = [
   {
-    id: 'g4',
+    id: 'dsa-groundwork',
     src: g4,
     alt: 'Dayim Signature Apartments foundation slab with column reinforcement cages',
-    label: 'Foundation',
+    label: 'Groundwork & Foundation',
     detail:
-      'Raft slab cast and column cages set as Dayim Signature Apartments breaks ground.',
+      'The journey began with soil testing, site preparation, excavation, and PCC work. This was followed by the raft foundation and retaining wall works, creating a strong base for the structure above.',
   },
   {
-    id: 'g5',
+    id: 'dsa-structure',
     src: g5,
     alt: 'Dayim Signature Apartments vision board beside rising structure and formwork',
-    label: 'Rising',
+    label: 'Building the Structure',
     detail:
-      'From render to reality—the first floors climb beside the finished building vision.',
+      'With the foundation completed, structural work progressed floor by floor. From the lower ground to the sixth floor, the complete eight-floor structure was successfully constructed within approximately eight to nine months.',
   },
   {
-    id: 'g3',
-    src: g3,
-    alt: 'Dayim Signature Apartments floor slab reinforcement and service conduits before pour',
-    label: 'Slab Works',
-    detail:
-      'Rebar mesh and service conduits laid across the deck, ready for the next pour.',
-  },
-  {
-    id: 'g1',
+    id: 'dsa-brickwork',
     src: g1,
     alt: 'Dayim Signature Apartments multi-storey concrete frame with early masonry',
-    label: 'Structure',
+    label: 'Brickwork & Internal Divisions',
     detail:
-      'The full frame stands tall, with masonry underway on the lower residential floors.',
+      'Once the structure was completed, brickwork commenced across the building. Apartment and commercial spaces were divided and defined, with internal and external brickwork completed to establish the final layout.',
   },
   {
-    id: 'g2',
+    id: 'dsa-plastering',
+    src: g2,
+    alt: 'Dayim Signature Apartments exterior plastering and scaffolding in progress',
+    label: 'Plastering & Surface Development',
+    detail:
+      'The next phase focused on inner and outer plastering, giving the building its finished architectural form. Internal surfaces were prepared for subsequent flooring, ceiling, paint, and finishing works.',
+  },
+  {
+    id: 'dsa-flooring',
+    src: dsaFlooring,
+    alt: 'Dayim Signature Apartments finished apartment with flooring and large windows',
+    label: 'Flooring, Grills & Windows',
+    detail:
+      'Finishing works progressed with the installation of floor tiles, balcony and safety grills, and aluminum-framed glass windows. These elements brought both functionality and a refined appearance to the apartments and commercial spaces.',
+  },
+  {
+    id: 'dsa-ceilings',
+    src: dsaCeilings,
+    alt: 'Dayim Signature Apartments finished interior with ceilings, lighting, and paint',
+    label: 'Ceilings, Lighting & Paint',
+    detail:
+      'False ceiling works, electrical lighting, and painting were carried out as the building moved into its final finishing stage. Each space was progressively prepared to achieve a clean and complete interior finish.',
+  },
+  {
+    id: 'dsa-delivered',
     src: dsaFinishing,
     alt: 'Dayim Signature Apartments completed facade with Dayim Developers head office branding',
-    label: 'Finishing',
+    label: 'Finished & Delivered',
     detail:
-      'Finishing complete — Dayim Signature Apartments stands finished, branded, and ready as Dayim Developers head office.',
+      'From foundation to final finishing, every major construction and finishing stage has been completed, bringing the building to its finished form. With the commercial spaces delivered and possession handed over in March 2026, Dayim Signature Apartments stands completed and ready for its next chapter.',
   },
 ]
 
 const defaultJourneyCopy = {
-  title: 'Primer Construction',
-  body: 'Started April 2024. Main structure complete in 8 months — planned, supervised, and delivered without losing momentum.',
-  tagline: '8 Months. One Complete Structure.',
+  title: 'Construction Underway',
+  body: 'Dayim Signature Apartments moved from groundwork and structural development to finishing and commercial handover in approximately two years. With major construction milestones achieved and commercial possession handed over in March 2026, the project stands as a reflection of our commitment to progress, quality, and timely delivery.',
+  tagline:
+    'From April 2024 to March 2026 — a journey from foundation to possession.',
 }
 
 const CLIP_HIDDEN = 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)'
@@ -313,8 +332,12 @@ function TimeSection({
                 <h3 className="time-gallery-intro-title">
                   {journeyCopy.title}
                 </h3>
+                {journeyCopy.tagline ? (
+                  <p className="time-gallery-intro-tagline">
+                    {journeyCopy.tagline}
+                  </p>
+                ) : null}
                 <p className="time-gallery-intro-body">{journeyCopy.body}</p>
-               
               </div>
 
               <div className="time-gallery-stage" aria-live="polite">
