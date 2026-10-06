@@ -74,6 +74,14 @@ export function ProjectNav({
     if (hasRooftop) return PROJECT_NAV
     return PROJECT_NAV.filter((item) => item.id !== 'rooftop')
   }, [project])
+  const sectionItems = useMemo(
+    () => navItems.filter((item) => item.id !== 'plans'),
+    [navItems],
+  )
+  const inventoryItem = useMemo(
+    () => navItems.find((item) => item.id === 'plans') ?? null,
+    [navItems],
+  )
   const lockActive = activeIdProp != null
 
   useEffect(() => {
@@ -164,7 +172,7 @@ export function ProjectNav({
         </button>
 
         <div className="project-nav__links" role="list">
-          {navItems.map((item) => (
+          {sectionItems.map((item) => (
             <button
               key={item.id}
               type="button"
@@ -176,6 +184,18 @@ export function ProjectNav({
             </button>
           ))}
         </div>
+
+        {inventoryItem ? (
+          <button
+            type="button"
+            className={`project-nav__link project-nav__inventory${
+              activeId === inventoryItem.id ? ' is-active' : ''
+            }`}
+            onClick={() => onNavigate(inventoryItem.id)}
+          >
+            {inventoryItem.label}
+          </button>
+        ) : null}
 
         <button
           type="button"
@@ -261,7 +281,7 @@ export function ProjectHero({ project, onNavigate, playReveal = true }) {
 
   return (
     <div className="project-stack project-stack--hero">
-      <header className="project-hero" id="hero">
+      <header className="project-hero" id="hero" data-project={project.id}>
         <div className="project-hero__media">
           <img
             className="project-hero__poster"

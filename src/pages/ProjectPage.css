@@ -255,7 +255,7 @@
 
 .project-nav__bar {
   display: grid;
-  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  grid-template-columns: auto auto minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 12px 20px;
   height: 100%;
@@ -506,6 +506,14 @@
   object-position: center;
 }
 
+/* Dayim Living: keep the lit facade near center. */
+.project-hero[data-project='dayim-living'] .project-hero__media img,
+.project-hero[data-project='dayim-living'] .project-hero__media video,
+.project-hero[data-project='dayim-living'] .project-hero__poster,
+.project-hero[data-project='dayim-living'] .project-hero__video {
+  object-position: 45% center;
+}
+
 .project-hero__poster,
 .project-hero__video {
   position: absolute;
@@ -731,14 +739,21 @@
   .project-overview__copy {
     max-width: none;
   }
-  .project-overview__download-btn {
+
+  .project-overview__highlights {
+    justify-self: end;
+    width: max(100%, 28ch);
+  }
+}
+
+.project-overview__download-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   min-height: 40px;
   padding: 10px 16px;
-  background:linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
   font: 600 12px / 1 var(--font-sans);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -753,12 +768,6 @@
 
 .project-overview__download-btn:hover {
   transform: scale(1.05);
-}
-
-  .project-overview__highlights {
-    justify-self: end;
-    width: max(100%, 28ch);
-  }
 }
 
 /* Facts sit just under the copy — no stretched empty middle */
@@ -1886,7 +1895,8 @@
   .project-nav__bar {
     display: flex;
     align-items: center;
-    gap: 4px 10px;
+    justify-content: space-between;
+    gap: 8px;
     padding: 0 12px 0 16px;
   }
 
@@ -1915,16 +1925,25 @@
     height: 10px;
   }
 
+  /* Mobile: keep Home (←) left and Inventory right only. */
   .project-nav__links {
-    flex: 1 1 auto;
-    justify-content: flex-start;
-    gap: 0;
-    padding-right: 8px;
-    mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 20px), transparent);
+    display: none;
   }
 
-  .project-nav__link {
-    padding: 10px 11px;
+  .project-nav__inventory {
+    flex: 0 0 auto;
+    margin-left: auto;
+    padding: 10px 4px 10px 8px;
+    opacity: 1;
+    background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  .project-nav__inventory.is-active {
+    opacity: 1;
   }
 
   /* Hero already has Enquire — avoid a second full-width CTA. */
@@ -1949,6 +1968,13 @@
   .project-hero__poster,
   .project-hero__video {
     object-position: 55% center;
+  }
+
+  .project-hero[data-project='dayim-living'] .project-hero__media img,
+  .project-hero[data-project='dayim-living'] .project-hero__media video,
+  .project-hero[data-project='dayim-living'] .project-hero__poster,
+  .project-hero[data-project='dayim-living'] .project-hero__video {
+    object-position: 45% center;
   }
 
   .project-hero__content {
@@ -2027,6 +2053,20 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .project-facts div {
+    gap: 2px;
+    padding: 10px 12px;
+  }
+
+  .project-facts dt {
+    font-size: 12px;
+  }
+
+  .project-facts dd {
+    font-size: 13px;
+    line-height: 1.3;
+  }
+
   .project-page .services-section {
     height: auto;
   }
@@ -2069,8 +2109,31 @@
     grid-template-columns: 1fr;
   }
 
+  .project-facts div {
+    gap: 2px;
+    padding: 8px 12px;
+  }
+
+  .project-facts dt {
+    font-size: 11px;
+  }
+
+  .project-facts dd {
+    font-size: 12px;
+    line-height: 1.25;
+  }
+
+  .project-overview__downloads {
+    flex-wrap: nowrap;
+  }
+
   .project-overview__download-btn {
-    flex: 1 1 100%;
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 10px 8px;
+    gap: 6px;
+    font-size: 10px;
+    letter-spacing: 0.06em;
   }
 
   .inventory-grid {

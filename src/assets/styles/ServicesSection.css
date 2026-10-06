@@ -568,15 +568,18 @@
     pointer-events: none;
   }
 
+  /* Keep portrait slides the same height as landscape so the row
+     doesn't grow and leave a black gap above the next section. */
   .services-mobile-image--portrait {
-    height: auto;
-    aspect-ratio: 2443 / 2780;
-    min-height: 0;
+    height: 72vw;
+    min-height: 260px;
+    aspect-ratio: auto;
     background: #000;
   }
 
   .services-mobile-image--portrait img {
-    object-fit: contain;
+    object-fit: cover;
+    object-position: center;
   }
 
   .services-mobile-content {
