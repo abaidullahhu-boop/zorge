@@ -16,12 +16,12 @@ import dsaBrickExtra from '../../assets/images/dsaconstruction/brick/brick.JPG'
 import dsaBrick3 from '../../assets/images/dsaconstruction/brick/IMG_4996.jpg'
 import dsaBrick4 from '../../assets/images/dsaconstruction/brick/IMG_5229.jpg'
 import dsaPlaster1 from '../../assets/images/dsaconstruction/plaster/img03.jpg'
-import dsaPlaster2 from '../../assets/images/dsaconstruction/plaster/floring.jpeg'
-import dsaFinished1 from '../../assets/images/dsaconstruction/finished/img01.jpg'
+import dsaFinished1 from '../../assets/images/dsaconstruction/finished/finish.jpg'
+import dsaFinished2 from '../../assets/images/dsaconstruction/finished/img01.jpg'
 import dsaCeiling1 from '../../assets/images/dsaconstruction/ceiling/img01.jpeg'
 import dsaCeiling2 from '../../assets/images/dsaconstruction/ceiling/img02.jpeg'
 import dsaCeiling3 from '../../assets/images/dsaconstruction/ceiling/img03.jpeg'
-import dsaFlooring from '../../assets/images/dsaconstruction/flooring/flooring.png'
+import dsaFlooring from '../../assets/images/dsaconstruction/flooring/floring.jpeg'
 import dsMark from '../../assets/images/dsmark.png'
 import '../../assets/styles/TimeSection.css'
 
@@ -173,15 +173,6 @@ const defaultJourneyGallery = [
       'The next phase focused on inner and outer plastering, giving the building its finished architectural form. Internal surfaces were prepared for subsequent flooring, ceiling, paint, and finishing works.',
   },
   {
-    id: 'dsa-plastering-2',
-    phase: 'plastering',
-    src: dsaPlaster2,
-    alt: 'Dayim Signature Apartments exterior plastering and scaffolding in progress',
-    label: 'Plastering & Surface Development',
-    detail:
-      'The next phase focused on inner and outer plastering, giving the building its finished architectural form. Internal surfaces were prepared for subsequent flooring, ceiling, paint, and finishing works.',
-  },
-  {
     id: 'dsa-flooring',
     phase: 'flooring',
     src: dsaFlooring,
@@ -218,8 +209,18 @@ const defaultJourneyGallery = [
       'False ceiling works, electrical lighting, and painting were carried out as the building moved into its final finishing stage. Each space was progressively prepared to achieve a clean and complete interior finish.',
   },
   {
-    id: 'dsa-delivered',
+    id: 'dsa-delivered-1',
+    phase: 'delivered',
     src: dsaFinished1,
+    alt: 'Dayim Signature Apartments completed facade with Dayim Developers head office branding',
+    label: 'Finished & Delivered',
+    detail:
+      'From foundation to final finishing, every major construction and finishing stage has been completed, bringing the building to its finished form. With the commercial spaces delivered and possession handed over in March 2026, Dayim Signature Apartments stands completed and ready for its next chapter.',
+  },
+  {
+    id: 'dsa-delivered-2',
+    phase: 'delivered',
+    src: dsaFinished2,
     alt: 'Dayim Signature Apartments completed facade with Dayim Developers head office branding',
     label: 'Finished & Delivered',
     detail:

@@ -311,6 +311,12 @@
   pointer-events: none;
 }
 
+.time-gallery-stack-item--contain {
+  /* Opaque fill so letterboxed contain slides don't show the previous
+     cover slide through the empty top/bottom bands. */
+  background: #000;
+}
+
 .time-gallery-stack-item--contain img {
   object-fit: contain;
 }
