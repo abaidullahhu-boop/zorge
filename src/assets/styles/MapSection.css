@@ -12,7 +12,7 @@
   margin-top: -18vh;
   height: max(
     calc(100svh + var(--map-top)),
-    calc(var(--map-top) + 100vw * 653 / 980)
+    calc(var(--map-top) + 100vw * 881 / 1024)
   );
   min-height: calc(520px + var(--map-top));
   overflow: hidden;
@@ -79,9 +79,9 @@
   position: absolute;
   top: 0;
   left: 50%;
-  width: max(100%, calc(100svh * 980 / 653));
+  width: max(100%, calc(100svh * 1024 / 881));
   height: auto;
-  aspect-ratio: 980 / 653;
+  aspect-ratio: 1024 / 881;
   transform: translateX(-50%);
 }
 
@@ -89,7 +89,7 @@
   display: block;
   width: 100%;
   height: auto;
-  aspect-ratio: 980 / 653;
+  aspect-ratio: 1024 / 881;
   object-fit: fill;
   user-select: none;
   pointer-events: none;
@@ -172,11 +172,13 @@
 }
 
 .map-brand-photo {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 52% 42%;
+  object-position: center center;
   pointer-events: none;
 }
 
@@ -532,7 +534,7 @@
     margin-top: 0;
     height: max(
       calc(100svh + var(--map-top)),
-      calc(var(--map-top) + 100vw * 653 / 980)
+      calc(var(--map-top) + 100vw * 881 / 1024)
     );
     min-height: calc(520px + var(--map-top));
     overflow-x: clip;
@@ -564,7 +566,7 @@
     /* Zoomed-out map, locked so Dayim Signature / pin sit in the middle. */
     --map-focus-x: 49%;
     left: 0;
-    width: max(940px, 168vw, calc(100svh * 980 / 653));
+    width: max(940px, 168vw, calc(100svh * 1024 / 881));
     max-width: none;
     top: 0;
     /* 50vw = viewport center; focus% = point on the map image */
@@ -595,7 +597,7 @@
 
   .map-brand-photo {
     display: block;
-    object-position: center 38%;
+    object-position: center center;
   }
 
   .map-spot:hover .map-brand,
