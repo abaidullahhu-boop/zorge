@@ -313,7 +313,7 @@ export function ProjectHero({ project, onNavigate, playReveal = true }) {
           <div className="project-hero__actions">
             <button
               type="button"
-              className="project-hero__btn project-hero__btn--solid"
+              className="project-hero__btn project-hero__btn--ghost"
               onClick={() => onNavigate('enquire')}
             >
               Enquire now
@@ -895,18 +895,36 @@ export function ProjectEnquire({
         <ul className="project-enquire__contacts">
           <li>
             <span>Call</span>
-            <a href={SITE_CONTACT.phone.href}>{SITE_CONTACT.phone.display}</a>
+            <a
+              href={SITE_CONTACT.phone.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {SITE_CONTACT.phone.display}
+            </a>
           </li>
           <li>
             <span>Email</span>
-            <a href={SITE_CONTACT.email.href}>{SITE_CONTACT.email.display}</a>
+            <a
+              href={SITE_CONTACT.email.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {SITE_CONTACT.email.display}
+            </a>
           </li>
           <li>
             <span>Address</span>
             <address>
-              {(project.address ?? SITE_CONTACT.address.lines).map((line) => (
-                <span key={line}>{line}</span>
-              ))}
+              <a
+                href={project.mapsUrl ?? SITE_CONTACT.address.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {(project.address ?? SITE_CONTACT.address.lines).map((line) => (
+                  <span key={line}>{line}</span>
+                ))}
+              </a>
             </address>
           </li>
           {project.mapsUrl ? (

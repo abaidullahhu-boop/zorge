@@ -237,12 +237,16 @@ function ProjectPage() {
     // Sticky panels report their stuck visual box via getBoundingClientRect,
     // so jumping back to Overview (and similar) from further down barely moves.
     // offsetTop is the in-flow layout position — where the section first pins.
+    // Enquire is the contact block under the project gallery in that same
+    // stack — pinning the stack leaves the contacts below the fold.
     const frame =
-      target.closest('.project-stack') ||
-      target.closest('.time-section') ||
-      target.closest('.architecture-section') ||
-      target.closest('.services-section') ||
-      target
+      id === 'enquire'
+        ? target
+        : target.closest('.project-stack') ||
+          target.closest('.time-section') ||
+          target.closest('.architecture-section') ||
+          target.closest('.services-section') ||
+          target
 
     let top = 0
     let node = frame
@@ -259,6 +263,13 @@ function ProjectPage() {
     }
 
     // Panels stick at top:0 and already pad under the fixed nav.
+    // The contact block does not, so keep it clear of the sticky bar.
+    if (id === 'enquire') {
+      const nav = root.querySelector('.project-nav')
+      const navH = nav instanceof HTMLElement ? nav.offsetHeight : 0
+      top -= navH
+    }
+
     jumpScrollerTo(top)
   }
 

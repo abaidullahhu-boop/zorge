@@ -629,20 +629,15 @@
   cursor: pointer;
 }
 
-.project-hero__btn--solid {
-  background: white;
-  border-color: white;
-  color: var(--color-ink);
-}
-
 .project-hero__btn--ghost {
   background: rgb(255 255 255 / 6%);
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .project-hero__btn:hover,
 .project-hero__btn:focus-visible {
-  background: #fff;
-  border-color: #fff;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  border-color: #fdd55c;
   color: var(--color-ink);
 }
 
