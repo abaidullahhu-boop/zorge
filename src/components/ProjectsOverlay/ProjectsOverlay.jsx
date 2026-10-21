@@ -109,6 +109,13 @@ function ProjectsOverlay({ open, instant = false, onClose }) {
               </span>
             </Link>
           ))}
+          <article
+            className="projects-overlay__card projects-overlay__card--soon"
+            style={{ '--delay': `${projects.length * 0.08}s` }}
+            aria-label="Coming soon"
+          >
+            <p className="projects-overlay__soon">Coming Soon</p>
+          </article>
         </div>
       </div>
     </div>

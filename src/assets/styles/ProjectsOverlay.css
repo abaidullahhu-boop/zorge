@@ -141,6 +141,37 @@
   box-shadow: 0 8px 40px rgb(0 0 0 / 50%);
 }
 
+.projects-overlay__card--soon {
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  background:
+    radial-gradient(ellipse at center, rgb(220 159 39 / 10%), transparent 58%),
+    #161616;
+}
+
+.projects-overlay__card--soon:hover {
+  border-color: transparent;
+  box-shadow: none;
+  background:
+    radial-gradient(ellipse at center, rgb(220 159 39 / 14%), transparent 58%),
+    #1c1c1c;
+}
+
+.projects-overlay__soon {
+  margin: 0;
+  padding: 24px;
+  font: 700 clamp(20px, 1.7vw, 30px) / 1.15 'Gilroy', sans-serif;
+  letter-spacing: 0.22em;
+  text-align: center;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
 /* ── Image ───────────────────────────────────── */
 .projects-overlay__card-img-wrap {
   position: relative;
@@ -284,6 +315,10 @@
     flex-direction: column;
     max-width: 100%;
     border-radius: 10px;
+  }
+
+  .projects-overlay__card--soon {
+    min-height: 180px;
   }
 
   .projects-overlay__card-img-wrap {
