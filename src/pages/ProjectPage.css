@@ -286,7 +286,7 @@
   align-items: center;
   gap: 10px;
   padding: 0;
-  font: 600 11px / 1 var(--font-sans);
+  font: 600 13px / 1 var(--font-sans);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   opacity: 0.86;
@@ -341,7 +341,7 @@
   border: 0;
   background: none;
   color: inherit;
-  font: 600 13px / 1 var(--font-sans);
+  font: 600 15px / 1 var(--font-sans);
   letter-spacing: 0.16em;
   text-transform: uppercase;
   cursor: pointer;
@@ -379,7 +379,7 @@
 .project-nav__link {
   flex: 0 0 auto;
   padding: 8px 10px;
-  font: 600 11px / 1 var(--font-sans);
+  font: 600 13px / 1 var(--font-sans);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   opacity: 0.62;
@@ -402,7 +402,7 @@
   padding: 10px 16px;
   border: 1px solid rgb(255 255 255 / 28%);
   background: rgb(255 255 255 / 8%);
-  font: 600 11px / 1 var(--font-sans);
+  font: 600 13px / 1 var(--font-sans);
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
@@ -1810,6 +1810,16 @@
   .project-page {
     --project-nav-h: 56px;
     --project-pad: 20px;
+    height: 100dvh;
+    max-height: 100dvh;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+
+  .project-page.is-settled:not(.is-leaving) {
+    transform: none;
   }
 
   /*
@@ -2141,7 +2151,7 @@
 
   .project-nav__link {
     padding: 10px 9px;
-    font-size: 10px;
+    font-size: 12px;
     letter-spacing: 0.06em;
   }
 

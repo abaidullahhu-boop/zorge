@@ -129,9 +129,16 @@ function ProjectPage() {
     window.__dayimLenis?.stop?.()
 
     return () => {
-      // All-projects is already open under the sheet — don't unlock scroll.
-      if (leaveTargetRef.current === 'projects' && leavingRef.current) return
-      document.body.style.overflow = previousOverflow
+      // Stopped Lenis preventDefaults every touch and wheel, including the
+      // home page. Always resume it. The all-projects sheet keeps the body
+      // lock itself while it is open.
+      const overlayOpen = document.querySelector('.projects-overlay.is-open')
+      if (!overlayOpen) {
+        // The saved value is often "hidden" from the projects sheet that
+        // opened this page. Restoring it leaves the home page stuck.
+        document.body.style.overflow =
+          previousOverflow === 'hidden' ? '' : previousOverflow
+      }
       window.__dayimLenis?.start?.()
     }
   }, [project])
@@ -141,6 +148,24 @@ function ProjectPage() {
 
     leavingRef.current = false
     if (pageRef.current) pageRef.current.scrollTop = 0
+  }, [project, projectId])
+
+  // The slide-in keeps a transform on the scroller until it settles.
+  // Mobile browsers will not scroll that element, and animationend does
+  // not always fire, so clear it on a timer as well.
+  useEffect(() => {
+    if (!project || prefersReducedMotion()) return undefined
+
+    const timer = window.setTimeout(() => {
+      setMotion((current) => {
+        if (current.projectId !== projectId || current.settled || current.leaving) {
+          return current
+        }
+        return { ...current, settled: true }
+      })
+    }, 1600)
+
+    return () => window.clearTimeout(timer)
   }, [project, projectId])
 
   useEffect(() => {

@@ -26,6 +26,9 @@ import livingGround3 from '../assets/images/f3.jpg'
 import livingSlab1 from '../assets/images/living-slab-1.jpg'
 import livingSlab2 from '../assets/images/living-slab-2.jpg'
 import livingSlab3 from '../assets/images/living-slab-3.jpg'
+import livingFirst1 from '../assets/images/living-first-1.jpg'
+import livingFirst2 from '../assets/images/living-first-2.jpg'
+import livingFirst3 from '../assets/images/living-first-3.jpg'
 import livingStudioDeluxeRoom from '../assets/images/03.jpg'
 import livingStudioDeluxeLiving from '../assets/images/04.jpg'
 import livingStudioDeluxeBath from '../assets/images/011.jpg'
@@ -1249,6 +1252,33 @@ export const projects = [
             label: 'Ground Floor – Slab Shuttering, Rebar & Concrete Pouring',
             detail:
               'Following the completion of the Lower Ground Floor slab, the project has progressed rapidly into the ground-floor structural phase. Slab shuttering and rebar work have been successfully completed, followed by the successful concrete pouring of the Ground Floor slab.',
+          },
+          {
+            id: 'living-first-1',
+            phase: 'first',
+            src: livingFirst1,
+            alt: 'Dayim Living first floor column, lift and slab work',
+            label: 'First Floor – Columns, Lift & Slab Work',
+            detail:
+              'Following the successful completion of the Ground Floor slab, construction has progressed to the First Floor structural phase. Column and lift reinforcement, slab rebar binding, and concrete pouring work have been carried out, marking another major milestone in the development of Dayim Living.',
+          },
+          {
+            id: 'living-first-2',
+            phase: 'first',
+            src: livingFirst2,
+            alt: 'Dayim Living first floor column, lift and slab work',
+            label: 'First Floor – Columns, Lift & Slab Work',
+            detail:
+              'Following the successful completion of the Ground Floor slab, construction has progressed to the First Floor structural phase. Column and lift reinforcement, slab rebar binding, and concrete pouring work have been carried out, marking another major milestone in the development of Dayim Living.',
+          },
+          {
+            id: 'living-first-3',
+            phase: 'first',
+            src: livingFirst3,
+            alt: 'Dayim Living first floor column, lift and slab work',
+            label: 'First Floor – Columns, Lift & Slab Work',
+            detail:
+              'Following the successful completion of the Ground Floor slab, construction has progressed to the First Floor structural phase. Column and lift reinforcement, slab rebar binding, and concrete pouring work have been carried out, marking another major milestone in the development of Dayim Living.',
           },
         ],
       },

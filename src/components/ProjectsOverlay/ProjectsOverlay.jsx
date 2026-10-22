@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { Link, useLocation } from 'react-router-dom'
 import { getProjectPath, projects } from '../../data/projects'
 import '../../assets/styles/ProjectsOverlay.css'
@@ -18,17 +19,26 @@ function ProjectsOverlay({ open, instant = false, onClose }) {
       if (event.key === 'Escape' && !coveredByProjectRef.current) onClose()
     }
 
-    const previousOverflow = document.body.style.overflow
+    const previousBodyOverflow = document.body.style.overflow
     document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', onKeyDown)
 
     return () => {
-      document.body.style.overflow = previousOverflow
+      const onProject = window.location.pathname.startsWith('/projects/')
+      // Opening this sheet from a project page saves that page's hidden
+      // lock. Putting it back freezes the home page after the sheet closes.
+      if (onProject) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow =
+          previousBodyOverflow === 'hidden' ? '' : previousBodyOverflow
+        window.__dayimLenis?.start?.()
+      }
       window.removeEventListener('keydown', onKeyDown)
     }
   }, [open, onClose])
 
-  return (
+  return createPortal(
     <div
       className={[
         'projects-overlay',
@@ -41,10 +51,16 @@ function ProjectsOverlay({ open, instant = false, onClose }) {
       aria-modal="true"
       aria-label="Our Projects"
       aria-hidden={!open}
+      data-lenis-prevent
+      data-lenis-prevent-wheel
+      data-lenis-prevent-touch
       onClick={onClose}
     >
       <div
         className="projects-overlay__panel"
+        data-lenis-prevent
+        data-lenis-prevent-wheel
+        data-lenis-prevent-touch
         onClick={(e) => e.stopPropagation()}
       >
         <header className="projects-overlay__header">
@@ -118,7 +134,8 @@ function ProjectsOverlay({ open, instant = false, onClose }) {
           </article>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
 
