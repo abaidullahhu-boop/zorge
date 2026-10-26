@@ -314,6 +314,7 @@ function MapSection() {
             src={mapImage}
             alt=""
             draggable="false"
+            loading="lazy"
           />
 
           {mapPlaces.map((place) => {
@@ -390,6 +391,7 @@ function MapSection() {
                       src={place.image}
                       alt=""
                       draggable="false"
+                      loading="lazy"
                     />
                   ) : (
                     <>

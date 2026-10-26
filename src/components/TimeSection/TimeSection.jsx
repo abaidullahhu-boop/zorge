@@ -285,6 +285,10 @@ function TimeSection({
   const phaseCount = journeyPhases.phases.length
   const [isVisible, setIsVisible] = useState(false)
   const [activePlanIndex, setActivePlanIndex] = useState(0)
+  // Every photo sits in the same spot in the stack, so native lazy loading
+  // fetches them all at once. Only hand out a src as the scroll gets close.
+  const [loadedUpTo, setLoadedUpTo] = useState(2)
+  if (activePlanIndex + 2 > loadedUpTo) setLoadedUpTo(activePlanIndex + 2)
   const sectionRef = useRef(null)
   const galleryPinRef = useRef(null)
   const galleryStickyRef = useRef(null)
@@ -483,6 +487,7 @@ function TimeSection({
             alt=""
             aria-hidden="true"
             draggable="false"
+            loading="lazy"
           />
           <div className="time-gallery-row">
             <div className="time-gallery-copy">
@@ -555,9 +560,10 @@ function TimeSection({
                       aria-hidden={index !== activePlanIndex}
                     >
                       <img
-                        src={plan.src}
+                        src={index <= loadedUpTo ? plan.src : undefined}
                         alt={plan.alt}
                         draggable="false"
+                        loading="lazy"
                       />
                     </div>
                   ))}

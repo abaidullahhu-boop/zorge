@@ -148,6 +148,7 @@ function ProjectRooftopSection({ scrollContainerRef = null, project = null }) {
               alt=""
               aria-hidden="true"
               draggable="false"
+              loading="lazy"
             />
             <div className="architecture-gallery-row">
               <div className="architecture-gallery-copy" aria-live="polite">
@@ -202,6 +203,7 @@ function ProjectRooftopSection({ scrollContainerRef = null, project = null }) {
                           src={plan.src}
                           alt={plan.alt}
                           draggable="false"
+                          loading="lazy"
                         />
                       </div>
                     ))}

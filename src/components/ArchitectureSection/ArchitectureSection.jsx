@@ -196,6 +196,7 @@ function ArchitectureSection() {
               src={heroImage}
               alt="Dayim Developers core values"
               draggable="false"
+              loading="lazy"
             />
 
             <ul className="architecture-hotspots">

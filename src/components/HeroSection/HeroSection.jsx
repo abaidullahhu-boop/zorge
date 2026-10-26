@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import aboutVideo from '../../assets/images/about.mp4'
+import aboutVideoPoster from '../../assets/images/about-start.jpg'
 import MenuOverlay from '../MenuOverlay/MenuOverlay'
 import ProjectsOverlay from '../ProjectsOverlay/ProjectsOverlay'
 import { SITE_CONTACT } from '../../data/siteContact'
@@ -20,6 +21,12 @@ function HeroSection({ introReady = false }) {
   const heroRef = useRef(null)
   const prevPathRef = useRef(pathname)
   const closeMenu = useCallback(() => setMenuOpen(false), [])
+
+  // A direct visit to a project page mounts home underneath the sheet; hold off
+  // on the background video so it doesn't compete with the project's own video.
+  const onProjectRoute = pathname.startsWith('/projects/')
+  const [heroVideoEnabled, setHeroVideoEnabled] = useState(!onProjectRoute)
+  if (!onProjectRoute && !heroVideoEnabled) setHeroVideoEnabled(true)
 
   // Close only when entering a project route — leave-to-projects may
   // already have the overlay open under the sheet.
@@ -159,9 +166,15 @@ function HeroSection({ introReady = false }) {
           aria-labelledby="hero-title"
         >
         <div className="hero-video-bg" aria-hidden="true">
-          <video autoPlay muted loop playsInline preload="metadata">
-            <source src={aboutVideo} type="video/mp4" />
-          </video>
+          <video
+            src={heroVideoEnabled ? aboutVideo : undefined}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster={aboutVideoPoster}
+          />
         </div>
         <header className="hero-header">
           <h1 id="hero-title">

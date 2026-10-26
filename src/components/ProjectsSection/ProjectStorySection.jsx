@@ -69,7 +69,7 @@ function DecorLayer({ src, vmin, isBase = false, zIndex }) {
       data-parallax-vmin={vmin}
       style={{ zIndex }}
     >
-      <img src={src} alt="" draggable="false" />
+      <img src={src} alt="" draggable="false" loading="lazy" />
     </div>
   )
 }
@@ -253,6 +253,7 @@ function ProjectStorySection({ scrollContainerRef = null, project = null }) {
               alt=""
               aria-hidden="true"
               draggable="false"
+              loading="lazy"
             />
             <div className="architecture-gallery-row">
               <div className="architecture-gallery-copy" aria-live="polite">
@@ -311,6 +312,7 @@ function ProjectStorySection({ scrollContainerRef = null, project = null }) {
                           src={plan.src}
                           alt={plan.alt}
                           draggable="false"
+                          loading="lazy"
                         />
                       </div>
                     ))}
@@ -329,6 +331,7 @@ function ProjectStorySection({ scrollContainerRef = null, project = null }) {
               alt=""
               aria-hidden="true"
               draggable="false"
+              loading="lazy"
             />
             <div className="architecture-subhead-row">
               <h2 id="story-title" className="architecture-subhead">

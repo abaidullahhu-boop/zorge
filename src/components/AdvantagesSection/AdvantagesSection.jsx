@@ -273,6 +273,7 @@ function AdvantagesSection() {
                   width={item.width}
                   height={item.height}
                   draggable="false"
+                  loading="lazy"
                 />
               </div>
             ))}

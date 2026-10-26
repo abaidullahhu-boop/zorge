@@ -221,6 +221,7 @@ function LocationSection() {
             className="location-image"
             src={locationHero}
             alt="A resident arriving at a Dayim Developers property"
+            loading="lazy"
           />
         </div>
 
@@ -259,7 +260,7 @@ function LocationSection() {
               })
             }}
           >
-            <img src={image} alt={title} />
+            <img src={image} alt={title} loading="lazy" />
             <h3>{title}</h3>
             {index > 0 && (
               <button

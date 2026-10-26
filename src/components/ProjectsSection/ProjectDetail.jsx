@@ -446,6 +446,7 @@ export function ProjectOverview({ project }) {
           alt=""
           aria-hidden="true"
           draggable="false"
+          loading="lazy"
         />
         <div className="project-overview__grid">
           <div className="project-overview__intro">
@@ -880,6 +881,7 @@ export function ProjectEnquire({
           alt=""
           aria-hidden="true"
           draggable="false"
+          loading="lazy"
         />
         <div className="project-enquire__copy">
           <p className="project-kicker is-light">Visit us</p>

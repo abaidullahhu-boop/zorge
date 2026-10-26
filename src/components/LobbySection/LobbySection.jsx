@@ -136,6 +136,7 @@ function LobbySection() {
               width="2016"
               height="1484"
               draggable="false"
+              loading="lazy"
             />
           </picture>
 

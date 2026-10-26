@@ -359,6 +359,7 @@ function ServicesSection({
                   width={slide.width}
                   height={slide.height}
                   draggable="false"
+                  loading="lazy"
                 />
               </div>
             ))}
@@ -371,6 +372,7 @@ function ServicesSection({
               alt=""
               aria-hidden="true"
               draggable="false"
+              loading="lazy"
             />
 
             <p className="services-section-title" aria-hidden="true">
@@ -432,6 +434,7 @@ function ServicesSection({
                           src={item.plan}
                           alt=""
                           draggable="false"
+                          loading="lazy"
                         />
                       </span>
                     ) : null}

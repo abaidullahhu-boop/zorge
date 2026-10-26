@@ -249,6 +249,7 @@ function GallerySection({
                         width={image.width}
                         height={image.height}
                         draggable="false"
+                        loading="lazy"
                       />
                     </div>
                   ))}
@@ -267,6 +268,7 @@ function GallerySection({
                         width={image.width}
                         height={image.height}
                         draggable="false"
+                        loading="lazy"
                       />
                     </div>
                   ))}
@@ -285,6 +287,7 @@ function GallerySection({
                         width={image.width}
                         height={image.height}
                         draggable="false"
+                        loading="lazy"
                       />
                     </div>
                   ))}

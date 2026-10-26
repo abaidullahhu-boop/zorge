@@ -239,6 +239,7 @@ function AboutSection() {
               width={518}
               height={776}
               draggable="false"
+              loading="lazy"
             />
             <span className="about-visual-corner" aria-hidden="true" />
           </div>
