@@ -460,8 +460,7 @@ body.gallery-modal-open .about-wordmark-rail {
   }
 
   .about-wordmark-rail {
-    top: 10px;
-    left: 20px;
+    display: none;
   }
 
   .about-wordmark {
