@@ -11,7 +11,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "vite preview --host --port 4173"
+    "start": "vite preview --host --port 4173",
+    "deploy": "bash deploy/deploy.sh"
   },
   "dependencies": {
     "gsap": "^3.15.0",
@@ -31,6 +32,7 @@
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.7.0",
     "tailwindcss": "^4.3.3",
-    "vite": "^8.1.1"
+    "vite": "^8.1.1",
+    "vite-imagetools": "^12.0.1"
   }
 }
