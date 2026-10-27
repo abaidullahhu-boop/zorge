@@ -406,7 +406,7 @@
   }
 
   .hero-header {
-    padding: calc(56px + env(safe-area-inset-top, 0px)) 20px 0;
+    padding: calc(52px + env(safe-area-inset-top, 0px) + 28px) 20px 0;
   }
 
   .hero-header h1 {
