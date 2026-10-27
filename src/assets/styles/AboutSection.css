@@ -487,7 +487,7 @@ body.gallery-modal-open .about-wordmark-rail {
     max-height: none;
     gap: clamp(24px, 5vw, 32px);
     padding:
-      clamp(56px, 12vw, 72px)
+      calc(56px + env(safe-area-inset-top, 0px) + 16px)
       20px
       clamp(40px, 8vw, 56px);
     overflow: visible;

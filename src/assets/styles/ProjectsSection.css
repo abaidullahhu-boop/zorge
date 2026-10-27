@@ -1068,13 +1068,13 @@
 
 @media (max-width: 980px) {
   .projects-slide {
-    padding-top: clamp(56px, 12vw, 80px);
+    padding-top: calc(56px + env(safe-area-inset-top, 0px) + 16px);
     padding-bottom: clamp(64px, 14vw, 96px);
   }
 
   .projects-section.is-detail .projects-inner {
     min-height: calc(
-      100svh - clamp(56px, 12vw, 80px) - clamp(64px, 14vw, 96px)
+      100svh - (56px + env(safe-area-inset-top, 0px) + 16px) - clamp(64px, 14vw, 96px)
     );
   }
 

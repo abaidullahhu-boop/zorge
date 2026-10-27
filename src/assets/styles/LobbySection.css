@@ -215,7 +215,7 @@
   }
 
   .lobby-content {
-    padding-top: clamp(56px, 12vw, 72px);
+    padding-top: calc(56px + env(safe-area-inset-top, 0px) + 16px);
     padding-bottom: clamp(20px, 4vw, 28px);
   }
 

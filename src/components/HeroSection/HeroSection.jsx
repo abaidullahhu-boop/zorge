@@ -195,6 +195,16 @@ function HeroSection({ introReady = false }) {
       </div>
 
       <div className="hero-actions">
+        <button
+          type="button"
+          className="hero-actions__brand"
+          aria-label="Scroll to top of the page"
+          onClick={() => {
+            window.dispatchEvent(new CustomEvent('dayim:scroll-top'))
+          }}
+        >
+          DAYIM DEVELOPERS
+        </button>
         <div className="hero-projects" aria-label="Quick actions">
           <a
             className="hero-project-btn hero-project-btn--whatsapp"
