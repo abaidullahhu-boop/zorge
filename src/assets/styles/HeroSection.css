@@ -172,6 +172,21 @@
   opacity: .75;
 }
 
+.hero-project-btn--signin {
+  padding: 8px 16px;
+  color: #0a0a0a;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  border: 0;
+  border-radius: 0;
+  transition: filter .2s ease, opacity .2s ease;
+}
+
+.hero-project-btn--signin:hover,
+.hero-project-btn--signin:focus-visible {
+  color: #0a0a0a;
+  filter: brightness(1.06);
+}
+
 .menu-button {
   display: grid;
   gap: 5px;

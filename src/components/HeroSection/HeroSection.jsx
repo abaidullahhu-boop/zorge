@@ -236,6 +236,17 @@ function HeroSection({ introReady = false }) {
               <span aria-hidden="true">Our Projects</span>
             </span>
           </button>
+          <a
+            className="hero-project-btn hero-project-btn--signin"
+            href="http://crm.dayimdevelopers.com/users/sign_in"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span className="hero-project-btn__label">
+              <span>Sign In</span>
+              <span aria-hidden="true">Sign In</span>
+            </span>
+          </a>
         </div>
         <button
           className={`menu-button ${menuOpen ? 'is-open' : ''}`}
