@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useLocation } from 'react-router-dom'
 import aboutVideo from '../../assets/images/about.mp4'
 import aboutVideoPoster from '../../assets/images/about-start.jpg'
@@ -8,17 +9,26 @@ import { SITE_CONTACT } from '../../data/siteContact'
 import { gsap } from '../../lib/gsap'
 import '../../assets/styles/HeroSection.css'
 
+const STAFF_LOGIN_URL = 'http://crm.dayimdevelopers.com/users/sign_in'
+
 function HeroSection({ introReady = false }) {
   const { pathname } = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
   const [projectsOpen, setProjectsOpen] = useState(false)
   const [projectsInstant, setProjectsInstant] = useState(false)
+  const [signInOpen, setSignInOpen] = useState(false)
+  const [signInView, setSignInView] = useState('choices')
   const closeProjects = useCallback(() => {
     setProjectsOpen(false)
     setProjectsInstant(false)
   }, [])
+  const closeSignIn = useCallback(() => {
+    setSignInOpen(false)
+    setSignInView('choices')
+  }, [])
   const frameRef = useRef(null)
   const heroRef = useRef(null)
+  const signInDialogRef = useRef(null)
   const prevPathRef = useRef(pathname)
   const closeMenu = useCallback(() => setMenuOpen(false), [])
 
@@ -39,6 +49,8 @@ function HeroSection({ introReady = false }) {
       setProjectsOpen(false)
       setProjectsInstant(false)
       setMenuOpen(false)
+      setSignInOpen(false)
+      setSignInView('choices')
     }
   }, [pathname])
 
@@ -51,6 +63,8 @@ function HeroSection({ introReady = false }) {
       setProjectsOpen(false)
       setProjectsInstant(false)
       setMenuOpen(false)
+      setSignInOpen(false)
+      setSignInView('choices')
     }
     window.addEventListener('dayim:projects', handleOpenProjects)
     window.addEventListener('dayim:home', handleGoHome)
@@ -59,6 +73,28 @@ function HeroSection({ introReady = false }) {
       window.removeEventListener('dayim:home', handleGoHome)
     }
   }, [])
+
+  useEffect(() => {
+    if (!signInOpen) return undefined
+
+    const previousFocus = document.activeElement
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    signInDialogRef.current?.focus()
+
+    const onKeyDown = (event) => {
+      if (event.key !== 'Escape') return
+      event.preventDefault()
+      closeSignIn()
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', onKeyDown)
+      if (previousFocus instanceof HTMLElement) previousFocus.focus()
+    }
+  }, [signInOpen, closeSignIn])
 
   useEffect(() => {
     const heroActions = document.querySelector('.hero-actions')
@@ -236,17 +272,21 @@ function HeroSection({ introReady = false }) {
               <span aria-hidden="true">Our Projects</span>
             </span>
           </button>
-          <a
+          <button
             className="hero-project-btn hero-project-btn--signin"
-            href="http://crm.dayimdevelopers.com/users/sign_in"
-            target="_blank"
-            rel="noopener noreferrer"
+            type="button"
+            aria-haspopup="dialog"
+            aria-expanded={signInOpen}
+            onClick={() => {
+              setSignInView('choices')
+              setSignInOpen(true)
+            }}
           >
             <span className="hero-project-btn__label">
               <span>Sign In</span>
               <span aria-hidden="true">Sign In</span>
             </span>
-          </a>
+          </button>
         </div>
         <button
           className={`menu-button ${menuOpen ? 'is-open' : ''}`}
@@ -266,6 +306,82 @@ function HeroSection({ introReady = false }) {
         instant={projectsInstant}
         onClose={closeProjects}
       />
+      {signInOpen
+        ? createPortal(
+            <div
+              className="signin-choice"
+              role="presentation"
+              onClick={(event) => {
+                if (event.target === event.currentTarget) closeSignIn()
+              }}
+            >
+              <div
+                ref={signInDialogRef}
+                className="signin-choice__dialog"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="signin-choice-title"
+                tabIndex={-1}
+              >
+                <button
+                  type="button"
+                  className="signin-choice__close"
+                  aria-label="Close sign in options"
+                  onClick={closeSignIn}
+                >
+                  ×
+                </button>
+
+                {signInView === 'choices' ? (
+                  <>
+                    <p className="signin-choice__kicker">Sign In</p>
+                    <h2 id="signin-choice-title" className="signin-choice__title">
+                      Choose your portal
+                    </h2>
+                    <div className="signin-choice__options">
+                      <a
+                        className="signin-choice__option"
+                        href={STAFF_LOGIN_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={closeSignIn}
+                      >
+                        <span className="signin-choice__option-label">Staff Login</span>
+                        <span className="signin-choice__option-hint">CRM portal</span>
+                      </a>
+                      <button
+                        type="button"
+                        className="signin-choice__option"
+                        onClick={() => setSignInView('client-soon')}
+                      >
+                        <span className="signin-choice__option-label">Client Login</span>
+                        <span className="signin-choice__option-hint">Client portal</span>
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="signin-choice__soon" role="status">
+                    <p className="signin-choice__kicker">Client Login</p>
+                    <h2 id="signin-choice-title" className="signin-choice__title">
+                      Coming Soon
+                    </h2>
+                    <p className="signin-choice__soon-copy">
+                      The client portal is on the way. Please check back shortly.
+                    </p>
+                    <button
+                      type="button"
+                      className="signin-choice__back"
+                      onClick={() => setSignInView('choices')}
+                    >
+                      Back
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
     </>
   )
 }

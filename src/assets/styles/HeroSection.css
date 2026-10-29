@@ -121,7 +121,7 @@
   color: inherit;
   background: transparent;
   border: 0;
-  font: 600 clamp(11px, .72vw, 13px)/1 'Gilroy', sans-serif;
+  font: 600 clamp(11px, .72vw, 13px)/1.2 'Gilroy', sans-serif;
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
@@ -132,12 +132,13 @@
 .hero-project-btn__label {
   position: relative;
   display: block;
-  height: 1em;
+  height: 1.2em;
   overflow: hidden;
 }
 
 .hero-project-btn__label > span {
   display: block;
+  line-height: 1.2em;
   transition: transform .75s ease;
 }
 
@@ -185,6 +186,240 @@
 .hero-project-btn--signin:focus-visible {
   color: #0a0a0a;
   filter: brightness(1.06);
+}
+
+.signin-choice {
+  position: fixed;
+  inset: 0;
+  z-index: 520;
+  display: grid;
+  place-items: center;
+  padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+  background: rgb(17 17 17 / 52%);
+  backdrop-filter: blur(2px);
+  animation: signin-choice-backdrop-in .35s ease both;
+}
+
+.signin-choice__dialog {
+  position: relative;
+  width: min(100%, 420px);
+  padding: clamp(24px, 3.5vw, 32px);
+  color: #fff;
+  background: #0a0a0a;
+  box-shadow: 0 24px 64px rgb(0 0 0 / 55%);
+  outline: none;
+  animation: signin-choice-dialog-in .45s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.signin-choice__close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  padding: 0;
+  color: rgb(255 255 255 / 55%);
+  font: 400 28px / 1 'Gilroy', sans-serif;
+  background: transparent;
+  cursor: pointer;
+  transition: color .25s ease, transform .25s ease;
+}
+
+.signin-choice__close:hover,
+.signin-choice__close:focus-visible {
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+.signin-choice__kicker {
+  margin: 0 0 8px;
+  font: 600 11px / 1 'Gilroy', sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #dc9f27;
+  animation: signin-choice-fade-up .4s cubic-bezier(.22, 1, .36, 1) .05s both;
+}
+
+.signin-choice__title {
+  margin: 0 0 22px;
+  color: #fff;
+  font: 700 clamp(22px, 2.4vw, 28px) / 1.15 'Gilroy', sans-serif;
+  letter-spacing: -0.02em;
+  animation: signin-choice-fade-up .45s cubic-bezier(.22, 1, .36, 1) .1s both;
+}
+
+.signin-choice__options {
+  display: grid;
+  gap: 12px;
+}
+
+.signin-choice__option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+  margin: 0;
+  padding: 16px 18px;
+  color: inherit;
+  text-align: left;
+  text-decoration: none;
+  background: #161616;
+  border: 1px solid rgb(255 255 255 / 10%);
+  cursor: pointer;
+  transform: translateY(0);
+  transition:
+    border-color .3s ease,
+    background .3s ease,
+    transform .35s cubic-bezier(.22, 1, .36, 1),
+    box-shadow .35s ease;
+  animation: signin-choice-card-in .5s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.signin-choice__option:nth-child(1) {
+  animation-delay: .16s;
+}
+
+.signin-choice__option:nth-child(2) {
+  animation-delay: .26s;
+}
+
+.signin-choice__option:hover,
+.signin-choice__option:focus-visible {
+  background: #1c1c1c;
+  border-color: #dc9f27;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgb(0 0 0 / 35%), 0 0 0 1px rgb(220 159 39 / 18%);
+}
+
+.signin-choice__option:active {
+  transform: translateY(-1px);
+  transition-duration: .15s;
+}
+
+.signin-choice__option-label {
+  color: #fff;
+  font: 700 15px / 1.2 'Gilroy', sans-serif;
+  letter-spacing: 0.02em;
+  transition: color .25s ease;
+}
+
+.signin-choice__option:hover .signin-choice__option-label,
+.signin-choice__option:focus-visible .signin-choice__option-label {
+  color: #fcfa7f;
+}
+
+.signin-choice__option-hint {
+  font: 500 12px / 1.3 'Gilroy', sans-serif;
+  color: #fdd55c;
+  transition: opacity .25s ease;
+}
+
+.signin-choice__soon {
+  animation: signin-choice-fade-up .4s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.signin-choice__soon-copy {
+  margin: 0 0 22px;
+  font: 500 14px / 1.45 'Gilroy', sans-serif;
+  color: rgb(255 255 255 / 70%);
+}
+
+.signin-choice__back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  color: #0a0a0a;
+  font: 600 12px / 1 'Gilroy', sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  border: 0;
+  cursor: pointer;
+  transition: filter .25s ease, transform .3s cubic-bezier(.22, 1, .36, 1);
+}
+
+.signin-choice__back:hover,
+.signin-choice__back:focus-visible {
+  filter: brightness(1.06);
+  transform: translateY(-2px);
+}
+
+@keyframes signin-choice-backdrop-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes signin-choice-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes signin-choice-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes signin-choice-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signin-choice,
+  .signin-choice__dialog,
+  .signin-choice__kicker,
+  .signin-choice__title,
+  .signin-choice__option,
+  .signin-choice__soon {
+    animation: none;
+  }
+
+  .signin-choice__option,
+  .signin-choice__close,
+  .signin-choice__back,
+  .signin-choice__option-label,
+  .signin-choice__option-hint {
+    transition-duration: .01ms;
+  }
+
+  .signin-choice__option:hover,
+  .signin-choice__option:focus-visible,
+  .signin-choice__back:hover,
+  .signin-choice__back:focus-visible,
+  .signin-choice__close:hover,
+  .signin-choice__close:focus-visible {
+    transform: none;
+  }
 }
 
 .menu-button {
