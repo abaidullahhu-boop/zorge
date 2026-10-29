@@ -187,6 +187,7 @@ function Footer({ onScrollTop }) {
         <div className="site-footer-credit">
           <a
             className="site-footer-credit-link"
+            href="https://www.2wayclick.com/"
             target="_blank"
             rel="noopener noreferrer"
             title="Award-winning real estate website design agency"
