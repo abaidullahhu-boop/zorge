@@ -54,7 +54,10 @@
   flex-direction: column;
   align-items: flex-start;
   gap: clamp(14px, 1.6vw, 28px);
-  padding: 1.4vw 1.55vw;
+  padding:
+    calc(var(--site-header-h, 56px) + env(safe-area-inset-top, 0px) + clamp(18px, 2vw, 28px))
+    1.55vw
+    0;
 }
 
 .hero-header h1 {
@@ -81,29 +84,66 @@
 }
 
 .hero-actions {
+  --site-header-h: 56px;
   position: fixed;
   z-index: 90;
-  top: calc(1.4vw + 2px);
-  right: 1.55vw;
+  top: 0;
+  right: 0;
+  left: 0;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: clamp(28px, 3.2vw, 48px);
-  color: #fff;
-  transition: color .35s ease;
+  min-height: var(--site-header-h);
+  padding:
+    max(12px, env(safe-area-inset-top, 0px))
+    1.55vw
+    12px;
+  color: #fdd55c;
+  background: #000;
 }
 
 .hero-actions__brand {
-  display: none;
+  display: block;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font: 600 clamp(14px, .9vw, 16px)/1.1 'Gilroy', sans-serif;
+  letter-spacing: .08em;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  appearance: none;
 }
 
 .hero-actions.is-on-light {
-  color: #000;
+  color: #fdd55c;
+}
+
+.hero-project-btn--projects .hero-project-btn__label > span {
+  background: linear-gradient(90deg, #dc9f27 0%, #fcfa7f 50%, #fdd55c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .hero-projects {
   display: flex;
   flex-direction: row;
   align-items: center;
+  flex-shrink: 0;
   gap: clamp(18px, 2.2vw, 32px);
   transition: opacity .35s ease, visibility .35s ease;
 }
@@ -656,7 +696,10 @@
   }
 
   .hero-header {
-    padding: calc(52px + env(safe-area-inset-top, 0px) + 28px) 20px 0;
+    padding:
+      calc(var(--site-header-h, 52px) + env(safe-area-inset-top, 0px) + 28px)
+      20px
+      0;
   }
 
   .hero-header h1 {
@@ -667,56 +710,29 @@
   }
 
   .hero-actions {
-    top: 0;
-    right: 0;
-    left: 0;
-    box-sizing: border-box;
-    justify-content: space-between;
+    --site-header-h: 52px;
     gap: 12px;
-    min-height: 52px;
+    min-height: var(--site-header-h);
     padding:
       max(10px, env(safe-area-inset-top, 0px))
       16px
       10px;
-    color: #fff;
-    background: #000;
-  }
-
-  .hero-actions.is-on-light {
-    color: #fff;
   }
 
   .hero-actions__brand {
-    display: block;
-    flex: 1 1 auto;
-    min-width: 0;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    color: inherit;
-    font: 600 clamp(13px, 3.6vw, 16px)/1.1 'Gilroy', sans-serif;
-    letter-spacing: .08em;
-    text-align: left;
-    text-transform: uppercase;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: pointer;
-    appearance: none;
+    font-size: clamp(13px, 3.6vw, 16px);
   }
 
   .hero-projects {
-    flex-shrink: 0;
     gap: 10px;
   }
 
   .hero-project-btn {
-    font-size: clamp(11px, 1.4vw, 13px);
+    font-size: clamp(11px, 2.8vw, 12px);
   }
 
-  .hero-project-btn--projects {
-    display: none;
+  .hero-project-btn--signin {
+    padding: 7px 12px;
   }
 
   .menu-button {
@@ -748,10 +764,6 @@
   .hero-header h1 {
     max-width: min(72vw, 268px);
     font-size: clamp(17px, 4.7vw, 23px);
-  }
-
-  .hero-project-btn--projects {
-    display: none;
   }
 
   .intro__logo {
