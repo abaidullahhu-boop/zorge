@@ -760,6 +760,12 @@
   }
 }
 
+@media (max-width: 899px) {
+  .hero-project-btn--signin {
+    display: none;
+  }
+}
+
 @media (max-width: 760px) {
   .hero-header h1 {
     max-width: min(72vw, 268px);

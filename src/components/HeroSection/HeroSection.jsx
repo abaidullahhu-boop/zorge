@@ -66,10 +66,16 @@ function HeroSection({ introReady = false }) {
       setSignInOpen(false)
       setSignInView('choices')
     }
+    const handleOpenSignIn = () => {
+      setSignInView('choices')
+      setSignInOpen(true)
+    }
     window.addEventListener('dayim:projects', handleOpenProjects)
+    window.addEventListener('dayim:signin', handleOpenSignIn)
     window.addEventListener('dayim:home', handleGoHome)
     return () => {
       window.removeEventListener('dayim:projects', handleOpenProjects)
+      window.removeEventListener('dayim:signin', handleOpenSignIn)
       window.removeEventListener('dayim:home', handleGoHome)
     }
   }, [])

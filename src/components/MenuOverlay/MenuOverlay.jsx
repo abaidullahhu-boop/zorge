@@ -6,6 +6,7 @@ const ICONS = '/assets/images/icons.svg'
 
 const MENU_LINKS = [
   { label: 'Our Projects', action: 'projects', mobileOnly: true },
+  { label: 'Sign In', action: 'signin', mobileOnly: true },
   { label: 'About Us', href: '#about' },
   { label: 'Vision', href: '#panorama' },
   { label: 'Mission', href: '#mission' },
@@ -88,6 +89,12 @@ function MenuOverlay({ open, onClose }) {
     if (action === 'projects') {
       window.setTimeout(() => {
         window.dispatchEvent(new CustomEvent('dayim:projects'))
+      }, 120)
+      return
+    }
+    if (action === 'signin') {
+      window.setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('dayim:signin'))
       }, 120)
     }
   }
