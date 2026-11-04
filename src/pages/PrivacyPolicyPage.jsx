@@ -175,7 +175,17 @@ function PrivacyPolicyPage() {
               Updated&quot; date.
             </p>
           </section>
-
+         
+          <section>
+            <h2>Dayim CRM Mobile App</h2>
+            <p>
+             This section applies to the Dayim CRM app for Android and iOS, which is used only by Dayim Developers staff. Accounts are created by our CRM administrator; the app has no public sign-up.
+             What the app handles: your sign-in details (email or username, name and user ID); the client lead information you are allowed to see in our CRM, including name, phone numbers, email, CNIC, client number, address, project interest, status and notes; and a record of calls you start from the app (your user ID, the number dialled, the time, and that it was outgoing). The app does not read your call history or contacts, and does not collect location, photos, files, device identifiers, analytics or crash reports.
+             How it is used: only to provide the app's features. The app has no ads, analytics or tracking, and the website analytics and advertising described above do not apply to the app.
+             Storage and security: all traffic uses HTTPS. To work offline, the app keeps an encrypted copy of your leads on the phone, which is deleted when you sign out. The data is excluded from Android cloud backups. The master copy is kept in our CRM, which is hosted for us by our service provider Munshi On Click (MOC). App data is not sold or shared with any other third party.
+             Deletion: staff accounts are created and removed by our CRM administrator. To request deletion of your account or data, contact us below.
+            </p>
+          </section>
           <section>
             <h2>Contact Us</h2>
             <p>
