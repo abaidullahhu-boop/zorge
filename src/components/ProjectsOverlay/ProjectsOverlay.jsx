@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { Link, useLocation } from 'react-router-dom'
 import { getProjectPath, projects } from '../../data/projects'
+import dsa2Logo from '../../assets/images/dsa2-logo.png'
 import '../../assets/styles/ProjectsOverlay.css'
 
 const ICONS = '/assets/images/icons.svg'
@@ -128,9 +129,18 @@ function ProjectsOverlay({ open, instant = false, onClose }) {
           <article
             className="projects-overlay__card projects-overlay__card--soon"
             style={{ '--delay': `${projects.length * 0.08}s` }}
-            aria-label="Coming soon"
+            aria-label="Dayim Signature Apartments II — Launching Soon"
           >
-            <p className="projects-overlay__soon">Coming Soon</p>
+            <div className="projects-overlay__soon-inner">
+              <img
+                className="projects-overlay__soon-logo"
+                src={dsa2Logo}
+                alt="Dayim Signature Apartments II"
+                draggable="false"
+                loading="lazy"
+              />
+              <p className="projects-overlay__soon">Launching Soon</p>
+            </div>
           </article>
         </div>
       </div>
